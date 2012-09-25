@@ -17,13 +17,12 @@ RubiGen::Base.prepend_sources(*[
   RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
 ])
 
-if ARGV.delete "--install"
-  case ARGV
-    when 'cucumber' then RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'cucumber')
-    when 'rspec' then RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'rspec')
-    when 'email' then RubiGen::Scripts::Generate.new.run(ARGV, :generator => 'email')
+if ARGV[0] == "--install"
+  case ARGV[1]
+    when 'cucumber' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'cucumber')
+    when 'rspec' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'rspec')
+    when 'email' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'email')
     else
-      puts "ERROR"
+      puts "ERROR: no such generator is available"
   end
 end
-
