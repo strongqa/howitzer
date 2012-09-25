@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.email         = ["zozulyak.nick@gmail.com"]
   gem.description   = %q{Universal Ruby Test Framework}
   gem.summary       = %q{Test Framework generator}
-  gem.homepage      = ""
+  gem.homepage      = "https://github.com/romikoops/howitzer"
 
   gem.bindir        = 'bin'
   gem.files         = `git ls-files`.split($\)
