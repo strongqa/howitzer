@@ -9,9 +9,9 @@ class ConfigGenerator < RubiGen::Base
   def manifest
     record do |m|
       m.directory ''
-      m.template 'custom.yml', 'config/custom.yml'
-      m.template 'default.yml', 'config/default.yml'
-      m.template 'cucumber.yml', 'config/cucumber.yml'
+      m.template 'custom.yml', 'custom.yml'
+      m.template 'default.yml', 'default.yml'
+      m.template 'cucumber.yml', 'cucumber.yml'
     end
   end
 
