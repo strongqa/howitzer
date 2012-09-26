@@ -3,22 +3,37 @@
 TODO: Write a gem description
 
 ## Installation
-
-Add this line to your application's Gemfile:
-
-    gem 'howitzer'
-
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
+Install it yourself as:
 
     $ gem install howitzer
 
 ## Usage
 
-TODO: Write usage instructions here
+Write command in command line:
+
+    $ howitzer install --cucumber
+
+### This command will generate next folders and files:
+```
+config/
+        cucumber.yml
+        default.yml
+        custom.yml
+tasks/
+        cucumber.rake
+email/
+        example_email.rb
+features/
+        support/env.rb
+        step_definitions/common_steps.rb
+        example.feature
+pages/
+        example_page.rb
+        example_menu.rb
+Gemfile
+Rakefile
+.gitignore
+```
 
 ## Contributing
 

@@ -1,5 +1,5 @@
 require 'rake'
-require_relative "howitzer/boot"
+require "howitzer/boot"
 
 Dir['tasks/**/*.rake'].each { |rake| load rake }
 ENV['RAKE_TASK'] = ARGV[0] if /^(?:r?spec|cucumber)/ === ARGV[0]
