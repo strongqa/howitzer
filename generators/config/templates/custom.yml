@@ -1,0 +1,4 @@
+app_host: localhost:3000
+driver: selenium
+sel_browser: chrome
+debug_mode: true

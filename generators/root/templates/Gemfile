@@ -1,0 +1,15 @@
+# A sample Gemfile
+source "https://rubygems.org"
+source "http://gemcutter.org"
+gem "sexy_settings"
+gem "rspec"
+gem 'howitzer'
+gem 'capybara'
+gem 'cucumber'
+gem 'launchy'
+gem 'log4r'
+gem 'mail'
+gem 'rest-client'
+gem 'activeresource'
+gem 'rake'
+gem 'poltergeist'
