@@ -17,7 +17,7 @@ RubiGen::Base.prepend_sources(*[
   RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators"))
 ])
 
-CORRECT_ARGS = %w[cucumber email pages tasks config]
+CORRECT_ARGS = %w[cucumber email pages tasks config root]
 
 if ARGV[0] == "--install"
   ARGV.delete '--install'
@@ -28,4 +28,6 @@ if ARGV[0] == "--install"
       puts "ERROR: no such generator with name: '#{option}' is available"
     end
   end
+else
+  puts "ERROR: no such command with name: '#{ARGV[0]} found'"
 end
