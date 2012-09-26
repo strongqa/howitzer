@@ -17,10 +17,12 @@ RubiGen::Base.prepend_sources(*[
   RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators"))
 ])
 
+CORRECT_ARGS = %w[cucumber email pages tasks config]
+
 if ARGV[0] == "--install"
   ARGV.delete '--install'
   ARGV.each do |option|
-    if %w[cucumber email pages tasks config].include? option
+    if CORRECT_ARGS.include? option
       RubiGen::Scripts::Generate.new.run([option])
     else
       puts "ERROR: no such generator with name: '#{option}' is available"
