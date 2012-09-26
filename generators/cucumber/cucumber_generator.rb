@@ -12,6 +12,7 @@ class CucumberGenerator < RubiGen::Base
       BASEDIRS.each{|path| m.directory path}
       m.template 'common_steps.rb', 'step_definitions/common_steps.rb'
       m.template 'env.rb', 'support/env.rb'
+      m.template 'transformers.rb', 'support/transformers.rb'
       m.template 'example.feature', 'example.feature'
     end
   end
