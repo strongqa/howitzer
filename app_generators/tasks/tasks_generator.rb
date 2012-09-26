@@ -9,7 +9,7 @@ class TasksGenerator < RubiGen::Base
   def manifest
     record do |m|
       m.directory ''
-      m.template 'example.rake', 'example.rake'
+      m.template 'cucumber.rake', 'cucumber.rake'
     end
   end
 
