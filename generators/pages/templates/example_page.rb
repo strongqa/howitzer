@@ -1,0 +1,11 @@
+class ExamplePage < WebPage
+  URL = '/'
+  URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?/
+
+  add_field_locator :search_input, 'lst-ib'
+  add_button_locator :search_btn, 'btnK'
+
+  def fill_keyword(data)
+    fill_in field_locator(:search_input), data
+  end
+end
