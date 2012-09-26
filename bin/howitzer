@@ -17,13 +17,21 @@ RubiGen::Base.prepend_sources(*[
   RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators"))
 ])
 
-CORRECT_ARGS = %w[cucumber email pages tasks config root]
+CORRECT_ARGS = %w[--cucumber --rspec]
 
-if ARGV[0] == "--install"
-  ARGV.delete '--install'
+if ARGV[0] == "install"
+  ARGV.delete 'install'
   ARGV.each do |option|
-    if CORRECT_ARGS.include? option
-      RubiGen::Scripts::Generate.new.run([option])
+    if option == '--cucumber'
+      RubiGen::Scripts::Generate.new.run(%w[cucumber])
+      RubiGen::Scripts::Generate.new.run(%w[root])
+      RubiGen::Scripts::Generate.new.run(%w[config])
+      RubiGen::Scripts::Generate.new.run(%w[pages])
+      RubiGen::Scripts::Generate.new.run(%w[tasks])
+      RubiGen::Scripts::Generate.new.run(%w[email])
+    elsif option == '--rspec'
+      #TODO add rspec generator
+      puts "Rspec generator is not available"
     else
       puts "ERROR: no such generator with name: '#{option}' is available"
     end
