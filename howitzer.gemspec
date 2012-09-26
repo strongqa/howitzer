@@ -2,8 +2,8 @@
 require File.expand_path('../lib/howitzer/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["SirNicholas"]
-  gem.email         = ["zozulyak.nick@gmail.com"]
+  gem.authors       = ["Nikolay Zozulyak, Roman Parashchenko, Konstantin Lynda"]
+  gem.email         = ["strongqa@gmail.com"]
   gem.description   = %q{Universal Ruby Test Framework}
   gem.summary       = %q{Test Framework generator}
   gem.homepage      = "https://github.com/romikoops/howitzer"
@@ -18,4 +18,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rake'
   gem.add_development_dependency 'rubigen'
   gem.add_development_dependency 'i18n'
+  gem.add_development_dependency 'cucumber'
+  gem.add_development_dependency 'rspec'
+  gem.add_development_dependency 'sexy_settings'
 end

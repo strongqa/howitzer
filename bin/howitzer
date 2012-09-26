@@ -12,17 +12,18 @@ end
 require 'rubigen/scripts/generate'
 
 require 'pp'
-RubiGen::Base.use_application_sources! :rubygems
+RubiGen::Base.use_application_sources!
 RubiGen::Base.prepend_sources(*[
-  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
+  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "app_generators"))
 ])
 
 if ARGV[0] == "--install"
-  case ARGV[1]
-    when 'cucumber' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'cucumber')
-    when 'rspec' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'rspec')
-    when 'email' then RubiGen::Scripts::Generate.new.run(ARGV[1], generator: 'email')
+  ARGV.delete '--install'
+  ARGV.each do |option|
+    if %w[cucumber email pages tasks config].include? option
+      RubiGen::Scripts::Generate.new.run([option])
     else
-      puts "ERROR: no such generator is available"
+      puts "ERROR: no such generator with name: '#{option}' is available"
+    end
   end
 end
