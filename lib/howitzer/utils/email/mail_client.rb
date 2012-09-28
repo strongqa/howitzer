@@ -1,7 +1,7 @@
 require 'net/pop'
 require 'timeout'
 require 'mail'
-require 'mailgun_helper'
+require 'howitzer/utils/email/mailgun_helper'
 
 class MailClient
 

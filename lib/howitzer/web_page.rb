@@ -60,6 +60,3 @@ class WebPage
     wait_for_url(self.class::URL_PATTERN)
   end
 end
-
-require File.expand_path("./pages/app_menu")
-Dir[File.join('pages', '**', '*_page.rb')].each {|f| require File.expand_path(f) }

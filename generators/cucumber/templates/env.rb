@@ -1,6 +1,6 @@
 require 'cucumber'
 require 'capybara/cucumber'
-require File.expand_path('init.rb', File.join(File.dirname(__FILE__), '../../shared'))
+require_relative '../../boot'
 
 World(CapybaraSettings)
 World(DataGenerator)

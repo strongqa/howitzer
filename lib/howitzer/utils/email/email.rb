@@ -1,5 +1,5 @@
 require 'rspec/matchers'
-require 'smail_client'
+require 'howitzer/utils/email/mail_client'
 
 class Email
   include RSpec::Matchers
