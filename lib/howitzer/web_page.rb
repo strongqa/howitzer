@@ -1,5 +1,5 @@
 require "rspec/expectations"
-require File.expand_path('locator_store.rb', File.join(File.dirname(__FILE__), '../shared/lib/'))
+require 'howitzer/utils/locator_store'
 
 class WebPage
 

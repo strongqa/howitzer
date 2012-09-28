@@ -12,6 +12,7 @@ class RootGenerator < RubiGen::Base
       m.template '.gitignore', '.gitignore'
       m.template 'Gemfile', 'Gemfile'
       m.template 'Rakefile', 'Rakefile'
+      m.template 'boot.rb', 'boot.rb'
     end
   end
 

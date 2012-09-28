@@ -1,6 +1,4 @@
-require 'rubygems'
-require 'bundler/setup'
-require 'sexy_settings'
+require 'howitzer'
 
 Dir.chdir(File.join(File.dirname(__FILE__), '..'))
 
@@ -14,5 +12,5 @@ if settings.required_clean_logs
   Rake::Task[:clean].invoke
 end
 
-#create symlink for cucumber config
-system "ln -s shared/lib/config config" unless File.symlink?('config')
+Dir[File.join(File.dirname(__FILE__), "./emails/*.rb")].each {|f| require f}
+Dir[File.join(File.dirname(__FILE__), "./pages/*.rb")].each {|f| require f}

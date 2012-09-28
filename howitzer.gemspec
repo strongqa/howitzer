@@ -22,4 +22,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec'
   gem.add_development_dependency 'sexy_settings'
   gem.add_development_dependency 'repeater'
+  gem.add_development_dependency 'selenium-webdriver'
 end

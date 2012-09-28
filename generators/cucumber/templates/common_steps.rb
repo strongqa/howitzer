@@ -2,22 +2,22 @@
 #                      PREREQUISITES                        #
 #############################################################
 
-Given /^$/ do
-  #TODO add common PREREQUISITES
+Given /^I have entered (.*) into the calculator$/ do |input_|
+  pending
 end
 
 ####################################
 #              ACTIONS             #
 ####################################
 
-When /^$/ do
-  #TODO add common ACTIONS
+When /^I press (.*)$/ do |button|
+  pending
 end
 
 ####################################
 #              CHECKS              #
 ####################################
 
-Then /^$/ do
-  #TODO add common CHECKS
+Then /^the result should be (.*) on the screen$/ do |output|
+  pending
 end
