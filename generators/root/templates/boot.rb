@@ -1,6 +1,6 @@
 require 'howitzer'
 
-Dir.chdir(File.join(File.dirname(__FILE__), '..'))
+Dir.chdir(File.join(File.dirname(__FILE__), '.'))
 
 def settings
   SexySettings::Base.instance()
