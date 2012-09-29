@@ -1,10 +1,7 @@
 <%
-#TODO move out it from here
-require 'sexy_settings'
-settings = SexySettings::Base.instance
 rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
 rerun_opts = rerun.to_s.strip.empty? ? "--format progress features" : "--format pretty #{rerun}"
-std_opts = "--verbose --expand --format html --out=#{settings.log_dir}/log.html --format junit --out=#{settings.log_dir} features --tags ~@wip --tags ~@bug"
+std_opts = "--verbose --expand --format html --out=./log/log.html --format junit --out=./log features --tags ~@wip --tags ~@bug"
 %>
 default: -r features <%= std_opts %>  --tags ~@demo features
 wip: -r features --tags @wip --wip features

@@ -1,4 +1,4 @@
-require 'example_menu'
+require_relative 'example_menu'
 
 class ExamplePage < WebPage
   URL = '/'
