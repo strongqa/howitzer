@@ -28,7 +28,7 @@ if ARGV[0] == "install"
       RubiGen::Scripts::Generate.new.run(%w[config])
       RubiGen::Scripts::Generate.new.run(%w[pages])
       RubiGen::Scripts::Generate.new.run(%w[tasks])
-      RubiGen::Scripts::Generate.new.run(%w[email])
+      RubiGen::Scripts::Generate.new.run(%w[emails])
     elsif option == '--rspec'
       #TODO add rspec generator
       puts "Rspec generator is not available"

@@ -2,10 +2,10 @@
 require File.expand_path('../lib/howitzer/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Nikolay Zozulyak, Roman Parashchenko, Konstantin Lynda"]
+  gem.authors       = ["Roman Parashchenko, Konstantin Lynda, Nikolay Zozulyak"]
   gem.email         = ["strongqa@gmail.com"]
-  gem.description   = %q{Universal Ruby Test Framework}
-  gem.summary       = %q{Test Framework generator}
+  gem.description   = %q{The framework is based on Page Object pattern, Capybara and Rspec/Cucumber libraries}
+  gem.summary       = %q{Universal Ruby Test Framework for black box testing}
   gem.homepage      = "https://github.com/romikoops/howitzer"
 
   gem.bindir        = 'bin'
@@ -15,12 +15,21 @@ Gem::Specification.new do |gem|
   gem.name          = "howitzer"
   gem.require_paths = ["lib"]
   gem.version       = Howitzer::VERSION
-  gem.add_development_dependency 'rake'
-  gem.add_development_dependency 'rubigen'
-  gem.add_development_dependency 'i18n'
-  gem.add_development_dependency 'cucumber'
-  gem.add_development_dependency 'rspec'
-  gem.add_development_dependency 'sexy_settings'
-  gem.add_development_dependency 'repeater'
-  gem.add_development_dependency 'selenium-webdriver'
+  gem.required_ruby_version = '~> 1.9.2'
+
+  gem.add_runtime_dependency 'rake'
+  gem.add_runtime_dependency 'rubigen'
+  gem.add_runtime_dependency 'i18n'
+  gem.add_runtime_dependency 'cucumber'
+  gem.add_runtime_dependency 'rspec', '~> 2.0'
+  gem.add_runtime_dependency 'sexy_settings'
+  gem.add_runtime_dependency 'repeater'
+  gem.add_runtime_dependency 'selenium-webdriver'
+  gem.add_runtime_dependency 'capybara'
+  gem.add_runtime_dependency 'launchy'
+  gem.add_runtime_dependency 'log4r'
+  gem.add_runtime_dependency 'mail'
+  gem.add_runtime_dependency 'rest-client'
+  gem.add_runtime_dependency 'poltergeist'
+
 end

@@ -1,10 +1,10 @@
 require 'rbconfig'
 
-class EmailGenerator < RubiGen::Base
+class EmailsGenerator < RubiGen::Base
 
   def initialize(runtime_args, runtime_options = {})
     super
-    @destination_root = File.expand_path('email')
+    @destination_root = File.expand_path('emails')
   end
 
   def manifest

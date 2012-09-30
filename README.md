@@ -21,7 +21,7 @@ config/
         custom.yml
 tasks/
         cucumber.rake
-email/
+emails/
         example_email.rb
 features/
         support/env.rb

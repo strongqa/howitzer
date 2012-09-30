@@ -16,7 +16,7 @@
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
 
- # Specify one of the following drivers: selenium, selenium_dev, webkit, sauce
+ # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, sauce
  driver: webkit
 
  # -Selenium-
