@@ -1,6 +1,6 @@
 # Howitzer
 
-TODO: Write a gem description
+The framework is based on Page Object pattern, Capybara and Rspec/Cucumber libraries
 
 ## Installation
 Install it yourself as:
