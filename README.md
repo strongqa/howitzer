@@ -1,19 +1,36 @@
 # Howitzer
 
-The framework is based on Page Object pattern, Capybara and Rspec/Cucumber libraries
+Howitzer is Ruby based framework for acceptance testing. 
 
-## Installation
-Install it yourself as:
+Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
+The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/romikoops/howitzer/wiki/Test-Framework-Design).
 
-    $ gem install howitzer
+## Key benefits
+- Independent of test web application, its technologies and lanquage.
+- Deploy all test infrastructure for 5 minutes.
+- Flexible test framework configuration.
+- Ability to choose desired BDD tool (Cucumber for now only, but RSpec is coming soon)
+- Itegration with SauceLabs, Mailgun web services.
+- Easy to support tests in actual state.
+- Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
+
+## Setup
+To install, type
+
+```bash
+sudo gem install howitzer
+```
 
 ## Usage
+to deploy the framework, type:
 
-Write command in command line:
+```bash
+mkdir test_automation
+cd test_automation
+howitzer install --cucumber
+```
 
-    $ howitzer install --cucumber
-
-### This command will generate next folders and files:
+This command will generate next folders and files:
 ```
 config/
         cucumber.yml
@@ -34,6 +51,16 @@ Gemfile
 Rakefile
 .gitignore
 ```
+### Configuration
+Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem for details.
+
+## Test implementation workflow
+
+- Prepare some feature with scenarios in `features/some.feature` file.
+- Implement step definitions in `features/step_definitions/common_steps.rb` file.
+- Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/romikoops/howitzer/wiki/PageObject-pattern).
+- Debug feature.
+- Enjoy it!
 
 ## Contributing
 
