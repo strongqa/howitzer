@@ -22,7 +22,7 @@ sudo gem install howitzer
 ```
 
 ## Usage
-to deploy the framework, type:
+To deploy the framework, type:
 
 ```bash
 mkdir test_automation
@@ -52,7 +52,7 @@ Rakefile
 .gitignore
 ```
 ### Configuration
-Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem for details.
+Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
 ## Test implementation workflow
 
