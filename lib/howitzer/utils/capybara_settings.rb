@@ -45,9 +45,8 @@ module CapybaraSettings
       require 'capybara-webkit'
     when :poltergeist
       require 'capybara/poltergeist'
-      options = {js_errors: false}
       Capybara.register_driver :poltergeist do |app|
-        Capybara::Poltergeist::Driver.new(app, options)
+        Capybara::Poltergeist::Driver.new(app, settings.poltergeist_settings)
       end
     when :sauce
       caps_opts = {

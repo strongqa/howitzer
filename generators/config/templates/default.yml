@@ -26,6 +26,10 @@
  sel_firebug_version: 1.9.1
  sel_firepath_version: 0.9.7
 
+ # -PhantomJS-
+ # specify settings for poltergeist
+ poltergeist_settings: {js_errors: false}
+
  # -SauceLabs-
  sl_user: some_user
  sl_api_key: some_api_key
