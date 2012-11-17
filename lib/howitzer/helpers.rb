@@ -25,6 +25,15 @@ def ff_browser?
   end
 end
 
+def chrome_browser?
+  chrome_browser = :chrome
+  if sauce_driver?
+    settings.sl_browser_name.to_sym == chrome_browser
+  elsif
+    settings.sel_browser.to_sym == chrome_browser
+  end
+end
+
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
