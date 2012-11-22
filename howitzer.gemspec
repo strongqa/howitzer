@@ -31,6 +31,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
-  gem.add_runtime_dependency 'activeresource', '3.2.8'
-
+  gem.add_runtime_dependency 'activeresource', '< 3.2.0', '>= 2.3.5'
 end
