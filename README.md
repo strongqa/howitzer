@@ -1,5 +1,7 @@
 # Howitzer
 
+[![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
+
 Howitzer is Ruby based framework for acceptance testing. 
 
 Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
