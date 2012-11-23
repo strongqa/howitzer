@@ -24,12 +24,9 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rspec', '~> 2.0'
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'repeater'
-  gem.add_runtime_dependency 'selenium-webdriver'
-  gem.add_runtime_dependency 'capybara'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r'
   gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
-  gem.add_runtime_dependency 'activeresource', '< 3.2.0', '>= 2.3.5'
 end
