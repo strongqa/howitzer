@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    howitzer (0.0.2)
+    howitzer (0.0.3)
       cucumber
       i18n
       launchy
