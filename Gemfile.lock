@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    howitzer (0.0.1)
+    howitzer (0.0.2)
       activeresource (>= 2.3.5, < 3.2.0)
       capybara
       cucumber
