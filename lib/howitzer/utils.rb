@@ -1,5 +1,6 @@
 require 'sexy_settings'
 require 'repeater'
+require 'capybara'
 
 SexySettings.configure do |config|
   config.path_to_default_settings = File.expand_path("config/default.yml", Dir.pwd)

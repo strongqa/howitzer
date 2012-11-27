@@ -17,7 +17,7 @@
 ###########################################################
 
  # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, sauce
- driver: webkit
+ driver: poltergeist
 
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera

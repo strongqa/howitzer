@@ -11,7 +11,6 @@ class ConfigGenerator < RubiGen::Base
       m.directory ''
       m.template 'custom.yml', 'custom.yml'
       m.template 'default.yml', 'default.yml'
-      m.file 'cucumber.yml', 'cucumber.yml'
     end
   end
 

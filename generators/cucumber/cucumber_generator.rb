@@ -14,13 +14,15 @@ class CucumberGenerator < RubiGen::Base
       m.template 'env.rb', 'support/env.rb'
       m.template 'transformers.rb', 'support/transformers.rb'
       m.template 'example.feature', 'example.feature'
+      m.template 'cucumber.rake', '../tasks/cucumber.rake'
+      m.file 'cucumber.yml', '../config/cucumber.yml'
     end
   end
 
   protected
   def banner
     <<-EOS
-    Creates cucumber features structure.
+    Integrates Cucumber to the framework
     EOS
   end
 

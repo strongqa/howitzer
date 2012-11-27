@@ -2,40 +2,82 @@
 
 require 'rubygems' unless ENV['NO_RUBYGEMS']
 require 'rubigen'
+require 'rubigen/scripts/generate'
 
-if %w(-v --version).include? ARGV.first
-  require File.dirname(__FILE__) + "/../lib/howitzer"
+def check_arguments
+  expected_option_list = [
+    'install --cucumber',
+    'install --rspec',
+    'install --cucumber --rspec',
+    'install --rspec --cucumber',
+    '--version',
+    '--help'
+  ]
+
+  actual_options = ARGV.map(&:downcase).join(' ')
+  unless expected_option_list.include?(actual_options)
+    puts "ERROR: incorrect options. Please, see help for details"
+    show_help
+    exit 1
+  end
+end
+
+def parse_options
+  first_option = ARGV.shift.to_s.downcase
+  case first_option
+    when 'install' then execute_generator(ARGV.map(&:downcase))
+    when '--version' then show_version
+    when '--help' then show_help
+    else
+     puts "ERROR: incorrect first argument ('#{first_option}')"
+     show_help
+     exit 1
+  end
+end
+
+def show_help
+  puts %{
+howitzer [command {--cucumber, --rspec}] | {options}
+
+Commands are ...
+    install                  Generate test framework units:
+          --rspec                add RSpec integration with framework
+          --cucumber             add Cucumber integration with framework
+Options are ...
+    --help                   Display this help message.
+    --version                Display the program version.
+  }
+end
+
+def show_version
+  require_relative "../lib/howitzer/version"
   puts "#{File.basename($0)} #{Howitzer::VERSION}"
   exit(0)
 end
 
-require 'rubigen/scripts/generate'
+def execute_generator(options)
 
-require 'pp'
-RubiGen::Base.use_application_sources!
-RubiGen::Base.prepend_sources(*[
-  RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
-])
+  RubiGen::Base.use_application_sources!
+  RubiGen::Base.prepend_sources(*[
+      RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
+  ])
 
-CORRECT_ARGS = %w[--cucumber --rspec]
+  RubiGen::Scripts::Generate.new.run(%w[config])
+  RubiGen::Scripts::Generate.new.run(%w[pages])
+  RubiGen::Scripts::Generate.new.run(%w[tasks])
+  RubiGen::Scripts::Generate.new.run(%w[emails])
+  RubiGen::Scripts::Generate.new.run(%w[root])
 
-if ARGV[0] == "install"
-  ARGV.delete 'install'
-  ARGV.each do |option|
-    if option == '--cucumber'
-      RubiGen::Scripts::Generate.new.run(%w[cucumber])
-      RubiGen::Scripts::Generate.new.run(%w[root])
-      RubiGen::Scripts::Generate.new.run(%w[config])
-      RubiGen::Scripts::Generate.new.run(%w[pages])
-      RubiGen::Scripts::Generate.new.run(%w[tasks])
-      RubiGen::Scripts::Generate.new.run(%w[emails])
-    elsif option == '--rspec'
-      #TODO add rspec generator
-      puts "Rspec generator is not available"
-    else
-      puts "ERROR: no such generator with name: '#{option}' is available"
+  options.each do |option|
+    case option
+      when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
+      when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
+      else
+        puts "ERROR: unknown '#{option}' option for 'install' command"
+        show_help
     end
   end
-else
-  puts "ERROR: no such command with name: '#{ARGV[0]} found'"
 end
+
+check_arguments
+parse_options
