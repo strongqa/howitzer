@@ -27,9 +27,8 @@ class WebPage
       page.driver.browser.switch_to.frame("#{name}_ifr")
       page.find(:css, '#tinymce').native.send_keys(options[:with])
       page.driver.browser.switch_to.default_content
-      #TODO add not selenium drivers support
-    #else
-    #  page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
+    else
+      page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
   end
 

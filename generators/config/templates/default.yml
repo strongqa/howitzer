@@ -29,7 +29,8 @@
 
  # -PhantomJS-
  # specify settings for poltergeist
- poltergeist_settings: {js_errors: false}
+ pjs_ignore_js_errors: false
+ pjs_ignore_ssl_errors: true
 
  # -SauceLabs-
  sl_user: some_user
