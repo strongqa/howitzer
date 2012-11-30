@@ -31,6 +31,22 @@ class WebPage
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
   end
+  
+   def click_alert_box(flag)
+    if %w[selenium selenium_dev sauce].include? settings.driver
+      if flag
+        page.driver.browser.switch_to.alert.accept
+      else
+        page.driver.browser.switch_to.alert.dismiss
+      end
+    else
+      if flag
+        page.evaluate_script('window.confirm = function() { return true; }')
+      else
+        page.evaluate_script('window.confirm = function() { return false; }')
+      end
+    end
+  end
 
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
