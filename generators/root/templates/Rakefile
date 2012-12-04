@@ -1,4 +1,8 @@
 require 'rake'
+require 'rake/clean'
+
+CLEAN.include("log/*")
+Rake::Task[:clean].invoke
 
 Dir['tasks/**/*.rake'].each { |rake| load rake }
 ENV['RAKE_TASK'] = ARGV[0] if /^(?:r?spec|cucumber)/ === ARGV[0]

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    howitzer (0.0.3)
+    howitzer (0.0.4.beta)
       cucumber
       i18n
       launchy
@@ -22,7 +22,7 @@ GEM
       multi_json (>= 1.0, < 1.3)
     addressable (2.3.2)
     builder (3.1.3)
-    capybara (1.1.3)
+    capybara (1.1.4)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
