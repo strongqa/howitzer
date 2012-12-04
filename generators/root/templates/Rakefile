@@ -1,6 +1,7 @@
 require 'rake'
 require 'rake/clean'
 
+Dir.chdir(File.join(File.dirname(__FILE__), '.'))
 CLEAN.include("log/*")
 Rake::Task[:clean].invoke
 
