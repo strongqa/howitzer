@@ -77,7 +77,12 @@ module CapybaraSettings
       }
 
       Capybara.register_driver :sauce do |app|
-        Capybara::Selenium::Driver.new(app, options)
+        driver = Capybara::Selenium::Driver.new(app, options)
+        driver.browser.file_detector = lambda do |args|
+          str = args.first.to_s
+          str if File.exist?(str)
+        end
+        driver
       end
 
     else
