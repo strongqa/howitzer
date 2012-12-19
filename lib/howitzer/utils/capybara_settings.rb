@@ -26,10 +26,15 @@ module CapybaraSettings
     when :selenium_dev
       Capybara.register_driver :selenium_dev do |app|
         profile = base_ff_profile_settings
-        fb_name = "firebug-#{settings.sel_firebug_version}-fx.xpi"
-        fp_name = "firepath-#{settings.sel_firepath_version}.xpi"
-        [fb_name, fp_name].each do |name|
-          profile.add_extension(File.expand_path(name, File.join('shared', 'vendor', 'firebug')))
+        vendor_dir = ENV['HOWITZER_VENDOR_DIR'] || File.join('..', 'vendor')
+        raise "Vendor directory was not found('#{vendor_dir}')." unless Dir.exist?(vendor_dir)
+        %w(firebug.xpi firepath.xpi).each do |file_name|
+          full_path = File.expand_path(file_name, vendor_dir)
+          if File.exist?(full_path)
+            profile.add_extension
+          else
+            raise "'#{full_path}' file was not found!"
+          end
         end
         profile['extensions.firebug.currentVersion']    = settings.sel_firebug_version # avoid 'first run' tab
         profile["extensions.firebug.previousPlacement"] = 1
