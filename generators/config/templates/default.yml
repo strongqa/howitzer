@@ -23,9 +23,6 @@
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera
  sel_browser: ff
- sel_firefox_version: 10
- sel_firebug_version: 1.9.1
- sel_firepath_version: 0.9.7
 
  # -PhantomJS-
  # specify settings for poltergeist
