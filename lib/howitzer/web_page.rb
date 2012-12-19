@@ -47,6 +47,11 @@ class WebPage
       end
     end
   end
+  
+  def js_click(css_locator)
+    page.execute_script("$('#{css_locator}').trigger('click')")
+    sleep settings.timeout_tiny
+  end
 
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
