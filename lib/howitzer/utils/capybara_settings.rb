@@ -26,7 +26,7 @@ module CapybaraSettings
     when :selenium_dev
       Capybara.register_driver :selenium_dev do |app|
         profile = base_ff_profile_settings
-        vendor_dir = ENV['HOWITZER_VENDOR_DIR'] || File.join(File.dirname(__FILE__), '..', 'vendor')
+        vendor_dir = settings.custom_vendor_dir || File.join(File.dirname(__FILE__), '..', 'vendor')
         raise "Vendor directory was not found('#{vendor_dir}')." unless Dir.exist?(vendor_dir)
         %w(firebug.xpi firepath.xpi).each do |file_name|
           full_path = File.expand_path(file_name, vendor_dir)
