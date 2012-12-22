@@ -59,10 +59,11 @@ module CapybaraSettings
         )
       end
     when :sauce
+      task_name = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
       caps_opts = {
           platform: settings.sl_platform,
           browser_name: settings.sl_browser_name,
-          name: 'Capybara test name should be overwritten',
+          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.sl_browser_name.upcase}",
           "max-duration" => settings.sl_max_duration,
           'idle-timeout' => settings.sl_idle_timeout,
           'selenium-version' => settings.sl_selenium_version,
