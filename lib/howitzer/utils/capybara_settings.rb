@@ -8,7 +8,7 @@ module CapybaraSettings
     profile["browser.safebrowsing.malware.enabled"] = false
     profile["network.automatic-ntlm-auth.allow-non-fqdn"] = true
     profile["network.ntlm.send-lm-response"] = true
-    profile["network.automatic-ntlm-auth.trusted-uris"] = settings.app_main_host
+    profile["network.automatic-ntlm-auth.trusted-uris"] = settings.app_host
     profile
   end
 
