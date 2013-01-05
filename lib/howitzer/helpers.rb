@@ -1,4 +1,3 @@
-
 def sauce_driver?
   settings.driver.to_sym == :sauce
 end
@@ -36,8 +35,12 @@ end
 
 def app_url
   prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
-  "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
+  app_base_url prefix
 end
+
+def app_base_url(prefix=nil)
+  "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
+end  
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
