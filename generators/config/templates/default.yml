@@ -6,8 +6,11 @@
 ###########################################################
 # APPLICATION SETTINGS                                    #
 ###########################################################
+ app_base_auth_login: login
+ app_base_auth_pass: pass
+ app_protocol: http
  app_host: my.website.com
- app_url: "http://${app_host}"
+
  def_test_user: test@test.com
  def_test_pass: mypass
  def_test_name: Auto Tester

@@ -9,7 +9,7 @@ class WebPage
   include LocatorStore
   include RSpec::Matchers
 
-  def self.open(url="#{settings.app_url}#{self::URL}")
+  def self.open(url="#{app_url}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info "Retry..." unless retries.zero?

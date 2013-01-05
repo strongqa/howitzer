@@ -34,6 +34,10 @@ def chrome_browser?
   end
 end
 
+def app_url
+  prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+  "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
+end
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
