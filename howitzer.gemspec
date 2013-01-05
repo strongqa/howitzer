@@ -20,6 +20,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rake'
   gem.add_runtime_dependency 'rubigen'
   gem.add_runtime_dependency 'i18n'
+  gem.add_runtime_dependency 'syntax'
   gem.add_runtime_dependency 'cucumber'
   gem.add_runtime_dependency 'rspec', '~> 2.0'
   gem.add_runtime_dependency 'sexy_settings'
