@@ -29,4 +29,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
+  gem.add_runtime_dependency 'rawler'
 end
