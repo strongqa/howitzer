@@ -58,7 +58,6 @@ class WebPage
     until ::Time.now > end_time
       return if page.evaluate_script('$.active') == 0
       sleep 0.25
-      log.info "#{Time.now}"
     end
     log.error message || "Timed out waiting for ajax requests to complete"
 
