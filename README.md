@@ -11,10 +11,11 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Independent of test web application, its technologies and lanquage.
 - Deploy all test infrastructure for 5 minutes.
 - Flexible test framework configuration.
-- Ability to choose desired BDD tool (Cucumber for now only, but RSpec is coming soon)
+- Ability to choose desired BDD tool (Cucumber or RSpec)
 - Itegration with SauceLabs, Mailgun web services.
 - Easy to support tests in actual state.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
+- Ability to check all links are valid
 
 ## Setup
 To install, type
@@ -29,7 +30,24 @@ To deploy the framework, type:
 ```bash
 mkdir test_automation
 cd test_automation
-howitzer install --cucumber
+```
+
+Then for Cucumber:
+
+```bash
+howitzer install --cucumber 
+```
+
+For Rspec:
+
+```bash
+howitzer install --rspec
+```
+
+Or for both the ones:
+
+```bash
+howitzer install --cucumber --rspec
 ```
 
 This command will generate next folders and files:
@@ -39,7 +57,9 @@ config/
         default.yml
         custom.yml
 tasks/
+        common.rake
         cucumber.rake
+        rspec.rake
 emails/
         example_email.rb
 features/
@@ -49,6 +69,7 @@ features/
 pages/
         example_page.rb
         example_menu.rb
+boot.rb
 Gemfile
 Rakefile
 .gitignore
@@ -63,6 +84,14 @@ Learn and specify correct default settings in `config/default.yml` file. For det
 - Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/romikoops/howitzer/wiki/PageObject-pattern).
 - Debug feature.
 - Enjoy it!
+
+## Rake tasks
+
+You can list all available tasks with next command
+
+```bash
+rake -T
+```
 
 ## Contributing
 
