@@ -11,6 +11,7 @@ tmp/
 .rakeTasks
 .bundle
 .DS_STORE
+.DS_Store
 *.xml
 *.log
 *.pem
