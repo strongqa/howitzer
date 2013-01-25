@@ -29,12 +29,22 @@ RSpec.configure do |config|
 
   config.after(:each) do
     Gen.delete_all_mailboxes
+    DataStorage.clear_ns("user")
+  end
+
+  config.after(:suite) do
     if sauce_driver?
-      DataStorage.store('sauce', :status, false) if scenario.failed?
+      report_failures_count = config.reporter.instance_variable_get(:@failure_count)
+      report_failures_count.zero? ? DataStorage.store('sauce', :status, true) : DataStorage.store('sauce', :status, false)
+    end
+  end
+
+  config.after(:all) do
+    if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
       log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+      log.info "SAUCE SERVER LOG URL: #{sauce_resource_path('selenium-server.log')}"
     end
-    DataStorage.clear_ns("user")
   end
 
   at_exit do
