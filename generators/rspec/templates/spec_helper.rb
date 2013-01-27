@@ -35,7 +35,7 @@ RSpec.configure do |config|
   config.after(:suite) do
     if sauce_driver?
       report_failures_count = config.reporter.instance_variable_get(:@failure_count)
-      report_failures_count.zero? ? DataStorage.store('sauce', :status, true) : DataStorage.store('sauce', :status, false)
+      DataStorage.store('sauce', :status, report_failures_count.zero?) 
     end
   end
 
