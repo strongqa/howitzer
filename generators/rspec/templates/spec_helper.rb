@@ -30,8 +30,10 @@ RSpec.configure do |config|
   config.after(:each) do
     Gen.delete_all_mailboxes
     DataStorage.clear_ns("user")
-    session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
-    log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+    if sauce_driver?
+      session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
+      log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+    end  
   end
 
   config.after(:suite) do
