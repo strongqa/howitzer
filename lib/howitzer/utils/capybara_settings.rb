@@ -59,7 +59,7 @@ module CapybaraSettings
         )
       end
     when :sauce
-      task_name = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+      task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
       caps_opts = {
           platform: settings.sl_platform,
           browser_name: settings.sl_browser_name,
