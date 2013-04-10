@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    howitzer (0.0.4.beta)
+    howitzer (0.0.5.beta)
       capybara (= 1.1.4)
       cucumber
       i18n
