@@ -31,4 +31,5 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'
+  gem.add_runtime_dependency 'capybara', '1.1.4'
 end
