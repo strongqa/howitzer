@@ -1,0 +1,10 @@
+###########################################################
+# LOGGER SETTINGS                                         #
+###########################################################
+ log_dir: "spec/log"
+ txt_log: log.txt
+ html_log: log.html
+ rawler_log: rawler_log.txt
+ selenium_server_log: selenium-server.log
+ required_clean_logs: true
+ hide_datetime_from_log: true

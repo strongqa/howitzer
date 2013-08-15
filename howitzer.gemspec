@@ -32,4 +32,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'
   gem.add_runtime_dependency 'capybara', '1.1.4'
+
+  gem.add_development_dependency("rspec", [">= 2.2.0"])
+  gem.add_development_dependency("fuubar", [">= 0.0.1"])
+  gem.add_development_dependency("rake")
 end
