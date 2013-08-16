@@ -1,16 +1,28 @@
+DriverNotSpecified = Class.new(StandardError)
+SlBrowserNameNotSpecified = Class.new(StandardError)
+SelBrowserNotSpecified = Class.new(StandardError)
+CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
+DRIVER_NOT_SPECIFIED = DriverNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
+SL_BROWSER_NAME_NOT_SPECIFIED = SlBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
+SEL_BROWSER_NOT_SPECIFIED = SelBrowserNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
+
 def sauce_driver?
+  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :sauce
 end
 
 def selenium_driver?
+  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :selenium
 end
 
 def ie_browser?
   ie_browsers = [:ie, :iexplore]
   if sauce_driver?
+    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     ie_browsers.include?(settings.sl_browser_name.to_sym)
   elsif selenium_driver?
+    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     ie_browsers.include?(settings.sel_browser.to_sym)
   end
 end
