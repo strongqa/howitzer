@@ -35,6 +35,8 @@ def parse_options
   end
 end
 
+private
+
 def show_help
   puts %{
 howitzer [command {--cucumber, --rspec}] | {options}
@@ -79,5 +81,7 @@ def execute_generator(options)
   end
 end
 
-check_arguments
-parse_options
+if ENV['TEST_MODE']
+  check_arguments
+  parse_options
+end

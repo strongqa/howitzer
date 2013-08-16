@@ -1,3 +1,5 @@
+ENV['TEST_MODE'] = true
+
 def settings
   SexySettings::Base.instance()
 end
