@@ -53,7 +53,7 @@ end
 
 def show_version
   require_relative "../lib/howitzer/version"
-  puts "#{File.basename($0)} #{Howitzer::VERSION}"
+  puts "Version: #{Howitzer::VERSION}"
   exit(0)
 end
 
