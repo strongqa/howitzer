@@ -77,8 +77,11 @@ def execute_generator(*options)
       end
     end
   else
-   puts "ERROR: Empty or unknown option specified"
-   show_help
+    if options.empty? then puts "ERROR: Empty option specified."
+    else
+      puts "ERROR: Unknown option specified."
+    end
+    show_help
   end
 end
 
