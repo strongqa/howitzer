@@ -7,9 +7,6 @@ SimpleCov.start do
   add_group "lib", "lib"
 end
 
-#RSpec.configure do |config|
-#end
-
 RSpec.configure do |configuration|
   configuration.mock_with :rspec do |configuration|
     configuration.syntax = :expect

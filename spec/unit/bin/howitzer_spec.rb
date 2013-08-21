@@ -1,6 +1,18 @@
 require "spec_helper"
 load "bin/howitzer"
 
+HELP_MESSAGE = %{
+howitzer [command {--cucumber, --rspec}] | {options}
+
+Commands are ...
+    install                  Generate test framework units:
+          --rspec                add RSpec integration with framework
+          --cucumber             add Cucumber integration with framework
+Options are ...
+    --help                   Display this help message.
+    --version                Display the program version.
+  }
+
 shared_examples "check argument" do |arg|
   before do
     stub_const("ARGV", [arg])
@@ -28,17 +40,7 @@ describe Howitzer do
     context "when arguments incorrect" do
       before do
         expect(self).to receive(:puts).with("ERROR: incorrect options. Please, see help for details").once
-        expect(self).to receive(:puts).with(%{
-howitzer [command {--cucumber, --rspec}] | {options}
-
-Commands are ...
-    install                  Generate test framework units:
-          --rspec                add RSpec integration with framework
-          --cucumber             add Cucumber integration with framework
-Options are ...
-    --help                   Display this help message.
-    --version                Display the program version.
-  })
+        expect(self).to receive(:puts).with(HELP_MESSAGE)
         expect(self).to receive(:exit).with(1)
       end
       context "(missing arguments)" do
@@ -52,7 +54,6 @@ Options are ...
     end
   end
 
-
   describe "#parse_options" do
     subject { parse_options }
     context "when correct argument received" do
@@ -62,7 +63,7 @@ Options are ...
       end
       context "'--version' argument given" do
         let(:arg) { ['--version'] }
-  before{ stub_const("Howitzer::VERSION", '1.0.0') }
+      before{ stub_const("Howitzer::VERSION", '1.0.0') }
         it do
           expect(self).to receive(:exit).with(0).once
           expect(self).to receive(:puts).with("Version: 1.0.0")
@@ -72,19 +73,7 @@ Options are ...
       context "'--help' argument given" do
         let(:arg) { ['--help'] }
         it do
-          expect(self).to receive(:puts).with(
-                                 %{
-howitzer [command {--cucumber, --rspec}] | {options}
-
-Commands are ...
-    install                  Generate test framework units:
-          --rspec                add RSpec integration with framework
-          --cucumber             add Cucumber integration with framework
-Options are ...
-    --help                   Display this help message.
-    --version                Display the program version.
-  }
-                             )
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
           subject
         end
       end
@@ -92,13 +81,13 @@ Options are ...
         let(:primary_arg) { 'install' }
         let(:generator) { double('generator') }
         before do
-          expect(generator).to receive(:run).with(%w[config]).once
+          expect(generator).to receive(:run).with(['config']).once
           expect(generator).to receive(:run).with(['pages']).once
           expect(generator).to receive(:run).with(['tasks']).once
           expect(generator).to receive(:run).with(['emails']).once
           expect(generator).to receive(:run).with(['root']).once
         end
-        context "with option == '--cucumber'" do
+        context "with option '--cucumber'" do
           let(:arg) { [primary_arg, '--cucumber'] }
           before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(6).times.and_return(generator)}
           it do
@@ -106,7 +95,7 @@ Options are ...
             subject
            end
         end
-        context "with option == '--rspec'" do
+        context "with option '--rspec'" do
           let(:arg) {[primary_arg, '--rspec']}
           before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(6).times.and_return(generator)}
           it do
@@ -114,48 +103,58 @@ Options are ...
             subject
           end
         end
-        context "with UNKNOWN option specified" do
-          let(:arg) {[primary_arg, '--unknown']}
-          before do
-            expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
-            expect(self).to receive(:puts).with("ERROR: unknown '--unknown' option for 'install' command")
-            expect(self).to receive(:puts).with(
-                                %{
-howitzer [command {--cucumber, --rspec}] | {options}
-
-Commands are ...
-    install                  Generate test framework units:
-          --rspec                add RSpec integration with framework
-          --cucumber             add Cucumber integration with framework
-Options are ...
-    --help                   Display this help message.
-    --version                Display the program version.
-  }
-                            )
-          end
-          it { subject }
+      end
+    end
+    context "when incorrect arguments received" do
+      before do
+        stub_const("ARGV", arg)
+      end
+      context "with (missing) argument" do
+        let(:arg) {[]}
+        it do
+          expect(self).to receive(:puts).with("ERROR: incorrect first argument ('')")
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
+          expect(self).to receive(:exit).with(1)
+          subject
         end
-        context "with no option specified" do
-          let(:arg) {[primary_arg,'']}
-          before do
-            expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
-            expect(self).to receive(:puts).with("ERROR: unknown '' option for 'install' command")
-            expect(self).to receive(:puts).with(
-                                %{
-howitzer [command {--cucumber, --rspec}] | {options}
-
-Commands are ...
-    install                  Generate test framework units:
-          --rspec                add RSpec integration with framework
-          --cucumber             add Cucumber integration with framework
-Options are ...
-    --help                   Display this help message.
-    --version                Display the program version.
-  }
-                            )
-          end
-          it { subject }
+      end
+      context "with UNKNOWN argument" do
+        let(:arg) {['unknown']}
+        before do
+          expect(self).to receive(:puts).with("ERROR: incorrect first argument ('unknown')")
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
+          expect(self).to receive(:exit).with(1)
         end
+        it { subject }
+      end
+    end
+
+    context "when 'install' option received with incorrect arguments" do
+      let(:primary_arg) { 'install' }
+      let(:generator) { double('generator') }
+      before do
+        stub_const("ARGV", arg)
+        expect(generator).to receive(:run).with(['config']).once
+        expect(generator).to receive(:run).with(['pages']).once
+        expect(generator).to receive(:run).with(['tasks']).once
+        expect(generator).to receive(:run).with(['emails']).once
+        expect(generator).to receive(:run).with(['root']).once
+      end
+      context "with UNKNOWN option specified" do
+        let(:arg) {[primary_arg, '--unknown']}
+        before do
+          expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
+          expect(self).to receive(:puts).with("ERROR: unknown '--unknown' option for 'install' command")
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
+        end
+        it { subject }
+      end
+      context "with no option specified" do
+        let(:arg) {[primary_arg]}
+        before do
+          expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
+        end
+        it { subject }
       end
     end
   end
