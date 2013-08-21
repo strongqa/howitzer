@@ -57,26 +57,29 @@ def show_version
   exit(0)
 end
 
-def execute_generator(options)
+def execute_generator(*options)
+  if options.empty?
+    puts "Ooops! You haven't specified any install options."
+  else
+    RubiGen::Base.use_application_sources!
+    RubiGen::Base.prepend_sources(*[
+        RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
+    ])
 
-  RubiGen::Base.use_application_sources!
-  RubiGen::Base.prepend_sources(*[
-      RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
-  ])
+    RubiGen::Scripts::Generate.new.run(%w[config])
+    RubiGen::Scripts::Generate.new.run(%w[pages])
+    RubiGen::Scripts::Generate.new.run(%w[tasks])
+    RubiGen::Scripts::Generate.new.run(%w[emails])
+    RubiGen::Scripts::Generate.new.run(%w[root])
 
-  RubiGen::Scripts::Generate.new.run(%w[config])
-  RubiGen::Scripts::Generate.new.run(%w[pages])
-  RubiGen::Scripts::Generate.new.run(%w[tasks])
-  RubiGen::Scripts::Generate.new.run(%w[emails])
-  RubiGen::Scripts::Generate.new.run(%w[root])
-
-  options.each do |option|
-    case option
-      when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
-      when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
-      else
-        puts "ERROR: unknown '#{option}' option for 'install' command"
-        show_help
+    options.each do |option|
+      case option
+        when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
+        when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
+        else
+          puts "ERROR: unknown '#{option}' option for 'install' command"
+          show_help
+      end
     end
   end
 end
