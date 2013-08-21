@@ -54,10 +54,10 @@ end
 def show_version
   require_relative "../lib/howitzer/version"
   puts "Version: #{Howitzer::VERSION}"
-  exit(0)
+  exit 0
 end
 
-def execute_generator(*options)
+def execute_generator(options)
   if %w[--cucumber --rspec].include?(options.first)
     RubiGen::Base.use_application_sources!
     RubiGen::Base.prepend_sources(*[
@@ -77,11 +77,13 @@ def execute_generator(*options)
       end
     end
   else
-    if options.empty? then puts "ERROR: Empty option specified."
+    if options.empty?
+      puts "ERROR: No option specified for install command."
     else
-      puts "ERROR: Unknown option specified."
+      puts "ERROR: Unknown '#{options.first}' option specified."
     end
     show_help
+    exit 0
   end
 end
 

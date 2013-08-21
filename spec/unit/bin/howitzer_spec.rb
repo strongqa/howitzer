@@ -81,39 +81,36 @@ describe Howitzer do
         let(:primary_arg) { 'install' }
         let(:generator) { double('generator') }
         before do
-          expect(self).not_to receive(:puts).with("Ooops! You haven't specified any install options.")
           expect(generator).to receive(:run).with(['config']).once
           expect(generator).to receive(:run).with(['pages']).once
           expect(generator).to receive(:run).with(['tasks']).once
           expect(generator).to receive(:run).with(['emails']).once
           expect(generator).to receive(:run).with(['root']).once
           expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
+          expect(self).not_to receive(:puts).with("ERROR: Empty option specified.")
+          expect(self).not_to receive(:puts).with("ERROR: Unknown option specified.")
+          expect(self).not_to receive(:puts).with(HELP_MESSAGE)
         end
         context "with option '--cucumber'" do
           let(:arg) { [primary_arg, '--cucumber'] }
-          before do
-            debugger
-            expect(RubiGen::Scripts::Generate).to receive(:new).and_return(generator)
-          end
+          before { expect(RubiGen::Scripts::Generate).to receive(:new).and_return(generator) }
           it do
             expect(generator).to receive(:run).with(['cucumber'])
             subject
            end
         end
-        #context "with option '--rspec'" do
-        #  let(:arg) {[primary_arg, '--rspec']}
-        #  before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(6).times.and_return(generator)}
-        #  it do
-        #    expect(generator).to receive(:run).with(['rspec']).once
-        #    subject
-        #  end
-        #end
+        context "with option '--rspec'" do
+          let(:arg) {[primary_arg, '--rspec']}
+          before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(1).times.and_return(generator)}
+          it do
+            expect(generator).to receive(:run).with(['rspec']).once
+            subject
+          end
+        end
       end
     end
     context "when incorrect arguments received" do
-      before do
-        stub_const("ARGV", arg)
-      end
+      before { stub_const("ARGV", arg) }
       context "with (missing) argument" do
         let(:arg) {[]}
         it do
@@ -125,41 +122,38 @@ describe Howitzer do
       end
       context "with UNKNOWN argument" do
         let(:arg) {['unknown']}
-        before do
+        it do
           expect(self).to receive(:puts).with("ERROR: incorrect first argument ('unknown')")
           expect(self).to receive(:puts).with(HELP_MESSAGE)
           expect(self).to receive(:exit).with(1)
+          subject
         end
-        it { subject }
       end
     end
 
     context "when 'install' option received with incorrect arguments" do
       let(:primary_arg) { 'install' }
       let(:generator) { double('generator') }
-      before do
-        stub_const("ARGV", arg)
-        expect(generator).to receive(:run).with(['config']).once
-        expect(generator).to receive(:run).with(['pages']).once
-        expect(generator).to receive(:run).with(['tasks']).once
-        expect(generator).to receive(:run).with(['emails']).once
-        expect(generator).to receive(:run).with(['root']).once
+      before { stub_const("ARGV", arg) }
+      context "with UNKNOWN option specified" do
+        let(:arg) {[primary_arg, '--unknown']}
+        it do
+          expect(RubiGen::Scripts::Generate).not_to receive(:new)
+          expect(self).to receive(:puts).with("ERROR: Unknown '--unknown' option specified.")
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
+          expect(self).to receive(:exit).with(0)
+          subject
+        end
       end
-      #context "with UNKNOWN option specified" do
-      #  let(:arg) {[primary_arg, '--unknown']}
-      #  before do
-      #    expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
-      #    expect(self).to receive(:puts).with("ERROR: unknown '--unknown' option for 'install' command")
-      #    expect(self).to receive(:puts).with(HELP_MESSAGE)
-      #  end
-      #  it { subject }
-      #end
       context "with no option specified" do
         let(:arg) {[primary_arg]}
-        before do
-          expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
+        it do
+          expect(RubiGen::Scripts::Generate).not_to receive(:new)
+          expect(self).to receive(:puts).with("ERROR: No option specified for install command.")
+          expect(self).to receive(:puts).with(HELP_MESSAGE)
+          expect(self).to receive(:exit).with(0)
+          subject
         end
-        it { subject }
       end
     end
   end
