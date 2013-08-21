@@ -58,13 +58,11 @@ def show_version
 end
 
 def execute_generator(*options)
-  if options.empty?
-    puts "Ooops! You haven't specified any install options."
-  else
+  if %w[--cucumber --rspec].include?(options.first)
     RubiGen::Base.use_application_sources!
     RubiGen::Base.prepend_sources(*[
-        RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
-    ])
+       RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
+   ])
 
     RubiGen::Scripts::Generate.new.run(%w[config])
     RubiGen::Scripts::Generate.new.run(%w[pages])
@@ -76,11 +74,11 @@ def execute_generator(*options)
       case option
         when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
         when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
-        else
-          puts "ERROR: unknown '#{option}' option for 'install' command"
-          show_help
       end
     end
+  else
+   puts "ERROR: Empty or unknown option specified"
+   show_help
   end
 end
 
