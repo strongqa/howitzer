@@ -53,31 +53,37 @@ end
 
 def show_version
   require_relative "../lib/howitzer/version"
-  puts "#{File.basename($0)} #{Howitzer::VERSION}"
-  exit(0)
+  puts "Version: #{Howitzer::VERSION}"
+  exit 0
 end
 
 def execute_generator(options)
+  if %w[--cucumber --rspec].include?(options.first)
+    RubiGen::Base.use_application_sources!
+    RubiGen::Base.prepend_sources(*[
+       RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
+   ])
 
-  RubiGen::Base.use_application_sources!
-  RubiGen::Base.prepend_sources(*[
-      RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
-  ])
+    RubiGen::Scripts::Generate.new.run(%w[config])
+    RubiGen::Scripts::Generate.new.run(%w[pages])
+    RubiGen::Scripts::Generate.new.run(%w[tasks])
+    RubiGen::Scripts::Generate.new.run(%w[emails])
+    RubiGen::Scripts::Generate.new.run(%w[root])
 
-  RubiGen::Scripts::Generate.new.run(%w[config])
-  RubiGen::Scripts::Generate.new.run(%w[pages])
-  RubiGen::Scripts::Generate.new.run(%w[tasks])
-  RubiGen::Scripts::Generate.new.run(%w[emails])
-  RubiGen::Scripts::Generate.new.run(%w[root])
-
-  options.each do |option|
-    case option
-      when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
-      when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
-      else
-        puts "ERROR: unknown '#{option}' option for 'install' command"
-        show_help
+    options.each do |option|
+      case option
+        when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
+        when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
+      end
     end
+  else
+    if options.empty?
+      puts "ERROR: No option specified for install command."
+    else
+      puts "ERROR: Unknown '#{options.first}' option specified."
+    end
+    show_help
+    exit 0
   end
 end
 
