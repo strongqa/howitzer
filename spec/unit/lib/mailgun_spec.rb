@@ -1,7 +1,13 @@
 require 'spec_helper'
 
-#Check if require 'active_resource' passes
-#Check if require 'rest-client' passes
+describe "Root library loading" do
+  before { allow(self).to receive(:require) { true }}
+  it "shoud be loaded once" do
+    expect(self).to receive(:require).with('active_resource').once
+    expect(self).to receive(:require).with('rest-client').once
+    load "lib/howitzer/utils/email/mailgun.rb"
+  end
+end
 
 describe "Check mailgun" do
 
