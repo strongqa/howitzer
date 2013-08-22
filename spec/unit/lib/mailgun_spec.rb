@@ -5,7 +5,7 @@ describe "Root library loading" do
   it "shoud be loaded once" do
     expect(self).to receive(:require).with('active_resource').once
     expect(self).to receive(:require).with('rest-client').once
-    load "lib/howitzer/utils/email/mailgun.rb"
+    load '/lib/howitzer/utils/email/mailgun.rb'
   end
 end
 

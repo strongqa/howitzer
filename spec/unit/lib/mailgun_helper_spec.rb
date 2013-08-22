@@ -1,10 +1,13 @@
 require 'spec_helper'
 
 describe "MailgunHelper" do
-  describe "Create mailbox" do
+  describe "creating mailbox" do
     subject { check_settings }
     context "when arguments are present" do
-
+      #it "passes" do
+      #  @domain=settings.mail_pop3_domain.should eql 'mailgun'
+      #  @password=settings.mail_pop3_user_pass.should eql 'pass123'
+      #end
     end
     context "when arguments are missed" do
 
