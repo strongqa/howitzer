@@ -1,16 +1,44 @@
 require 'spec_helper'
+require_relative '../../../lib/howitzer/utils/email/mailgun_helper'
 
-describe "MailgunHelper" do
-  describe "Create mailbox" do
-    subject { check_settings }
-    context "when arguments are present" do
-
+describe MailgunHelper do
+  describe "#create_mailbox" do
+    let(:mailgun) { double.extend MailgunHelper }
+    let(:user_name) { 'vasyapupkin' }
+    let(:log_obj) { double }
+    let(:settings_obj) { double }
+    let(:mbox) { double }
+    subject { mailgun.create_mailbox(user_name, *opts) }
+    before do
+      stub_const('Mailbox', double)
+      allow(mailgun).to receive(:log).and_return(log_obj)
+      expect(log_obj).to receive(:info).with(log_message)
+      allow(Mailbox).to receive(:new).and_return(mbox)
+      expect(mbox).to receive(:upsert).once
     end
-    context "when arguments are missed" do
-
+    context "when domain and password are present" do
+      let(:log_message) { "Create 'vasyapupkin@mail.ru' mailbox" }
+      let(:opts) { ['mail.ru', '123'] }
+      it { expect(subject).to eql(mbox) }
+    end
+    context "when domain and password are missed" do
+      let(:opts) { [] }
+      let(:log_message) { "Create 'vasyapupkin@test.com' mailbox" }
+      before do
+        allow(mailgun).to receive(:settings).and_return(settings_obj)
+        allow(settings_obj).to receive(:mail_pop3_domain).and_return('test.com')
+        allow(settings_obj).to receive(:mail_pop3_user_pass).and_return('test123')
+      end
+      it { expect(subject).to eql(mbox) }
     end
   end
+
+  describe "#delete_mailbox" do
+
+  end
 end
+
+
 
 #module MailgunHelper
 #
