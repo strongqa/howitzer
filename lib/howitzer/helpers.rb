@@ -40,7 +40,7 @@ def chrome_browser?
   chrome_browser = :chrome
   if sauce_driver?
     settings.sl_browser_name.to_sym == chrome_browser
-  elsif
+  elsif selenium_driver?
     settings.sel_browser.to_sym == chrome_browser
   end
 end
