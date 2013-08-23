@@ -12,10 +12,7 @@ describe "Settings" do
   end
   context "SexySettings configuration" do
     subject { SexySettings.configuration }
-    it do
-      expect(subject.path_to_custom_settings).to include('config/custom.yml')
-      expect(subject.path_to_default_settings).to include('config/default.yml')
-      subject
-    end
+    it { expect(subject.path_to_custom_settings).to include('config/custom.yml') }
+    it { expect(subject.path_to_default_settings).to include('config/default.yml') }
   end
 end
