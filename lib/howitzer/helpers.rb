@@ -30,8 +30,10 @@ end
 def ff_browser?
   ff_browsers = [:ff, :firefox]
   if sauce_driver?
+    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     ff_browsers.include?(settings.sl_browser_name.to_sym)
   elsif selenium_driver?
+    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     ff_browsers.include?(settings.sel_browser.to_sym)
   end
 end
@@ -39,8 +41,10 @@ end
 def chrome_browser?
   chrome_browser = :chrome
   if sauce_driver?
+    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     settings.sl_browser_name.to_sym == chrome_browser
   elsif selenium_driver?
+    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     settings.sel_browser.to_sym == chrome_browser
   end
 end

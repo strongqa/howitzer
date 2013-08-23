@@ -111,6 +111,10 @@ describe "Helpers" do
         before { allow(settings).to receive(:sl_browser_name) { :chrome } }
         it { expect(subject).to be_false }
       end
+      context "settings.sl_browser_name is not specified" do
+        before { allow(settings).to receive(:sl_browser_name) { nil } }
+        it { expect {subject}.to raise_error(SlBrowserNameNotSpecified, "Please check your settings") }
+      end
     end
     context "when sauce_driver? is FALSE" do
       let(:sauce_driver) { false }
@@ -128,6 +132,10 @@ describe "Helpers" do
         context "settings.sel_browser = :chrome" do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
           it { expect(subject).to be_false }
+        end
+        context "settings.sel_browser is not specified" do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it { expect {subject}.to raise_error(SelBrowserNotSpecified, "Please check your settings") }
         end
       end
       context "when selenium_driver? is FALSE" do
@@ -149,6 +157,10 @@ describe "Helpers" do
         before { allow(settings).to receive(:sl_browser_name) { :firefox } }
         it { expect(subject).to be_false }
       end
+      context "settings.sl_browser_name is not specified" do
+        before { allow(settings).to receive(:sl_browser_name) { nil } }
+        it { expect {subject}.to raise_error(SlBrowserNameNotSpecified, "Please check your settings") }
+      end
     end
     context "when sauce_driver? is FALSE" do
       let(:sauce_driver) { false }
@@ -163,6 +175,10 @@ describe "Helpers" do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
           it { expect(subject).to be_false }
         end
+        context "settings.sel_browser is not specified" do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it { expect {subject}.to raise_error(SelBrowserNotSpecified, "Please check your settings") }
+        end
       end
       context "when selenium_driver? is FALSE" do
         let(:selenium_driver) { false }
@@ -172,10 +188,12 @@ describe "Helpers" do
   end
   describe "#app_url" do
     subject { app_url }
-    before { allow(settings).to receive(:app_base_auth_login) { app_base_auth_login_setting }
-    allow(settings).to receive(:app_base_auth_pass) { app_base_auth_pass_setting }
-    allow(settings).to receive(:app_protocol) { app_protocol_setting }
-    allow(settings).to receive(:app_host) { app_host_setting } }
+    before do
+      allow(settings).to receive(:app_base_auth_login) { app_base_auth_login_setting }
+      allow(settings).to receive(:app_base_auth_pass) { app_base_auth_pass_setting }
+      allow(settings).to receive(:app_protocol) { app_protocol_setting }
+      allow(settings).to receive(:app_host) { app_host_setting }
+    end
     let(:app_protocol_setting) { nil }
     let(:app_host_setting) { "redmine.strongqa.com" }
     context "when login and password present" do
@@ -189,10 +207,12 @@ describe "Helpers" do
       it{ expect(subject).to eq("http://redmine.strongqa.com") }
     end
   end
-  describe "#app_base_url(prefix=nil)" do
+  describe "#app_base_url" do
     subject { app_base_url(prefix) }
-    before { allow(settings).to receive(:app_protocol) { app_protocol_setting }
-    allow(settings).to receive(:app_host) { app_host_setting } }
+    before do
+      allow(settings).to receive(:app_protocol) { app_protocol_setting }
+      allow(settings).to receive(:app_host) { app_host_setting }
+    end
     let(:app_protocol_setting) { nil }
     let(:app_host_setting) { "redmine.strongqa.com" }
     context "when login and password present" do
@@ -204,43 +224,54 @@ describe "Helpers" do
       it{ expect(subject).to eq("http://redmine.strongqa.com") }
     end
   end
-  describe "#duration(time_in_numeric)" do
+  describe "#duration" do
     context "when more than hour" do
       it{ expect(duration(10000)).to eq("[2h 46m 40s]") }
     end
-    context "when more than minute" do
+    context "when 1 hour exactly" do
+      it{ expect(duration(3600)).to eq("[1h 0m 0s]") }
+    end
+    context "when 0 hours and more than minute" do
       it{ expect(duration(2000)).to eq("[33m 20s]") }
+    end
+    context "when 1 minute exactly" do
+      it{ expect(duration(60)).to eq("[1m 0s]") }
     end
     context "when less than minute" do
       it{ expect(duration(45)).to eq("[0m 45s]") }
     end
-  end
-  describe "#ri(value)" do
-    it { expect {ri 'boom'}.to raise_error(RuntimeError, /boom/) }
-  end
-  describe "#open(*args)" do
-    it do
-      class Good_class
-        def self.open(arg)
-          arg
-        end
-      end
-      stub_const("MyPage", Good_class)
-      expect('my'.open(:exit)).to eq(:exit)
+    context "when zero" do
+      it{ expect(duration(0)).to eq("[0m 0s]") }
     end
   end
-  describe "#given" do
-    it do
-      class Good_class
-      end
-      stub_const("MyPage", Good_class)
-      expect('my'.given).to be_an_instance_of(Good_class)
-    end
+  describe "#ri" do
+    subject { ri 'boom' }
+    it { expect {subject}.to raise_error(RuntimeError, /boom/) }
   end
-  describe "#as_page_class" do
-    it do
-      stub_const("MyPage", :good)
-      expect('my'.as_page_class).to eq(:good)
+  describe String do
+    describe "#open" do
+      subject { "my".open(:exit) }
+      let(:page_object) { double }
+      before do
+        stub_const("MyPage", page_object)
+        expect(page_object).to receive(:open).with(:exit).once
+      end
+      it { expect(subject).to be_nil }
+    end
+    describe "#given" do
+      subject { "my".given }
+      let(:page_object) { double }
+      before do
+        stub_const("MyPage", page_object)
+        expect(page_object).to receive(:new).once
+      end
+      it { expect(subject).to be_nil }
+    end
+    describe "#as_page_class" do
+      subject { "my".as_page_class }
+      let(:my_page) { double }
+      before { stub_const("MyPage", my_page) }
+      it { expect(subject).to eql(my_page) }
     end
   end
 end
