@@ -1,11 +1,6 @@
 require 'rbconfig'
 
 class RootGenerator < RubiGen::Base
-  def initialize(runtime_args, runtime_options = {})
-    super
-    @destination_root = File.expand_path('')
-  end
-
   def manifest
     record do |m|
       m.directory ''
