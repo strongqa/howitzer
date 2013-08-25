@@ -81,7 +81,7 @@ describe Howitzer do
         let(:primary_arg) { 'install' }
         let(:generator) { double('generator') }
         before do
-          expect(generator).to receive(:run).with(['config']).once
+          expect(generator).to receive(:run).with(['config'], {destination: Dir.pwd}).once
           expect(generator).to receive(:run).with(['pages']).once
           expect(generator).to receive(:run).with(['tasks']).once
           expect(generator).to receive(:run).with(['emails']).once

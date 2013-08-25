@@ -1,15 +1,10 @@
 require 'rbconfig'
 
 class TasksGenerator < RubiGen::Base
-  def initialize(runtime_args, runtime_options = {})
-    super
-    @destination_root = File.expand_path('tasks')
-  end
-
   def manifest
     record do |m|
-      m.directory ''
-      m.template 'common.rake', 'common.rake'
+      m.directory 'tasks'
+      m.template 'common.rake', '/tasks/common.rake'
     end
   end
 
