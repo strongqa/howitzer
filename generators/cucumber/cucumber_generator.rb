@@ -1,14 +1,14 @@
 require 'rbconfig'
 
 class CucumberGenerator < RubiGen::Base
-  def initialize(runtime_args, runtime_options = {})
-    super
-    @destination_root = File.expand_path('features')
-  end
-
   def manifest
     record do |m|
-      m.directory ''
+      m.directory 'features'
+      m.directory 'step_definitions'
+      m.directory 'support'
+      m.directory '../tasks'
+      m.directory '../config'
+
       BASEDIRS.each{|path| m.directory path}
       m.template 'common_steps.rb', 'step_definitions/common_steps.rb'
       m.template 'env.rb', 'support/env.rb'

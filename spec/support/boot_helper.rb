@@ -1,4 +1,5 @@
-ENV['TEST_MODE'] = true
+ENV['TEST_MODE'] = 'true'
+require 'sexy_settings'
 
 def settings
   SexySettings::Base.instance()
@@ -8,4 +9,4 @@ SexySettings.configure do |config|
   config.path_to_default_settings = File.expand_path("default.yml", File.join(File.dirname(__FILE__), '..', 'config'))
 end
 
-require 'howitzer'
+#require 'howitzer'
