@@ -1,4 +1,3 @@
-ENV['TEST_MODE'] = 'true'
 require 'sexy_settings'
 
 def settings

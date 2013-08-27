@@ -82,10 +82,10 @@ describe Howitzer do
         let(:generator) { double('generator') }
         before do
           expect(generator).to receive(:run).with(['config'], {destination: Dir.pwd}).once
-          expect(generator).to receive(:run).with(['pages']).once
-          expect(generator).to receive(:run).with(['tasks']).once
-          expect(generator).to receive(:run).with(['emails']).once
-          expect(generator).to receive(:run).with(['root']).once
+          expect(generator).to receive(:run).with(['pages'], {destination: Dir.pwd}).once
+          expect(generator).to receive(:run).with(['tasks'], {destination: Dir.pwd}).once
+          expect(generator).to receive(:run).with(['emails'], {destination: Dir.pwd}).once
+          expect(generator).to receive(:run).with(['root'], {destination: Dir.pwd}).once
           expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
           expect(self).not_to receive(:puts).with("ERROR: Empty option specified.")
           expect(self).not_to receive(:puts).with("ERROR: Unknown option specified.")
@@ -95,7 +95,7 @@ describe Howitzer do
           let(:arg) { [primary_arg, '--cucumber'] }
           before { expect(RubiGen::Scripts::Generate).to receive(:new).and_return(generator) }
           it do
-            expect(generator).to receive(:run).with(['cucumber'])
+            expect(generator).to receive(:run).with(['cucumber'], {destination: Dir.pwd})
             subject
            end
         end
@@ -103,7 +103,7 @@ describe Howitzer do
           let(:arg) {[primary_arg, '--rspec']}
           before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(1).times.and_return(generator)}
           it do
-            expect(generator).to receive(:run).with(['rspec']).once
+            expect(generator).to receive(:run).with(['rspec'], {destination: Dir.pwd}).once
             subject
           end
         end
