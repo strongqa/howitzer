@@ -2,7 +2,6 @@ require "spec_helper"
 require_relative "../../../../howitzer/lib/howitzer/utils/logger"
 require_relative "../../../lib/howitzer/utils/email/email"
 
-
 describe Email do
   let(:message) { double }
   let(:message_subject) { 'test_subject' }
@@ -24,6 +23,7 @@ describe Email do
       it { expect(subject.instance_variable_get(:@message)).to eql(message) } #mock
     end
   end
+
   describe ".find_by_recipient" do
     subject { Email.find_by_recipient(recipient) }
     context "when 'recipient' specified " do
@@ -34,33 +34,34 @@ describe Email do
     end
     context "when 'recipient' not specified " do
       let(:recipient) { nil }
-    before do
+      before do
       expect(Email).to receive(:find).with(recipient,'test_subject').and_return(nil).once
-    end
+      end
       it { expect(subject).to be_nil }
     end
   end
-    describe ".find" do
+
+  describe ".find" do
     let(:mail_client) { double }
     subject { Email.find('Vasya', 'Text') }
-    before  do
-      stub_const("MailClient", double)
-      allow(MailClient).to receive(:by_email).and_return(mail_client)
-      allow(mail_client).to receive(:find_mail).and_return(messages )
-      allow(message).to receive(:subject).and_return('test_subject')
-    end
-    context "when messages.first present"  do
-      let(:messages) { [message] }
-      it {expect(subject).to be_kind_of(Email) }
-    end
+      before  do
+        stub_const("MailClient", double)
+        allow(MailClient).to receive(:by_email).and_return(mail_client)
+        allow(mail_client).to receive(:find_mail).and_return(messages )
+        allow(message).to receive(:subject).and_return('test_subject')
+      end
+      context "when messages.first present"  do
+        let(:messages) { [message] }
+        it {expect(subject).to be_kind_of(Email) }
+      end
 
-    context "when messages.first not present" do
-      let(:messages) {[]}
-      it do
+      context "when messages.first not present" do
+        let(:messages) {[]}
+        it do
         expect(log).to receive(:error).with("Email was not found (recipient: 'Vasya')").once
         subject
+        end
       end
-    end
   end
 
   describe "#plain_text_body" do
