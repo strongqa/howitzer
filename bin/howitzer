@@ -67,7 +67,7 @@ def execute_generator(options)
     RubiGen::Scripts::Generate.new.run(%w[config], destination: Dir.pwd)
     RubiGen::Scripts::Generate.new.run(%w[pages],  destination: Dir.pwd)
     RubiGen::Scripts::Generate.new.run(%w[tasks],  destination: Dir.pwd)
-    RubiGen::Scripts::Generate.new.run(%w[emails], destination: Dir.pwd )
+    RubiGen::Scripts::Generate.new.run(%w[emails], destination: Dir.pwd)
     RubiGen::Scripts::Generate.new.run(%w[root],   destination: Dir.pwd)
 
     options.each do |option|
@@ -85,9 +85,4 @@ def execute_generator(options)
     show_help
     exit 0
   end
-end
-
-if ENV['TEST_MODE']
-  check_arguments
-  parse_options
 end
