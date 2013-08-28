@@ -1,16 +1,11 @@
 require 'rbconfig'
 
 class ConfigGenerator < RubiGen::Base
-  def initialize(runtime_args, runtime_options = {})
-    super
-    @destination_root = File.expand_path('config')
-  end
-
   def manifest
     record do |m|
-      m.directory ''
-      m.template 'custom.yml', 'custom.yml'
-      m.template 'default.yml', 'default.yml'
+      m.directory 'config'
+      m.template 'custom.yml', '/config/custom.yml'
+      m.template 'default.yml', '/config/default.yml'
     end
   end
 

@@ -64,16 +64,16 @@ def execute_generator(options)
        RubiGen::PathSource.new(:app, File.join(File.dirname(__FILE__), "..", "generators"))
    ])
 
-    RubiGen::Scripts::Generate.new.run(%w[config])
-    RubiGen::Scripts::Generate.new.run(%w[pages])
-    RubiGen::Scripts::Generate.new.run(%w[tasks])
-    RubiGen::Scripts::Generate.new.run(%w[emails])
-    RubiGen::Scripts::Generate.new.run(%w[root])
+    RubiGen::Scripts::Generate.new.run(%w[config], destination: Dir.pwd)
+    RubiGen::Scripts::Generate.new.run(%w[pages],  destination: Dir.pwd)
+    RubiGen::Scripts::Generate.new.run(%w[tasks],  destination: Dir.pwd)
+    RubiGen::Scripts::Generate.new.run(%w[emails], destination: Dir.pwd)
+    RubiGen::Scripts::Generate.new.run(%w[root],   destination: Dir.pwd)
 
     options.each do |option|
       case option
-        when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber])
-        when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec])
+        when '--cucumber' then RubiGen::Scripts::Generate.new.run(%w[cucumber], destination: Dir.pwd)
+        when '--rspec' then RubiGen::Scripts::Generate.new.run(%w[rspec], destination: Dir.pwd)
       end
     end
   else
@@ -85,9 +85,4 @@ def execute_generator(options)
     show_help
     exit 0
   end
-end
-
-if ENV['TEST_MODE']
-  check_arguments
-  parse_options
 end
