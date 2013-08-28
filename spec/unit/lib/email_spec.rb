@@ -18,25 +18,21 @@ describe Email do
   describe "#new" do
     subject { Email.new(message) }
     before { allow(message).to receive(:subject).and_return('test_subject') }
-      context "when subject is the same" do
-        it { expect(subject.instance_variable_get(:@recipient_address)).to eql(mail_address) }
-        it { expect(subject.instance_variable_get(:@message)).to eql(message) }
-      end
+    context "when subject is the same" do
+      it { expect(subject.instance_variable_get(:@recipient_address)).to eql(mail_address) }
+      it { expect(subject.instance_variable_get(:@message)).to eql(message) }
+    end
   end
 
   describe ".find_by_recipient" do
     subject { Email.find_by_recipient(recipient) }
     context "when 'recipient' specified " do
-      before do
-        expect(Email).to receive(:find).with(recipient, 'test_subject').and_return(true).once
-      end
+      before { expect(Email).to receive(:find).with(recipient, 'test_subject').and_return(true).once }
       it { expect(subject).to be_true }
     end
     context "when 'recipient' not specified " do
       let(:recipient) { nil }
-        before do
-          expect(Email).to receive(:find).with(recipient,'test_subject').and_return(nil).once
-        end
+      before { expect(Email).to receive(:find).with(recipient,'test_subject').and_return(nil).once }
       it { expect(subject).to be_nil }
     end
   end
@@ -44,24 +40,24 @@ describe Email do
   describe ".find" do
     let(:mail_client) { double }
     subject { Email.find('Vasya', 'Text') }
-      before  do
-        stub_const("MailClient", double)
-        allow(MailClient).to receive(:by_email).and_return(mail_client)
-        allow(mail_client).to receive(:find_mail).and_return(messages )
-        allow(message).to receive(:subject).and_return('test_subject')
-      end
-      context "when messages.first present"  do
-        let(:messages) { [message] }
-          it {expect(subject).to be_kind_of(Email) }
-      end
+    before  do
+      stub_const("MailClient", double)
+      allow(MailClient).to receive(:by_email).and_return(mail_client)
+      allow(mail_client).to receive(:find_mail).and_return(messages )
+      allow(message).to receive(:subject).and_return('test_subject')
+    end
+    context "when messages.first present"  do
+      let(:messages) { [message] }
+      it {expect(subject).to be_kind_of(Email) }
+    end
 
-      context "when messages.first not present" do
-        let(:messages) {[]}
-          it do
-            expect(log).to receive(:error).with("Email was not found (recipient: 'Vasya')").once
-            subject
-          end
+    context "when messages.first not present" do
+      let(:messages) {[]}
+      it do
+        expect(log).to receive(:error).with("Email was not found (recipient: 'Vasya')").once
+        subject
       end
+    end
   end
 
   describe "#plain_text_body" do
