@@ -20,14 +20,14 @@ describe Email do
     before { allow(message).to receive(:subject).and_return('test_subject') }
     context "when subject is the same" do
       it { expect(subject.instance_variable_get(:@recipient_address)).to eql(mail_address) }
-      it { expect(subject.instance_variable_get(:@message)).to eql(message) } #mock
+      it { expect(subject.instance_variable_get(:@message)).to eql(message) }
     end
   end
 
   describe ".find_by_recipient" do
     subject { Email.find_by_recipient(recipient) }
     context "when 'recipient' specified " do
-    before do
+      before do
       expect(Email).to receive(:find).with(recipient, 'test_subject').and_return(true).once
     end
     it { expect(subject).to be_true }
