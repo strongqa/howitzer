@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../../../lib/howitzer/settings'
+require "#{lib_path}/howitzer/settings"
 
 describe "Settings" do
   context "#settings" do

@@ -1,6 +1,7 @@
 require "spec_helper"
-require_relative "../../../../howitzer/lib/howitzer/utils/logger"
-require_relative "../../../lib/howitzer/utils/email/email"
+require "#{lib_path}/howitzer/utils/logger"
+require "#{lib_path}/howitzer/utils/email/email"
+
 
 describe Email do
   let(:message) { double }

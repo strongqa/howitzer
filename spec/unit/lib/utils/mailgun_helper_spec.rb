@@ -1,5 +1,5 @@
 require 'spec_helper'
-require_relative '../../../lib/howitzer/utils/email/mailgun_helper'
+require "#{lib_path}/howitzer/utils/email/mailgun_helper"
 
 describe MailgunHelper do
   let(:mailgun) { double.extend MailgunHelper }
