@@ -2,17 +2,17 @@ require 'spec_helper'
 require_relative '../../../lib/howitzer/utils/email/mailgun_helper'
 
 describe MailgunHelper do
+  let(:mailgun) { double.extend MailgunHelper }
+  let(:user_name) { 'vasyapupkin' }
+  let(:settings_obj) { double }
+  let(:mbox) { double }
+  before do
+    stub_const('Mailbox', double)
+  end
   describe "#create_mailbox" do
-    let(:mailgun) { double.extend MailgunHelper }
-    let(:user_name) { 'vasyapupkin' }
-    let(:log_obj) { double }
-    let(:settings_obj) { double }
-    let(:mbox) { double }
     subject { mailgun.create_mailbox(user_name, *opts) }
     before do
-      stub_const('Mailbox', double)
-      allow(mailgun).to receive(:log).and_return(log_obj)
-      expect(log_obj).to receive(:info).with(log_message)
+      expect(log).to receive(:info).with(log_message).once
       allow(Mailbox).to receive(:new).and_return(mbox)
       expect(mbox).to receive(:upsert).once
     end
@@ -34,31 +34,66 @@ describe MailgunHelper do
   end
 
   describe "#delete_mailbox" do
+    subject{ mailgun.delete_mailbox(mbox)}
+    before do
+      allow(mbox).to receive(:user).and_return('vasyapupkin')
+      allow(mbox).to receive(:domain).and_return('mail.ru')
+      expect(log).to receive(:info).with("Delete 'vasyapupkin@mail.ru' mailbox").once
+    end
+    context "when successful result" do
+      before {expect(Mailbox).to receive(:remove).with(mbox).and_return(true)}
+      it { expect(subject).to be_true }
+    end
+    context "when impossible to remove mailbox" do
+      before {expect(Mailbox).to receive(:remove).with(mbox).and_raise('Test error message')}
+      it do
+        expect(log).to receive(:warn).with("Unable to delete 'vasyapupkin' mailbox: Test error message")
+        subject
+      end
+    end
+  end
 
+  describe "#delete_all_mailboxes" do
+    let(:domain) { 'mail.ru' }
+    let(:mailbox1) do
+      m = double
+      allow(m).to receive(:id).and_return(1)
+      allow(m).to receive(:user).and_return('vasyapupkin')
+      allow(m).to receive(:domain).and_return(domain)
+      m
+    end
+    let(:mailbox2) do
+      m = double
+      allow(m).to receive(:id).and_return(2)
+      allow(m).to receive(:user).and_return('postmaster')
+      allow(m).to receive(:domain).and_return(domain)
+      m
+    end
+    let(:mailbox3) do
+      m = double
+      allow(m).to receive(:id).and_return(3)
+      allow(m).to receive(:user).and_return('admin')
+      allow(m).to receive(:domain).and_return(domain)
+      m
+    end
+    let(:mail_for_exception){ 'admin@mail.ru' }
+    subject{mailgun.delete_all_mailboxes(mail_for_exception)}
+    before do
+      allow(settings).to receive(:mail_smtp_domain).and_return("mail.ru")
+      allow(Mailbox).to receive(:find).with(:all).and_return([mailbox1, mailbox2, mailbox3])
+    end
+    it do
+      expect(log).to receive(:info).with("Delete all mailboxes except: \"admin@mail.ru\", \"postmaster@mail.ru\"")
+      expect(Mailbox).to receive(:delete).with(1).once
+      expect(Mailbox).to_not receive(:delete).with(2)
+      expect(Mailbox).to_not receive(:delete).with(3)
+      expect(log).to receive(:info).with("Were deleted '1' mailboxes")
+      subject
+    end
   end
 end
-
-
-
+#
 #module MailgunHelper
-#
-#  def create_mailbox(user_name,
-#      domain=settings.mail_pop3_domain,
-#      password=settings.mail_pop3_user_pass)
-#    log.info "Create '#{user_name}@#{domain}' mailbox"
-#    mbox = Mailbox.new(:user => user_name, :domain => domain, :password => password)
-#    mbox.upsert()
-#    mbox
-#  end
-#
-#  def delete_mailbox(mailbox)
-#    log.info "Delete '#{mailbox.user}@#{mailbox.domain}' mailbox"
-#    begin
-#      Mailbox.remove(mailbox)
-#    rescue Exception => e
-#      log.warn "Unable to delete '#{mailbox.user}' mailbox: #{e.message}"
-#    end
-#  end
 #
 #  def delete_all_mailboxes(*exceptions)
 #    puts exceptions.inspect
