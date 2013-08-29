@@ -1,5 +1,4 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/settings"
 
 describe "Settings" do
   context "#settings" do

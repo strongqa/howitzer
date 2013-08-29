@@ -21,7 +21,7 @@ describe "Generators" do
     let(:generator_name) { 'config' }
     let(:expected_result) do
       [
-          {:name=>"/config", :is_directory=>true, :size=>4096},
+          {:name=>"/config", :is_directory=>true},
           {:name=>"/config/custom.yml", :is_directory=>false, :size=>78},
           {:name=>"/config/default.yml", :is_directory=>false, :size=>2780}
       ]
@@ -43,7 +43,7 @@ describe "Generators" do
     let(:generator_name) { 'pages' }
     let(:expected_result) do
       [
-          {:name=>"/pages", :is_directory=>true, :size=>4096},
+          {:name=>"/pages", :is_directory=>true},
           {:name=>"/pages/example_menu.rb", :is_directory=>false, :size=>447},
           {:name=>"/pages/example_page.rb", :is_directory=>false, :size=>321}
       ]
@@ -64,7 +64,7 @@ describe "Generators" do
     let(:generator_name) { 'tasks' }
     let(:expected_result) do
       [
-          {:name=>"/tasks", :is_directory=>true, :size=>4096},
+          {:name=>"/tasks", :is_directory=>true},
           {:name=>"/tasks/common.rake", :is_directory=>false, :size=>511}
       ]
     end
@@ -83,7 +83,7 @@ describe "Generators" do
     let(:generator_name) { 'emails' }
     let(:expected_result) do
       [
-          {:name=>"/emails", :is_directory=>true, :size=>4096},
+          {:name=>"/emails", :is_directory=>true},
           {:name=>"/emails/example_email.rb", :is_directory=>false, :size=>130}
       ]
     end
@@ -125,10 +125,10 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/example.feature", :is_directory=>false, :size=>526},
-          {:name=>"/features", :is_directory=>true, :size=>4096},
-          {:name=>"/step_definitions", :is_directory=>true, :size=>4096},
+          {:name=>"/features", :is_directory=>true},
+          {:name=>"/step_definitions", :is_directory=>true},
           {:name=>"/step_definitions/common_steps.rb", :is_directory=>false, :size=>611},
-          {:name=>"/support", :is_directory=>true, :size=>4096},
+          {:name=>"/support", :is_directory=>true},
           {:name=>"/support/env.rb", :is_directory=>false, :size=>1192},
           {:name=>"/support/transformers.rb", :is_directory=>false, :size=>748}
       ]
@@ -159,7 +159,7 @@ describe "Generators" do
     let(:generator_name) { 'rspec' }
     let(:expected_result) do
       [
-          {:name=>"/spec", :is_directory=>true, :size=>4096},
+          {:name=>"/spec", :is_directory=>true},
           {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>107},
           {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>1767}
       ]
