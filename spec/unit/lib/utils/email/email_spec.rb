@@ -10,7 +10,7 @@ describe Email do
   let(:recipient) { 'vasya@test.com' }
   let(:email_object) { Email.new(message) }
   before do
-    Email.const_set("SUBJECT", 'test_subject')
+    stub_const("Email::SUBJECT", 'test_subject')
     stub_const("::Mail::Address", mail_address)
     allow(mail_address).to receive(:new).with(recipient).and_return(mail_address)
     allow(message).to receive(:to).and_return([recipient])
