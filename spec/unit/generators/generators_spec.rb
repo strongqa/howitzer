@@ -44,8 +44,8 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/pages", :is_directory=>true, :size=>4096},
-          {:name=>"/pages/example_page.rb", :is_directory=>false, :size=>321},
-          {:name=>"/pages/example_menu.rb", :is_directory=>false, :size=>447}
+          {:name=>"/pages/example_menu.rb", :is_directory=>false, :size=>447},
+          {:name=>"/pages/example_page.rb", :is_directory=>false, :size=>321}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -103,8 +103,8 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/Gemfile", :is_directory=>false, :size=>189},
-          {:name=>"/boot.rb", :is_directory=>false, :size=>280},
-          {:name=>"/Rakefile", :is_directory=>false, :size=>367}
+          {:name=>"/Rakefile", :is_directory=>false, :size=>367},
+          {:name=>"/boot.rb", :is_directory=>false, :size=>280}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -124,10 +124,10 @@ describe "Generators" do
     let(:generator_name) { 'cucumber' }
     let(:expected_result) do
       [
+          {:name=>"/example.feature", :is_directory=>false, :size=>526},
           {:name=>"/features", :is_directory=>true, :size=>4096},
           {:name=>"/step_definitions", :is_directory=>true, :size=>4096},
           {:name=>"/step_definitions/common_steps.rb", :is_directory=>false, :size=>611},
-          {:name=>"/example.feature", :is_directory=>false, :size=>526},
           {:name=>"/support", :is_directory=>true, :size=>4096},
           {:name=>"/support/env.rb", :is_directory=>false, :size=>1192},
           {:name=>"/support/transformers.rb", :is_directory=>false, :size=>748}

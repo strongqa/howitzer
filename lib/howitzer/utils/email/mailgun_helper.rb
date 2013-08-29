@@ -19,10 +19,9 @@ module MailgunHelper
   end
 
   def delete_all_mailboxes(*exceptions)
-    puts exceptions.inspect
-    exceptions += %w"postmaster@#{settings.mail_smtp_domain}" #system and default mailbox
+    exceptions += ["postmaster@#{settings.mail_smtp_domain}"] #system and default mailbox
     exceptions = exceptions.uniq
-    log.info "Delete all mailboxes #{"except: " + exceptions.inspect unless exceptions.empty?}"
+    log.info "Delete all mailboxes except: #{exceptions.map(&:inspect).join(', ')}"
     i = 0
     Mailbox.find(:all).each do |m|
       next if exceptions.include?("#{m.user}@#{m.domain}")
