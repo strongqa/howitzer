@@ -17,3 +17,7 @@ RSpec.configure do |config|
     configuration.syntax = :expect
   end
 end
+
+def lib_path
+  File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+end
