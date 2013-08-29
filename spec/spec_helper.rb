@@ -4,9 +4,13 @@ require 'simplecov'
 require 'tmpdir'
 
 SimpleCov.start do
-  add_group "bin", "bin"
-  add_group "generators", "generators"
-  add_group "lib", "lib"
+  add_filter "/spec/"
+  add_filter '/config/'
+  add_filter do |source_file|
+    source_file.lines.count < 5
+  end
+  add_group "generators", "/generators"
+  add_group "lib", "/lib"
 end
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
