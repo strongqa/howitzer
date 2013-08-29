@@ -4,6 +4,7 @@ require 'howitzer/utils/locator_store'
 class WebPage
 
   BLANK_PAGE = 'about:blank'
+  IncorrectPageError = Class.new(StandardError)
 
   #TODO include Capybara DSL here
   include LocatorStore
@@ -69,7 +70,7 @@ class WebPage
       current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
     end
   rescue
-    log.error "Current url: #{current_url}, expected:  #{expected_url}"
+    log.error IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
   end
 
   def reload
