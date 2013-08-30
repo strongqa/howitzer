@@ -1,3 +1,5 @@
 coverage
 .idea
 .rvmrc
+*.gem
+vendor/bundle/*
