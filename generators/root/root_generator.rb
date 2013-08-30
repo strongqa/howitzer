@@ -1,20 +1,23 @@
-require 'rbconfig'
+require_relative '../base_generator'
 
-class RootGenerator < RubiGen::Base
-  def manifest
-    record do |m|
-      m.directory ''
-      m.template '.gitignore', '.gitignore'
-      m.template 'Gemfile', 'Gemfile'
-      m.template 'Rakefile', 'Rakefile'
-      m.template 'boot.rb', 'boot.rb'
+module Howitzer
+  class RootGenerator < BaseGenerator
+    def manifest
+      { files:
+        [
+          { source: '.gitignore', destination: '.gitignore'},
+          { source: 'Gemfile', destination: 'Gemfile'},
+          { source: 'Rakefile', destination: 'Rakefile'},
+          { source: 'boot.rb', destination: 'boot.rb'}
+        ]
+      }
     end
-  end
 
-  protected
-  def banner
-    <<-EOF
-    Creates root config files.
-    EOF
+    protected
+    def banner
+      <<-EOF
+      Creates root config files.
+      EOF
+    end
   end
 end

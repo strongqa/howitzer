@@ -81,29 +81,28 @@ describe Howitzer do
         let(:primary_arg) { 'install' }
         let(:generator) { double('generator') }
         before do
-          expect(generator).to receive(:run).with(['config'], {destination: Dir.pwd}).once
-          expect(generator).to receive(:run).with(['pages'], {destination: Dir.pwd}).once
-          expect(generator).to receive(:run).with(['tasks'], {destination: Dir.pwd}).once
-          expect(generator).to receive(:run).with(['emails'], {destination: Dir.pwd}).once
-          expect(generator).to receive(:run).with(['root'], {destination: Dir.pwd}).once
-          expect(RubiGen::Scripts::Generate).to receive(:new).exactly(5).times.and_return(generator)
+          expect(Howitzer::ConfigGenerator).to receive(:new)
+          expect(Howitzer::PagesGenerator).to receive(:new)
+          expect(Howitzer::TasksGenerator).to receive(:new)
+          expect(Howitzer::EmailsGenerator).to receive(:new)
+          expect(Howitzer::RootGenerator).to receive(:new)
           expect(self).not_to receive(:puts).with("ERROR: Empty option specified.")
           expect(self).not_to receive(:puts).with("ERROR: Unknown option specified.")
           expect(self).not_to receive(:puts).with(HELP_MESSAGE)
         end
         context "with option '--cucumber'" do
           let(:arg) { [primary_arg, '--cucumber'] }
-          before { expect(RubiGen::Scripts::Generate).to receive(:new).and_return(generator) }
           it do
-            expect(generator).to receive(:run).with(['cucumber'], {destination: Dir.pwd})
+            expect(Howitzer::RspecGenerator).to_not receive(:new)
+            expect(Howitzer::CucumberGenerator).to receive(:new)
             subject
            end
         end
         context "with option '--rspec'" do
           let(:arg) {[primary_arg, '--rspec']}
-          before { expect(RubiGen::Scripts::Generate).to receive(:new).exactly(1).times.and_return(generator)}
           it do
-            expect(generator).to receive(:run).with(['rspec'], {destination: Dir.pwd}).once
+            expect(Howitzer::RspecGenerator).to receive(:new)
+            expect(Howitzer::CucumberGenerator).to_not receive(:new)
             subject
           end
         end
@@ -137,8 +136,16 @@ describe Howitzer do
       before { stub_const("ARGV", arg) }
       context "with UNKNOWN option specified" do
         let(:arg) {[primary_arg, '--unknown']}
+        before do
+          expect(Howitzer::ConfigGenerator).to_not receive(:new)
+          expect(Howitzer::PagesGenerator).to_not receive(:new)
+          expect(Howitzer::TasksGenerator).to_not receive(:new)
+          expect(Howitzer::EmailsGenerator).to_not receive(:new)
+          expect(Howitzer::RootGenerator).to_not receive(:new)
+          expect(Howitzer::RspecGenerator).to_not receive(:new)
+          expect(Howitzer::CucumberGenerator).to_not receive(:new)
+        end
         it do
-          expect(RubiGen::Scripts::Generate).not_to receive(:new)
           expect(self).to receive(:puts).with("ERROR: Unknown '--unknown' option specified.")
           expect(self).to receive(:puts).with(HELP_MESSAGE)
           expect(self).to receive(:exit).with(0)
@@ -147,8 +154,16 @@ describe Howitzer do
       end
       context "with no option specified" do
         let(:arg) {[primary_arg]}
+        before do
+          expect(Howitzer::ConfigGenerator).to_not receive(:new)
+          expect(Howitzer::PagesGenerator).to_not receive(:new)
+          expect(Howitzer::TasksGenerator).to_not receive(:new)
+          expect(Howitzer::EmailsGenerator).to_not receive(:new)
+          expect(Howitzer::RootGenerator).to_not receive(:new)
+          expect(Howitzer::RspecGenerator).to_not receive(:new)
+          expect(Howitzer::CucumberGenerator).to_not receive(:new)
+        end
         it do
-          expect(RubiGen::Scripts::Generate).not_to receive(:new)
           expect(self).to receive(:puts).with("ERROR: No option specified for install command.")
           expect(self).to receive(:puts).with(HELP_MESSAGE)
           expect(self).to receive(:exit).with(0)

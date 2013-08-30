@@ -1,17 +1,16 @@
-require 'rbconfig'
+require_relative '../base_generator'
 
-class TasksGenerator < RubiGen::Base
-  def manifest
-    record do |m|
-      m.directory 'tasks'
-      m.template 'common.rake', '/tasks/common.rake'
+module Howitzer
+  class TasksGenerator < BaseGenerator
+    def manifest
+      { files: [ source: 'common.rake', destination: 'tasks/common.rake' ] }
     end
-  end
 
-  protected
-  def banner
-    <<-EOF
-    Creates RAKE tasks folder and file.
-    EOF
+    protected
+    def banner
+      <<-EOF
+      Creates RAKE tasks folder and file.
+      EOF
+    end
   end
 end

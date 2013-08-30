@@ -18,7 +18,6 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '~> 1.9.2'
 
   gem.add_runtime_dependency 'rake'
-  gem.add_runtime_dependency 'rubigen'
   gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'syntax'
   gem.add_runtime_dependency 'cucumber'
@@ -32,6 +31,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'
   gem.add_runtime_dependency 'capybara', '1.1.4'
+  gem.add_runtime_dependency 'activeresource', '3.1.3'
 
   gem.add_development_dependency("rspec", [">= 2.14.1"])
   gem.add_development_dependency("fuubar", [">= 0.0.1"])

@@ -22,6 +22,14 @@ RSpec.configure do |config|
   end
 end
 
+def project_path
+  File.expand_path(File.join(File.dirname(__FILE__), '..'))
+end
+
 def lib_path
-  File.expand_path(File.join(File.dirname(__FILE__), '..', 'lib'))
+  File.join(project_path, 'lib')
+end
+
+def generators_path
+  File.join(project_path, 'generators')
 end

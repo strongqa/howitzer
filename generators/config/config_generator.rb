@@ -1,18 +1,20 @@
-require 'rbconfig'
-
-class ConfigGenerator < RubiGen::Base
-  def manifest
-    record do |m|
-      m.directory 'config'
-      m.template 'custom.yml', '/config/custom.yml'
-      m.template 'default.yml', '/config/default.yml'
+require_relative '../base_generator'
+module Howitzer
+  class ConfigGenerator < BaseGenerator
+      def manifest
+        { files:
+          [
+            { source: 'custom.yml', destination: 'config/custom.yml'},
+            { source: 'default.yml', destination: 'config/default.yml'}
+          ]
+        }
     end
-  end
 
-  protected
-  def banner
-    <<-EOF
-    Creates config files.
-    EOF
+    protected
+    def banner
+      <<-EOF
+      Creates config files.
+      EOF
+    end
   end
 end

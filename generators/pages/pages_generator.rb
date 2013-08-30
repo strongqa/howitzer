@@ -1,18 +1,21 @@
-require 'rbconfig'
+require_relative '../base_generator'
 
-class PagesGenerator < RubiGen::Base
-  def manifest
-    record do |m|
-      m.directory 'pages'
-      m.template 'example_page.rb', '/pages/example_page.rb'
-      m.template 'example_menu.rb', '/pages/example_menu.rb'
+module Howitzer
+  class PagesGenerator < BaseGenerator
+    def manifest
+      { files:
+        [
+          { source: 'example_page.rb', destination: 'pages/example_page.rb'},
+          { source: 'example_menu.rb', destination: 'pages/example_menu.rb'}
+        ]
+      }
     end
-  end
 
-  protected
-  def banner
-    <<-EOS
-    Creates PageOriented pattern structure
-    EOS
+    protected
+    def banner
+      <<-EOS
+      Creates PageOriented pattern structure
+      EOS
+    end
   end
 end
