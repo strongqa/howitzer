@@ -6,7 +6,7 @@ class Email
   attr_reader :recipient_address
 
   def initialize(message)
-    message.subject.should include(self.class::SUBJECT)
+    expect(message.subject).to include(self.class::SUBJECT)
     @recipient_address = ::Mail::Address.new(message.to.first)
     @message = message
   end

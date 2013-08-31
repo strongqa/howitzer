@@ -17,8 +17,11 @@ Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| requir
 
 RSpec.configure do |config|
   config.include GeneratorHelper
-  config.mock_with :rspec do |configuration|
-    configuration.syntax = :expect
+  config.expect_with :rspec do |c|
+    c.syntax = :expect
+  end
+  config.mock_with :rspec do |c|
+    c.syntax = :expect
   end
 end
 
