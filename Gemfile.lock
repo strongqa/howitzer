@@ -53,6 +53,8 @@ GEM
     eventmachine (1.0.3)
     faye-websocket (0.4.7)
       eventmachine (>= 0.12.0)
+    ffaker (1.18.0)
+    ffi (1.9.0)
     fuubar (1.2.1)
       rspec (~> 2.0)
       rspec-instafail (~> 0.2.0)
@@ -119,6 +121,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  ffaker
   fuubar (>= 0.0.1)
   howitzer!
   rake
