@@ -18,6 +18,9 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 - Ability to check all links are valid
 
+## Requirements
+Ruby 1.9.3
+
 ## Setup
 To install, type
 
