@@ -12,68 +12,70 @@ describe "DataGenerator" do
       end
       context "when params specified" do
         let(:params) { { login: 'alex', password: 'pa$$w0rd', mailbox: 'member@test.com' } }
-        let(:nu_user) { subject }
-        it { expect(nu_user).to be_an_instance_of DataGenerator::Gen::User }
-        it { expect(nu_user.email).to eql 'u012345678abcde@mail.com' }
+        it { expect(subject).to be_an_instance_of DataGenerator::Gen::User }
+        it { expect(subject.email).to eql 'u012345678abcde@mail.com' }
         it do
-          email_nm = nu_user.instance_variable_get(:@email_name)
+          email_nm = subject.instance_variable_get(:@email_name)
           expect(email_nm).to eql 'u012345678abcde'
         end
-        it { expect(nu_user.domain).to eql 'mail.com' }
-        it { expect(nu_user.login).to eql 'alex' }
-        it { expect(nu_user.password).to eql 'pa$$w0rd' }
-        it { expect(nu_user.first_name).to eql 'FirstName012345678abcde' }
-        it { expect(nu_user.last_name).to eql 'LastName012345678abcde' }
-        it { expect(nu_user.mailbox).to eql 'member@test.com' }
+        it { expect(subject.domain).to eql 'mail.com' }
+        it { expect(subject.login).to eql 'alex' }
+        it { expect(subject.password).to eql 'pa$$w0rd' }
+        it { expect(subject.first_name).to eql 'FirstName012345678abcde' }
+        it { expect(subject.last_name).to eql 'LastName012345678abcde' }
+        it { expect(subject.mailbox).to eql 'member@test.com' }
       end
       context "with empty params" do
         let(:params) { {} }
-        let(:nu_user) { subject }
-        it { expect(nu_user).to be_an_instance_of DataGenerator::Gen::User }
-        it { expect(nu_user.email).to eql 'u012345678abcde@mail.com' }
+        it { expect(subject).to be_an_instance_of DataGenerator::Gen::User }
+        it { expect(subject.email).to eql 'u012345678abcde@mail.com' }
         it do
-          email_nm = nu_user.instance_variable_get(:@email_name)
+          email_nm = subject.instance_variable_get(:@email_name)
           expect(email_nm).to eql 'u012345678abcde'
         end
-        it { expect(nu_user.domain).to eql 'mail.com' }
-        it { expect(nu_user.login).to eql 'u012345678abcde' }
-        it { expect(nu_user.password).to eql 'test_pass' }
-        it { expect(nu_user.first_name).to eql 'FirstName012345678abcde' }
-        it { expect(nu_user.last_name).to eql 'LastName012345678abcde' }
-        it { expect(nu_user.mailbox).to be_nil }
+        it { expect(subject.domain).to eql 'mail.com' }
+        it { expect(subject.login).to eql 'u012345678abcde' }
+        it { expect(subject.password).to eql 'test_pass' }
+        it { expect(subject.first_name).to eql 'FirstName012345678abcde' }
+        it { expect(subject.last_name).to eql 'LastName012345678abcde' }
+        it { expect(subject.mailbox).to be_nil }
       end
     end
     describe ".given_user_by_number" do
-      subject { DataGenerator::Gen.given_user_by_number(num) }
-      let(:num) { 7 }
-      let(:data_stor) { double }
-      before { stub_const("DataStorage", data_stor) }
+      subject { DataGenerator::Gen.given_user_by_number(7) }
+      before { stub_const("DataGenerator::DataStorage", double) }
       context "when namespace key found" do
-        before { expect(data_stor).to receive(:extract).with('user', num.to_i) { :namespace_value } }
+        before { expect(DataGenerator::DataStorage).to receive(:extract).with('user', 7) { :namespace_value } }
         it { expect(subject).to eql(:namespace_value) }
       end
       context "when namespace key not found" do
         let(:dat) { :data_store }
         before do
           allow(DataGenerator::Gen).to receive(:user) { dat }
-          expect(data_stor).to receive(:extract).with('user', num.to_i) { nil }
-          allow(data_stor).to receive(:store).with('user', num.to_i, dat)
+          expect(DataGenerator::DataStorage).to receive(:extract).with('user', 7) { nil }
+          allow(DataGenerator::DataStorage).to receive(:store).with('user', 7, dat)
         end
         it { expect(subject).to eql :data_store }
       end
     end
     describe ".serial" do
       subject { DataGenerator::Gen.serial }
-      it { expect(subject).to match /\d{9}\w{5}/ }
+      let(:ser) { 1 }
+      context "received value should conform to template" do
+        let(:ser) { subject }
+        it { expect(ser).to match /\d{9}\w{5}/ }
+      end
+      context "received values should be different" do
+        it { expect(subject).to_not eql ser }
+      end
     end
     describe ".delete_all_mailboxes" do
       subject { DataGenerator::Gen.delete_all_mailboxes }
-      let(:data_stor) { double }
-      let(:mbox1) { DataGenerator::Gen::User.new }
-      let(:mbox2) { DataGenerator::Gen::User.new }
+      let(:mbox1) { double }
+      let(:mbox2) { double }
       before do
-        stub_const("DataStorage", data_stor)
-        expect(data_stor).to receive(:extract).with('user') { { 1 => mbox1, 2 => mbox2 } }
+        stub_const("DataGenerator::DataStorage", double)
+        expect(DataGenerator::DataStorage).to receive(:extract).with('user') { { 1 => mbox1, 2 => mbox2 } }
       end
       it do
         expect(mbox1).to receive(:delete_mailbox).once
@@ -86,26 +88,32 @@ describe "DataGenerator" do
         subject { DataGenerator::Gen::User.new(params) }
         let(:params) { { email: 'alex.petrenko@mail.com', login: 'alex', password: 'pa$$w0rd',
                          first_name: 'Alexey', last_name: 'Petrenko', mailbox: 'member@test.com' } }
-        let(:nu_user) { subject }
-        it { expect(nu_user).to be_an_instance_of DataGenerator::Gen::User }
-        it { expect(nu_user.email).to eql 'alex.petrenko@mail.com' }
+        it { expect(subject).to be_an_instance_of DataGenerator::Gen::User }
+        it { expect(subject.email).to eql 'alex.petrenko@mail.com' }
         it do
-          email_nm = nu_user.instance_variable_get(:@email_name)
+          email_nm = subject.instance_variable_get(:@email_name)
           expect(email_nm).to eql 'alex.petrenko'
         end
-        it { expect(nu_user.domain).to eql 'mail.com' }
-        it { expect(nu_user.login).to eql 'alex' }
-        it { expect(nu_user.password).to eql 'pa$$w0rd' }
-        it { expect(nu_user.first_name).to eql 'Alexey' }
-        it { expect(nu_user.last_name).to eql 'Petrenko' }
-        it { expect(nu_user.full_name).to eql 'Alexey Petrenko' }
-        it { expect(nu_user.mailbox).to eql 'member@test.com' }
+        it { expect(subject.domain).to eql 'mail.com' }
+        it { expect(subject.login).to eql 'alex' }
+        it { expect(subject.password).to eql 'pa$$w0rd' }
+        it { expect(subject.first_name).to eql 'Alexey' }
+        it { expect(subject.last_name).to eql 'Petrenko' }
+        it { expect(subject.full_name).to eql 'Alexey Petrenko' }
+        it { expect(subject.mailbox).to eql 'member@test.com' }
       end
       describe "#create_mailbox" do
         subject { nu_user.create_mailbox }
         let(:nu_user) { DataGenerator::Gen::User.new({ email: 'alex.petrenko@mail.com', mailbox: 'member@test.com' }) }
         before { stub_const('MailClient', double) }
-        context "if settings.mail_pop3_domain == @domain" do
+        context "should return User object" do
+          before do
+            allow(settings).to receive(:mail_pop3_domain) { 'mail.com' }
+            expect(MailClient).to receive(:create_mailbox).with('alex.petrenko').once { 'petrenko@test.com' }
+          end
+          it { expect(subject).to be_an_instance_of DataGenerator::Gen::User }
+        end
+        context "when mail_pop3_domain settings are equal to @domain" do
           before do
             allow(settings).to receive(:mail_pop3_domain) { 'mail.com' }
             expect(MailClient).to receive(:create_mailbox).with('alex.petrenko').once { 'petrenko@test.com' }
@@ -115,7 +123,7 @@ describe "DataGenerator" do
             expect(nu_user.mailbox).to eql 'petrenko@test.com'
           end
         end
-        context "if settings.mail_pop3_domain != @domain" do
+        context "when mail_pop3_domain settings are not equal to @domain" do
           before { allow(settings).to receive(:mail_pop3_domain) { 'post.com' } }
           it do
             subject
@@ -133,6 +141,7 @@ describe "DataGenerator" do
           it { expect(subject).to eql 'mailbox deleted' }
         end
         context "when mailbox not spcified" do
+          before { expect(MailClient).to_not receive(:delete_mailbox).with(mbox) }
           let(:mbox) { nil }
           it { expect(subject).to be_nil }
         end
