@@ -16,6 +16,10 @@ module CapybaraSettings
   Capybara.app_host = ''
   Capybara.default_wait_time = settings.timeout_small
   Capybara.ignore_hidden_elements = true
+  Capybara.visible_text_only = true
+  Capybara.match = :one
+  Capybara.exact_options = true
+
   case settings.driver.to_sym
     when :selenium
       Capybara.register_driver :selenium do |app|

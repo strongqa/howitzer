@@ -54,22 +54,23 @@ class WebPage
     sleep settings.timeout_tiny
   end
 
+  # @deprecated
+  # With Capybara 2.x it is extra
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
-      return if page.evaluate_script('$.active') == 0
+      return true if page.evaluate_script('$.active') == 0
       sleep 0.25
     end
     log.error message || "Timed out waiting for ajax requests to complete"
-
   end
 
   def wait_for_url(expected_url, time_out=settings.timeout_small)
-    wait_until(time_out) do
+    end_time = ::Time.now + timeout
+    until ::Time.now > end_time
       operator = expected_url.is_a?(Regexp) ? :=~ : :==
-      current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
+      return true if current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
     end
-  rescue
     log.error IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
   end
 
