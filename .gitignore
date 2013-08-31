@@ -3,3 +3,4 @@ coverage
 .rvmrc
 *.gem
 vendor/bundle/*
+spec/log/*

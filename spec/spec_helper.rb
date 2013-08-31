@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'tmpdir'
+require 'ffaker'
 require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
@@ -41,4 +42,8 @@ end
 
 def generators_path
   File.join(project_path, 'generators')
+end
+
+def log_path
+  File.join(project_path, 'spec/log')
 end
