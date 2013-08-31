@@ -151,8 +151,8 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/spec", :is_directory=>true},
-          {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>107},
-          {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>1767},
+          {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>111},
+          {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>1850},
           {:name=>"/tasks", :is_directory=>true},
           {:name=>"/tasks/rspec.rake", :is_directory=>false, :size=>951}
       ]
