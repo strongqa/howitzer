@@ -37,4 +37,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency("fuubar", [">= 0.0.1"])
   gem.add_development_dependency("rake")
   gem.add_development_dependency('simplecov')
+  gem.add_development_dependency("ffaker")
+
 end

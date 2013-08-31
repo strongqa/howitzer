@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'tmpdir'
+require 'ffaker'
 
 SimpleCov.start do
   add_filter "/spec/"
@@ -32,4 +33,8 @@ end
 
 def generators_path
   File.join(project_path, 'generators')
+end
+
+def log_path
+  File.join(project_path, 'spec/log')
 end
