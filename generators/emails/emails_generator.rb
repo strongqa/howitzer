@@ -1,17 +1,16 @@
-require 'rbconfig'
+require_relative '../base_generator'
 
-class EmailsGenerator < RubiGen::Base
-  def manifest
-    record do |m|
-      m.directory 'emails'
-      m.template 'example_email.rb', '/emails/example_email.rb'
+module Howitzer
+  class EmailsGenerator < BaseGenerator
+    def manifest
+      { files: [ source: 'example_email.rb', destination: '/emails/example_email.rb' ] }
     end
-  end
 
-  protected
-  def banner
-    <<-EOS
-Creates a simple email class."
-    EOS
+    protected
+    def banner
+      <<-EOS
+  Creates a simple email class."
+      EOS
+    end
   end
 end

@@ -10,16 +10,39 @@ class MailClient
 
   def self.default
     log.info "Connect to default mailbox"
-    options = self.merge_opts
-    @clients[options] = MailClient.send :new unless @clients.has_key?(options)
+    options = merge_opts
+    @clients[options] = new unless @clients.has_key?(options)
     @clients[options]
   end
 
   def self.by_email(name)
     log.info "Connect to '#{name}' mailbox"
-    options = self.merge_opts(:pop3 => {:user_name => name}, :smtp => {})
-    @clients[options] = MailClient.send :new, options unless @clients.has_key?(options)
+    options = self.merge_opts(pop3: { user_name: name }, smtp: {})
+    @clients[options] = new(options) unless @clients.has_key?(options)
     @clients[options]
+  end
+
+  def self.merge_opts(opts={smtp: {}, pop3: {}})
+    def_smtp_opts = {
+      address: settings.mail_smtp_server,
+      port: settings.mail_smtp_port,
+      domain: settings.mail_smtp_domain,
+      user_name: settings.mail_smtp_user_name,
+      password: settings.mail_smtp_user_pass,
+      authentication: 'plain',
+      enable_starttls_auto: true
+    }
+
+    def_pop3_opts = {
+      address: settings.mail_pop3_server,
+      port: settings.mail_pop3_port,
+      user_name: settings.mail_pop3_user_name,
+      password: settings.mail_pop3_user_pass
+    }
+    {
+      smtp: def_smtp_opts.merge(opts[:smtp]),
+      pop3: def_pop3_opts.merge(opts[:pop3])
+    }
   end
 
   def find_mail(max_wait = settings.mail_pop3_timeout, keep_or_delete = :delete, &block)
@@ -98,29 +121,12 @@ class MailClient
 
   private
   def initialize(*arg)
-    @options = MailClient.merge_opts(*arg)
+    @options = self.class.merge_opts(*arg)
     Net::POP3.enable_ssl(OpenSSL::SSL::VERIFY_NONE)
     @old_ids = []
     options = @options
     ::Mail.defaults{delivery_method :smtp, options[:smtp]}
     @time_of_start = Time.now
-  end
-
-  def self.merge_opts(opts={:smtp => {}, :pop3 => {}})
-    def_smtp_opts = {:address => settings.mail_smtp_server,
-                     :port => settings.mail_smtp_port,
-                     :domain => settings.mail_smtp_domain,
-                     :user_name => settings.mail_smtp_user_name,
-                     :password => settings.mail_smtp_user_pass,
-                     :authentication => 'plain',
-                     :enable_starttls_auto => true}
-
-    def_pop3_opts = {:address => settings.mail_pop3_server,
-                     :port => settings.mail_pop3_port,
-                     :user_name => settings.mail_pop3_user_name,
-                     :password => settings.mail_pop3_user_pass}
-    {:smtp => def_smtp_opts.merge(opts[:smtp]),
-     :pop3 => def_pop3_opts.merge(opts[:pop3])}
   end
 
 end

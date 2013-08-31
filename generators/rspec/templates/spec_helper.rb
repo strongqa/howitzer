@@ -4,6 +4,7 @@ require_relative '../boot'
 
 RSpec.configure do |config|
   log.settings_as_formatted_text
+
   DataStorage.store('sauce', :start_time, Time.now.utc)
   DataStorage.store('sauce', :status, true)
 
@@ -11,7 +12,9 @@ RSpec.configure do |config|
   config.include Capybara::RSpecMatchers
   config.include DataGenerator
 
-  config.mock_with :rspec
+  config.mock_with(:rspec){|c| c.syntax = :expect}
+  config.expect_with(:rspec) { |c| c.syntax = :expect }
+
   config.color_enabled = true
   config.treat_symbols_as_metadata_keys_with_true_values = true
 

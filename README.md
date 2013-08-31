@@ -1,5 +1,6 @@
 # Howitzer
 
+[![Build Status](https://api.travis-ci.org/romikoops/howitzer.png)](http://travis-ci.org/romikoops/howitzer)
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
 
 Howitzer is Ruby based framework for acceptance testing. 
