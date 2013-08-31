@@ -2,6 +2,12 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'tmpdir'
+require 'rubygems'
+require 'bundler/setup'
+require 'simplecov'
+require 'capybara'
+require 'json'
+require 'capybara/dsl'
 
 SimpleCov.start do
   add_filter "/spec/"
