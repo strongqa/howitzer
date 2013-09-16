@@ -4,3 +4,4 @@ coverage
 *.gem
 vendor/bundle/*
 spec/log/*
+Gemfile.lock
