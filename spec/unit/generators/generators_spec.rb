@@ -96,7 +96,7 @@ describe "Generators" do
     let(:generator_name) { Howitzer::RootGenerator }
     let(:expected_result) do
       [
-          {:name=>"/Gemfile", :is_directory=>false, :size=>159},
+          {:name=>"/Gemfile", :is_directory=>false, :size=>129},
           {:name=>"/Rakefile", :is_directory=>false, :size=>367},
           {:name=>"/boot.rb", :is_directory=>false, :size=>280}
       ]
@@ -154,7 +154,7 @@ describe "Generators" do
           {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>111},
           {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>1850},
           {:name=>"/tasks", :is_directory=>true},
-          {:name=>"/tasks/rspec.rake", :is_directory=>false, :size=>951}
+          {:name=>"/tasks/rspec.rake", :is_directory=>false, :size=>982}
       ]
     end
     it { expect(subject).to eql(expected_result) }
