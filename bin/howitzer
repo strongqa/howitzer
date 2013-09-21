@@ -82,3 +82,8 @@ def execute_generator(options)
     exit 0
   end
 end
+
+unless ENV['TEST_MODE']
+  check_arguments
+  parse_options
+end
