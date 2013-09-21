@@ -1,5 +1,5 @@
 require 'rspec'
-
+require 'rspec/core/rake_task'
 include RSpec::Core
 
 # Specify here your group tests
