@@ -7,3 +7,5 @@ end
 def settings
   SexySettings::Base.instance()
 end
+
+ENV['TEST_MODE'] = "TRUE"
