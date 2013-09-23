@@ -65,7 +65,7 @@ class WebPage
     log.error message || "Timed out waiting for ajax requests to complete"
   end
 
-  def wait_for_url(expected_url, time_out=settings.timeout_small)
+  def wait_for_url(expected_url, timeout=settings.timeout_small)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
       operator = expected_url.is_a?(Regexp) ? :=~ : :==
