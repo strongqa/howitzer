@@ -12,7 +12,8 @@ module CapybaraPatched
         class_eval <<-RUBY
         def #{method}(*args, &block)
           retryable(tries:3, logger: log, trace: true, on: RETRY_ON) do
-            current_node.send(:#{method}, *args.flatten, &block)
+            @touched = true
+            current_scope.send(:#{method}, *args.flatten, &block)
           end
         end
         RUBY
