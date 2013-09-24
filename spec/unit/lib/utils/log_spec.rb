@@ -1,13 +1,13 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/logger"
+require "#{lib_path}/howitzer/utils/log"
 include LoggerHelper
 
 describe "Logger" do
   let(:path) { File.join(log_path,'log.txt') }
   context "#log" do
     subject { log }
-    let(:other_log) { log }
-    it { expect(subject).to be_a_kind_of(Log4r::Logger) }
+    let(:other_log) { Howitzer::Log.instance }
+    it { expect(subject).to be_a_kind_of(Howitzer::Log) }
     it { expect(subject).to equal(other_log) }
   end
 

@@ -6,4 +6,8 @@ module GeneratorHelper
       hash
     end
   end
+
+  def template_file_size(root_directory, file)
+    File.size(File.join(generators_path, root_directory, 'templates', file))
+  end
 end

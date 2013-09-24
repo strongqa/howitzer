@@ -1,4 +1,4 @@
-require 'howitzer/utils/logger'
+require 'howitzer/utils/log'
 module CapybaraSettings
   extend self
 

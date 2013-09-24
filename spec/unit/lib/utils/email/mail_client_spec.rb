@@ -1,5 +1,5 @@
 require "spec_helper"
-require "#{lib_path}/howitzer/utils/logger"
+require "#{lib_path}/howitzer/utils/log"
 require "#{lib_path}/howitzer/utils/email/mail_client"
 
 describe MailClient do

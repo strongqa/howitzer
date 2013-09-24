@@ -20,8 +20,8 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/config", :is_directory=>true},
-          {:name=>"/config/custom.yml", :is_directory=>false, :size=>78},
-          {:name=>"/config/default.yml", :is_directory=>false, :size=>2780}
+          {:name=>"/config/custom.yml", :is_directory=>false, :size=>template_file_size('config', 'custom.yml')},
+          {:name=>"/config/default.yml", :is_directory=>false, :size=>template_file_size('config', 'default.yml')}
       ]
     end
 
@@ -41,8 +41,8 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/pages", :is_directory=>true},
-          {:name=>"/pages/example_menu.rb", :is_directory=>false, :size=>447},
-          {:name=>"/pages/example_page.rb", :is_directory=>false, :size=>321}
+          {:name=>"/pages/example_menu.rb", :is_directory=>false, :size=>template_file_size('pages', 'example_menu.rb')},
+          {:name=>"/pages/example_page.rb", :is_directory=>false, :size=>template_file_size('pages', 'example_page.rb')}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -61,7 +61,7 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/tasks", :is_directory=>true},
-          {:name=>"/tasks/common.rake", :is_directory=>false, :size=>511}
+          {:name=>"/tasks/common.rake", :is_directory=>false, :size=>template_file_size('tasks', 'common.rake')}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -79,7 +79,7 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/emails", :is_directory=>true},
-          {:name=>"/emails/example_email.rb", :is_directory=>false, :size=>130}
+          {:name=>"/emails/example_email.rb", :is_directory=>false, :size=>template_file_size('emails', 'example_email.rb')}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -96,9 +96,9 @@ describe "Generators" do
     let(:generator_name) { Howitzer::RootGenerator }
     let(:expected_result) do
       [
-          {:name=>"/Gemfile", :is_directory=>false, :size=>129},
-          {:name=>"/Rakefile", :is_directory=>false, :size=>367},
-          {:name=>"/boot.rb", :is_directory=>false, :size=>280}
+          {:name=>"/Gemfile", :is_directory=>false, :size=>template_file_size('root', 'Gemfile')},
+          {:name=>"/Rakefile", :is_directory=>false, :size=>template_file_size('root', 'Rakefile')},
+          {:name=>"/boot.rb", :is_directory=>false, :size=>template_file_size('root', 'boot.rb')}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -119,16 +119,16 @@ describe "Generators" do
     let(:expected_result) do
       [
         {:name=>"/config", :is_directory=>true},
-        {:name=>"/config/cucumber.yml", :is_directory=>false, :size=>596},
+        {:name=>"/config/cucumber.yml", :is_directory=>false, :size=>template_file_size('cucumber', 'cucumber.yml')},
         {:name=>"/features", :is_directory=>true},
-        {:name=>"/features/example.feature", :is_directory=>false, :size=>526},
+        {:name=>"/features/example.feature", :is_directory=>false, :size=>template_file_size('cucumber', 'example.feature')},
         {:name=>"/features/step_definitions", :is_directory=>true},
-        {:name=>"/features/step_definitions/common_steps.rb", :is_directory=>false, :size=>611},
+        {:name=>"/features/step_definitions/common_steps.rb", :is_directory=>false, :size=>template_file_size('cucumber', 'common_steps.rb')},
         {:name=>"/features/support", :is_directory=>true},
-        {:name=>"/features/support/env.rb", :is_directory=>false, :size=>1192},
-        {:name=>"/features/support/transformers.rb", :is_directory=>false, :size=>748},
+        {:name=>"/features/support/env.rb", :is_directory=>false, :size=>template_file_size('cucumber', 'env.rb')},
+        {:name=>"/features/support/transformers.rb", :is_directory=>false, :size=>template_file_size('cucumber', 'transformers.rb')},
         {:name=>"/tasks", :is_directory=>true},
-        {:name=>"/tasks/cucumber.rake", :is_directory=>false, :size=>1904}
+        {:name=>"/tasks/cucumber.rake", :is_directory=>false, :size=>template_file_size('cucumber', 'cucumber.rake')}
       ]
     end
     it { expect(subject).to eql(expected_result) }
@@ -151,10 +151,10 @@ describe "Generators" do
     let(:expected_result) do
       [
           {:name=>"/spec", :is_directory=>true},
-          {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>111},
-          {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>1850},
+          {:name=>"/spec/example_spec.rb", :is_directory=>false, :size=>template_file_size('rspec', 'example_spec.rb')},
+          {:name=>"/spec/spec_helper.rb", :is_directory=>false, :size=>template_file_size('rspec', 'spec_helper.rb')},
           {:name=>"/tasks", :is_directory=>true},
-          {:name=>"/tasks/rspec.rake", :is_directory=>false, :size=>982}
+          {:name=>"/tasks/rspec.rake", :is_directory=>false, :size=>template_file_size('rspec', 'rspec.rake')}
       ]
     end
     it { expect(subject).to eql(expected_result) }

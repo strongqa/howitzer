@@ -6,5 +6,9 @@ SexySettings.configure do |config|
 end
 
 def settings
-  SexySettings::Base.instance()
+  SexySettings::Base.instance
+end
+
+def log
+  Howitzer::Log.instance
 end
