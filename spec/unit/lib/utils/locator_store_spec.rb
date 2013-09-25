@@ -131,5 +131,20 @@ describe "Locator store" do
       it { expect(subject).to eq([:xpath, ".//a[contains(.,'Kiev')]"]) }
     end
   end
+  describe "#apply" do
+    context "when bad locator given" do
+      before { web_page.add_locator :test_locator,  lambda{|test| test} }
+      let(:locator)  { lambda{|test| test}  }
+      subject { web_page.new.apply(locator, 'test') }
+      it { expect {subject}.to raise_error(NoMethodError) }
+
+    end
+    context "when correct locator given" do
+      before { web_page.add_locator :test_locator,  lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }
+      let(:locator) { lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }
+      subject { web_page.new.apply(locator, 'Kiev') }
+      it { expect(subject).to eq([:xpath, ".//a[contains(.,'Kiev')]"]) }
+    end
+  end
 
 end
