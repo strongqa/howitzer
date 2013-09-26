@@ -19,7 +19,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Ability to check all links are valid
 
 ## Requirements
-Ruby 1.9.3
+Ruby 1.9.3 +
 
 ## Setup
 To install, type
