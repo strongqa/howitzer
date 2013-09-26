@@ -2,11 +2,6 @@ require 'spec_helper'
 require "#{lib_path}/howitzer/utils/locator_store"
 
 describe "Locator store" do
-  before do
-    #class Foo
-    #  include LocatorStore
-    #end
-  end
   let(:bad_name) { 'name' }
   let(:error) { LocatorStore::ClassMethods::LocatorNotSpecifiedError }
   let(:web_page) { Class.new{ include LocatorStore } }
