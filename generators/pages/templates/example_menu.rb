@@ -1,5 +1,4 @@
 module ExampleMenu
-  include Capybara::DSL
 
   def self.included(base)
     base.class_eval do

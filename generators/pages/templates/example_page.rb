@@ -8,7 +8,6 @@ class ExamplePage < WebPage
   add_button_locator :search_btn, 'btnK'
 
   include ExampleMenu
-  include Capybara::DSL
 
   def fill_keyword(data)
     fill_in field_locator(:search_input), data
