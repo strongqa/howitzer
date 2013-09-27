@@ -9,6 +9,7 @@ class WebPage
   include LocatorStore
   include RSpec::Matchers
   include Capybara::DSL
+  extend  Capybara::DSL
 
   def self.open(url="#{app_url}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"

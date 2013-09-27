@@ -167,14 +167,4 @@ describe "CapybaraSettings" do
 
     it { expect(subject).to eql('test') }
   end
-  describe "#define_selenium_driver" do
-    context "when correct parameters" do
-      before do
-        allow(settings).to receive(:sel_browser) { "selenium" }
-      end
-      subject { CapybaraSettings.send :define_selenium_driver }
-
-      it { true }
-    end
-  end
 end
