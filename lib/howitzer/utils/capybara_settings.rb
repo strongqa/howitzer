@@ -20,14 +20,34 @@ module CapybaraSettings
   Capybara.match = :one
   Capybara.exact_options = true
 
-  case settings.driver.to_sym
-    when :selenium
+  class << self
+    private
+    def define_driver
+      case settings.driver.to_sym
+        when :selenium
+          define_selenium_driver
+        when :selenium_dev
+          define_selenium_dev_driver
+        when :webkit
+          define_webkit_driver
+        when :poltergeist
+          define_poltergeist_driver
+        when :sauce
+          define_sauce_driver
+        else
+          log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce]"
+      end
+    end
+
+    def define_selenium_driver
       Capybara.register_driver :selenium do |app|
         params = {browser: settings.sel_browser.to_sym}
         params[:profile] = base_ff_profile_settings if ff_browser?
         Capybara::Selenium::Driver.new app, params
       end
-    when :selenium_dev
+    end
+
+    def define_selenium_dev_driver
       Capybara.register_driver :selenium_dev do |app|
         profile = base_ff_profile_settings
         vendor_dir = settings.custom_vendor_dir || File.join(File.dirname(__FILE__), '..', 'vendor')
@@ -50,19 +70,25 @@ module CapybaraSettings
 
         Capybara::Selenium::Driver.new app, browser: :firefox, profile: profile
       end
-    when :webkit
+    end
+
+    def define_webkit_driver
       require 'capybara-webkit'
-    when :poltergeist
+    end
+
+    def define_poltergeist_driver
       require 'capybara/poltergeist'
       Capybara.register_driver :poltergeist do |app|
         Capybara::Poltergeist::Driver.new(
-          app, {
-                  js_errors: !settings.pjs_ignore_js_errors,
-                  phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
-                }
+            app, {
+            js_errors: !settings.pjs_ignore_js_errors,
+            phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
+        }
         )
       end
-    when :sauce
+    end
+
+    def define_sauce_driver
       task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
       caps_opts = {
           platform: settings.sl_platform,
@@ -94,10 +120,9 @@ module CapybaraSettings
         end
         driver
       end
-
-    else
-      log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce]"
+    end
   end
+
 
   Capybara.default_driver = settings.driver.to_sym
   Capybara.javascript_driver = settings.driver.to_sym

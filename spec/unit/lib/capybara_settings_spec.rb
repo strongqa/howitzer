@@ -1,8 +1,6 @@
 require 'spec_helper'
 
-include Capybara::DSL
 require "#{lib_path}/howitzer/utils/capybara_settings"
-
 
 describe "CapybaraSettings" do
   let(:log) { double("log") }

@@ -6,9 +6,11 @@ class WebPage
   BLANK_PAGE = 'about:blank'
   IncorrectPageError = Class.new(StandardError)
 
-  #TODO include Capybara DSL here
   include LocatorStore
   include RSpec::Matchers
+  include Capybara::DSL
+  extend  Capybara::DSL
+
 
   def self.open(url="#{app_url}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
