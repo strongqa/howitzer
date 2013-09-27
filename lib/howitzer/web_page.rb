@@ -3,7 +3,8 @@ require 'howitzer/utils/locator_store'
 
 class WebPage
   
-  include Capybara::DSL
+  extend Capybara::DSL
+  
   BLANK_PAGE = 'about:blank'
   IncorrectPageError = Class.new(StandardError)
 
