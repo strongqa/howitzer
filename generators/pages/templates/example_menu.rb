@@ -1,4 +1,5 @@
 module ExampleMenu
+
   def self.included(base)
     base.class_eval do
       add_locator         :menu_button,          ".menuButton"
