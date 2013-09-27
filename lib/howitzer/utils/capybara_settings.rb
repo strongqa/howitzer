@@ -34,8 +34,10 @@ module CapybaraSettings
           define_poltergeist_driver
         when :sauce
           define_sauce_driver
+        when :testingbot
+          define_testingbot_driver
         else
-          log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce]"
+          log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce, testingbot]"
       end
     end
 
@@ -121,6 +123,40 @@ module CapybaraSettings
         driver
       end
     end
+
+    def define_testingbot_driver
+      require 'testingbot'
+      task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+      caps_opts = {
+        platform: settings.tb_platform,
+        browser_name: settings.tb_browser_name,
+        name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.tb_browser_name.upcase}",
+        maxduration: settings.tb_max_duration.to_i,
+        idletimeout: settings.tb_idle_timeout.to_i,
+        'selenium-version' => settings.tb_selenium_version,
+        screenshot: settings.tb_record_screenshot,
+        'avoid-proxy' => settings.tb_avoid_proxy
+      }
+
+      unless (settings.tb_browser_version.to_s || "").empty?
+                caps_opts['version'] = settings.tb_browser_version.to_s
+      end
+      options = {
+        url: settings.tb_url,
+        desired_capabilities: Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+        http_client: Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+        browser: :remote
+      }
+      Capybara.register_driver :testingbot do |app|
+        driver = Capybara::Selenium::Driver.new(app, options)
+        driver.browser.file_detector = lambda do |args|
+          str = args.first.to_s
+          str if File.exist?(str)
+        end
+        driver
+      end
+    end
+
   end
 
 

@@ -24,6 +24,26 @@ describe "Helpers" do
       it { expect {subject}.to raise_error(DriverNotSpecified, "Please check your settings") }
     end
   end
+  describe "#testingbot_driver?" do
+    subject { testingbot_driver? }
+    before { allow(settings).to receive(:driver) { driver_setting } }
+    context "when :testingbot" do
+      let(:driver_setting) {:testingbot}
+      it{ expect(subject).to be_true }
+    end
+    context "when not :testingbot" do
+      let(:driver_setting) {:phantomjs}
+      it{ expect(subject).to be_false }
+    end
+    context "when driver specified as String" do
+      let(:driver_setting) {"testingbot"}
+      it{ expect(subject).to be_true }
+    end
+    context "when driver is not specified" do
+      let(:driver_setting) { nil }
+      it { expect {subject}.to raise_error(DriverNotSpecified, "Please check your settings") }
+    end
+  end
   describe "#selenium_driver?" do
     subject { selenium_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
@@ -47,6 +67,7 @@ describe "Helpers" do
   describe "#ie_browser?" do
     subject { ie_browser? }
     before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
+    before { allow(self).to receive(:testingbot_driver?){ false} } #TODO tests should be extended
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       context "settings.sl_browser_name = :ie" do
@@ -97,6 +118,7 @@ describe "Helpers" do
   describe "#ff_browser?" do
     subject { ff_browser? }
     before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
+    before { allow(self).to receive(:testingbot_driver?){ false} } #TODO tests should be extended
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       context "settings.sl_browser_name = :ff" do
@@ -147,6 +169,7 @@ describe "Helpers" do
   describe "#chrome_browser?" do
     subject { chrome_browser? }
     before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
+    before { allow(self).to receive(:testingbot_driver?){ false} } #TODO tests should be extended
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       context "settings.sl_browser_name = :chrome" do

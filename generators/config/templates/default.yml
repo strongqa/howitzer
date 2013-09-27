@@ -19,7 +19,7 @@
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
 
- # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, sauce
+ # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, sauce, testingbot
  driver: poltergeist
 
  # -Selenium-
@@ -40,6 +40,18 @@
  sl_selenium_version: "2.18.0"
  sl_max_duration: '1800'
  sl_idle_timeout: '180'
+
+ # -TestingBot- browsers that are supported: firefox => '8', googlechrome, iexplore => '9'
+ tb_api_key: client_key
+ tb_api_secret: client_secret
+ tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
+ tb_platform: :WIN8
+ tb_browser_name: firefox
+ tb_browser_version: 8
+ tb_selenium_version: "2.18.0"
+ tb_max_duration: '1800'
+ tb_idle_timeout: '180'
+ tb_record_screenshot: false
 
 ###########################################################
 # DATABASE SETTINGS                                       #

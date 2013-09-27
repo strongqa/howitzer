@@ -1,14 +1,21 @@
 DriverNotSpecified = Class.new(StandardError)
 SlBrowserNameNotSpecified = Class.new(StandardError)
+TbBrowserNameNotSpecified = Class.new(StandardError)
 SelBrowserNotSpecified = Class.new(StandardError)
 CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
 DRIVER_NOT_SPECIFIED = DriverNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 SL_BROWSER_NAME_NOT_SPECIFIED = SlBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
+TB_BROWSER_NAME_NOT_SPECIFIED = TbBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 SEL_BROWSER_NOT_SPECIFIED = SelBrowserNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 
 def sauce_driver?
   raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :sauce
+end
+
+def testingbot_driver?
+  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
+  settings.driver.to_sym == :testingbot
 end
 
 def selenium_driver?
@@ -21,6 +28,9 @@ def ie_browser?
   if sauce_driver?
     raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     ie_browsers.include?(settings.sl_browser_name.to_sym)
+  elsif testingbot_driver?
+    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    ie_browsers.include?(settings.tb_browser_name.to_sym)
   elsif selenium_driver?
     raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     ie_browsers.include?(settings.sel_browser.to_sym)
@@ -32,6 +42,9 @@ def ff_browser?
   if sauce_driver?
     raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     ff_browsers.include?(settings.sl_browser_name.to_sym)
+  elsif testingbot_driver?
+    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    ff_browsers.include?(settings.tb_browser_name.to_sym)
   elsif selenium_driver?
     raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     ff_browsers.include?(settings.sel_browser.to_sym)
@@ -43,6 +56,9 @@ def chrome_browser?
   if sauce_driver?
     raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
     settings.sl_browser_name.to_sym == chrome_browser
+  elsif testingbot_driver?
+    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    settings.tb_browser_name.to_sym == chrome_browser
   elsif selenium_driver?
     raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
     settings.sel_browser.to_sym == chrome_browser
