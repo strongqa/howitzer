@@ -2,14 +2,19 @@ require "rspec/expectations"
 require 'howitzer/utils/locator_store'
 
 class WebPage
-
+  
+  extend Capybara::DSL
+  include Capybara::DSL
+  
   BLANK_PAGE = 'about:blank'
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
   include RSpec::Matchers
   include Capybara::DSL
+  include Capybara::DSL
   extend  Capybara::DSL
+
 
   def self.open(url="#{app_url}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
