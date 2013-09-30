@@ -188,5 +188,7 @@ module CapybaraSettings
   Capybara.default_driver = settings.driver.to_sym
   Capybara.javascript_driver = settings.driver.to_sym
 
+  define_driver
+
 end
 

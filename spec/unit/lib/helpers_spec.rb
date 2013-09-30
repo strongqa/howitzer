@@ -71,7 +71,7 @@ describe "Helpers" do
   describe "#ie_browser?" do
     subject { ie_browser? }
     before { allow(self).to receive(:sauce_driver?) {sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?) {testingbot_driver} } #TODO tests should be extended
+    before { allow(self).to receive(:testingbot_driver?) {testingbot_driver} }
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { false }
@@ -234,7 +234,7 @@ describe "Helpers" do
   describe "#ff_browser?" do
     subject { ff_browser? }
     before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} } #TODO tests should be extended
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} }
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { false }
@@ -398,7 +398,7 @@ describe "Helpers" do
   describe "#chrome_browser?" do
     subject { chrome_browser? }
     before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} } #TODO tests should be extended
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} }
     context "when sauce_driver? is TRUE" do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { true }
