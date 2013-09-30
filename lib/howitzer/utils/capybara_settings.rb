@@ -12,16 +12,7 @@ module CapybaraSettings
     profile
   end
 
-  Capybara.run_server = false
-  Capybara.app_host = ''
-  Capybara.default_wait_time = settings.timeout_small
-  Capybara.ignore_hidden_elements = true
-  Capybara.visible_text_only = true
-  Capybara.match = :one
-  Capybara.exact_options = true
-
   class << self
-    private
     def define_driver
       case settings.driver.to_sym
         when :selenium
@@ -40,6 +31,8 @@ module CapybaraSettings
           log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce, testingbot]"
       end
     end
+
+    private
 
     def define_selenium_driver
       Capybara.register_driver :selenium do |app|
@@ -156,12 +149,7 @@ module CapybaraSettings
         driver
       end
     end
-
   end
-
-
-  Capybara.default_driver = settings.driver.to_sym
-  Capybara.javascript_driver = settings.driver.to_sym
 
   def sauce_resource_path(name)
     host = "https://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
@@ -189,6 +177,16 @@ module CapybaraSettings
   def session_id
     Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
   end
+
+  Capybara.run_server = false
+  Capybara.app_host = ''
+  Capybara.default_wait_time = settings.timeout_small
+  Capybara.ignore_hidden_elements = true
+  Capybara.visible_text_only = true
+  Capybara.match = :one
+  Capybara.exact_options = true
+  Capybara.default_driver = settings.driver.to_sym
+  Capybara.javascript_driver = settings.driver.to_sym
 
 end
 
