@@ -24,7 +24,7 @@ end
 ```
 
 **Example 2:**
-If we want to describe login page, which are located at: "https://test.com/users/sign_in"
+If we want to describe login page, which are located at: https://test.com/users/sign_in
 
 ```ruby
 class LoginPage < WebPage
@@ -55,16 +55,16 @@ class HomePage < WebPage
 URL = '/'
 URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?\z/
 
-add_locator :test_locator_name1,  '.foo'                                             #css locator, default
-add_locator :test_locator_name2,  css: '.foo'                                      #css locator
-add_locator :test_locator_name3,  xpath: '//div[@value="bar"]'       #css locator
+add_locator :test_locator_name1,  '.foo'                         #css locator, default
+add_locator :test_locator_name2,  css: '.foo'                    #css locator
+add_locator :test_locator_name3,  xpath: '//div[@value="bar"]'   #css locator
 
-add_link_locator :test_link_locator1, 'Foo'                                        #link locator by 'Foo' text
-add_link_locator :test_link_locator1, 'bar'                                         #link locator by 'bar' id
+add_link_locator :test_link_locator1, 'Foo'                      #link locator by 'Foo' text
+add_link_locator :test_link_locator1, 'bar'                      #link locator by 'bar' id
 
-add_field_locator :test_field_locator1, 'Foo'                                      #field locator by 'Foo' text
-add_field_locator :test_field_locator2, 'bar'                                       #field locator by 'bar' id
-add_field_locator :test_field_locator3, 'bas'                                      #field locator by 'baz' name
+add_field_locator :test_field_locator1, 'Foo'                    #field locator by 'Foo' text
+add_field_locator :test_field_locator2, 'bar'                    #field locator by 'bar' id
+add_field_locator :test_field_locator3, 'bas'                    #field locator by 'baz' name
 end
 ```
 ### 4. Pages with static information. ###
