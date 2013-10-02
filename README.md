@@ -18,7 +18,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Ability to check all links are valid
 
 
-### Documentation ###
+## Documentation
 You should find the documentation for your version of *howitzer*.
 
 See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md "link to GETTING_STARTED.md file") for information about using of *howitzer*.
