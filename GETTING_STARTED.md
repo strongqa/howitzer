@@ -14,7 +14,7 @@ Each page contains 2 required constants:
 1. URL - the relative URL of the page
 2. URL_PATTERN - a regular expression that uniquely identifies the page
 
-Example1:
+**Example 1:**
 
 ```ruby
 class HomePage < WebPage
@@ -23,8 +23,8 @@ URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?\z/
 end
 ```
 
-Example2:
-If we want to describe login page, which are located at https://test.com/users/sign_in
+**Example 2:**
+If we want to describe login page, which are located at: "https://test.com/users/sign_in"
 
 ```ruby
 class LoginPage < WebPage
@@ -49,7 +49,7 @@ button_locator          |id, name, text                   | click_button, find_b
 
 Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add_**
 
-Example:
+**Example:**
 ```ruby
 class HomePage < WebPage
 URL = '/'
@@ -71,7 +71,7 @@ end
 
 In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
 
-Example:
+**Example:**
 ```ruby
 module TopMenu
 def self.included(base)
@@ -89,7 +89,7 @@ end
 ### 5. Redefining of the *open* method ###
 It is used when you need to open a page with additional parameters.
 
-Example:
+**Example:**
 ```ruby
 class MyPage < WebPage
 def self.open(url="#{app_url}#{self::URL}+'?no_popup=true'")
@@ -101,11 +101,11 @@ end
 ### 6. Good practice ###
 **First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
 
-Example:
+**Example:**
 ```ruby
 class MyPage < WebPage
 def submit_form
-….
+…
 end
 
 def fill_form(value)
@@ -119,7 +119,7 @@ This allows you to do the following:
 ```ruby
 MyPage.open.fill_form.submit_form
 ```
-Exapmle:
+**Exapmle:**
 ```
 class MyPage < WebPage
 def fill_form
@@ -131,7 +131,7 @@ end
 
 **Third rule:** coding of checks in the methods in the class pages are __prohibited.__
 
-Example:
+**Example:**
 ```ruby
 class MyPage < WebPage
 def submit_form
@@ -156,7 +156,7 @@ end
 ```
 **Fourth rule:** all ACTION methods should create log entries
 
-Example:
+**Example:**
 ```ruby
 class MyPage < WebPage
 def submit_form
