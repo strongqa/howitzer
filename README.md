@@ -17,6 +17,13 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 - Ability to check all links are valid
 
+
+### Documentation ###
+You should find the documentation for your version of *howitzer*.
+
+See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md "link to GETTING_STARTED.md file") for information about using of *howitzer*.
+
+
 ## Setup
 To install, type
 
