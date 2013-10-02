@@ -54,7 +54,11 @@ module Howitzer
       log_without_formatting{ info "*** Feature: #{text.upcase} ***" }
     end
 
-    # TODO what exactly this method do?
+    ##
+    #
+    # Return formatted howitzer settings
+    #
+
     def settings_as_formatted_text
       log_without_formatting{ info settings.as_formatted_text }
     end

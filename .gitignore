@@ -5,3 +5,4 @@ coverage
 vendor/bundle/*
 spec/log/*
 Gemfile.lock
+doc

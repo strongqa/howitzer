@@ -8,20 +8,41 @@ SL_BROWSER_NAME_NOT_SPECIFIED = SlBrowserNameNotSpecified.new(CHECK_YOUR_SETTING
 TB_BROWSER_NAME_NOT_SPECIFIED = TbBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 SEL_BROWSER_NOT_SPECIFIED = SelBrowserNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 
+
+##
+#
+# Returns TRUE if driver set to sauce, if driver not specified raises an error.
+#
+
 def sauce_driver?
   raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :sauce
 end
+
+##
+#
+# Returns TRUE if driver set to testingbot, if driver not specified raises an error.
+#
 
 def testingbot_driver?
   raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :testingbot
 end
 
+##
+#
+# Returns TRUE if driver set to selenium, if driver not specified raises an error.
+#
+
 def selenium_driver?
   raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
   settings.driver.to_sym == :selenium
 end
+
+##
+#
+# Returns TRUE if browser set to internet explorer, if driver not specified raises an error.
+#
 
 def ie_browser?
   ie_browsers = [:ie, :iexplore]
@@ -37,6 +58,11 @@ def ie_browser?
   end
 end
 
+##
+#
+# Returns TRUE if browser set to firefox, if driver not specified raises an error.
+#
+
 def ff_browser?
   ff_browsers = [:ff, :firefox]
   if sauce_driver?
@@ -50,6 +76,12 @@ def ff_browser?
     ff_browsers.include?(settings.sel_browser.to_sym)
   end
 end
+
+##
+#
+# Returns TRUE if browser set to google chrome, if driver not specified raises an error.
+#
+
 
 def chrome_browser?
   chrome_browser = :chrome
@@ -65,14 +97,30 @@ def chrome_browser?
   end
 end
 
+##
+#
+# Returns application url without prefix
+#
+
+
 def app_url
   prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
   app_base_url prefix
 end
 
+##
+#
+# Returns application url with prefix
+#
+
 def app_base_url(prefix=nil)
   "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
-end  
+end
+
+##
+#
+# Returns duration in format HH:MM:SS
+#
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
@@ -87,18 +135,39 @@ def duration(time_in_numeric)
   end
 end
 
+##
+#
+# Used for debugging tasks. Evaluates +value+
+#
+
 def ri(value)
   raise value.inspect
 end
 
 class String
+
+  ##
+  #
+  # TODO explanations needed
+  #
+
   def open(*args)
     as_page_class.open(*args)
   end
 
+  ##
+  #
+  # Returns page class instance
+  #
+
   def given
     as_page_class.new
   end
+
+  ##
+  #
+  # Returns page class name
+  #
 
   def as_page_class
     Object.const_get("#{self.capitalize}Page")

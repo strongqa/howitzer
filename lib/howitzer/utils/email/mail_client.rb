@@ -113,10 +113,10 @@ class MailClient
   end
 
   def start(&block)
-    retryable(:timeout => settings.mail_pop3_timeout, :sleep => 5, :trace => true, :logger => log) do
+    #retryable(:timeout => settings.mail_pop3_timeout, :sleep => 5, :trace => true, :logger => log) do
       Net::POP3.start(@options[:pop3][:address], @options[:pop3][:port],
                     @options[:pop3][:user_name], @options[:pop3][:password], &block)
-    end
+    #end
   end
 
   private
