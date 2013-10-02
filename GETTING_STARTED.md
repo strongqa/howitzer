@@ -173,3 +173,34 @@ log.info { "[ACTION] Fill form" }
 end
 end
 ```
+
+Email
+=====
+_**Email**_ class uses `Mailgun` gem and allows you to work with the mailbox.
+Class corresponds to one letter. Used to test the notifications.
+
+**.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
+
+**.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
+
+**\# plain_text_body** - receiving text of messages
+
+**\# get_mime_part** - allows you to receive the attachment of email
+
+Exapmle:
+```ruby
+class MyEmail < Email
+SUBJECT = 'TEST SUBJECT' # specify the subject of an email
+end
+```
+
+Exapmle, how custom class might look like:
+```ruby
+class MyEmail <Email
+SUBJECT = "Test email" # specify the subject of an email
+
+def addressed_to? (new_user) # check that the letter were sent to proper recipient
+/ Hi # {new_user} / === plain_text_body
+end
+end
+```
