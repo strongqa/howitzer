@@ -13,7 +13,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Deploy all test infrastructure for 5 minutes.
 - Flexible test framework configuration.
 - Ability to choose desired BDD tool (Cucumber or RSpec)
-- Itegration with SauceLabs, Mailgun web services.
+- Itegration with SauceLabs, Testingbot and Mailgun web services.
 - Easy to support tests in actual state.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 - Ability to check all links are valid
