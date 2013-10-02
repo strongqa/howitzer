@@ -19,9 +19,9 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 
 
 ## Documentation
-You should find the documentation for your version of *howitzer*.
+You should find the documentation for your version of *howitzer* on [Rubygems](https://rubygems.org/gems/howitzer).
 
-See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md "link to GETTING_STARTED.md file") for information about using of *howitzer*.
+See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md) for information about using your version of *howitzer*.
 
 
 ## Setup
