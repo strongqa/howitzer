@@ -33,7 +33,8 @@ URL_PATTERN = /sign_in\z/
 end
 ```
 
-### 3. Locators ###
+### Locators ###
+* * *
 
 Locator is a search item (selector) of one or more elements on a 'Web page'.
 
@@ -67,8 +68,8 @@ add_field_locator :test_field_locator2, 'bar'                    #field locator 
 add_field_locator :test_field_locator3, 'bas'                    #field locator by 'baz' name
 end
 ```
-### 4. Pages with static information. ###
-
+### Pages with static information. ###
+* * *
 In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
 
 **Example:**
@@ -86,7 +87,8 @@ click_link locator(:test_link_locator1)
 end
 end
 ```
-### 5. Redefining of the *open* method ###
+### Redefining of the *open* method ###
+* * *
 It is used when you need to open a page with additional parameters.
 
 **Example:**
@@ -98,7 +100,8 @@ end
 end
 ```
 
-### 6. Good practice ###
+###  Good practice ###
+* * *
 **First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
 
 **Example:**
@@ -119,7 +122,7 @@ This allows you to do the following:
 ```ruby
 MyPage.open.fill_form.submit_form
 ```
-**Exapmle:**
+**Example:**
 ```
 class MyPage < WebPage
 def fill_form
