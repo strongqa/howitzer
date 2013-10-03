@@ -45,7 +45,7 @@ class WebPage
   #
 
   def self.given
-    wait_for_url(self.class::URL_PATTERN)
+    wait_for_url(self::URL_PATTERN)
     new
   end
 
