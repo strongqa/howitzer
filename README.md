@@ -22,7 +22,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 ## Documentation
 You should find the documentation for your version of *howitzer* on [Rubygems](https://rubygems.org/gems/howitzer).
 
-See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md) for information about using your version of *howitzer*.
+See [GETTING_STARTED](https://github.com/romikoops/howitzer/blob/develop/GETTING_STARTED.md) for information about using your version of *howitzer*.
 
 ## Requirements
 Ruby 1.9.3+
@@ -102,6 +102,11 @@ You can list all available tasks with next command
 ```bash
 rake -T
 ```
+
+## More information
+* [Rubygems](https://rubygems.org/gems/howitzer)
+* [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
+* [Issues](https://github.com/romikoops/howitzer/issues)
 
 ## Contributing
 
