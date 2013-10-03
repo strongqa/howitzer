@@ -79,7 +79,7 @@ def execute_generator(options)
       puts "ERROR: Unknown '#{options.first}' option specified."
     end
     show_help
-    exit 0
+    exit 1
   end
 end
 
