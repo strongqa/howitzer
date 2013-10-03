@@ -24,6 +24,8 @@ You should find the documentation for your version of *howitzer* on [Rubygems](h
 
 See [GETTING_STARTED](https://github.com/Sergey-Russiyan/howitzer/blob/develop/GETTING_STARTED.md) for information about using your version of *howitzer*.
 
+## Requirements
+Ruby 1.9.2+
 
 ## Setup
 To install, type
