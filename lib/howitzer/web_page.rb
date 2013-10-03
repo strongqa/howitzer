@@ -1,5 +1,6 @@
 require "rspec/expectations"
-require 'howitzer/utils/locator_store'
+require "howitzer/utils/locator_store"
+require "singleton"
 
 ##
 #
@@ -15,6 +16,11 @@ class WebPage
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL
+  include Singleton
+
+  def self.inherited(subclass)
+    subclass.class_eval { include Singleton }
+  end
 
   ##
   #
@@ -39,8 +45,10 @@ class WebPage
   #
 
   def self.given
+    wait_for_url(self.class::URL_PATTERN)
     new
   end
+
 
   ##
   #
