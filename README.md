@@ -1,5 +1,6 @@
 # Howitzer
 
+[![Build Status](https://api.travis-ci.org/romikoops/howitzer.png)](http://travis-ci.org/romikoops/howitzer)
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
 
 Howitzer is Ruby based framework for acceptance testing.
@@ -12,7 +13,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Deploy all test infrastructure for 5 minutes.
 - Flexible test framework configuration.
 - Ability to choose desired BDD tool (Cucumber or RSpec)
-- Itegration with SauceLabs, Mailgun web services.
+- Itegration with SauceLabs, Testingbot and Mailgun web services.
 - Easy to support tests in actual state.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 - Ability to check all links are valid
@@ -60,22 +61,22 @@ howitzer install --cucumber --rspec
 This command will generate next folders and files:
 ```
 config/
-cucumber.yml
-default.yml
-custom.yml
+  cucumber.yml
+  default.yml
+  custom.yml
 tasks/
-common.rake
-cucumber.rake
-rspec.rake
+  common.rake
+  cucumber.rake
+  rspec.rake
 emails/
-example_email.rb
+  example_email.rb
 features/
-support/env.rb
-step_definitions/common_steps.rb
-example.feature
+  support/env.rb
+  step_definitions/common_steps.rb
+  example.feature
 pages/
-example_page.rb
-example_menu.rb
+  example_page.rb
+  example_menu.rb
 boot.rb
 Gemfile
 Rakefile
