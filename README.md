@@ -103,6 +103,11 @@ You can list all available tasks with next command
 rake -T
 ```
 
+## More information
+* [Rubygems](https://rubygems.org/gems/howitzer)
+* [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
+* [Issues](https://github.com/romikoops/howitzer/issues)
+
 ## Contributing
 
 1. Fork it
