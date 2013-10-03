@@ -1,6 +1,6 @@
 ##
 #
-# Settings for all drivers using Capybara
+# Predefined Capybara settings and capybara drivers
 #
 
 require 'howitzer/utils/log'
@@ -9,8 +9,10 @@ module CapybaraSettings
 
   ##
   #
-  # Firefox browser standard settings
-  # @return [Hash] Settings that can be changed
+  # Predefined settings of Firefox browser
+  #
+  # *Returns:*
+  # * +Hash+ - Settings that can be changed
   #
 
   def self.base_ff_profile_settings
@@ -25,7 +27,11 @@ module CapybaraSettings
 
   class << self
 
-    #TODO [this method needs to be documented?]
+    ##
+    #
+    #Defines driver based on specified test environment settings
+    #
+
     def define_driver
       case settings.driver.to_sym
         when :selenium
@@ -133,8 +139,6 @@ module CapybaraSettings
     def define_testingbot_driver
       require 'testingbot'
       task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
-      require 'debugger'
-      debugger
       caps_opts = {
         platform: settings.tb_platform,
         browser_name: settings.tb_browser_name,
@@ -168,8 +172,13 @@ module CapybaraSettings
 
   ##
   #
-  # Return url of current Sauce Labs job
-  # @return [String] URL address of last running Sauce Labs job
+  # Returns url of current Sauce Labs job
+  #
+  # *Attributes:*
+  # * +name+ - Your account name
+  #
+  # *Returns:*
+  # * +string+ - URL address of last running Sauce Labs job
   #
 
   def sauce_resource_path(name)
@@ -180,7 +189,11 @@ module CapybaraSettings
 
   ##
   #
-  # Send http request to change current Sauce Labs job status - pass/fail
+  # Sends http request to change current Sauce Labs job status - pass/fail
+  #
+  # *Attributes:*
+  # * +json_data+ - Your account name
+  # TODO explanations needed about this param
   #
 
   def update_sauce_job_status(json_data = {})
@@ -192,8 +205,10 @@ module CapybaraSettings
 
   ##
   #
-  # Return custom name for Sauce Labs job
-  # @return [String] Return name of current Sauce Labs job
+  # Returns custom name for Sauce Labs job
+  #
+  # *Returns:*
+  # * +string+ - Return name of current Sauce Labs job
   #
 
   def suite_name
@@ -208,7 +223,7 @@ module CapybaraSettings
 
   ##
   #
-  # Return current session id
+  # Returns current session id
   #
 
   def session_id

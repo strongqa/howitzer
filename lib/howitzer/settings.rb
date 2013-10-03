@@ -7,9 +7,11 @@ end
 
 ##
 #
-# Get setting value from settings file ( custom,yml or default.yml)
-# Example : +settings.app_host+
-# TODO doesn't appear in RDoc generated files maybe because of this code not enclosed into class or module
+# Returns settings as singleton object
+#
+# *Example:*
+#
+# +settings.app_host+
 
 def settings
   SexySettings::Base.instance
@@ -17,7 +19,7 @@ end
 
 ##
 #
-# Returns log instance
+# Returns logger as singleton object
 #
 
 def log

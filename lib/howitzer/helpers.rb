@@ -99,18 +99,20 @@ end
 
 ##
 #
-# Returns application url without prefix
+# Returns application url including base authentication (if specified in settings)
 #
 
 
-def app_url
+def app_url                         d
   prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
   app_base_url prefix
 end
 
 ##
+# Returns application url without base authentication by default
 #
-# Returns application url with prefix
+# *Attributes:*
+# * +prefix+ - Sets base authentication prefix (defaults to: nil)
 #
 
 def app_base_url(prefix=nil)
@@ -120,6 +122,9 @@ end
 ##
 #
 # Returns duration in format HH:MM:SS
+#
+# *Attributes:*
+# * +time_in_numeric+ - Number of seconds
 #
 
 def duration(time_in_numeric)
@@ -137,7 +142,10 @@ end
 
 ##
 #
-# Used for debugging tasks. Evaluates +value+
+# Evaluates given value
+#
+# *Attributes:*
+# * +value+ - Value to be evaluated
 #
 
 def ri(value)
@@ -148,7 +156,10 @@ class String
 
   ##
   #
-  # TODO explanations needed
+  # Delegates WebPage.open method. Useful in cucumber step definitions
+  #
+  # *Attributes:*
+  # * +*args+ - Url to be opened
   #
 
   def open(*args)
@@ -157,7 +168,7 @@ class String
 
   ##
   #
-  # Returns page class instance
+  # Returns page instance
   #
 
   def given
@@ -166,7 +177,7 @@ class String
 
   ##
   #
-  # Returns page class name
+  # Returns page class
   #
 
   def as_page_class
