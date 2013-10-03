@@ -1,10 +1,5 @@
 module MailgunHelper
 
-  ##
-  #
-  # Creates new mailbox for given +user_name+
-  #
-
   def create_mailbox(user_name,
                      domain=settings.mail_pop3_domain,
                      password=settings.mail_pop3_user_pass)
@@ -14,11 +9,6 @@ module MailgunHelper
     mbox
   end
 
-  ##
-  #
-  # Deletes given +mailbox+
-  #
-
   def delete_mailbox(mailbox)
     log.info "Delete '#{mailbox.user}@#{mailbox.domain}' mailbox"
     begin
@@ -27,11 +17,6 @@ module MailgunHelper
       log.warn "Unable to delete '#{mailbox.user}' mailbox: #{e.message}"
     end
   end
-
-  ##
-  #
-  # Deletes all mailboxes except those in +exceptions+
-  #
 
   def delete_all_mailboxes(*exceptions)
     exceptions += ["postmaster@#{settings.mail_smtp_domain}"] #system and default mailbox
