@@ -72,7 +72,7 @@ class WebPage
   # @param flag [TrueClass,FalseClass] Determines accept or decline alert box
   #
 
-   def click_alert_box(flag)
+  def click_alert_box(flag)
     if %w[selenium selenium_dev sauce].include? settings.driver
       if flag
         page.driver.browser.switch_to.alert.accept
