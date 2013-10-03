@@ -45,8 +45,7 @@ class WebPage
   #
 
   def self.given
-    wait_for_url(self::URL_PATTERN)
-    new
+    self.instance.tap{ |chain| chain.wait_for_url(self::URL_PATTERN) }
   end
 
 
