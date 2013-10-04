@@ -313,9 +313,9 @@ class TestEmail < Email
 
   def addressed_to?(new_user)
     if /Hi #{new_user}/ === plain_text_body
-      log.info “some message”
+      log.info "some message"
     else
-      log.warn “some mesage”
+      log.warn "some mesage"
     end
   end
 end
