@@ -11,27 +11,28 @@ describe "WebPage" do
   describe "#js_click"
   describe "#wait_for_ur"
   describe "#reload"
-  #describe ".current_url" do
-  #  let(:page) { double }
-  #  let(:capybara) { double }
-  #  let(:session) { double }
-  #  let(:web) { Class.new }
-  #  subject { WebPage.current_url }
-  #  before do
-  #    stub_const("URL_PATTERN", 'pattern')
-  #    stub_const("Capybara", capybara)
-  #    allow(capybara).to receive(:current_session)
-  #    #allow(page).to receive(:current_url) { "google.com" }
-  #  end
-  #  it do
-  #    expect(subject).to eq("ff")
-  #  end
-  #end
-  describe ".text" do
-    let(:other_instance) { WebPage.instance }
+  describe ".current_url" do
+    let(:page) { double }
+    let(:capybara) { double }
+    let(:session) { double }
+    let(:web) { Class.new }
+    subject { WebPage.current_url }
     before do
-      allow(WebPage).to return
+      stub_const("URL_PATTERN", 'pattern')
+      stub_const("Capybara", capybara)
+      allow(capybara).to receive(:current_session)
     end
-    it { expect(WebPage.instance).to be eql(other_instance) }
+    it do
+      expect(WebPage).to receive(:page) { page }
+      expect(page).to receive(:current_url) { "google.com" }
+      expect(subject).to eq("google.com")
+    end
   end
+  #describe ".text" do
+  #  let(:other_instance) { WebPage.instance }
+  #  before do
+  #    allow(WebPage).to return
+  #  end
+  #  it { expect(WebPage.instance).to be eql(other_instance) }
+  #end
 end
