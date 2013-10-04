@@ -1,6 +1,7 @@
 require "spec_helper"
 require "#{lib_path}/howitzer/utils/log"
 require "#{lib_path}/howitzer/utils/email/mail_client"
+include LoggerHelper
 
 describe MailClient do
 
@@ -103,13 +104,45 @@ describe MailClient do
       end
       it { expect(subject).to eql(options.first)}
     end
-
-    describe "#find_mail"
-    describe "#send_mail"
-    describe "#empty_inbox"
-    describe "#start"
-    describe "constructor"
-
   end
+  describe "#find_mail"
+  describe "#send_mail"
+  describe "#empty_inbox" do
+    let(:options) do
+      {
+          pop3: {
+              address: "pop.demo.com",
+              port: 995,
+              user_name: "vasya@gmail.com",
+              password: "mypass"
+          }
+      }
+    end
+    it do
+      expect(log).to receive(:info).with("Connect to 'vasya@gmail.com' mailbox").once
+    end
+  end
+
+  describe "MailClient" do
+    subject { MailClient.new.start }
+    let(:options) do
+      {
+          pop3: {
+              address: "pop.demo.com",
+              port: 995,
+              user_name: "vasya@gmail.com",
+              password: "mypass"
+          }
+      }
+    end
+    before do
+      allow(Net::POP3).to receive(:start).and_return { options }
+    end
+    it do
+      expect(subject).to eq(options)
+    end
+  end
+
+  describe "constructor"
 
 end
