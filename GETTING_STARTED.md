@@ -191,7 +191,7 @@ Class corresponds to one letter. Used to test the notifications.
 
 **\#get_mime_part** - allows you to receive the attachment of email
 
-Exapmle:
+**Example:**
 ```ruby
 class MyEmail < Email
   SUBJECT = 'TEST SUBJECT' # specify the subject of an email
@@ -208,3 +208,117 @@ class MyEmail <Email
   end
 end
 ```
+Logging
+-------
+*Howitzer* allows logging to the text file, HTML and output to the console.
+
+BUILT-IN logging
+----------------
+*Howitzer* uses the opportunity of Cucumber and RSpec generate HTML, JUnit logging. HTML provide ability to view the log in HTML, JUnit - use the logs in CI, accordingly.
+
+
+Running of an built-in HTML generators for RSpec and Cucumber logging, is available if you run the tests using a `rake` tasks.
+
+**Example:**
+
+Running **_RSpec_** tests through `rake` tasks.
+```bash
+rake rspec: all
+```
+
+**Example:**
+
+Running **_Cucumber_** tests through `rake` tasks.
+```bash
+rake cucumber: all
+```
+
+Manually running of the tests with automatic logging is also possible.
+
+**Example:**
+
+Manual start of some specific RSpec tests:
+```bash
+rspec spec / my_spec.rb - format html-out =. / log / log.html
+```
+
+Running RSpec tests manually:
+```bash
+rspec - format html-out =. / log / log.html
+```
+
+Manual start of certain _feature_:
+```bash
+cucumber features / first.feature - format html-out =. / log / log.html
+```
+Manual start all _features_:
+```bash
+cucumber - format html - out =. / log / log.html
+```
+
+
+Extended logging
+----------------
+Extended logging to a text file and to the console also available.
+It uses the _log manager_ provided by **_log_** method.
+
+_Howitzer_ has 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
+
+FATAL <WARN <INFO <DEBUG
+
+**Example:**
+```bash
+log.info "info message"
+```
+
+To create a record with a different level, use the appropriate method.
+
+**Example:**
+```bash
+log.warn "warning message"
+log.fatal "fatal message"
+```
+
+If the option `settings.debug_mode` = true, logger will record messages with **DEBUG** status.
+
+Logs are generated in the **log** _directory_ .
+```bash
+ / log
+     log.txt
+     log.html
+     TEST-(your-feature-name). Xml
+```
+Examples of using logs in **Pages** and **Email**.
+
+**Example:** with **Page.**
+
+```ruby
+class MyPage < WebPage
+  def submit_form
+    log.info  "[ACTION] Submit form"
+    …
+  end
+
+  def fill_form
+    log.info  "[ACTION] Fill form"
+    …
+  end
+end
+```
+
+**Example:** with **Email.**
+```ruby
+class TestEmail < Email
+  SUBJECT = "Test email"
+
+  def addressed_to?(new_user)
+    if /Hi #{new_user}/ === plain_text_body
+      log.info "some message"
+    else
+      log.warn "some mesage"
+    end
+  end
+end
+```
+
+
