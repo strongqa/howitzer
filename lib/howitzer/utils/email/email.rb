@@ -17,7 +17,10 @@ require 'howitzer/utils/email/mail_client'
 
   ##
   #
-  # Create new email with +message+
+  # Creates new email with message
+  #
+  # *Attributes:*
+  # * +message+ - email message
   #
 
   def initialize(message)
@@ -28,7 +31,10 @@ require 'howitzer/utils/email/mail_client'
 
   ##
   #
-  # Search mail by +recepient+
+  # Search mail by recepient
+  #
+  # *Attributes:*
+  # * +recepient+ - recepient's email address
   #
 
   def self.find_by_recipient(recipient)
@@ -37,7 +43,11 @@ require 'howitzer/utils/email/mail_client'
 
   ##
   #
-  # Search mail by +recepient+ and +subject+.
+  # Search mail by recepient and subject.
+  #
+  # *Attributes:*
+  # * +recepient+ - recepient's email address
+  # * +subject+ - email subject
   #
 
   def self.find(recipient, subject)
@@ -54,7 +64,7 @@ require 'howitzer/utils/email/mail_client'
 
   ##
   #
-  # Return email message.
+  # Returns plain text body of email message
   #
 
   def plain_text_body
@@ -63,10 +73,13 @@ require 'howitzer/utils/email/mail_client'
 
   ##
   #
-  # Allows to get email attachment
-  # TODO parameters?
+  # Allows to get email MIME attachment
   #
+  # *Attributes:*
+  # * +part+ - recepient's email address
+  # * +type+ - MIME message part
   #
+
   def get_mime_part(part, type)
     return part.body if part["content-type"].to_s =~ %r!#{type}!
     # Recurse the multi-parts

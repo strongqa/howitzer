@@ -192,7 +192,7 @@ module CapybaraSettings
   # Sends http request to change current Sauce Labs job status - pass/fail
   #
   # *Attributes:*
-  # * +json_data+ - Your account name
+  # * +json_data+ -
   # TODO explanations needed about this param
   #
 

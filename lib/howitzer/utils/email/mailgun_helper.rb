@@ -2,8 +2,14 @@ module MailgunHelper
 
   ##
   #
-  # Creates new mailbox for given +user_name+
+  # Creates new mailbox for given user_name
   #
+  # *Attributes:*
+  # * +user_name+ - user name
+  # * +domain+ - domain (default to: settings.mail_pop3_domain )
+  # * +password+ - password (default to: settings.mail_pop3_user_pass )
+  #
+
 
   def create_mailbox(user_name,
                      domain=settings.mail_pop3_domain,
@@ -16,7 +22,10 @@ module MailgunHelper
 
   ##
   #
-  # Deletes given +mailbox+
+  # Deletes given mailbox
+  #
+  # *Attributes:*
+  # * +mailbox+ - mailbox to delete
   #
 
   def delete_mailbox(mailbox)
@@ -30,7 +39,10 @@ module MailgunHelper
 
   ##
   #
-  # Deletes all mailboxes except those in +exceptions+
+  # Deletes all mailboxes except those in exceptions
+  #
+  # *Attributes:*
+  # * +exceptions+ - list of email addresses
   #
 
   def delete_all_mailboxes(*exceptions)

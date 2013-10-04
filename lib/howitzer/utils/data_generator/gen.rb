@@ -3,7 +3,7 @@ module DataGenerator
 
     ##
     #
-    # This module generate uniq User object with uniq generated data.
+    # This module generates uniq User object with uniq generated data.
     # Examples:
     # member = Gen::user                          #user.email: 'u<XXXX>@<settings.mail_pop3_domain>'
     # member = Gen::user('user@test.com')         #user.email: 'member@test.com'
@@ -13,10 +13,15 @@ module DataGenerator
 
       ##
       #
-      # Generate new User object with generated data.
-      # @param params [Hash]                      Not default parameters
-      # @return [User]                            New generated User object
+      # Generates new User object with generated data.
       #
+      # *Attributes:*
+      # * +params+ - Custom parameters
+      #
+      # *Returns:*
+      # * +user+ - New generated User object
+      #
+
 
       def user(params={})
         prefix = serial
@@ -32,9 +37,13 @@ module DataGenerator
 
       ##
       #
-      # Get User object by it's number
-      # @param num [Integer]                      User number
-      # @return [User]                            User object
+      # Gets User object by it's number
+      #
+      # *Attributes:*
+      # * +num+ - User number
+      #
+      # *Returns:*
+      # * +user+ - User object
       #
 
       def given_user_by_number(num)
@@ -48,8 +57,11 @@ module DataGenerator
 
       ##
       #
-      # Generate uniq string
+      # Generates uniq string
       # @return [String]                          Generated string
+      #
+      # *Returns:*
+      # * +string+ - Generated string
       #
 
       def serial
@@ -59,7 +71,7 @@ module DataGenerator
 
       ##
       #
-      # Delete mailboxes for all users that were generated before
+      # Deletes mailboxes for all users that were generated before
       #
 
       def delete_all_mailboxes

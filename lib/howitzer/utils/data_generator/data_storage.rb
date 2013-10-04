@@ -2,7 +2,7 @@ module DataGenerator
 
   ##
   #
-  # Data can be stored in memory using this module classes.
+  # Data can be stored in memory using DataStorage
   #
 
   module DataStorage
@@ -12,11 +12,14 @@ module DataGenerator
 
       ##
       #
-      # Save data into memory. Marking by namespace and key
-      # @param ns [String,Symbol]                       Namespace
-      # @param key [String,Symbol]                      Key that should be uniq in namespace
-      # @param value [AnyData]                          Data value
+      # Saves data into memory. Marking by namespace and key
       #
+      # *Attributes:*
+      # * +ns+ - Namespace
+      # * +key+ - Key that should be uniq in namespace
+      # * +value+ - Data value
+      #
+
 
       def store(ns, key, value)
         check_ns(ns)
@@ -25,9 +28,11 @@ module DataGenerator
 
       ##
       #
-      # Get data from memory. Can get all namespace or single data value in namespace using key
-      # @param ns [String,Symbol] Namespace
-      # @param key [String,Symbol] Key that isn't necessary required
+      # Gets data from memory. Can get all namespace or single data value in namespace using key
+      #
+      # *Attributes:*
+      # * +ns+ - Namespace
+      # * +key+ - Key that isn't necessary required (default to: nil)
       #
 
       def extract(ns, key=nil)
@@ -37,8 +42,10 @@ module DataGenerator
 
       ##
       #
-      # Delete all records from namespace
-      # @param ns [String,Symbol] Namespace
+      # Deletes all records from namespace
+      #
+      # *Attributes:*
+      # * +ns+ - Namespace
       #
 
       def clear_ns(ns)

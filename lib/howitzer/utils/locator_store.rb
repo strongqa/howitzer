@@ -28,10 +28,12 @@ module LocatorStore
 
     ##
     #
-    # Add css or xpath locator in memory.
+    # Adds css or xpath locator into LocatorStore.
     # Also locator can be set by lambda expression. For example: lambda{|name|{xpath: ".//a[@id='#{name}']"}}
-    # @param name [Symbol]                        Locator name
-    # @param params [String,Hash]                 String for css locator or hash with :xpath key and string value for xpath locator
+    #
+    # *Attributes:*
+    # * +name+ - Locator name
+    # * +params+ - String for css locator or hash with :xpath key and string value for xpath locator
     #
 
     def add_locator(name, params)
@@ -40,10 +42,12 @@ module LocatorStore
 
     ##
     #
-    # Add locator for link in memory. Link can be found by: id, text
+    # Adds locator for link into LocatorStore. Link can be found by: id, text
     # Capybara methods that can work with this locator type are: click_link, find_link
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      ID or text of link
+    #
+    # *Attributes:*
+    # * +name+ - Locator name
+    # * +params+ - ID or text of link
     #
 
     def add_link_locator(name, params)
@@ -52,10 +56,12 @@ module LocatorStore
 
     ##
     #
-    # Add locator for field in memory. Field can be found by: name, id, text
+    # Adds locator for field into LocatorStore. Field can be found by: name, id, text
     # Capybara methods that can work with this locator type are: find_field, fill_in
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      Name, ID or text of field
+    #
+    # *Attributes:*
+    # * +name+ - Locator name
+    # * +params+ - Name, ID or text of field
     #
 
     def add_field_locator(name, params)
@@ -64,18 +70,21 @@ module LocatorStore
 
     ##
     #
-    # Add locator for button in memory. Button can be found by: id, name, value
+    # Add locator for button into LocatorStore. Button can be found by: id, name, value
     # Capybara methods that can work with this locator type are: click_button, find_button
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      Name, ID or value
     #
+    # *Attributes:*
+    # * +name+ - Locator name
+    # * +params+ - Name, ID or value
+    #
+
     def add_button_locator(name, params)
       add_locator_by_type(:button, name, params)
     end
 
     ##
     #
-    # Take css or xpath locator from memory by name
+    # Takes css or xpath locator from LocatorStore by name
     # @param name [Symbol]                        Locator name
     #
 
@@ -85,7 +94,7 @@ module LocatorStore
 
     ##
     #
-    # Take link locator from memory by name
+    # Take link locator from LocatorStore by name
     # @param name [Symbol]                        Locator name
     #
 
@@ -95,7 +104,7 @@ module LocatorStore
 
     ##
     #
-    # Take field locator from memory by name
+    # Take field locator from LocatorStore by name
     # @param name [Symbol]                        Locator name
     #
 
@@ -105,7 +114,7 @@ module LocatorStore
 
     ##
     #
-    # Take button locator from memory be name
+    # Take button locator from LocatorStore be name
     # @param name [Symbol]                        Locator name
     #
 
