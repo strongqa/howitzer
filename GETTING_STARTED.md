@@ -191,7 +191,7 @@ Class corresponds to one letter. Used to test the notifications.
 
 **\#get_mime_part** - allows you to receive the attachment of email
 
-**Exapmle:**
+**Example:**
 ```ruby
 class MyEmail < Email
   SUBJECT = 'TEST SUBJECT' # specify the subject of an email
@@ -212,8 +212,8 @@ Logging
 -------
 *Howitzer* allows logging to the text file, HTML and output to the console.
 
-**BUILT-IN logging**
-
+BUILT-IN logging
+----------------
 *Howitzer* uses the opportunity of Cucumber and RSpec generate HTML, JUnit logging. HTML provide ability to view the log in HTML, JUnit - use the logs in CI, accordingly.
 
 
@@ -259,8 +259,8 @@ cucumber - format html - out =. / log / log.html
 
 Extended logging
 ----------------
-Extended logging to a text file and to the consolealso available.
-It uses the _log manager_ provided for **_log_** method.
+Extended logging to a text file and to the console also available.
+It uses the _log manager_ provided by **_log_** method.
 
 _Howitzer_ has 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
 
@@ -271,14 +271,15 @@ FATAL <WARN <INFO <DEBUG
 log.info "info message"
 ```
 
-To create a record with a different level, use the appropriate method
+To create a record with a different level, use the appropriate method.
+
 **Example:**
 ```bash
 log.warn "warning message"
 log.fatal "fatal message"
 ```
 
-If the option `settings.debug_mode` = true, then a logger recorded message of the **DEBUG**.
+If the option `settings.debug_mode` = true, logger will record messages with **DEBUG** status.
 
 Logs are generated in the **log** _directory_ .
 ```bash
@@ -289,7 +290,7 @@ Logs are generated in the **log** _directory_ .
 ```
 Examples of using logs in **Pages** and **Email**.
 
-**Example:** with **Page**
+**Example:** with **Page.**
 
 ```ruby
 class MyPage < WebPage
@@ -305,7 +306,7 @@ class MyPage < WebPage
 end
 ```
 
-**Example:** with **Email**
+**Example:** with **Email.**
 ```ruby
 class TestEmail < Email
   SUBJECT = "Test email"
