@@ -26,100 +26,39 @@ module LocatorStore
     class BadLocatorParamsError < StandardError; end
     class LocatorNotSpecifiedError < StandardError; end
 
-    ##
-    #
-    # Add css or xpath locator in memory.
-    # Also locator can be set by lambda expression. For example: lambda{|name|{xpath: ".//a[@id='#{name}']"}}
-    # @param name [Symbol]                        Locator name
-    # @param params [String,Hash]                 String for css locator or hash with :xpath key and string value for xpath locator
-    #
-
     def add_locator(name, params)
       add_locator_by_type(:base, name, params)
     end
-
-    ##
-    #
-    # Add locator for link in memory. Link can be found by: id, text
-    # Capybara methods that can work with this locator type are: click_link, find_link
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      ID or text of link
-    #
 
     def add_link_locator(name, params)
       add_locator_by_type(:link, name, params)
     end
 
-    ##
-    #
-    # Add locator for field in memory. Field can be found by: name, id, text
-    # Capybara methods that can work with this locator type are: find_field, fill_in
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      Name, ID or text of field
-    #
 
     def add_field_locator(name, params)
       add_locator_by_type(:field, name, params)
     end
 
-    ##
-    #
-    # Add locator for button in memory. Button can be found by: id, name, value
-    # Capybara methods that can work with this locator type are: click_button, find_button
-    # @param name [Symbol]                        Locator name
-    # @param params [String]                      Name, ID or value
-    #
     def add_button_locator(name, params)
       add_locator_by_type(:button, name, params)
     end
-
-    ##
-    #
-    # Take css or xpath locator from memory by name
-    # @param name [Symbol]                        Locator name
-    #
 
     def locator(name)
       locator_by_type(:base, name)
     end
 
-    ##
-    #
-    # Take link locator from memory by name
-    # @param name [Symbol]                        Locator name
-    #
-
     def link_locator(name)
       locator_by_type(:link, name)
     end
-
-    ##
-    #
-    # Take field locator from memory by name
-    # @param name [Symbol]                        Locator name
-    #
 
     def field_locator(name)
       locator_by_type(:field, name)
     end
 
-    ##
-    #
-    # Take button locator from memory be name
-    # @param name [Symbol]                        Locator name
-    #
-
     def button_locator(name)
       locator_by_type(:button, name)
     end
 
-    ##
-    #
-    # Get locator set by lambda.
-    # For example: find(apply(locator(:locator_name), 'register')).click
-    # @param locator [LocatorStore]               Locator set with lambda expression
-    # @param values [String,Numeric]              Arguments that should be matched lambda expression params
-    #
 
     def apply(locator, *values)
       locator.call(*values).to_a.flatten
