@@ -174,7 +174,7 @@ module CapybaraSettings
   #
   # Returns url of current Sauce Labs job
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +name+ - Your account name
   #
   # *Returns:*
@@ -191,7 +191,7 @@ module CapybaraSettings
   #
   # Sends http request to change current Sauce Labs job status - pass/fail
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +json_data+ -
   # TODO explanations needed about this param
   #

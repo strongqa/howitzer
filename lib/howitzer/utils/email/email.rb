@@ -19,7 +19,7 @@ require 'howitzer/utils/email/mail_client'
   #
   # Creates new email with message
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +message+ - email message
   #
 
@@ -33,7 +33,7 @@ require 'howitzer/utils/email/mail_client'
   #
   # Search mail by recepient
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +recepient+ - recepient's email address
   #
 
@@ -45,7 +45,7 @@ require 'howitzer/utils/email/mail_client'
   #
   # Search mail by recepient and subject.
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +recepient+ - recepient's email address
   # * +subject+ - email subject
   #
@@ -75,7 +75,7 @@ require 'howitzer/utils/email/mail_client'
   #
   # Allows to get email MIME attachment
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +part+ - recepient's email address
   # * +type+ - MIME message part
   #

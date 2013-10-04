@@ -15,7 +15,7 @@ module DataGenerator
       #
       # Generates new User object with generated data.
       #
-      # *Attributes:*
+      # *Parameters:*
       # * +params+ - Custom parameters
       #
       # *Returns:*
@@ -39,7 +39,7 @@ module DataGenerator
       #
       # Gets User object by it's number
       #
-      # *Attributes:*
+      # *Parameters:*
       # * +num+ - User number
       #
       # *Returns:*

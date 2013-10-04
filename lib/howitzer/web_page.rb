@@ -18,9 +18,13 @@ class WebPage
 
   ##
   #
-  # Open web-site by given url
-  # @param url [String]                           Url string that will be opened
-  # @return [WebPage]                             New instance of current class
+  # Opens web-site by given url
+  #
+  # *Parameters:*
+  # * +url+ - Url string that will be opened
+  #
+  # *Returns:*
+  # * +WebPage+ - New instance of current class
   #
 
   def self.open(url="#{app_url}#{self::URL}")
@@ -34,8 +38,10 @@ class WebPage
 
   ##
   #
-  # Return new instance of current class
-  # @return [WebPage] New instance of current class
+  # Returns singleton instance of current web page
+  #
+  # *Returns:*
+  # * +WebPage+ - Singleton instance
   #
 
   def self.given
@@ -44,9 +50,11 @@ class WebPage
 
   ##
   #
-  # Fill in field that using Tinymce API
-  # @param name [String] Frame name that contains Tinymce field
-  # @param options [Hash] Not required options
+  # Fills in field that using Tinymce API
+  #
+  # *Parameters:*
+  # * +name+ - Frame name that contains Tinymce field
+  # * +Hash+ - Not required options
   #
 
   def tinymce_fill_in(name, options = {})
@@ -61,8 +69,10 @@ class WebPage
 
   ##
   #
-  # Accept or decline JS alert box by given flag
-  # @param flag [TrueClass,FalseClass] Determines accept or decline alert box
+  # Accepts or declines JS alert box by given flag
+  #
+  # *Parameters:*
+  # * +flag+ [TrueClass,FalseClass] - Determines accept or decline alert box
   #
 
    def click_alert_box(flag)
@@ -83,8 +93,10 @@ class WebPage
 
   ##
   #
-  # Click on button or link using JS event call
-  # @param css_locator [String] Css locator of link or button
+  # Clicks on button or link using JS event call
+  #
+  # *Parameters:*
+  # * +css_locator+ - Css locator of link or button
   #
 
   def js_click(css_locator)
@@ -94,7 +106,6 @@ class WebPage
 
   # @deprecated
   # With Capybara 2.x it is extra
-  # TODO [deprecated => no need to be documented?]
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
@@ -106,9 +117,11 @@ class WebPage
 
   ##
   #
-  # Wait for web-page to be loaded
-  # @param expected_url [String] Url that will be waiting for
-  # @param time_out [Integer] Seconds that will be waiting for web-site to be loaded until raise error
+  # Waits until web page is loaded
+  #
+  # *Parameters:*
+  # * +expected_url+ - Url that will be waiting for
+  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
   #
 
   def wait_for_url(expected_url, timeout=settings.timeout_small)
@@ -122,7 +135,7 @@ class WebPage
 
   ##
   #
-  # Reload current opened web-page
+  # Reloads current web page
   #
 
   def reload
@@ -132,8 +145,10 @@ class WebPage
 
   ##
   #
-  # Return current opened url
-  # @return [String]                              Current url
+  # Returns current url
+  #
+  # *Returns:*
+  # * +string+ - Current url
   #
 
   def self.current_url
@@ -142,10 +157,11 @@ class WebPage
 
   ##
   #
-  # Return text of body section in current html element
-  # @return [String]                              Body text
+  # Returns body text of html page
   #
-
+  # *Returns:*
+  # * +string+ - Body text
+  #
   def self.text
     page.find('body').text
   end

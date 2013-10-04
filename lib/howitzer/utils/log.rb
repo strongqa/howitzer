@@ -14,11 +14,15 @@ module Howitzer
 
     ##
     #
-    # Print log entry about error with ERROR severity
+    # Prints log entry about error with ERROR severity
+    # *Examples:*
     #  log.error MyException, 'Some error text', caller
     #  log.error 'Some error text', caller
     #  log.error 'Some error text'
     #  log.error err_object
+    #
+    # *Parameters:*
+    # * +args+ - see example
     #
 
     def error(*args)
@@ -47,7 +51,9 @@ module Howitzer
     ##
     #
     # Prints feature name into log with INFO severity
-    # @param text [String]                        Feature name
+    #
+    # *Parameters:*
+    # * +text+ - Feature name
     #
 
     def print_feature_name(text)
@@ -56,7 +62,7 @@ module Howitzer
 
     ##
     #
-    # Return formatted howitzer settings
+    # Returns formatted howitzer settings
     #
 
     def settings_as_formatted_text
@@ -66,9 +72,10 @@ module Howitzer
     ##
     #
     # Prints scenario name into log with INFO severity
-    # @param text [String]                        Scenario name
     #
-
+    # *Parameters:*
+    # * +text+ - Scenario name
+    #
     def print_scenario_name(text)
       log_without_formatting{ info " => Scenario: #{text}" }
     end

@@ -111,7 +111,7 @@ end
 ##
 # Returns application url without base authentication by default
 #
-# *Attributes:*
+# *Parameters:*
 # * +prefix+ - Sets base authentication prefix (defaults to: nil)
 #
 
@@ -123,7 +123,7 @@ end
 #
 # Returns duration in format HH:MM:SS
 #
-# *Attributes:*
+# *Parameters:*
 # * +time_in_numeric+ - Number of seconds
 #
 
@@ -144,7 +144,7 @@ end
 #
 # Evaluates given value
 #
-# *Attributes:*
+# *Parameters:*
 # * +value+ - Value to be evaluated
 #
 
@@ -158,7 +158,7 @@ class String
   #
   # Delegates WebPage.open method. Useful in cucumber step definitions
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +*args+ - Url to be opened
   #
 

@@ -31,7 +31,7 @@ module LocatorStore
     # Adds css or xpath locator into LocatorStore.
     # Also locator can be set by lambda expression. For example: lambda{|name|{xpath: ".//a[@id='#{name}']"}}
     #
-    # *Attributes:*
+    # *Parameters:*
     # * +name+ - Locator name
     # * +params+ - String for css locator or hash with :xpath key and string value for xpath locator
     #
@@ -45,7 +45,7 @@ module LocatorStore
     # Adds locator for link into LocatorStore. Link can be found by: id, text
     # Capybara methods that can work with this locator type are: click_link, find_link
     #
-    # *Attributes:*
+    # *Parameters:*
     # * +name+ - Locator name
     # * +params+ - ID or text of link
     #
@@ -59,7 +59,7 @@ module LocatorStore
     # Adds locator for field into LocatorStore. Field can be found by: name, id, text
     # Capybara methods that can work with this locator type are: find_field, fill_in
     #
-    # *Attributes:*
+    # *Parameters:*
     # * +name+ - Locator name
     # * +params+ - Name, ID or text of field
     #
@@ -73,7 +73,7 @@ module LocatorStore
     # Add locator for button into LocatorStore. Button can be found by: id, name, value
     # Capybara methods that can work with this locator type are: click_button, find_button
     #
-    # *Attributes:*
+    # *Parameters:*
     # * +name+ - Locator name
     # * +params+ - Name, ID or value
     #
@@ -85,7 +85,9 @@ module LocatorStore
     ##
     #
     # Takes css or xpath locator from LocatorStore by name
-    # @param name [Symbol]                        Locator name
+    #
+    # *Parameters:*
+    # * +name+ - Locator name
     #
 
     def locator(name)
@@ -95,7 +97,9 @@ module LocatorStore
     ##
     #
     # Take link locator from LocatorStore by name
-    # @param name [Symbol]                        Locator name
+    #
+    # *Parameters:*
+    # * +name+ - Locator name
     #
 
     def link_locator(name)
@@ -105,7 +109,9 @@ module LocatorStore
     ##
     #
     # Take field locator from LocatorStore by name
-    # @param name [Symbol]                        Locator name
+    #
+    # *Parameters:*
+    # * +name+ - Locator name
     #
 
     def field_locator(name)
@@ -115,7 +121,9 @@ module LocatorStore
     ##
     #
     # Take button locator from LocatorStore be name
-    # @param name [Symbol]                        Locator name
+    #
+    # *Parameters:*
+    # * +name+ - Locator name
     #
 
     def button_locator(name)
@@ -126,8 +134,10 @@ module LocatorStore
     #
     # Get locator set by lambda.
     # For example: find(apply(locator(:locator_name), 'register')).click
-    # @param locator [LocatorStore]               Locator set with lambda expression
-    # @param values [String,Numeric]              Arguments that should be matched lambda expression params
+    #
+    # *Parameters:*
+    # * +locator+ - Locator set with lambda expression
+    # * +values+ - Arguments that should be matched lambda expression params
     #
 
     def apply(locator, *values)

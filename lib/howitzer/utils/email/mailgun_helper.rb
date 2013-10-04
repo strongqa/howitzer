@@ -4,7 +4,7 @@ module MailgunHelper
   #
   # Creates new mailbox for given user_name
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +user_name+ - user name
   # * +domain+ - domain (default to: settings.mail_pop3_domain )
   # * +password+ - password (default to: settings.mail_pop3_user_pass )
@@ -24,7 +24,7 @@ module MailgunHelper
   #
   # Deletes given mailbox
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +mailbox+ - mailbox to delete
   #
 
@@ -41,7 +41,7 @@ module MailgunHelper
   #
   # Deletes all mailboxes except those in exceptions
   #
-  # *Attributes:*
+  # *Parameters:*
   # * +exceptions+ - list of email addresses
   #
 

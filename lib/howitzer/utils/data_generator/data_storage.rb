@@ -14,7 +14,7 @@ module DataGenerator
       #
       # Saves data into memory. Marking by namespace and key
       #
-      # *Attributes:*
+      # *Parameters:*
       # * +ns+ - Namespace
       # * +key+ - Key that should be uniq in namespace
       # * +value+ - Data value
@@ -30,7 +30,7 @@ module DataGenerator
       #
       # Gets data from memory. Can get all namespace or single data value in namespace using key
       #
-      # *Attributes:*
+      # *Parameters:*
       # * +ns+ - Namespace
       # * +key+ - Key that isn't necessary required (default to: nil)
       #
@@ -44,7 +44,7 @@ module DataGenerator
       #
       # Deletes all records from namespace
       #
-      # *Attributes:*
+      # *Parameters:*
       # * +ns+ - Namespace
       #
 
