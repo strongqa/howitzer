@@ -11,7 +11,7 @@ describe "Locator store" do
         subject { web_page.locator(bad_name) }
         it { expect {subject}.to raise_error(error) }
       end
-      context "when correct locator given" do
+      context "when CSS locator given" do
         before { web_page.add_locator :base_locator, 'base_locator' }
         subject { web_page.locator(:base_locator) }
         it { expect(subject).to eq('base_locator') }

@@ -66,11 +66,10 @@ module LocatorStore
 
     def find_element(name)
       type, locator = find_locator(name)
-      case type
-        when :base then
-          send :find, locator
-        else
-          send "find_#{type}", locator
+      if type == :base
+        send :find, locator
+      else
+        send "find_#{type}", locator
       end
     end
 
