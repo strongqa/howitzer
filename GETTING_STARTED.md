@@ -12,29 +12,71 @@ end
 
 Thus, we realize that each page is inherited from a parent class 'Web Page', which contains the common methods for all pages.
 
-Each page contains 2 required constants:
+Each page contains required constant URL(the relative URL of the page):
 
-1. URL - the relative URL of the page
-2. URL_PATTERN - a regular expression that uniquely identifies the page
-
-**Example 1:**
+**Example :**
 
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?\z/
+end
+```
+
+Validations
+------------
+Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
+some anchor in order to identify page exclusively.
+
+```ruby
+validates <type>, options
+```
+
+Howitzer providers 3 different validation types.
+
+
+Validation Type    | Options | Value Type    | Description
+:-----------------:|:-----------------------:|:-----------------------------------------:
+: url              | pattern | Regexp        | matches current url to pattern
+: title            | pattern | Regexp        | matches current pate title to pattern
+: element_presence | locator | String/Symbol | find element by locator on current page
+
+**Example1 :**
+
+```ruby
+class HomePage < WebPage
+  URL = '/'
+  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
 end
 ```
 
 **Example 2:**
-If we want to describe login page, which are located at: https://test.com/users/sign_in
 
 ```ruby
 class LoginPage < WebPage
   URL = '/users/sign_in'
-  URL_PATTERN = /sign_in\z/
+  validates :title, pattern: /Sign In\z/
 end
 ```
+
+**Example 3:**
+
+```ruby
+class LoginPage < WebPage
+  URL = '/users/sign_in'
+
+  validates :element_presence, locator: :sign_in_btn
+
+  add_locator :sign_in_btn, '#sign_in'
+end
+```
+
+Howitzer allows use all 3 validations, but only 1 is really required. If any validation is failed, exception will be raised.
+
+CAUTION: Page validation is triggered in 2 cases only:
+
+1. <Web Page Class>.open(url)
+2. <Web Page Class>.given
+
 
 Locators
 ---------
@@ -57,7 +99,7 @@ Each page contains a description of all elements by adding the appropriate locat
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?\z/
+  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
   add_locator :test_locator_name2,  css: '.foo'                    #css locator
