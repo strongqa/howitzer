@@ -8,6 +8,7 @@ class WebPage
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
+  include PageValidator
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL
@@ -27,7 +28,7 @@ class WebPage
   end
 
   def self.given
-    self.instance.tap{ |chain| chain.wait_for_url(self::URL_PATTERN) }
+    self.instance.tap{ |page| page.check_correct_page_loaded }
   end
 
   def tinymce_fill_in(name, options = {})
@@ -81,9 +82,22 @@ class WebPage
     log.error IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
   end
 
+  def wait_for_title(expected_title, timeout=settings.timeout_small)
+    end_time = ::Time.now + timeout
+    until ::Time.now > end_time
+      operator = expected_title.is_a?(Regexp) ? :=~ : :==
+      return true if title.send(operator, expected_title).tap{|res| sleep 1 unless res}
+    end
+    log.error IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
+  end
+
   def reload
     log.info "Reload '#{current_url}'"
     visit current_url
+  end
+
+  def title
+    page.title
   end
 
   def self.current_url
@@ -93,5 +107,4 @@ class WebPage
   def self.text
     page.find('body').text
   end
-
 end

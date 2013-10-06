@@ -18,13 +18,15 @@
 
 
 module LocatorStore
+  BadLocatorParamsError = Class.new(StandardError)
+  LocatorNotDefinedError = Class.new(StandardError)
+
   def self.included(base)
     base.extend(ClassMethods)
   end
 
   module ClassMethods
-    class BadLocatorParamsError < StandardError; end
-    class LocatorNotSpecifiedError < StandardError; end
+    LOCATOR_TYPES = [:base, :link, :field, :button]
 
     def add_locator(name, params)
       add_locator_by_type(:base, name, params)
@@ -64,8 +66,26 @@ module LocatorStore
       locator.call(*values).to_a.flatten
     end
 
+    def find_element(name)
+      type, locator = find_locator(name)
+      if type == :base
+        send :find, locator
+      else
+        send "find_#{type}", locator
+      end
+    end
+
     protected
 
+    def find_locator(name)
+      name = name.to_s.to_sym
+      LOCATOR_TYPES.each do|type|
+        return [type, locator_by_type(type, name)] if (@locators || {}).fetch(self.name, {}).fetch(type, {})[name]
+      end
+      raise(LocatorNotDefinedError, name)
+    end
+
+    # looks up locator in current and all super classes
     def parent_locator(type, name)
       if !@locators.nil? && @locators.key?(self.name) && @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
         @locators[self.name][type][name]
@@ -78,7 +98,7 @@ module LocatorStore
 
     def locator_by_type(type, name)
       locator = parent_locator(type, name)
-      raise(LocatorNotSpecifiedError, name) if locator.nil?
+      raise(LocatorNotDefinedError, name) if locator.nil?
       locator
     end
 
@@ -98,23 +118,11 @@ module LocatorStore
     end
   end
 
-  def locator(name)
-    self.class.locator(name)
+  #delegate class methods to instance
+  ClassMethods.public_instance_methods.each do |name|
+    define_method(name) do |*args|
+      self.class.send(name, *args)
+    end
   end
 
-  def link_locator(name)
-    self.class.link_locator(name)
-  end
-
-  def field_locator(name)
-    self.class.field_locator(name)
-  end
-
-  def button_locator(name)
-    self.class.button_locator(name)
-  end
-
-  def apply(locator, *values)
-    self.class.apply(locator, *values)
-  end
 end
