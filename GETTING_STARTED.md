@@ -42,6 +42,7 @@ end
 ```
 
 ### Validations
+[[Back To Top]](#jump-to-section)
 
 Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
 some anchor in order to identify page exclusively.
@@ -98,6 +99,7 @@ Howitzer allows use all 3 validations, but only 1 is really required. If any val
 
 
 ### Locators ###
+[[Back To Top]](#jump-to-section)
 
 Locator is a search item (selector) of one or more elements on a 'Web page'.
 
@@ -133,6 +135,7 @@ end
 ```
 
 ### Pages with static information ###
+[[Back To Top]](#jump-to-section)
 
 In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
 
@@ -165,6 +168,7 @@ end
 ```
 
 ### Good practices ###
+[[Back To Top]](#jump-to-section)
 
 
 **First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
@@ -323,6 +327,7 @@ cucumber - format html - out =. / log / log.html
 ```
 
 ### Extended logging ###
+[[Back To Top]](#jump-to-section)
 
 Extended logging to a text file and to the console also available.
 It uses the _log manager_ provided by **_log_** method.
@@ -386,7 +391,7 @@ class TestEmail < Email
 end
 ```
 
-== Data Generators
+## Data Generators ##
 [[Back To Top]](#jump-to-section)
 
 Data generator allows to generate some data structures like User and store it to own Memory storage
@@ -400,9 +405,9 @@ This module has next methods:
 
 Method                                |  Description
 :------------------------------------:|:--------------------------------------------------:
-| _DataStorage.store(ns,key,value)_   | Adds data to storage, where ns - uniq namespace name
-| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
-| _DataStorage::clear_ns(ns)_         | Removes namespace with data
+|  DataStorage.store(ns,key,value)    | Adds data to storage, where ns - uniq namespace name
+|  DataStorage::extract(ns, key=nil)  | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
+|  DataStorage::clear_ns(ns)          | Removes namespace with data
 
 **Example:**
 ```ruby
@@ -426,6 +431,7 @@ In memory it looks like:
 ```
 
 ### Generator ####
+[[Back To Top]](#jump-to-section)
 
 This module has standard methods for generate test data. It has one standard data object for generate, because this is
 more common for almost all tests:
