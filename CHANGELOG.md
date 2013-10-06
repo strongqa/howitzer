@@ -4,6 +4,12 @@
 
 ### Bugfixes
 
+## [v1.0.1](https://github.com/romikoops/howitzer/compare/v1.0...v1.0.1)
+
+### Bugfixes
+- Fixed unit tests
+- Fixed correct Ruby version supporting
+
 ## [v1.0](https://github.com/romikoops/howitzer/compare/v0.0.3...v1.0)
 
 It is major release, so there are many new features, refactoring, unit tests, code documentation.
