@@ -12,7 +12,7 @@ Getting Started
 * [BUILT-IN logging](#built-in-logging)
 * [Extended logging](#extended-logging)
 * [Data storage](#data-storage)
-* [DataGenerator::Gen](#datagenerator::-gen)
+* [DataGenerator::Gen](#datagenerator-gen)
 * [Cucumber Tranformers](#cucumber-transformers)
 
 Pages
