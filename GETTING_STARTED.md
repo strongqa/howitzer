@@ -241,7 +241,7 @@ class MyEmail < Email
 end
 ```
 
-Exapmle, how custom class might look like:
+Example, how custom class might look like:
 ```ruby
 class MyEmail <Email
   SUBJECT = "Test email" # specify the subject of an email
@@ -382,9 +382,7 @@ This module has next methods:
 Method                                |  Description
 :------------------------------------:|:--------------------------------------------------:
 | _DataStorage.store(ns,key,value)_   | Adds data to storage, where ns - uniq namespace name
-| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key
-|                                     | is not specified, then it will returns all data from
-|                                     | namespace
+| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
 | _DataStorage::clear_ns(ns)_         | Removes namespace with data
 
 **Example:**
