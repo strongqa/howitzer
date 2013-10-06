@@ -408,7 +408,7 @@ you can create subfolders that represents the business areas of tests. In **/tas
 **TEST_AREAS  = []**
 
 You can add here business areas of created tests that are in subfolders, names should be equal, for example:
-If _TEST_AREAS = [:accounts]_ and there is a folder with specs in it: **/spec/bvt/accounts.**
+If *TEST_AREAS = [:accounts]* and there is a folder with specs in it: **/spec/bvt/accounts.**
 You can run all tests from this folder by command:
 
 ```bash
