@@ -15,6 +15,10 @@ class WebPage
   extend  Capybara::DSL
   include Singleton
 
+  def self.inherited(subclass)
+    subclass.class_eval { include Singleton }
+  end
+
   ##
   #
   # Opens web-site by given url

@@ -26,6 +26,7 @@ module LocatorStore
   end
 
   module ClassMethods
+    LOCATOR_TYPES = [:base, :link, :field, :button]
     class BadLocatorParamsError < StandardError; end
     class LocatorNotSpecifiedError < StandardError; end
 

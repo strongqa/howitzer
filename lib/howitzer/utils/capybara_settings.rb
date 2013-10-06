@@ -193,8 +193,7 @@ module CapybaraSettings
   # Sends http request to change current Sauce Labs job status - pass/fail
   #
   # *Parameters:*
-  # * +json_data+ -
-  # TODO explanations needed about this param
+  # * +json_data+ - test status as hash (for details see Saucelab documentation)
   #
 
 
