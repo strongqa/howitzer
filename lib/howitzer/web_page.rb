@@ -1,5 +1,6 @@
 require "rspec/expectations"
 require "howitzer/utils/locator_store"
+require "howitzer/utils/page_validator"
 require "singleton"
 
 class WebPage
@@ -8,7 +9,7 @@ class WebPage
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
-  include PageValidator
+  include Howitzer
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL

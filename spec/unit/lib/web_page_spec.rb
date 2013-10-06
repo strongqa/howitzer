@@ -7,12 +7,12 @@ describe "WebPage" do
   describe ".open" do
     let(:url_value) { "google.com" }
     let(:retryable) { double }
-    let(:wait_for_url) { double }
+    let(:check_correct_page_loaded) { double }
     let(:other_instance) { WebPage.instance }
     subject { WebPage.open(url_value) }
     before do
       stub_const("WebPage::URL_PATTERN", 'pattern')
-      allow(WebPage.instance).to receive(:wait_for_url).with('pattern') { true }
+      allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
     end
     it do
       expect(log).to receive(:info).with("Open WebPage page by 'google.com' url")
@@ -26,7 +26,7 @@ describe "WebPage" do
     let(:wait_for_url) { double }
     before do
       stub_const("WebPage::URL_PATTERN",'pattern')
-      allow(WebPage.instance).to receive(:wait_for_url).with('pattern') { true }
+      allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
     end
     it do
       expect(WebPage.given).to be_a_kind_of(WebPage)
@@ -51,14 +51,14 @@ describe "WebPage" do
       let(:native) { double }
       it do
         expect(WebPage.instance).to receive(:page).exactly(3).times { page }
-        expect(page).to receive(:driver) { driver }
-        expect(driver).to receive(:browser) { browser }
-        expect(browser).to receive(:switch_to) { switch_to }
-        expect(switch_to).to receive(:frame).with("name_ifr")
+        expect(page).to receive(:driver).ordered { driver }
+        expect(driver).to receive(:browser).ordered { browser }
+        expect(browser).to receive(:switch_to).ordered { switch_to }
+        expect(switch_to).to receive(:frame).with("name_ifr").once
 
-        expect(page).to receive(:find).with(:css, '#tinymce') { find }
-        expect(find).to receive(:native) { native }
-        expect(native).to receive(:send_keys).with("some content")
+        expect(page).to receive(:find).with(:css, '#tinymce').ordered { find }
+        expect(find).to receive(:native).ordered { native }
+        expect(native).to receive(:send_keys).with("some content").once
 
         expect(page).to receive(:driver) { driver }
         expect(driver).to receive(:browser) { browser }
@@ -95,11 +95,11 @@ describe "WebPage" do
       let(:driver_name) { 'selenium' }
       it do
         expect(WebPage.instance).to receive(:page) { page }
-        expect(page).to receive(:driver) { driver }
-        expect(driver).to receive(:browser) { browser }
-        expect(browser).to receive(:switch_to) { switch_to }
-        expect(switch_to).to receive(:alert) { alert }
-        expect(alert).to receive(:accept)
+        expect(page).to receive(:driver).ordered { driver }
+        expect(driver).to receive(:browser).ordered { browser }
+        expect(browser).to receive(:switch_to).ordered { switch_to }
+        expect(switch_to).to receive(:alert).ordered { alert }
+        expect(alert).to receive(:accept).once
         subject
       end
     end
@@ -113,11 +113,11 @@ describe "WebPage" do
       let(:driver_name) { 'selenium' }
       it do
         expect(WebPage.instance).to receive(:page) { page }
-        expect(page).to receive(:driver) { driver }
-        expect(driver).to receive(:browser) { browser }
-        expect(browser).to receive(:switch_to) { switch_to }
-        expect(switch_to).to receive(:alert) { alert }
-        expect(alert).to receive(:dismiss)
+        expect(page).to receive(:driver).ordered { driver }
+        expect(driver).to receive(:browser).ordered { browser }
+        expect(browser).to receive(:switch_to).ordered { switch_to }
+        expect(switch_to).to receive(:alert).ordered { alert }
+        expect(alert).to receive(:dismiss).once
         subject
       end
     end
@@ -157,6 +157,27 @@ describe "WebPage" do
     end
 
   end
+
+  describe "#wait_for_title" do
+    subject { WebPage.instance.wait_for_title(expected_title) }
+    before do
+      allow(settings).to receive(:timeout_small) { 0.1 }
+      allow(WebPage.instance).to receive(:title) { "title" }
+    end
+    context "when title equals expected title" do
+      let(:expected_title) { "title" }
+      it do
+        expect(subject).to be_true
+      end
+    end
+    context "when title not equals expected title" do
+      let(:expected_title) { "bad title" }
+      let(:error) { WebPage::IncorrectPageError }
+      let(:error_message) { "Current title: title, expected:  bad title" }
+      it { expect{subject}.to raise_error(error,error_message) }
+    end
+  end
+
   describe "#wait_for_url" do
     subject { WebPage.instance.wait_for_url(expected_url) }
     before do
@@ -188,6 +209,19 @@ describe "WebPage" do
     it do
       expect(log).to receive(:info) { "Reload 'google.com' " }
       expect(WebPage.instance).to receive(:visit).with("google.com")
+      subject
+    end
+  end
+
+  describe ".title" do
+    let(:page) { double }
+    subject { WebPage.instance.title }
+    before do
+      allow(WebPage.instance).to receive(:current_url) { "google.com" }
+    end
+    it do
+      expect(WebPage.instance).to receive(:page) { page }
+      expect(page).to receive(:title)
       subject
     end
   end
