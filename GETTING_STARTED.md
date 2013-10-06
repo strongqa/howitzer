@@ -1,6 +1,20 @@
 Getting Started
 ===============
 
+## Jump to Section
+* [Pages](#pages)
+* [Vlidations](#validations)
+* [Locators](#locators)
+* [Pages with static information](#pages-with-static-information)
+* [Redefining of the open method](#redefining-of-the-open-method)
+* [Good practices](#good-practices)
+* [Emails](#emails)
+* [BUILT-IN logging](#built-in-logging)
+* [Extended logging](#extended-logging)
+* [Data storage](#data-storage)
+* [DataGenerator::Gen](#datagenerator::-gen)
+* [Cucumber Tranformers](#cucumber-transformers)
+
 Pages
 ------
 Pages - are classes that’s describe real web pages. For example,  'Home page' can be described as:
