@@ -121,8 +121,6 @@ module CapybaraSettings
     def define_testingbot_driver
       require 'testingbot'
       task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
-      require 'debugger'
-      debugger
       caps_opts = {
         platform: settings.tb_platform,
         browser_name: settings.tb_browser_name,
