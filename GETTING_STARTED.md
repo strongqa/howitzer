@@ -3,7 +3,7 @@ Getting Started
 
 ## Jump to Section
 * [Pages](#pages)
-   * [Vlidations](#validations)
+   * [Validations](#validations)
    * [Locators](#locators)
    * [Pages With Static Information](#pages-with-static-information)
    * [Redefining of the pen method](#redefining-of-the-open-method)
@@ -20,6 +20,8 @@ Getting Started
 
 Pages
 ------
+[[Back To Top]](#jump-to-section)
+
 Pages - are classes that’s describe real web pages. For example,  'Home page' can be described as:
 
 ```ruby
@@ -239,6 +241,7 @@ end
 
 Emails
 ------
+[[Back To Top]](#jump-to-section)
 
 _**Email**_ class uses `Mailgun` gem and allows you to work with the mailbox.
 Class corresponds to one letter. Used to test the notifications.
@@ -271,6 +274,8 @@ end
 
 Logging
 -------
+[[Back To Top]](#jump-to-section)
+
 *Howitzer* allows logging to the text file, HTML and output to the console.
 
 ### BUILT-IN logging ###
@@ -381,11 +386,8 @@ class TestEmail < Email
 end
 ```
 
-Folders structure in RSpec & creating and running of Rake tasks
--------------------------------------------------------------
-=======
-Data Generators
----------------
+== Data Generators
+[[Back To Top]](#jump-to-section)
 
 Data generator allows to generate some data structures like User and store it to own Memory storage
 
@@ -470,6 +472,7 @@ in _DataGenerator::Gen_ module.
 
 
 ## RSpec Folder Structure ##
+[[Back To Top]](#jump-to-section)
 
 **/spec** folder contains all supporting .rspec code and tests.
 There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
