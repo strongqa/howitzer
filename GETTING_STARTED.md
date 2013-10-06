@@ -366,6 +366,92 @@ end
 
 Folders structure in RSpec & creating and running of Rake tasks
 -------------------------------------------------------------
+=======
+Data Generators
+---------------
+
+Data generator allows to generate some data structures like User and store it to own Memory storage
+
+### Data Storage ###
+
+Data Storage is simple key value storage, which uses namespaces (for example, :user, :sauce, etc).
+
+This module has next methods:
+
+
+Method                                |  Description
+:------------------------------------:|:--------------------------------------------------:
+| _DataStorage.store(ns,key,value)_   | Adds data to storage, where ns - uniq namespace name
+| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key
+|                                     | is not specified, then it will returns all data from
+|                                     | namespace
+| _DataStorage::clear_ns(ns)_         | Removes namespace with data
+
+**Example:**
+```ruby
+DataStorage.store(:user, 1, User.new('Peter'))
+DataStorage.store(:user, 2, User.new('Dan'))
+DataStorage.store(:post, "post1", Post.new("Amazing post"))
+```
+
+In memory it looks like:
+
+```ruby
+{
+  user: {
+    1 => User.new('Peter'),
+    2 => User.new('Dan')
+  },
+  post: {
+    "post1" => Post.new("Amazing post")
+  }
+}
+```
+
+### DataGenerator::Gen ####
+
+This module has standard methods for generate test data. It has one standard data object for generate, because this is
+more common for almost all tests:
+
+_DataGenerator::Gen::User._
+
+_DataGenerator::Gen::User_ has the params:
+
+:login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
+
+To generate this object use _Gen::user(params={})_ method.
+
+Also you can reopen _Gen_ module to add your own objects to generate, also use this module to generate some other data
+specific for your tests.
+When using Cucumber create Gen.rb file in **/features/support** directory. When using Rspec create
+_Gen.rb_ file in **/spec/support** directory.
+
+### Cucumber Transformers ###
+
+In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
+[https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
+We are using transformers to use generated data objects in tests. For example let’s imagine that we need to
+write _sign_up.feature:_
+
+```ruby
+Feature: Sign Up
+
+In order to use all functionality of the system
+As unregistered user
+I want to register to the system
+
+Scenario: correct credentials
+Given Register page
+And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
+When I put next register data and apply it
+
+|username    	     |email		         |password	    	   |
+|UNIQ_USER[:username]|UNIQ_USER[:email]  | UNIQ_USER[:password]|
+```
+Last line will automatically replace UNIQ_USER[:username] for generated data, which you can use.
+
+You can wright your own transformers for some other generated objects, that you will generate
+in _DataGenerator::Gen_ module.
 
 **/spec** folder contains all supporting .rspec code and tests.
 There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
