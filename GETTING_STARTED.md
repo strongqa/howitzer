@@ -112,8 +112,9 @@ class HomePage < WebPage
   add_field_locator :test_field_locator3, 'bas'                    #field locator by 'baz' name
 end
 ```
-Pages with static information
------------------------------
+
+### Pages with static information ###
+
 In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
 
 **Example:**
