@@ -1,6 +1,20 @@
+##
+#
+# Predefined Capybara settings and capybara drivers
+#
+
 require 'howitzer/utils/log'
 module CapybaraSettings
   extend self
+
+  ##
+  #
+  # Predefined settings of Firefox browser
+  #
+  # *Returns:*
+  # * +Hash+ - Settings that can be changed
+  #
+
 
   def self.base_ff_profile_settings
     profile = Selenium::WebDriver::Firefox::Profile.new
@@ -13,6 +27,11 @@ module CapybaraSettings
   end
 
   class << self
+
+    ##
+    #
+    #Defines driver based on specified test environment settings
+    #
 
     def define_driver
       case settings.driver.to_sym
@@ -152,6 +171,16 @@ module CapybaraSettings
     end
   end
 
+  ##
+  #
+  # Returns url of current Sauce Labs job
+  #
+  # *Parameters:*
+  # * +name+ - Your account name
+  #
+  # *Returns:*
+  # * +string+ - URL address of last running Sauce Labs job
+  #
 
   def sauce_resource_path(name)
     host = "https://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
@@ -159,12 +188,29 @@ module CapybaraSettings
     "#{host}#{path}"
   end
 
+  ##
+  #
+  # Sends http request to change current Sauce Labs job status - pass/fail
+  #
+  # *Parameters:*
+  # * +json_data+ - test status as hash (for details see Saucelab documentation)
+  #
+
+
   def update_sauce_job_status(json_data = {})
     host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
     path = "/rest/v1/#{settings.sl_user}/jobs/#{session_id}"
     url = "#{host}#{path}"
     RestClient.put url, json_data.to_json, content_type: :json, accept: :json
   end
+
+  ##
+  #
+  # Returns custom name for Sauce Labs job
+  #
+  # *Returns:*
+  # * +string+ - Return name of current Sauce Labs job
+  #
 
   def suite_name
     res = if ENV['RAKE_TASK']
@@ -175,6 +221,11 @@ module CapybaraSettings
     end
     "#{res} #{settings.sl_browser_name.upcase}"
   end
+
+  ##
+  #
+  # Returns current session id
+  #
 
   def session_id
     Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id

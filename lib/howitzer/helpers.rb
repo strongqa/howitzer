@@ -67,16 +67,30 @@ def chrome_browser?
 end
 
 
-def app_url
+##
+#
+# Returns application url including base authentication (if specified in settings)
+#
+
+def app_url                         
   prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
   app_base_url prefix
 end
 
+##
+# Returns application url without base authentication by default
+#
+# *Parameters:*
+# * +prefix+ - Sets base authentication prefix (defaults to: nil)
+#
 
 def app_base_url(prefix=nil)
   "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
 end
 
+# *Parameters:*
+# * +time_in_numeric+ - Number of seconds
+#
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
@@ -91,19 +105,46 @@ def duration(time_in_numeric)
   end
 end
 
+##
+#
+# Evaluates given value
+#
+# *Parameters:*
+# * +value+ - Value to be evaluated
+#
+
 def ri(value)
   raise value.inspect
 end
 
 class String
 
+  ##
+  #
+  # Delegates WebPage.open method. Useful in cucumber step definitions
+  #
+  # *Parameters:*
+  # * +*args+ - Url to be opened
+  #
+
   def open(*args)
     as_page_class.open(*args)
   end
 
+  ##
+  #
+  # Returns page instance
+  #
+
+
   def given
     as_page_class.new
   end
+
+  ##
+  #
+  # Returns page class
+  #
 
   def as_page_class
     Object.const_get("#{self.capitalize}Page")
