@@ -9,7 +9,7 @@ class WebPage
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
-  include Howitzer
+  include Howitzer::Utils::PageValidator
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL

@@ -2,7 +2,7 @@ require_relative 'example_menu'
 
 class ExamplePage < WebPage
   URL = '/'
-  URL_PATTERN = /#{Regexp.escape(settings.app_host)}\/?/
+  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?/
 
   add_field_locator :search_input, 'lst-ib'
   add_button_locator :search_btn, 'btnK'
