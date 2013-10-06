@@ -1,11 +1,8 @@
 module DataGenerator
   module Gen
-    # examples:
-    # member = Gen::user                          #user.email: 'u<XXXX>@<settings.mail_pop3_domain>'
-    # member = Gen::user('user@test.com')         #user.email: 'member@test.com'
-    # member = Gen::user(settings.def_test_user)           #user.email: settings.def_test_user
 
     class << self
+
       def user(params={})
         prefix = serial
         default = {

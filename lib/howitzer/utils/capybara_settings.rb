@@ -13,6 +13,7 @@ module CapybaraSettings
   end
 
   class << self
+
     def define_driver
       case settings.driver.to_sym
         when :selenium
@@ -120,6 +121,8 @@ module CapybaraSettings
     def define_testingbot_driver
       require 'testingbot'
       task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+      require 'debugger'
+      debugger
       caps_opts = {
         platform: settings.tb_platform,
         browser_name: settings.tb_browser_name,
@@ -150,6 +153,7 @@ module CapybaraSettings
       end
     end
   end
+
 
   def sauce_resource_path(name)
     host = "https://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"

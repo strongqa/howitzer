@@ -51,6 +51,7 @@ def ff_browser?
   end
 end
 
+
 def chrome_browser?
   chrome_browser = :chrome
   if sauce_driver?
@@ -65,14 +66,17 @@ def chrome_browser?
   end
 end
 
+
 def app_url
   prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
   app_base_url prefix
 end
 
+
 def app_base_url(prefix=nil)
   "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
-end  
+end
+
 
 def duration(time_in_numeric)
   secs = time_in_numeric.to_i
@@ -92,6 +96,7 @@ def ri(value)
 end
 
 class String
+
   def open(*args)
     as_page_class.open(*args)
   end

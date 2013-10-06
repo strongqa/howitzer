@@ -12,11 +12,16 @@ module Howitzer
       end
     end
 
-    # examples:
+    ##
+    #
+    # Print log entry about error with ERROR severity
     #  log.error MyException, 'Some error text', caller
     #  log.error 'Some error text', caller
+    #  log.error MyException, 'Some caller text'
     #  log.error 'Some error text'
     #  log.error err_object
+    #
+
     def error(*args)
       object = if args.first.nil?
         $!
@@ -25,9 +30,13 @@ module Howitzer
           when 1
            args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
           when 2
-           exception = RuntimeError.new(args.first)
-           exception.set_backtrace(args.last)
-           exception
+            if args.first.is_a?(Class) && args.first < Exception
+              args.first.new(args.last)
+            else
+              exception = RuntimeError.new(args.first)
+              exception.set_backtrace(args.last)
+              exception
+            end
           when 3
            exception = args.first.new(args[1])
            exception.set_backtrace(args.last)
@@ -40,13 +49,30 @@ module Howitzer
       fail(object)
     end
 
+    ##
+    #
+    # Prints feature name into log with INFO severity
+    # @param text [String]                        Feature name
+    #
+
     def print_feature_name(text)
       log_without_formatting{ info "*** Feature: #{text.upcase} ***" }
     end
 
+    ##
+    #
+    # Return formatted howitzer settings
+    #
+
     def settings_as_formatted_text
       log_without_formatting{ info settings.as_formatted_text }
     end
+
+    ##
+    #
+    # Prints scenario name into log with INFO severity
+    # @param text [String]                        Scenario name
+    #
 
     def print_scenario_name(text)
       log_without_formatting{ info " => Scenario: #{text}" }

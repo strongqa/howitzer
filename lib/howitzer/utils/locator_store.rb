@@ -36,6 +36,7 @@ module LocatorStore
       add_locator_by_type(:link, name, params)
     end
 
+
     def add_field_locator(name, params)
       add_locator_by_type(:field, name, params)
     end
@@ -59,6 +60,7 @@ module LocatorStore
     def button_locator(name)
       locator_by_type(:button, name)
     end
+
 
     def apply(locator, *values)
       locator.call(*values).to_a.flatten

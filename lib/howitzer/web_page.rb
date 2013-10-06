@@ -1,5 +1,7 @@
 require "rspec/expectations"
-require 'howitzer/utils/locator_store'
+require "howitzer/utils/locator_store"
+require "howitzer/utils/page_validator"
+require "singleton"
 
 class WebPage
 
@@ -7,11 +9,15 @@ class WebPage
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
-  include PageValidator
+  include Howitzer
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL
+  include Singleton
 
+  def self.inherited(subclass)
+    subclass.class_eval { include Singleton }
+  end
 
   def self.open(url="#{app_url}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
@@ -23,9 +29,9 @@ class WebPage
   end
 
   def self.given
-    new.tap{ |me| me.check_correct_page_loaded }
+    self.instance.tap{ |page| page.check_correct_page_loaded }
   end
-  
+
   def tinymce_fill_in(name, options = {})
     if %w[selenium selenium_dev sauce].include? settings.driver
       page.driver.browser.switch_to.frame("#{name}_ifr")
@@ -35,8 +41,8 @@ class WebPage
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
   end
-  
-   def click_alert_box(flag)
+
+  def click_alert_box(flag)
     if %w[selenium selenium_dev sauce].include? settings.driver
       if flag
         page.driver.browser.switch_to.alert.accept
@@ -51,7 +57,7 @@ class WebPage
       end
     end
   end
-  
+
   def js_click(css_locator)
     page.execute_script("$('#{css_locator}').trigger('click')")
     sleep settings.timeout_tiny

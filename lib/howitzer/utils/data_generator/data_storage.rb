@@ -1,9 +1,9 @@
 module DataGenerator
-
   module DataStorage
     @data ||= {}
 
     class << self
+
       def store(ns, key, value)
         check_ns(ns)
         @data[ns][key] = value
