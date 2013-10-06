@@ -17,6 +17,7 @@ module Howitzer
     # Print log entry about error with ERROR severity
     #  log.error MyException, 'Some error text', caller
     #  log.error 'Some error text', caller
+    #  log.error MyException, 'Some caller text'
     #  log.error 'Some error text'
     #  log.error err_object
     #
@@ -29,9 +30,13 @@ module Howitzer
           when 1
            args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
           when 2
-           exception = RuntimeError.new(args.first)
-           exception.set_backtrace(args.last)
-           exception
+            if args.first.is_a?(Class) && args.first < Exception
+              args.first.new(args.last)
+            else
+              exception = RuntimeError.new(args.first)
+              exception.set_backtrace(args.last)
+              exception
+            end
           when 3
            exception = args.first.new(args[1])
            exception.set_backtrace(args.last)

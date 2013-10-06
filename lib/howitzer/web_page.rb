@@ -23,7 +23,7 @@ class WebPage
       log.info "Retry..." unless retries.zero?
       visit url
     end
-    new
+    given
   end
 
   def self.given
@@ -94,8 +94,4 @@ class WebPage
     page.find('body').text
   end
 
-  private
-  def initialize
-    wait_for_url(self.class::URL_PATTERN)
-  end
 end
