@@ -411,6 +411,7 @@ In **/features/support/tranformers.rb** file are described Cucumber transformers
 [https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
 We are using transformers to use generated data objects in tests. For example let’s imagine that we need to
 write _sign_up.feature:_
+
 ```ruby
 Feature: Sign Up
 
