@@ -468,6 +468,9 @@ Last line will automatically replace UNIQ_USER[:username] for generated data, wh
 You can wright your own transformers for some other generated objects, that you will generate
 in _DataGenerator::Gen_ module.
 
+
+## RSpec Folder Structure ##
+
 **/spec** folder contains all supporting .rspec code and tests.
 There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
 
