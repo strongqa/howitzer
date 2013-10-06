@@ -1,7 +1,27 @@
 module DataGenerator
   module Gen
 
+    ##
+    #
+    # This module generates uniq User object with uniq generated data.
+    # Examples:
+    # member = Gen::user                          #user.email: 'u<XXXX>@<settings.mail_pop3_domain>'
+    # member = Gen::user('user@test.com')         #user.email: 'member@test.com'
+    # member = Gen::user(settings.def_test_user)  #user.email: settings.def_test_user
+
     class << self
+
+      ##
+      #
+      # Generates new User object with generated data.
+      #
+      # *Parameters:*
+      # * +params+ - Custom parameters
+      #
+      # *Returns:*
+      # * +user+ - New generated User object
+      #
+
 
       def user(params={})
         prefix = serial
@@ -15,6 +35,17 @@ module DataGenerator
         User.new(default.merge(params))
       end
 
+      ##
+      #
+      # Gets User object by it's number
+      #
+      # *Parameters:*
+      # * +num+ - User number
+      #
+      # *Returns:*
+      # * +user+ - User object
+      #
+
       def given_user_by_number(num)
         data = DataStorage.extract('user', num.to_i)
         unless data
@@ -24,10 +55,24 @@ module DataGenerator
         data
       end
 
+      ##
+      #
+      # Generates uniq string
+      # @return [String]                          Generated string
+      #
+      # *Returns:*
+      # * +string+ - Generated string
+      #
+
       def serial
         a = [('a'..'z').to_a, (0..9).to_a].flatten.shuffle
         "#{Time.now.utc.strftime("%j%H%M%S")}#{a[0..4].join}"
       end
+
+      ##
+      #
+      # Deletes mailboxes for all users that were generated before
+      #
 
       def delete_all_mailboxes
         DataStorage.extract('user').each_value do |user|
