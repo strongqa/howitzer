@@ -377,10 +377,39 @@ All **_spec.rb** files should contains in folder that has tests priority meaning
 You should create folders in **/spec** to add there tests with needed priority level and edit constant **TEST_TYPES**
 in **/tasks/rspec.rake** file to add a name of create folder as symbol in list.
 
-To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant **TEST_TYPES** has a list of
-available tests priorities as a standard settings (_**:all**_ will run all tests in **/spec** folder). For example, to run
-*:bvt* tests you need to create **/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
+To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant
+**TEST_TYPES = [:all, :health, :bvt, :p1]** has a list of available tests priorities as a standard settings.
+To run all tests in **/spec** folder use this:
+
+```bash
+   rake rspec:all
+```
+(_:all_ will run all tests in **/spec** folder). For example, to run _:bvt_ tests you need to create
+**/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
 
 ```bash
 rake rspec:bvt
+```
+For running tests with less priority level use _:p1_:
+
+```bash
+rake rspec:p1
+```
+
+Also there is a standard option to run _Smoke_ tests:
+
+```bash
+rake rspec:health
+```
+In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
+you can create subfolders that represents the business areas of tests. In **/tasks/rspec.rake** there is a constant:
+
+**TEST_AREAS  = []**
+
+You can add here business areas of created tests that are in subfolders, names should be equal, for example:
+If _TEST_AREAS = [:accounts]_ and there is a folder with specs in it: **/spec/bvt/accounts.**
+You can run all tests from this folder by command:
+
+```bash
+rake rspec:bvt:accounts
 ```
