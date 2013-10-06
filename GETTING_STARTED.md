@@ -22,7 +22,7 @@ class HomePage < WebPage
 end
 ```
 
-### Validations ###
+### Validations
 
 Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
 some anchor in order to identify page exclusively.
