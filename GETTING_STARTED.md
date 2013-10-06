@@ -364,22 +364,23 @@ end
 ```
 
 Folders structure in RSpec & creating and running of Rake tasks
----------------------------------------------------------------
+-------------------------------------------------------------
+
 **/spec** folder contains all supporting .rspec code and tests.
 There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
 
 **/spec/support** contains helpers code, for example code that generates test data.
-It’s better to you modules here in every created files. Methods from this folder will be accessible in every _spec.rb file
-and every _page.rb file.
+It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
+and every **_page.rb** file.
 
-All _spec.rb files should contains in folder that has tests priority meaning in it’s name.
+All **_spec.rb** files should contains in folder that has tests priority meaning in it’s name.
 You should create folders in **/spec** to add there tests with needed priority level and edit constant **TEST_TYPES**
 in **/tasks/rspec.rake** file to add a name of create folder as symbol in list.
 
 To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant **TEST_TYPES** has a list of
-available tests priorities as a standard settings (*:all* will run all tests in **/spec** folder). For example, to run
+available tests priorities as a standard settings (_**:all**_ will run all tests in **/spec** folder). For example, to run
 *:bvt* tests you need to create **/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
+
 ```bash
 rake rspec:bvt
 ```
-
