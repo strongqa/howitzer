@@ -362,5 +362,72 @@ class TestEmail < Email
   end
 end
 ```
+DataGenerator::DataStorage module
+----------------------------------
+To store data in global scope _howitzer_ use **DataGenerator::DataStorage** module.
 
+This module has next methods:
 
+_DataStorage::store(ns,key,value)_ – use this method to save data in memory.
+
+_ns (Symbol,String)_ – namespace, it’s name for a hash when data will be stored. The number of namespaces is unlimited,
+but It’s name should be uniq.
+
+_key (Symbol,String,Number)_ – key of hash element that will be stored in memory.
+
+_value (any data type)_ – value of hash element that will be stored in system.
+
+_DataStorage::extract(ns, key=nil)_ – use this method to get stored data to use.
+
+_ns_ – use namespace name to get stored hash, that was saved before.
+
+_key_ – key of hash element need to be taken from memory. When it’s nil it returns all hash that has name ns.
+
+_DataStorage::clear_ns(ns)_ – this method delete stored data from memory.
+
+_ns_ – the name of stored hash.
+
+**DataGenerator::Gen module**
+
+This module has standard methods for generate test data. It has one standard data object for generate, because this is
+more common for almost all tests:
+
+_DataGenerator::Gen::User._
+
+_DataGenerator::Gen::User_ has the params:
+
+:login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
+
+To generate this object use _Gen::user(params={})_ method.
+
+Also you can reopen _Gen_ module to add your own objects to generate, also use this module to generate some other data
+specific for your tests.
+When using Cucumber create Gen.rb file in **/features/support** directory. When using Rspec create
+_Gen.rb_ file in **/spec/support** directory.
+
+**Cucumber Transformers**
+
+In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
+[https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
+We are using transformers to use generated data objects in tests. For example let’s imagine that we need to
+write _sign_up.feature:_
+
+```ruby
+Feature: Sign Up
+
+In order to use all functionality of the system
+As unregistered user
+I want to register to the system
+
+Scenario: correct credentials
+Given Register page
+And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
+When I put next register data and apply it
+
+|username    	     |email		         |password	    	   |
+|UNIQ_USER[:username]|UNIQ_USER[:email]  | UNIQ_USER[:password]|
+```
+Last line will automatically replace UNIQ_USER[:username] for generated data, which you can use.
+
+You can wright your own transformers for some other generated objects, that you will generate
+in _DataGenerator::Gen_ module.
