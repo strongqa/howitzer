@@ -423,7 +423,7 @@ In memory it looks like:
 }
 ```
 
-### DataGenerator::Gen ####
+### Generator ####
 
 This module has standard methods for generate test data. It has one standard data object for generate, because this is
 more common for almost all tests:
