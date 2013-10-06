@@ -1,6 +1,20 @@
 Getting Started
 ===============
 
+## Jump to Section
+* [Pages](#pages)
+* [Vlidations](#validations)
+* [Locators](#locators)
+* [Pages with static information](#pages-with-static-information)
+* [Redefining of the open method](#redefining-of-the-open-method)
+* [Good practices](#good-practices)
+* [Emails](#emails)
+* [BUILT-IN logging](#built-in-logging)
+* [Extended logging](#extended-logging)
+* [Data storage](#data-storage)
+* [DataGenerator::Gen](#datagenerator-gen)
+* [Cucumber Tranformers](#cucumber-transformers)
+
 Pages
 ------
 Pages - are classes that’s describe real web pages. For example,  'Home page' can be described as:
@@ -22,7 +36,7 @@ class HomePage < WebPage
 end
 ```
 
-### Validations ###
+### Validations
 
 Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
 some anchor in order to identify page exclusively.
@@ -241,7 +255,7 @@ class MyEmail < Email
 end
 ```
 
-Exapmle, how custom class might look like:
+Example, how custom class might look like:
 ```ruby
 class MyEmail <Email
   SUBJECT = "Test email" # specify the subject of an email
@@ -364,6 +378,9 @@ class TestEmail < Email
 end
 ```
 
+Folders structure in RSpec & creating and running of Rake tasks
+-------------------------------------------------------------
+=======
 Data Generators
 ---------------
 
@@ -378,10 +395,8 @@ This module has next methods:
 
 Method                                |  Description
 :------------------------------------:|:--------------------------------------------------:
-| _DataStorage.store(ns,key,value)_   | Adds data to storage, where ns - uniq namespace name    
-| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key
-|                                     | is not specified, then it will returns all data from
-|                                     | namespace
+| _DataStorage.store(ns,key,value)_   | Adds data to storage, where ns - uniq namespace name
+| _DataStorage::extract(ns, key=nil)_ | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
 | _DataStorage::clear_ns(ns)_         | Removes namespace with data
 
 **Example:**
@@ -394,7 +409,7 @@ DataStorage.store(:post, "post1", Post.new("Amazing post"))
 In memory it looks like:
 
 ```ruby
-{ 
+{
   user: {
     1 => User.new('Peter'),
     2 => User.new('Dan')
@@ -402,9 +417,8 @@ In memory it looks like:
   post: {
     "post1" => Post.new("Amazing post")
   }
-}  
+}
 ```
-
 
 ### DataGenerator::Gen ####
 
@@ -451,4 +465,50 @@ Last line will automatically replace UNIQ_USER[:username] for generated data, wh
 You can wright your own transformers for some other generated objects, that you will generate
 in _DataGenerator::Gen_ module.
 
+**/spec** folder contains all supporting .rspec code and tests.
+There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
 
+**/spec/support** contains helpers code, for example code that generates test data.
+It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
+and every **_page.rb** file.
+
+All **_spec.rb** files should contains in folder that has tests priority meaning in it’s name.
+You should create folders in **/spec** to add there tests with needed priority level and edit constant **TEST_TYPES**
+in **/tasks/rspec.rake** file to add a name of create folder as symbol in list.
+
+To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant
+**TEST_TYPES = [:all, :health, :bvt, :p1]** has a list of available tests priorities as a standard settings.
+To run all tests in **/spec** folder use this:
+
+```bash
+   rake rspec:all
+```
+(_:all_ will run all tests in **/spec** folder). For example, to run _:bvt_ tests you need to create
+**/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
+
+```bash
+rake rspec:bvt
+```
+For running tests with less priority level use _:p1_:
+
+```bash
+rake rspec:p1
+```
+
+Also there is a standard option to run _Smoke_ tests:
+
+```bash
+rake rspec:health
+```
+In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
+you can create subfolders that represents the business areas of tests. In **/tasks/rspec.rake** there is a constant:
+
+**TEST_AREAS  = []**
+
+You can add here business areas of created tests that are in subfolders, names should be equal, for example:
+If *TEST_AREAS = [:accounts]* and there is a folder with specs in it: **/spec/bvt/accounts.**
+You can run all tests from this folder by command:
+
+```bash
+rake rspec:bvt:accounts
+```
