@@ -22,8 +22,8 @@ class HomePage < WebPage
 end
 ```
 
-Validations
-------------
+### Validations ###
+
 Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
 some anchor in order to identify page exclusively.
 
@@ -78,8 +78,7 @@ Howitzer allows use all 3 validations, but only 1 is really required. If any val
 2. < Web Page Class >.given
 
 
-Locators
----------
+### Locators ###
 
 Locator is a search item (selector) of one or more elements on a 'Web page'.
 
@@ -132,8 +131,8 @@ module TopMenu
   end
 end
 ```
-Redefining of the *open* method
--------------------------------
+#### Redefining of the *open* method #####
+
 It is used when you need to open a page with additional parameters.
 
 **Example:**
@@ -145,8 +144,8 @@ class MyPage < WebPage
 end
 ```
 
-Good practice
--------------
+### Good practices ###
+
 
 **First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
 
@@ -220,8 +219,9 @@ class MyPage < WebPage
 end
 ```
 
-Email
------
+Emails
+------
+
 _**Email**_ class uses `Mailgun` gem and allows you to work with the mailbox.
 Class corresponds to one letter. Used to test the notifications.
 
@@ -250,12 +250,13 @@ class MyEmail <Email
   end
 end
 ```
+
 Logging
 -------
 *Howitzer* allows logging to the text file, HTML and output to the console.
 
-BUILT-IN logging
-----------------
+### BUILT-IN logging ###
+
 *Howitzer* uses the opportunity of Cucumber and RSpec generate HTML, JUnit logging. HTML provide ability to view the log in HTML, JUnit - use the logs in CI, accordingly.
 
 
@@ -298,9 +299,8 @@ Manual start all _features_:
 cucumber - format html - out =. / log / log.html
 ```
 
+### Extended logging ###
 
-Extended logging
-----------------
 Extended logging to a text file and to the console also available.
 It uses the _log manager_ provided by **_log_** method.
 
