@@ -3,17 +3,20 @@ Getting Started
 
 ## Jump to Section
 * [Pages](#pages)
-* [Vlidations](#validations)
-* [Locators](#locators)
-* [Pages with static information](#pages-with-static-information)
-* [Redefining of the open method](#redefining-of-the-open-method)
-* [Good practices](#good-practices)
+   * [Vlidations](#validations)
+   * [Locators](#locators)
+   * [Pages With Static Information](#pages-with-static-information)
+   * [Redefining of the pen method](#redefining-of-the-open-method)
+   * [Good Practices](#good-practices)
 * [Emails](#emails)
-* [BUILT-IN logging](#built-in-logging)
-* [Extended logging](#extended-logging)
-* [Data storage](#data-storage)
-* [DataGenerator::Gen](#datagenerator-gen)
-* [Cucumber Tranformers](#cucumber-transformers)
+* [Logging](#logging)
+   * [BUILT-IN Logging](#built-in-logging)
+   * [Extended Logging](#extended-logging)
+* [Data Generators](#data-generators)
+   * [Data Storage](#data-storage)
+   * [Generator](#datagenerator-gen)
+   * [Cucumber Tranformers](#cucumber-transformers)
+* [RSpec Folder Structure](#rspec-folder-structure)
 
 Pages
 ------
