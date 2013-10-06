@@ -148,7 +148,7 @@ describe Howitzer do
         it do
           expect(self).to receive(:puts).with("ERROR: Unknown '--unknown' option specified.")
           expect(self).to receive(:puts).with(HELP_MESSAGE)
-          expect(self).to receive(:exit).with(0)
+          expect(self).to receive(:exit).with(1)
           subject
         end
       end
@@ -166,7 +166,7 @@ describe Howitzer do
         it do
           expect(self).to receive(:puts).with("ERROR: No option specified for install command.")
           expect(self).to receive(:puts).with(HELP_MESSAGE)
-          expect(self).to receive(:exit).with(0)
+          expect(self).to receive(:exit).with(1)
           subject
         end
       end

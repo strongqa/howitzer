@@ -1,18 +1,8 @@
 require 'rspec/matchers'
 require 'howitzer/utils/email/mail_client'
 
-# Email class works with Mailgun and used for handling with email box.
-# Each class inherited from +Email+ refers only to *one* message into email box.
-# This could be useful when you need to test notifications via email or confirmations which are sent to email.
-
- class Email
+class Email
   include RSpec::Matchers
-
-  ##
-  #
-  # Refers to recepient address
-  #
-
   attr_reader :recipient_address
 
   ##

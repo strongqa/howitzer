@@ -15,6 +15,7 @@ module CapybaraSettings
   # * +Hash+ - Settings that can be changed
   #
 
+
   def self.base_ff_profile_settings
     profile = Selenium::WebDriver::Firefox::Profile.new
     profile["network.http.phishy-userpass-length"] = 255
@@ -195,6 +196,7 @@ module CapybaraSettings
   # * +json_data+ -
   # TODO explanations needed about this param
   #
+
 
   def update_sauce_job_status(json_data = {})
     host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"

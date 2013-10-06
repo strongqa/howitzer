@@ -24,24 +24,24 @@ class MailClient
 
   def self.merge_opts(opts={smtp: {}, pop3: {}})
     def_smtp_opts = {
-      address: settings.mail_smtp_server,
-      port: settings.mail_smtp_port,
-      domain: settings.mail_smtp_domain,
-      user_name: settings.mail_smtp_user_name,
-      password: settings.mail_smtp_user_pass,
-      authentication: 'plain',
-      enable_starttls_auto: true
+        address: settings.mail_smtp_server,
+        port: settings.mail_smtp_port,
+        domain: settings.mail_smtp_domain,
+        user_name: settings.mail_smtp_user_name,
+        password: settings.mail_smtp_user_pass,
+        authentication: 'plain',
+        enable_starttls_auto: true
     }
 
     def_pop3_opts = {
-      address: settings.mail_pop3_server,
-      port: settings.mail_pop3_port,
-      user_name: settings.mail_pop3_user_name,
-      password: settings.mail_pop3_user_pass
+        address: settings.mail_pop3_server,
+        port: settings.mail_pop3_port,
+        user_name: settings.mail_pop3_user_name,
+        password: settings.mail_pop3_user_pass
     }
     {
-      smtp: def_smtp_opts.merge(opts[:smtp]),
-      pop3: def_pop3_opts.merge(opts[:pop3])
+        smtp: def_smtp_opts.merge(opts[:smtp]),
+        pop3: def_pop3_opts.merge(opts[:pop3])
     }
   end
 
@@ -113,10 +113,10 @@ class MailClient
   end
 
   def start(&block)
-    #retryable(:timeout => settings.mail_pop3_timeout, :sleep => 5, :trace => true, :logger => log) do
+    retryable(:timeout => settings.mail_pop3_timeout, :sleep => 5, :trace => true, :logger => log) do
       Net::POP3.start(@options[:pop3][:address], @options[:pop3][:port],
                     @options[:pop3][:user_name], @options[:pop3][:password], &block)
-    #end
+    end
   end
 
   private

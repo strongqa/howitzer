@@ -3,7 +3,7 @@
 [![Build Status](https://api.travis-ci.org/romikoops/howitzer.png)](http://travis-ci.org/romikoops/howitzer)
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
 
-Howitzer is Ruby based framework for acceptance testing. 
+Howitzer is Ruby based framework for acceptance testing.
 
 Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
 The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/romikoops/howitzer/wiki/Test-Framework-Design).
@@ -18,8 +18,14 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 - Ability to check all links are valid
 
+
+## Documentation
+You should find the documentation for your version of *howitzer* on [Rubygems](https://rubygems.org/gems/howitzer).
+
+See [GETTING_STARTED](https://github.com/romikoops/howitzer/blob/develop/GETTING_STARTED.md) for information about using your version of *howitzer*.
+
 ## Requirements
-Ruby 1.9.3 +
+Ruby 1.9.3+
 
 ## Setup
 To install, type
@@ -39,7 +45,7 @@ cd test_automation
 Then for Cucumber:
 
 ```bash
-howitzer install --cucumber 
+howitzer install --cucumber
 ```
 
 For Rspec:
@@ -57,22 +63,22 @@ howitzer install --cucumber --rspec
 This command will generate next folders and files:
 ```
 config/
-        cucumber.yml
-        default.yml
-        custom.yml
+  cucumber.yml
+  default.yml
+  custom.yml
 tasks/
-        common.rake
-        cucumber.rake
-        rspec.rake
+  common.rake
+  cucumber.rake
+  rspec.rake
 emails/
-        example_email.rb
+  example_email.rb
 features/
-        support/env.rb
-        step_definitions/common_steps.rb
-        example.feature
+  support/env.rb
+  step_definitions/common_steps.rb
+  example.feature
 pages/
-        example_page.rb
-        example_menu.rb
+  example_page.rb
+  example_menu.rb
 boot.rb
 Gemfile
 Rakefile
@@ -96,6 +102,11 @@ You can list all available tasks with next command
 ```bash
 rake -T
 ```
+
+## More information
+* [Rubygems](https://rubygems.org/gems/howitzer)
+* [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
+* [Issues](https://github.com/romikoops/howitzer/issues)
 
 ## Contributing
 

@@ -1,10 +1,7 @@
 require "rspec/expectations"
-require 'howitzer/utils/locator_store'
-
-##
-#
-# Class that represents web-page object, your custom web-page classes should be inherited from this class
-#
+require "howitzer/utils/locator_store"
+require "howitzer/utils/page_validator"
+require "singleton"
 
 class WebPage
 
@@ -12,9 +9,11 @@ class WebPage
   IncorrectPageError = Class.new(StandardError)
 
   include LocatorStore
+  include Howitzer
   include RSpec::Matchers
   include Capybara::DSL
   extend  Capybara::DSL
+  include Singleton
 
   ##
   #
@@ -33,7 +32,7 @@ class WebPage
       log.info "Retry..." unless retries.zero?
       visit url
     end
-    new
+    given
   end
 
   ##
@@ -45,7 +44,7 @@ class WebPage
   #
 
   def self.given
-    new
+    self.instance.tap{ |page| page.check_correct_page_loaded }
   end
 
   ##
@@ -135,7 +134,25 @@ class WebPage
 
   ##
   #
-  # Reloads current web page
+  # Waits until web is loaded with expected title
+  #
+  # *Parameters:*
+  # * +expected_title+ - Page title that will be waited for
+  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
+  #
+
+  def wait_for_title(expected_title, timeout=settings.timeout_small)
+    end_time = ::Time.now + timeout
+    until ::Time.now > end_time
+      operator = expected_title.is_a?(Regexp) ? :=~ : :==
+      return true if title.send(operator, expected_title).tap{|res| sleep 1 unless res}
+    end
+    log.error IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
+  end
+
+  ##
+  #
+  # Reloads current page
   #
 
   def reload
@@ -157,17 +174,25 @@ class WebPage
 
   ##
   #
+  # Returns Page title
+  #
+  # *Returns:*
+  # * +string+ - Page title
+  #
+
+  def title
+    page.title
+  end
+
+  ##
+  #
   # Returns body text of html page
   #
   # *Returns:*
   # * +string+ - Body text
   #
+
   def self.text
     page.find('body').text
-  end
-
-  private
-  def initialize
-    wait_for_url(self.class::URL_PATTERN)
   end
 end
