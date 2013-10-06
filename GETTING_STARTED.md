@@ -14,7 +14,7 @@ Getting Started
    * [Extended Logging](#extended-logging)
 * [Data Generators](#data-generators)
    * [Data Storage](#data-storage)
-   * [Generator](#datagenerator-gen)
+   * [Generator](#generator)
    * [Cucumber Tranformers](#cucumber-transformers)
 * [RSpec Folder Structure](#rspec-folder-structure)
 
