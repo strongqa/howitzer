@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <link href='https://fonts.googleapis.com/css?family=Chivo:900' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <title>Howitzer by romikoops</title>
+  </head>
+
+  <body>
+    <div id="container">
+      <div class="inner">
+
+        <header>
+          <h1>Howitzer</h1>
+          <h2>Universal Ruby Test Framework</h2>
+        </header>
+
+        <section id="downloads" class="clearfix">
+          <a href="https://github.com/romikoops/howitzer/zipball/master" id="download-zip" class="button"><span>Download .zip</span></a>
+          <a href="https://github.com/romikoops/howitzer/tarball/master" id="download-tar-gz" class="button"><span>Download .tar.gz</span></a>
+          <a href="https://github.com/romikoops/howitzer" id="view-on-github" class="button"><span>View on GitHub</span></a>
+        </section>
+
+        <hr>
+
+        <section id="main_content">
+          <h1>
+<a name="howitzer" class="anchor" href="#howitzer"><span class="octicon octicon-link"></span></a>Howitzer</h1>
+
+<p><a href="http://travis-ci.org/romikoops/howitzer"><img src="https://api.travis-ci.org/romikoops/howitzer.png" alt="Build Status"></a>
+<a href="https://gemnasium.com/romikoops/howitzer"><img src="https://gemnasium.com/romikoops/howitzer.png" alt="Dependency Status"></a></p>
+
+<p>Howitzer is Ruby based framework for acceptance testing.</p>
+
+<p>Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
+The framework uses modern patterns, techniques and tools in automated testing area. For details, please see <a href="https://github.com/romikoops/howitzer/wiki/Test-Framework-Design">Test Framework Design</a>.</p>
+
+<h2>
+<a name="key-benefits" class="anchor" href="#key-benefits"><span class="octicon octicon-link"></span></a>Key benefits</h2>
+
+<ul>
+<li>Independent of test web application, its technologies and lanquage.</li>
+<li>Deploy all test infrastructure for 5 minutes.</li>
+<li>Flexible test framework configuration.</li>
+<li>Ability to choose desired BDD tool (Cucumber or RSpec)</li>
+<li>Itegration with SauceLabs, Testingbot and Mailgun web services.</li>
+<li>Easy to support tests in actual state.</li>
+<li>Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.</li>
+<li>Ability to check all links are valid</li>
+</ul><h2>
+<a name="documentation" class="anchor" href="#documentation"><span class="octicon octicon-link"></span></a>Documentation</h2>
+
+<p>See <a href="https://github.com/romikoops/howitzer/blob/develop/GETTING_STARTED.md">GETTING_STARTED</a> how to work with <em>howitzer</em>.</p>
+
+<p>Also you can find Rdoc documentation on <a href="https://rubygems.org/gems/howitzer">Rubygems</a>.</p>
+
+<h2>
+<a name="requirements" class="anchor" href="#requirements"><span class="octicon octicon-link"></span></a>Requirements</h2>
+
+<p>Ruby 1.9.3+</p>
+
+<h2>
+<a name="setup" class="anchor" href="#setup"><span class="octicon octicon-link"></span></a>Setup</h2>
+
+<p>To install, type</p>
+
+<div class="highlight highlight-bash"><pre>sudo gem install howitzer
+</pre></div>
+
+<h2>
+<a name="usage" class="anchor" href="#usage"><span class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>To deploy the framework, type:</p>
+
+<div class="highlight highlight-bash"><pre>mkdir test_automation
+<span class="nb">cd </span>test_automation
+</pre></div>
+
+<p>Then for Cucumber:</p>
+
+<div class="highlight highlight-bash"><pre>howitzer install --cucumber
+</pre></div>
+
+<p>For Rspec:</p>
+
+<div class="highlight highlight-bash"><pre>howitzer install --rspec
+</pre></div>
+
+<p>Or for both the ones:</p>
+
+<div class="highlight highlight-bash"><pre>howitzer install --cucumber --rspec
+</pre></div>
+
+<p>This command will generate next folders and files:</p>
+
+<pre><code>config/
+  cucumber.yml
+  default.yml
+  custom.yml
+tasks/
+  common.rake
+  cucumber.rake
+  rspec.rake
+emails/
+  example_email.rb
+features/
+  support/env.rb
+  step_definitions/common_steps.rb
+  example.feature
+pages/
+  example_page.rb
+  example_menu.rb
+boot.rb
+Gemfile
+Rakefile
+.gitignore
+</code></pre>
+
+<h3>
+<a name="configuration" class="anchor" href="#configuration"><span class="octicon octicon-link"></span></a>Configuration</h3>
+
+<p>Learn and specify correct default settings in <code>config/default.yml</code> file. For details, please see original <a href="https://github.com/romikoops/sexy_settings">sexy_settings</a> gem.</p>
+
+<h2>
+<a name="test-implementation-workflow" class="anchor" href="#test-implementation-workflow"><span class="octicon octicon-link"></span></a>Test implementation workflow</h2>
+
+<ul>
+<li>Prepare some feature with scenarios in <code>features/some.feature</code> file.</li>
+<li>Implement step definitions in <code>features/step_definitions/common_steps.rb</code> file.</li>
+<li>Implement appropriate pages in <code>pages</code> folder. For details, see <a href="https://github.com/romikoops/howitzer/wiki/PageObject-pattern">Page Object Pattern</a>.</li>
+<li>Debug feature.</li>
+<li>Enjoy it!</li>
+</ul><h2>
+<a name="rake-tasks" class="anchor" href="#rake-tasks"><span class="octicon octicon-link"></span></a>Rake tasks</h2>
+
+<p>You can list all available tasks with next command</p>
+
+<div class="highlight highlight-bash"><pre>rake -T
+</pre></div>
+
+<h2>
+<a name="more-information" class="anchor" href="#more-information"><span class="octicon octicon-link"></span></a>More information</h2>
+
+<ul>
+<li><a href="https://rubygems.org/gems/howitzer">Rubygems</a></li>
+<li><a href="https://groups.google.com/forum/#!forum/howitzer_ruby">Mailing list</a></li>
+<li><a href="https://github.com/romikoops/howitzer/issues">Issues</a></li>
+</ul><h2>
+<a name="contributing" class="anchor" href="#contributing"><span class="octicon octicon-link"></span></a>Contributing</h2>
+
+<ol>
+<li>Fork it</li>
+<li>Create your feature branch (<code>git checkout -b my-new-feature</code>)</li>
+<li>Commit your changes (<code>git commit -am 'Added some feature'</code>)</li>
+<li>Push to the branch (<code>git push origin my-new-feature</code>)</li>
+<li>Create new Pull Request</li>
+</ol>
+        </section>
+
+        <footer>
+          Howitzer is maintained by <a href="https://github.com/romikoops">romikoops</a><br>
+          This page was generated by <a href="http://pages.github.com">GitHub Pages</a>. Tactile theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.
+        </footer>
+
+        
+      </div>
+    </div>
+  </body>
+</html>
