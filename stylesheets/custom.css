@@ -1,0 +1,144 @@
+hr.lineseparator {
+    border: 0;
+    padding: 0;
+    margin: 20px 0 30px 0;
+    height: 1px;
+    background: #a8a7a7;
+    background-image: -webkit-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+    background-image:    -moz-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+    background-image:     -ms-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+    background-image:      -o-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+}
+
+.htitle { 
+  position: relative; 
+  text-align: center; 
+  margin-bottom: 45px;
+}
+.htitle:before { 
+  position: absolute;
+  top: 50%;
+  margin-top: -1px;
+  left: 0;
+  right: 0;
+  content: "";
+  height: 1px;
+  background-image: -webkit-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+  background-image:    -moz-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+  background-image:     -ms-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+  background-image:      -o-linear-gradient(left, #ccc, #a8a7a7, #ccc); 
+}
+.htitle span { 
+  position: relative;
+  background-color: #f2f2f2;
+  text-transform: uppercase;
+  font-size: 22px;
+  border: 1px solid #a8a7a7;
+  -webkit-border-radius: 20px;
+  -moz-border-radius: 20px;
+  -ms-border-radius: 20px;
+  -o-border-radius: 20px;
+  border-radius: 20px;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  display: inline-block;
+  padding: 0 35px;
+  height: 42px;
+  line-height: 42px;
+}
+
+.developed {
+  font-size: 18px;
+}
+
+a.f-doc {
+  -moz-border-radius: 30px;
+  -webkit-border-radius: 30px;                     
+  border-radius: 30px;
+  border-top: solid 1px #cbcbcb;
+  border-left: solid 1px #b7b7b7;
+  border-right: solid 1px #b7b7b7;
+  border-bottom: solid 1px #b3b3b3;
+  color: #303030;
+  line-height: 25px;
+  font-weight: bold;
+  font-size: 15px;
+  padding: 12px 8px 12px 8px;
+  display: block;
+  width: 149px;
+  margin: 0 auto;
+  background: #fdfdfd; /* Old browsers */
+  background: -moz-linear-gradient(top,  #fdfdfd 0%, #f2f2f2 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#f2f2f2)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f2f2f2 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #fdfdfd 0%,#f2f2f2 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #fdfdfd 0%,#f2f2f2 100%); /* IE10+ */
+  background: linear-gradient(top,  #fdfdfd 0%,#f2f2f2 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f2f2f2',GradientType=0 ); /* IE6-9 */
+  -webkit-box-shadow: 10px 10px 5px #888;
+  -moz-box-shadow: 10px 10px 5px #888;
+  box-shadow: 0px 1px 5px #e8e8e8;
+}
+a.f-doc:hover {
+  border-top: solid 1px #b7b7b7;
+  border-left: solid 1px #b3b3b3;
+  border-right: solid 1px #b3b3b3;
+  border-bottom: solid 1px #b3b3b3;
+  background: #fafafa; /* Old browsers */
+  background: -moz-linear-gradient(top,  #fdfdfd 0%, #f6f6f6 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#fdfdfd), color-stop(100%,#f6f6f6)); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top,  #fdfdfd 0%,#f6f6f6 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top,  #fdfdfd 0%,#f6f6f6 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top,  #fdfdfd 0%,#f6f6f6 100%); /* IE10+ */
+  background: linear-gradient(top,  #fdfdfd 0%,#f6f6f6, 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fdfdfd', endColorstr='#f6f6f6',GradientType=0 ); /* IE6-9 */
+}
+a.f-doc span {
+  padding-left: 50px;
+  display: block;
+  height: 23px;
+}
+
+.downl-links {
+  padding-left: 123px;
+}
+
+.excex-commands {
+  margin-top: 0px;
+}
+
+.excex-commands1 {
+  margin-top: 20px;
+}
+
+.explanation,
+.explanation2 {
+  float: left;
+  width: 48%;
+}
+
+.runcode {
+  float: left;
+  width: 33%;
+}
+
+.explanation2 p {
+  text-align: right;
+  margin: 0;
+  margin-right: 10px;
+  padding: 0;
+}
+
+.hbenefits {
+  width: 100%;
+  text-align: center;
+}
+
+.hbenefits img {
+  margin: 0 auto;
+}
+
+.hcode {
+  width: 100%;
+}
