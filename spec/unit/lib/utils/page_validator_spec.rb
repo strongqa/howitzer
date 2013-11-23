@@ -8,11 +8,27 @@ describe Howitzer::Utils::PageValidator do
 end
 
 describe "PageValidator" do
-  let(:web_page) { Class.new { include Howitzer::Utils::PageValidator }.new }
+  let(:web_page_class) do
+    Class.new do
+      include Howitzer::Utils::PageValidator
+      def self.name
+        'TestWebPageClass'
+      end
+    end
+  end
+  let(:web_page) { web_page_class.new }
   describe "#check_correct_page_loaded" do
     subject { web_page.check_correct_page_loaded }
     context "when no validation specified" do
       it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError, "No any page validation was found") }
+    end
+    context "when old validation style is using" do
+      before { web_page_class.const_set("URL_PATTERN",/Foo/) }
+      after { web_page_class.send :remove_const, "URL_PATTERN"}
+      it do
+        expect(web_page_class).to receive(:validates).with(:url, pattern: /Foo/).and_return{ Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {}}
+        expect(subject).to_not be_nil
+      end
     end
     context "when all validation are specified" do
       before do

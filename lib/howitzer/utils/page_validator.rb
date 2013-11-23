@@ -27,9 +27,25 @@ module Howitzer
       # @raise  [Howitzer::Utils::PageValidator::NoValidationError]   If no validation was specified
       #
       def check_correct_page_loaded
-        validations = PageValidator.validations[self.class.name]
-        raise NoValidationError, "No any page validation was found" if validations.nil?
+        if validations.nil?
+          if old_url_validation_present?
+            self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
+            puts "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
+          else
+            raise NoValidationError, "No any page validation was found"
+          end
+        end
         validations.each {|(_, validation)| validation.call(self)}
+      end
+
+      private
+
+      def validations
+        PageValidator.validations[self.class.name]
+      end
+
+      def old_url_validation_present?
+        self.class.const_defined?("URL_PATTERN")
       end
 
       module ClassMethods
