@@ -65,7 +65,7 @@ Validation Type    | Options | Value Type    | Description
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
+  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -119,7 +119,7 @@ Each page contains a description of all elements by adding the appropriate locat
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
+  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
   add_locator :test_locator_name2,  css: '.foo'                    #css locator
