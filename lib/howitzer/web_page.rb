@@ -53,6 +53,30 @@ class WebPage
 
   ##
   #
+  # Returns current url
+  #
+  # *Returns:*
+  # * +string+ - Current url
+  #
+
+  def self.current_url
+    page.current_url
+  end
+
+  ##
+  #
+  # Returns body text of html page
+  #
+  # *Returns:*
+  # * +string+ - Body text
+  #
+
+  def self.text
+    page.find('body').text
+  end
+
+  ##
+  #
   # Fills in field that using Tinymce API
   #
   # *Parameters:*
@@ -166,18 +190,6 @@ class WebPage
 
   ##
   #
-  # Returns current url
-  #
-  # *Returns:*
-  # * +string+ - Current url
-  #
-
-  def self.current_url
-    page.current_url
-  end
-
-  ##
-  #
   # Returns Page title
   #
   # *Returns:*
@@ -188,15 +200,4 @@ class WebPage
     page.title
   end
 
-  ##
-  #
-  # Returns body text of html page
-  #
-  # *Returns:*
-  # * +string+ - Body text
-  #
-
-  def self.text
-    page.find('body').text
-  end
 end

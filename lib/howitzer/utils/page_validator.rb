@@ -1,3 +1,5 @@
+require_relative '../utils/page_identifier'
+
 module Howitzer
   module Utils
     module PageValidator
@@ -32,7 +34,7 @@ module Howitzer
             self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
             puts "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
           else
-            raise NoValidationError, "No any page validation was found"
+            raise NoValidationError, "No any page validation was found for '#{self.class.name}' page"
           end
         end
         validations.each {|(_, validation)| validation.call(self)}
@@ -63,6 +65,7 @@ module Howitzer
         def validates(name, options)
           raise TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
+          PageIdentifier.validations[self.name] ||= {}
           case name.to_sym
             when :url
               validate_url options
@@ -81,6 +84,7 @@ module Howitzer
           pattern = options[:pattern] || options["pattern"]
           raise WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
           PageValidator.validations[self.name][:url] = lambda { |web_page| web_page.wait_for_url(pattern) }
+          PageIdentifier.validations[self.name][:url] = lambda { |url| pattern === url }
         end
 
         def validate_element(options)
@@ -93,6 +97,7 @@ module Howitzer
           pattern = options[:pattern] || options["pattern"]
           raise WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
           PageValidator.validations[self.name][:title] = lambda { |web_page| web_page.wait_for_title(pattern) }
+          PageIdentifier.validations[self.name][:title] = lambda { |title| pattern === title }
         end
 
       end

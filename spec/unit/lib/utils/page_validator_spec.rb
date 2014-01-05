@@ -20,7 +20,7 @@ describe "PageValidator" do
   describe "#check_correct_page_loaded" do
     subject { web_page.check_correct_page_loaded }
     context "when no validation specified" do
-      it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError, "No any page validation was found") }
+      it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError, "No any page validation was found for 'TestWebPageClass' page") }
     end
     context "when old validation style is using" do
       before { web_page_class.const_set("URL_PATTERN",/Foo/) }
@@ -46,7 +46,11 @@ describe "PageValidator" do
   end
 
   describe ".validates" do
-    subject { web_page.class.validates(name, options)}
+    before do
+      Howitzer::Utils::PageValidator.validations[web_page.class.name] = nil
+      Howitzer::Utils::PageIdentifier.validations[web_page.class.name] = nil
+    end
+    subject { web_page.class.validates(name, options) }
     context "when name = :url" do
       context "as string" do
         let(:name) { "url" }
@@ -55,14 +59,16 @@ describe "PageValidator" do
             let(:options) { {"pattern" => /foo/} }
             it do
               expect(subject).to be_a(Proc)
-              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to eql(subject)
+              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+              expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
           context "(as symbol)" do
             let(:options) { {pattern: /foo/} }
             it do
               expect(subject).to be_a(Proc)
-              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to eql(subject)
+              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+              expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
         end
@@ -86,7 +92,8 @@ describe "PageValidator" do
         let(:options) { {pattern: /foo/} }
         it do
           expect(subject).to be_a(Proc)
-          expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to eql(subject)
+          expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+          expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
         end
       end
     end
@@ -126,14 +133,16 @@ describe "PageValidator" do
           let(:options) { {"pattern" => /foo/} }
           it do
             expect(subject).to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to eql(subject)
+            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
+            expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
         context "(as symbol)" do
           let(:options) { {pattern: /foo/} }
           it do
             expect(subject).to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to eql(subject)
+            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
+            expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
       end
