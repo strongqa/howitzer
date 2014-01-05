@@ -25,7 +25,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
-  gem.add_runtime_dependency 'log4r'
+  gem.add_runtime_dependency 'log4r', '1.1.10'
   gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
@@ -35,7 +35,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'activeresource', '~>4.0'
   gem.add_runtime_dependency 'testingbot'
 
-  gem.add_development_dependency("rspec", [">= 2.14.1"])
   gem.add_development_dependency("fuubar", [">= 0.0.1"])
   gem.add_development_dependency("rake")
   gem.add_development_dependency("ffaker")
