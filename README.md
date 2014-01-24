@@ -88,8 +88,9 @@ Rakefile
 ### Configuration
 Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
-## Test implementation workflow
+## Test implementation workflow (with Cucumber)
 
+- Read and learn [Cucumber Best Practices](https://github.com/romikoops/howitzer/wiki/Cucumber-Best-Practices)
 - Prepare some feature with scenarios in `features/some.feature` file.
 - Implement step definitions in `features/step_definitions/common_steps.rb` file.
 - Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/romikoops/howitzer/wiki/PageObject-pattern).
