@@ -102,50 +102,6 @@ describe "DataGenerator" do
         it { expect(subject.full_name).to eql 'Alexey Petrenko' }
         it { expect(subject.mailbox).to eql 'member@test.com' }
       end
-      describe "#create_mailbox" do
-        subject { nu_user.create_mailbox }
-        let(:nu_user) { DataGenerator::Gen::User.new({ email: 'alex.petrenko@mail.com', mailbox: 'member@test.com' }) }
-        before { stub_const('MailClient', double) }
-        context "should return User object" do
-          before do
-            allow(settings).to receive(:mail_pop3_domain) { 'mail.com' }
-            expect(MailClient).to receive(:create_mailbox).with('alex.petrenko').once { 'petrenko@test.com' }
-          end
-          it { expect(subject).to be_an_instance_of DataGenerator::Gen::User }
-        end
-        context "when mail_pop3_domain settings are equal to @domain" do
-          before do
-            allow(settings).to receive(:mail_pop3_domain) { 'mail.com' }
-            expect(MailClient).to receive(:create_mailbox).with('alex.petrenko').once { 'petrenko@test.com' }
-          end
-          it do
-            subject
-            expect(nu_user.mailbox).to eql 'petrenko@test.com'
-          end
-        end
-        context "when mail_pop3_domain settings are not equal to @domain" do
-          before { allow(settings).to receive(:mail_pop3_domain) { 'post.com' } }
-          it do
-            subject
-            expect(nu_user.mailbox).to eql 'member@test.com'
-          end
-        end
-      end
-      describe "#delete_mailbox" do
-        subject { nu_user.delete_mailbox }
-        let(:nu_user) { DataGenerator::Gen::User.new({ mailbox: mbox }) }
-        before { stub_const('MailClient', double) }
-        context "when mailbox spcified" do
-          before { expect(MailClient).to receive(:delete_mailbox).with(mbox).once { 'mailbox deleted' } }
-          let(:mbox) { 'member@test.com' }
-          it { expect(subject).to eql 'mailbox deleted' }
-        end
-        context "when mailbox not spcified" do
-          before { expect(MailClient).to_not receive(:delete_mailbox).with(mbox) }
-          let(:mbox) { nil }
-          it { expect(subject).to be_nil }
-        end
-      end
     end
   end
 end

@@ -1,9 +1,10 @@
 require 'rspec/matchers'
-require 'howitzer/utils/email/mail_client'
+require 'mailgun'
+#require 'howitzer/utils/email/mail_client'
 
 class Email
   include RSpec::Matchers
-  attr_reader :recipient_address
+  attr_reader :recipient_address, :mg_client, :domain
 
   ##
   #
@@ -14,9 +15,11 @@ class Email
   #
 
   def initialize(message)
-    expect(message.subject).to include(self.class::SUBJECT)
-    @recipient_address = ::Mail::Address.new(message.to.first)
-    @message = message
+    @mg_client = Mailgun::Client.new settings.mailgun_api_key
+    @domain = settings.mail_smtp_domain
+    #expect(message.subject).to include(self.class::SUBJECT)
+    #@recipient_address = ::Mail::Address.new(message.to.first)
+    #@message = message
   end
 
   ##
@@ -28,7 +31,7 @@ class Email
   #
 
   def self.find_by_recipient(recipient)
-    find(recipient, self::SUBJECT)
+    #find(recipient, self::SUBJECT)
   end
 
   ##
@@ -41,15 +44,15 @@ class Email
   #
 
   def self.find(recipient, subject)
-    messages = MailClient.by_email(recipient).find_mail do |mail|
-      /#{Regexp.escape(subject)}/ === mail.subject && mail.to == [recipient]
-    end
-
-    if messages.first.nil?
-      log.error "#{self} was not found (recipient: '#{recipient}')"
-      return   # TODO check log.error raises error
-    end
-    new(messages.first)
+    #messages = MailClient.by_email(recipient).find_mail do |mail|
+    #  /#{Regexp.escape(subject)}/ === mail.subject && mail.to == [recipient]
+    #end
+    #
+    #if messages.first.nil?
+    #  log.error "#{self} was not found (recipient: '#{recipient}')"
+    #  return   # TODO check log.error raises error
+    #end
+    #new(messages.first)
   end
 
   ##
@@ -58,7 +61,7 @@ class Email
   #
 
   def plain_text_body
-    get_mime_part(@message, 'text/plain').to_s
+    #get_mime_part(@message, 'text/plain').to_s
   end
 
   ##
@@ -71,13 +74,13 @@ class Email
   #
 
   def get_mime_part(part, type)
-    return part.body if part["content-type"].to_s =~ %r!#{type}!
-    # Recurse the multi-parts
-    part.parts.each do |sub_part|
-      r = get_mime_part(sub_part, type)
-      return r if r
-    end
-    nil
+    #return part.body if part["content-type"].to_s =~ %r!#{type}!
+    ## Recurse the multi-parts
+    #part.parts.each do |sub_part|
+    #  r = get_mime_part(sub_part, type)
+    #  return r if r
+    #end
+    #nil
   end
 
   protected :get_mime_part

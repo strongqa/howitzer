@@ -34,6 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'selenium-webdriver'
   gem.add_runtime_dependency 'activeresource', '~>4.0'
   gem.add_runtime_dependency 'testingbot'
+  gem.add_runtime_dependency 'mailgun'
 
   gem.add_development_dependency("fuubar", [">= 0.0.1"])
   gem.add_development_dependency("rake")

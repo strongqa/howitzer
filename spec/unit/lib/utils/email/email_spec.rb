@@ -4,6 +4,7 @@ require "#{lib_path}/howitzer/utils/email/email"
 
 
 describe Email do
+  pending("Need to rewrite")
   let(:message) { double }
   let(:message_subject) { 'test_subject' }
   let(:mail_address) { double }
@@ -39,26 +40,7 @@ describe Email do
   end
 
   describe ".find" do
-    let(:mail_client) { double }
-    subject { Email.find('Vasya', 'Text') }
-    before  do
-      stub_const("MailClient", double)
-      allow(MailClient).to receive(:by_email).and_return(mail_client)
-      allow(mail_client).to receive(:find_mail).and_return(messages )
-      allow(message).to receive(:subject).and_return('test_subject')
-    end
-    context "when messages.first present"  do
-      let(:messages) { [message] }
-      it {expect(subject).to be_kind_of(Email) }
-    end
-
-    context "when messages.first not present" do
-      let(:messages) {[]}
-      it do
-        expect(log).to receive(:error).with("Email was not found (recipient: 'Vasya')").once
-        subject
-      end
-    end
+    pending("Implement when .find will be implemented")
   end
 
   describe "#plain_text_body" do

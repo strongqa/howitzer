@@ -117,15 +117,6 @@ module DataGenerator
         @full_name = "#@first_name #@last_name"
         @mailbox = params.delete(:mailbox)
       end
-
-      def create_mailbox
-        @mailbox = MailClient.create_mailbox(@email_name) if settings.mail_pop3_domain == @domain
-        self
-      end
-
-      def delete_mailbox
-        MailClient.delete_mailbox(@mailbox) unless @mailbox.nil?
-      end
     end
   end
 end
