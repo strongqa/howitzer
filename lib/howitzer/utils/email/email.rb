@@ -1,10 +1,11 @@
 require 'rspec/matchers'
 require 'mailgun'
-#require 'howitzer/utils/email/mail_client'
 
 class Email
   include RSpec::Matchers
-  attr_reader :recipient_address, :mg_client, :domain
+
+  @@mg_client = Mailgun::Client.new settings.mailgun_api_key
+  @@domain = settings.mail_smtp_domain
 
   ##
   #
@@ -15,11 +16,7 @@ class Email
   #
 
   def initialize(message)
-    @mg_client = Mailgun::Client.new settings.mailgun_api_key
-    @domain = settings.mail_smtp_domain
-    #expect(message.subject).to include(self.class::SUBJECT)
-    #@recipient_address = ::Mail::Address.new(message.to.first)
-    #@message = message
+    @message = message
   end
 
   ##
@@ -31,7 +28,7 @@ class Email
   #
 
   def self.find_by_recipient(recipient)
-    #find(recipient, self::SUBJECT)
+    find(recipient, self::SUBJECT)
   end
 
   ##
@@ -44,15 +41,16 @@ class Email
   #
 
   def self.find(recipient, subject)
-    #messages = MailClient.by_email(recipient).find_mail do |mail|
-    #  /#{Regexp.escape(subject)}/ === mail.subject && mail.to == [recipient]
-    #end
-    #
-    #if messages.first.nil?
-    #  log.error "#{self} was not found (recipient: '#{recipient}')"
-    #  return   # TODO check log.error raises error
-    #end
-    #new(messages.first)
+    events = @@mg_client.get("#{@@domain}/events", event: 'stored')
+    message_key = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}['storage']['key']
+    message = @@mg_client.get "domains/#{@@domain}/messages/#{message_key}"
+
+    unless message
+      log.error "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
+      return
+    end
+
+    new(message.to_h)
   end
 
   ##
@@ -61,28 +59,31 @@ class Email
   #
 
   def plain_text_body
-    #get_mime_part(@message, 'text/plain').to_s
+    @message['body-plain']
+  end
+
+  ##
+  #
+  # Returns html body of email message
+  #
+
+  def html_body
+    @message['stripped-html']
   end
 
   ##
   #
   # Allows to get email MIME attachment
   #
-  # *Parameters:*
-  # * +part+ - recepient's email address
-  # * +type+ - MIME message part
-  #
 
-  def get_mime_part(part, type)
-    #return part.body if part["content-type"].to_s =~ %r!#{type}!
-    ## Recurse the multi-parts
-    #part.parts.each do |sub_part|
-    #  r = get_mime_part(sub_part, type)
-    #  return r if r
-    #end
-    #nil
+  def get_mime_part
+    files = @message['attachments']
+    unless files.empty?
+      log.error "No attachments where found."
+      return
+    end
+    files
   end
 
   protected :get_mime_part
-
 end
