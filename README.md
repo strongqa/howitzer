@@ -1,6 +1,6 @@
 # Howitzer
 
-[![Build Status](https://api.travis-ci.org/romikoops/howitzer.png)](http://travis-ci.org/romikoops/howitzer)
+[![Build Status](https://travis-ci.org/romikoops/howitzer.svg?branch=develop)](https://travis-ci.org/romikoops/howitzer)
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)](https://codeclimate.com/github/romikoops/howitzer)
 
