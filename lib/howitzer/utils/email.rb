@@ -4,8 +4,8 @@ require 'mailgun'
 class Email
   include RSpec::Matchers
 
-  @@mg_client = Mailgun::Client.new settings.mailgun_api_key
-  @@domain = settings.mail_smtp_domain
+  @@mg_client = Mailgun::Client.new settings.mailgun_key
+  @@domain = settings.mailgun_domain
 
   ##
   #
@@ -41,9 +41,12 @@ class Email
   #
 
   def self.find(recipient, subject)
-    events = @@mg_client.get("#{@@domain}/events", event: 'stored')
-    message_key = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}['storage']['key']
-    message = @@mg_client.get "domains/#{@@domain}/messages/#{message_key}"
+    message = {}
+    retryable(tries: 10, logger: log, sleep: 1, trace: true, on: Exception) do
+      events = @@mg_client.get("#{@@domain}/events", event: 'stored')
+      message_key = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}['storage']['key']
+      message = @@mg_client.get "domains/#{@@domain}/messages/#{message_key}"
+    end
 
     unless message
       log.error "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
@@ -69,6 +72,42 @@ class Email
 
   def html_body
     @message['stripped-html']
+  end
+
+  ##
+  #
+  # Returns who has send email data in format: User Name <user@email>
+  #
+
+  def mail_from
+    @message['From']
+  end
+
+  ##
+  #
+  # Returns array of recipients who has received current email
+  #
+
+  def recipients
+    @message['To'].split ', '
+  end
+
+  ##
+  #
+  # Returns email received time in format:
+  #
+
+  def received_time
+    @message['Received'][/\w+, \d+ \w+ \d+ \d+:\d+:\d+ -\d+ \(\w+\)$/]
+  end
+
+  ##
+  #
+  # Returns sender user email
+  #
+
+  def sender_email
+    @message['sender']
   end
 
   ##

@@ -89,6 +89,12 @@
  mail_pop3_user_name: test_user
  mail_pop3_user_pass: mypass
 
+###########################################################
+# MAILGUN SETTINGS                                        #
+###########################################################
+ mailgun_key: mailgun_account_private_key
+ mailgun_domain: mailgun_domain_with_stored_method
+
 ############################################################
 # TIMEOUTS                                                 #
 ############################################################
