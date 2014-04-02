@@ -27,6 +27,7 @@ class MailgunConnector
 end
 
 class Email
+  EmailNotFound = Class.new(StandardError)
   include RSpec::Matchers
 
   ##
@@ -69,6 +70,8 @@ class Email
       event = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}
       if event
         message = MailgunConnector.instance.client.get("domains/#{MailgunConnector.instance.domain}/messages/#{event['storage']['key']}").to_h
+      else
+        raise EmailNotFound.new 'Message not received yet, retry...'
       end
     end
 
