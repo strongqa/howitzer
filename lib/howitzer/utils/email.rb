@@ -1,11 +1,33 @@
 require 'rspec/matchers'
 require 'mailgun'
+require 'repeater'
+require 'singleton'
+
+class MailgunConnector
+  include Singleton
+
+  attr_reader :api_key
+
+  def client(api_key=settings.mailgun_key)
+    if @api_key == api_key && @api_key
+      @client
+    else
+      @api_key = api_key
+      @client = Mailgun::Client.new(@api_key)
+    end
+  end
+
+  def domain
+    @domain || change_domain
+  end
+
+  def change_domain(domain_name=settings.mailgun_domain)
+    @domain = domain_name
+  end
+end
 
 class Email
   include RSpec::Matchers
-
-  @@mg_client = Mailgun::Client.new settings.mailgun_key
-  @@domain = settings.mailgun_domain
 
   ##
   #
@@ -42,18 +64,20 @@ class Email
 
   def self.find(recipient, subject)
     message = {}
-    retryable(tries: 10, logger: log, sleep: 1, trace: true, on: Exception) do
-      events = @@mg_client.get("#{@@domain}/events", event: 'stored')
-      message_key = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}['storage']['key']
-      message = @@mg_client.get "domains/#{@@domain}/messages/#{message_key}"
+    retryable(tries: 5, logger: log, trace: true, on: Exception) do
+      events = MailgunConnector.instance.client.get("#{MailgunConnector.instance.domain}/events", event: 'stored')
+      event = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}
+      if event
+        message = MailgunConnector.instance.client.get("domains/#{MailgunConnector.instance.domain}/messages/#{event['storage']['key']}").to_h
+      end
     end
 
-    unless message
+    if message.empty?
       log.error "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
       return
     end
 
-    new(message.to_h)
+    new(message)
   end
 
   ##
@@ -118,7 +142,7 @@ class Email
   def get_mime_part
     files = @message['attachments']
     unless files.empty?
-      log.error "No attachments where found."
+      log.error 'No attachments where found.'
       return
     end
     files
