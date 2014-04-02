@@ -1,5 +1,6 @@
 require 'rspec/matchers'
 require 'mailgun'
+require_relative './mailgun_connector'
 
 class Email
   EmailNotFound = Class.new(StandardError)
