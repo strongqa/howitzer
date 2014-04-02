@@ -103,6 +103,15 @@ class Email
 
   ##
   #
+  # Returns mail text
+  #
+
+  def text
+    @message['stripped-text']
+  end
+
+  ##
+  #
   # Returns who has send email data in format: User Name <user@email>
   #
 
