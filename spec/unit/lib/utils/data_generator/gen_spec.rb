@@ -7,7 +7,7 @@ describe "DataGenerator" do
       subject { DataGenerator::Gen.user(params) }
       before do
         allow(settings).to receive(:def_test_pass) { 'test_pass' }
-        allow(settings).to receive(:mail_pop3_domain) { 'mail.com' }
+        allow(settings).to receive(:mailgun_domain) { 'mail.com' }
         allow(DataGenerator::Gen).to receive(:serial) { '012345678abcde' }
       end
       context "when params specified" do
@@ -23,7 +23,6 @@ describe "DataGenerator" do
         it { expect(subject.password).to eql 'pa$$w0rd' }
         it { expect(subject.first_name).to eql 'FirstName012345678abcde' }
         it { expect(subject.last_name).to eql 'LastName012345678abcde' }
-        it { expect(subject.mailbox).to eql 'member@test.com' }
       end
       context "with empty params" do
         let(:params) { {} }
@@ -69,20 +68,6 @@ describe "DataGenerator" do
         it { expect(subject).to_not eql ser }
       end
     end
-    describe ".delete_all_mailboxes" do
-      subject { DataGenerator::Gen.delete_all_mailboxes }
-      let(:mbox1) { double }
-      let(:mbox2) { double }
-      before do
-        stub_const("DataGenerator::DataStorage", double)
-        expect(DataGenerator::DataStorage).to receive(:extract).with('user') { { 1 => mbox1, 2 => mbox2 } }
-      end
-      it do
-        expect(mbox1).to receive(:delete_mailbox).once
-        expect(mbox2).to receive(:delete_mailbox).once
-        subject
-      end
-    end
     describe "User" do
       describe "#initialize" do
         subject { DataGenerator::Gen::User.new(params) }
@@ -100,7 +85,6 @@ describe "DataGenerator" do
         it { expect(subject.first_name).to eql 'Alexey' }
         it { expect(subject.last_name).to eql 'Petrenko' }
         it { expect(subject.full_name).to eql 'Alexey Petrenko' }
-        it { expect(subject.mailbox).to eql 'member@test.com' }
       end
     end
   end

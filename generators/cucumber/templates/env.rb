@@ -20,7 +20,6 @@ Before do |scenario|
 end
 
 After do |scenario|
-  Gen.delete_all_mailboxes
   if sauce_driver?
     DataStorage.store('sauce', :status, false) if scenario.failed?
     session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
@@ -34,5 +33,4 @@ at_exit do
     log.info "SAUCE SERVER LOG URL: #{CapybaraSettings.sauce_resource_path('selenium-server.log')}"
     CapybaraSettings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
   end
-  Gen.delete_all_mailboxes
 end

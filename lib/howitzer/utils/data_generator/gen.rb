@@ -69,21 +69,10 @@ module DataGenerator
         "#{Time.now.utc.strftime("%j%H%M%S")}#{a[0..4].join}"
       end
 
-      ##
-      #
-      # Deletes mailboxes for all users that were generated before
-      #
-
-      def delete_all_mailboxes
-        DataStorage.extract('user').each_value do |user|
-          user.delete_mailbox
-        end
-      end
-
       private
 
       def gen_user_email(serial=nil)
-        "#{gen_user_name(serial)}@#{settings.mail_pop3_domain}"
+        "#{gen_user_name(serial)}@#{settings.mailgun_domain}"
       end
 
       def gen_user_name(serial=nil)
@@ -115,7 +104,6 @@ module DataGenerator
         @first_name = params.delete(:first_name)
         @last_name = params.delete(:last_name)
         @full_name = "#@first_name #@last_name"
-        @mailbox = params.delete(:mailbox)
       end
     end
   end
