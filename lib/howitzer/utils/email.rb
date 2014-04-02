@@ -47,7 +47,7 @@ class Email
       if event
         message = MailgunConnector.instance.client.get("domains/#{MailgunConnector.instance.domain}/messages/#{event['storage']['key']}").to_h
       else
-        raise EmailNotFound.new 'Message not received yet, retry...'
+        raise EmailNotFound.new('Message not received yet, retry...')
       end
     end
 
