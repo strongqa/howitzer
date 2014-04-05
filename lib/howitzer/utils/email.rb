@@ -41,7 +41,7 @@ class Email
 
   def self.find(recipient, subject)
     message = {}
-    retryable(tries: 5, logger: log, trace: true, on: Exception) do
+    retryable(tries: 10, sleep: 2, logger: log, trace: true, on: Exception) do
       events = MailgunConnector.instance.client.get("#{MailgunConnector.instance.domain}/events", event: 'stored')
       event = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}
       if event
