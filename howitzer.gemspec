@@ -26,7 +26,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '1.1.10'
-  gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'

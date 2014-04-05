@@ -69,6 +69,14 @@ module DataGenerator
         "#{Time.now.utc.strftime("%j%H%M%S")}#{a[0..4].join}"
       end
 
+      ##
+      #
+      # Deletes mailboxes for all users that were generated before
+      #@deprecated
+      def delete_all_mailboxes
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
+      end
+
       private
 
       def gen_user_email(serial=nil)
@@ -94,7 +102,7 @@ module DataGenerator
 
     class User < Object
 
-      attr_reader :login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
+      attr_reader :login, :domain, :email, :password, :first_name, :last_name, :full_name
 
       def initialize(params={})
         @email = params.delete(:email)
@@ -104,6 +112,16 @@ module DataGenerator
         @first_name = params.delete(:first_name)
         @last_name = params.delete(:last_name)
         @full_name = "#@first_name #@last_name"
+      end
+
+      #@deprecated
+      def create_mailbox
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
+      end
+
+      #@deprecated
+      def delete_mailbox
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
     end
   end

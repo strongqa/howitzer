@@ -37,7 +37,6 @@ describe "DataGenerator" do
         it { expect(subject.password).to eql 'test_pass' }
         it { expect(subject.first_name).to eql 'FirstName012345678abcde' }
         it { expect(subject.last_name).to eql 'LastName012345678abcde' }
-        it { expect(subject.mailbox).to be_nil }
       end
     end
     describe ".given_user_by_number" do

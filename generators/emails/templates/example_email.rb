@@ -1,5 +1,5 @@
 class TestEmail < Email
-  SUBJECT = "Test email"
+  self::SUBJECT = "Test email"
 
 
   def addressed_to?(new_user)
