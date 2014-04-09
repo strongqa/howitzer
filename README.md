@@ -36,29 +36,12 @@ sudo gem install howitzer
 ```
 
 ## Usage
-To deploy the framework, type:
+navigate to desired directory where new project will be created
+
+To deploy the framework with Cucumber, type:
 
 ```bash
-mkdir test_automation
-cd test_automation
-```
-
-Then for Cucumber:
-
-```bash
-howitzer install --cucumber
-```
-
-For Rspec:
-
-```bash
-howitzer install --rspec
-```
-
-Or for both the ones:
-
-```bash
-howitzer install --cucumber --rspec
+howitzer new <PROJECT NAME> --cucumber
 ```
 
 This command will generate next folders and files:
@@ -85,6 +68,19 @@ Gemfile
 Rakefile
 .gitignore
 ```
+
+With Rspec:
+
+```bash
+howitzer new <PROJECT NAME> --rspec
+```
+
+With both the ones:
+
+```bash
+howitzer new <PROJECT NAME> --cucumber --rspec
+```
+
 ### Configuration
 Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 

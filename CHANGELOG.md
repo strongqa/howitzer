@@ -1,6 +1,7 @@
 ## In git
 
 ### New Features
+- Simplified new project creation
 
 ### Bugfixes
 
