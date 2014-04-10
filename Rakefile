@@ -3,6 +3,8 @@ require "bundler"
 Bundler.setup
 
 require 'rake'
+require 'active_support'
+require 'active_support/deprecation'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 Bundler::GemHelper.install_tasks
