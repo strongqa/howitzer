@@ -4,6 +4,7 @@ require_relative './mailgun_connector'
 
 class Email
   EmailNotFound = Class.new(StandardError)
+  NoAttachments = Class.new(StandardError)
   include RSpec::Matchers
 
   ##
@@ -129,12 +130,10 @@ class Email
 
   def get_mime_part
     files = @message['attachments']
-    unless files.empty?
-      log.error 'No attachments where found.'
+    if files.empty?
+      log.error NoAttachments, 'No attachments where found.'
       return
     end
     files
   end
-
-  protected :get_mime_part
 end

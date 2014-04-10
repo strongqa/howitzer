@@ -12,17 +12,7 @@ hide_datetime_from_log: true
 driver: selenium
 
 ###########################################################
-# MAIL SETTINGS                                           #
+# MAILGUN SETTINGS                                        #
 ###########################################################
-mail_smtp_server: smtp.demo.com
-mail_smtp_port: 25
-mail_smtp_domain: demo.com
-mail_smtp_user_name: test_user
-mail_smtp_user_pass: mypass
-
-mail_pop3_server: pop.demo.com
-mail_pop3_port: 995
-mail_pop3_timeout: 120
-mail_pop3_domain: ${mail_smtp_domain}
-mail_pop3_user_name: test_user
-mail_pop3_user_pass: mypass
+mailgun_key: mailgun_account_private_key
+mailgun_domain: mailgun@test.domain
