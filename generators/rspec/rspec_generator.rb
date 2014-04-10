@@ -15,7 +15,7 @@ module Howitzer
     protected
     def banner
       <<-EOS
-      Integrates RSpec to the framework.
+  * RSpec integration to the framework ...
       EOS
     end
 

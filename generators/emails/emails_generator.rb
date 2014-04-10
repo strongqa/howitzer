@@ -9,7 +9,7 @@ module Howitzer
     protected
     def banner
       <<-EOS
-  Creates a simple email class."
+  * Email example generation ...
       EOS
     end
   end

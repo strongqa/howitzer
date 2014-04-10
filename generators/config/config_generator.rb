@@ -13,7 +13,7 @@ module Howitzer
     protected
     def banner
       <<-EOF
-      Creates config files.
+  * Config files generation ...
       EOF
     end
   end
