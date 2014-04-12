@@ -18,10 +18,10 @@ describe Howitzer::Capybara::DslEx do
         subject
       end
     end
-    context "when hash argument" do
-      subject { test_page.find(xpath: '//bar') }
+    context "when first hash argument and second hash" do
+      subject { test_page.find({xpath: '//bar'}, {with: 'foo'}) }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar').once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=>"foo"}).once
         subject
       end
     end
@@ -42,10 +42,10 @@ describe Howitzer::Capybara::DslEx do
         subject
       end
     end
-    context "when hash argument" do
-      subject { test_page_klass.find(xpath: '//bar') }
+    context "when first hash argument and second hash" do
+      subject { test_page_klass.find({xpath: '//bar'}, {with: 'foo'}) }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar').once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=>"foo"}).once
         subject
       end
     end
