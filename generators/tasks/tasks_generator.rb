@@ -9,7 +9,7 @@ module Howitzer
     protected
     def banner
       <<-EOF
-      Creates RAKE tasks folder and file.
+  * Base rake task generation ...
       EOF
     end
   end

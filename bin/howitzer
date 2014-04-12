@@ -1,89 +1,60 @@
 #!/usr/bin/env ruby
+require 'gli'
+require_relative '../lib/howitzer/version'
 
-require 'rubygems' unless ENV['NO_RUBYGEMS']
+module HowitzerCli
 
-Dir[File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')].each{ |f| require File.expand_path(f) }
+  extend GLI::App
+  synopsis_format :compact
+  program_desc 'Ruby based framework for acceptance testing'
+  version Howitzer::VERSION
 
-def check_arguments
-  expected_option_list = [
-    'install --cucumber',
-    'install --rspec',
-    'install --cucumber --rspec',
-    'install --rspec --cucumber',
-    '--version',
-    '--help'
-  ]
+  desc 'Generate new project'
+  arg_name '<PROJECT NAME>'
+  command :new do |c|
+    c.desc 'Integrate Cucumber'
+    c.switch [:c, :cucumber] , negatable: false
 
-  actual_options = ARGV.map(&:downcase).join(' ')
-  unless expected_option_list.include?(actual_options)
-    puts "ERROR: incorrect options. Please, see help for details"
-    show_help
-    exit 1
-  end
-end
+    c.desc 'Integrate Rspec'
+    c.switch [:r, :rspec], negatable: false
 
-def parse_options
-  first_option = ARGV.shift.to_s.downcase
-  case first_option
-    when 'install' then execute_generator(ARGV.map(&:downcase))
-    when '--version' then show_version
-    when '--help' then show_help
-    else
-     puts "ERROR: incorrect first argument ('#{first_option}')"
-     show_help
-     exit 1
-  end
-end
-
-private
-
-def show_help
-  puts %{
-howitzer [command {--cucumber, --rspec}] | {options}
-
-Commands are ...
-    install                  Generate test framework units:
-          --rspec                add RSpec integration with framework
-          --cucumber             add Cucumber integration with framework
-Options are ...
-    --help                   Display this help message.
-    --version                Display the program version.
-  }
-end
-
-def show_version
-  require_relative "../lib/howitzer/version"
-  puts "Version: #{Howitzer::VERSION}"
-  exit 0
-end
-
-def execute_generator(options)
-  if %w[--cucumber --rspec].include?(options.first)
-    Howitzer::ConfigGenerator.new
-    Howitzer::PagesGenerator.new
-    Howitzer::TasksGenerator.new
-    Howitzer::EmailsGenerator.new
-    Howitzer::RootGenerator.new
-
-    options.each do |option|
-      case option
-        when '--cucumber' then Howitzer::CucumberGenerator.new
-        when '--rspec' then Howitzer::RspecGenerator.new
-        else nil
+    c.action do |global_options, options, args|
+      if args.size > 0
+        validate_options(options)
+        Dir[File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')].each{ |f| require File.expand_path(f) }
+        path_to_dir = File.join(Dir.pwd, args.first)
+        puts "  * New project directory creation ..."
+        Dir.mkdir(path_to_dir)
+        puts "      Created new './#{args.first}' folder"
+        Dir.chdir(path_to_dir)
+        Howitzer::ConfigGenerator.new
+        Howitzer::PagesGenerator.new
+        Howitzer::TasksGenerator.new
+        Howitzer::EmailsGenerator.new
+        Howitzer::RootGenerator.new
+        Howitzer::CucumberGenerator.new if options['cucumber']
+        Howitzer::RspecGenerator.new if options['rspec']
+        puts "[WARN] Extra parameters were skipped" if args.size > 1
+      elsif args.size.zero?
+        exit_now!("Please specify <PROJECT NAME>", 64)
       end
     end
-  else
-    if options.empty?
-      puts "ERROR: No option specified for install command."
-    else
-      puts "ERROR: Unknown '#{options.first}' option specified."
+  end
+
+  def self.call
+    exit run(ARGV)
+  end
+
+  class << self
+    private
+    def validate_options(options)
+      if !options['cucumber'] && !options['rspec']
+        exit_now!("Provide --cucumber and/or --rspec option", 64)
+      end
     end
-    show_help
-    exit 1
   end
 end
 
 unless ENV['TEST_MODE']
-  check_arguments
-  parse_options
+  HowitzerCli.call
 end

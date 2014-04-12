@@ -18,6 +18,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.3'
 
   gem.add_runtime_dependency 'rake'
+  gem.add_runtime_dependency 'gli'
   gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'syntax'
   gem.add_runtime_dependency 'cucumber'
@@ -35,6 +36,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'testingbot'
   gem.add_runtime_dependency 'mailgun-ruby'
 
+  gem.add_development_dependency('aruba')
   gem.add_development_dependency("fuubar", [">= 0.0.1"])
   gem.add_development_dependency("ffaker")
 
