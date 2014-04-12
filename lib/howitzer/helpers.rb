@@ -138,7 +138,7 @@ class String
 
 
   def given
-    as_page_class.new
+    as_page_class.instance
   end
 
   ##
