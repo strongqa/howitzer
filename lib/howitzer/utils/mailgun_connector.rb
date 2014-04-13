@@ -1,11 +1,13 @@
 require 'singleton'
 
 class MailgunConnector
+  InvalidApiKeyError = Class.new(StandardError)
   include Singleton
 
   attr_reader :api_key
 
   def client(api_key=settings.mailgun_key)
+    check_api_key(api_key)
     if @api_key == api_key && @api_key
       @client
     else
@@ -20,5 +22,10 @@ class MailgunConnector
 
   def change_domain(domain_name=settings.mailgun_domain)
     @domain = domain_name
+  end
+
+  private
+  def check_api_key(api_key)
+    raise InvalidApiKeyError, "Api key can not be blank" if api_key.blank?
   end
 end
