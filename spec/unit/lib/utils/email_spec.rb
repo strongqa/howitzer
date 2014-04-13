@@ -2,7 +2,7 @@ require 'spec_helper'
 require "#{lib_path}/howitzer/utils/email"
 require "#{lib_path}/howitzer/utils/log"
 
-describe Email do
+describe "Email" do
   let(:recipient){ 'first_tester@gmail.com' }
   let(:message) do
     {
@@ -21,8 +21,6 @@ describe Email do
   let(:email_object){ Email.new(message) }
   before do
     stub_const('Email::SUBJECT', message_subject)
-    allow(settings).to receive(:mailgun_key)
-    allow(settings).to receive(:mailgun_domain)
   end
 
   describe '#new' do
@@ -32,15 +30,44 @@ describe Email do
   end
 
   describe '.find_by_recipient' do
+    let(:recipient) { 'test@user.com' }
+    subject { Email.find_by_recipient(recipient) }
+    it do
+      expect(Email).to receive(:find).with(recipient, message_subject).once
+      subject
+    end
   end
 
   describe '.find' do
+    let(:events) { double(to_h: {'items' => [event]}) }
+    subject { Email.find(recipient, message_subject) }
+    context "when message is found" do
+      let(:event) { {'message' => {'recipients' => [recipient], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
+      before do
+        allow(MailgunConnector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').ordered.once {events}
+        allow(MailgunConnector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { message }
+      end
+      it do
+        expect(Email).to receive(:new).with(message).once
+        subject
+      end
+    end
+    context "when message is not found" do
+      let(:event) { {'message' => {'recipients' => ["other@test.com"], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
+      before do
+        allow(settings).to receive(:timeout_small) { 0.5 }
+        allow(settings).to receive(:timeout_short) { 0.05 }
+        allow(MailgunConnector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
+        allow(MailgunConnector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").at_least(:twice).ordered { message }
+      end
+      it { expect { subject }.to raise_error(Email::NotFound, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.") }
+    end
   end
 
   describe '#plain_text_body' do
     it { expect(email_object.plain_text_body).to eql message['body-plain'] }
   end
-  
+
   describe '#html_body' do
     it { expect(email_object.html_body).to eql message['stripped-html'] }
   end
@@ -68,11 +95,11 @@ describe Email do
       it { expect(subject).to eql [recipient, second_recipient] }
     end
   end
-  
+
   describe '#received_time' do
     it { expect(email_object.received_time).to eql message['Received'][27..63] }
   end
-  
+
   describe '#sender_email' do
     it { expect(email_object.sender_email).to eql message['sender'] }
   end
@@ -81,6 +108,9 @@ describe Email do
     subject { email_object.get_mime_part }
 
     context 'when has attachments' do
+      let(:files) { [double] }
+      before { email_object.instance_variable_set(:@message, 'attachments' => files)}
+      it { expect(subject).to eq(files) }
     end
 
     context 'when no attachments' do

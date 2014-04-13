@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'active_support/core_ext/object/blank'
 require "#{lib_path}/howitzer/utils/mailgun_connector"
 require 'mailgun'
 
@@ -38,8 +37,11 @@ describe MailgunConnector do
   describe '#domain' do
     subject { connector.domain }
     context "when domain is not set" do
-      before { expect(connector).to receive(:change_domain).with(no_args).once { domain_name } }
-      it { expect(subject).to eql(domain_name) }
+      before { connector.instance_variable_set(:@domain, nil)}
+      it do
+        expect(connector).to receive(:change_domain).once{ domain_name }
+        expect(subject).to eq(domain_name)
+      end
     end
     context "when domain is already set" do
       before do

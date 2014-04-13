@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'active_support/core_ext'
 require "#{lib_path}/howitzer/helpers"
 
 describe "Helpers" do

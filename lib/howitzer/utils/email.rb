@@ -3,7 +3,7 @@ require 'mailgun'
 require_relative './mailgun_connector'
 
 class Email
-  EmailNotFound = Class.new(StandardError)
+  NotFound = Class.new(StandardError)
   NoAttachments = Class.new(StandardError)
   include RSpec::Matchers
 
@@ -42,21 +42,18 @@ class Email
 
   def self.find(recipient, subject)
     message = {}
-    retryable(tries: 10, sleep: 2, logger: log, trace: true, on: Exception) do
+    retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Email::NotFound) do
       events = MailgunConnector.instance.client.get("#{MailgunConnector.instance.domain}/events", event: 'stored')
-      event = events.to_h['items'].find{|hash| hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject}
+      event = events.to_h['items'].find do |hash|
+        hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
+      end
       if event
         message = MailgunConnector.instance.client.get("domains/#{MailgunConnector.instance.domain}/messages/#{event['storage']['key']}").to_h
       else
-        raise EmailNotFound.new('Message not received yet, retry...')
+        raise NotFound.new('Message not received yet, retry...')
       end
     end
-
-    if message.empty?
-      log.error "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
-      return
-    end
-
+    log.error NotFound.new("Message with subject '#{subject}' for recipient '#{recipient}' was not found.") if message.empty?
     new(message)
   end
 

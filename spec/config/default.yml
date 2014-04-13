@@ -16,3 +16,11 @@ driver: selenium
 ###########################################################
 mailgun_key: mailgun_account_private_key
 mailgun_domain: mailgun@test.domain
+
+############################################################
+# TIMEOUTS                                                 #
+############################################################
+timeout_tiny: 1
+timeout_short: 2
+timeout_small: 5
+timeout_medium: 15
