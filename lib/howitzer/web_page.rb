@@ -1,6 +1,7 @@
 require "rspec/expectations"
 require "howitzer/utils/locator_store"
 require "howitzer/utils/page_validator"
+require "howitzer/capybara/dsl_ex"
 require "singleton"
 
 class WebPage
@@ -11,8 +12,8 @@ class WebPage
   include LocatorStore
   include Howitzer::Utils::PageValidator
   include RSpec::Matchers
-  include Capybara::DSL
-  extend  Capybara::DSL
+  include Howitzer::Capybara::DslEx
+  extend  Howitzer::Capybara::DslEx
   include Singleton
 
   def self.inherited(subclass)
