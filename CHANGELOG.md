@@ -34,6 +34,6 @@ It is major release, so there are many new features, refactoring, unit tests, co
 
 * Fixed problem with dependencies 
 
-## [v0.0.1](https://github.com/romikoops/howitzer/tree/v0.0.1)
+## [v0.0.1](https://github.com/strongqa/howitzer/tree/v0.0.1)
 
 Initial version
