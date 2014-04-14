@@ -156,6 +156,6 @@ class String
 
   private
   def as_class(type)
-    "#{self.gsub(/\s/, '_').classify}#{type}".constantize
+    "#{self.gsub(/\s/, '_').camelize}#{type}".constantize
   end
 end

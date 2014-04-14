@@ -622,6 +622,12 @@ describe "Helpers" do
         before { stub_const("MySuperMegaPage", my_page) }
         it { expect(subject).to eql(my_page) }
       end
+
+      context "when plural word" do
+        let(:page_name) { 'user notifications' }
+        before { stub_const("UserNotificationsPage", my_page) }
+        it { expect(subject).to eql(my_page) }
+      end
     end
     describe "#as_email_class" do
       subject { email_name.as_email_class }
@@ -635,6 +641,12 @@ describe "Helpers" do
       context "when more 1 word" do
         let(:email_name) { 'my  super mega' }
         before { stub_const("MySuperMegaEmail", my_email) }
+        it { expect(subject).to eql(my_email) }
+      end
+
+      context "when plural word" do
+        let(:email_name) { 'email notifications' }
+        before { stub_const("EmailNotificationsEmail", my_email) }
         it { expect(subject).to eql(my_email) }
       end
     end
