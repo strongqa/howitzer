@@ -36,6 +36,8 @@ Each page contains required constant URL(the relative URL of the page):
 **Example :**
 
 ```ruby
+# put the class to ./pages/home_page.rb file
+
 class HomePage < WebPage
   URL = '/'
 end
@@ -247,16 +249,34 @@ Emails
 ------
 [[Back To Top]](#jump-to-section)
 
-_**Email**_ class uses `Mailgun` gem and allows you to work with the mailbox.
-Class corresponds to one letter. Used to test the notifications.
+Howitzer uses amazing service [Mailgun](http://mailgun.com) which allows to catch all emails of sandbox domain, and to store them to its data storage during 3 days. It is extrimaly useful for new user creation with email confirmation during testing of web applications
 
-**.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
+You can use **free** account. Follow steps below:
 
-**.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
+1. Sign up [here](https://mailgun.com/signup)
+2. Login and copy your API Key
+3. Open config/default.yml file of your project, find **mailgun_key** setting and past copied api key there.
+4. Open Mailgun web page again and copy mailgun domain, ie. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
+5. Open config/default.yml file of your project again, find **mailgun_domain** setting and past copied mailgun domain there.
+6. Open Mailgun web page again and navigate to **Routes** menu
+7. Create new route with following parameters
 
-**\#plain_text_body** - receiving text of messages
+Priority  | Filter Expression     | Action  | Description         
+:--------:|:---------------------:|:-------:|:------------------
+ 0        | match_recipient(".*") | store() | Store all messages
 
-**\#get_mime_part** - allows you to receive the attachment of email
+_**Email**_ Class corresponds to one letter. Used to test the notifications.
+
+* **.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
+* **.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
+* **\#plain_text_body** - receiving body of message as plain text
+* **\#html_body** - receiving body of messages as html
+* **\#text_body** - receiving body of messages as stripped text
+* **\#mail_from** - returns who has send email data in format: User Name <user@email>
+* **\#recipients** - returns array of recipients who has received current email
+* **\#received_time** - returns email received time
+* **\#sender_email** - returns sender user email
+* **\#get_mime_part** - allows you to receive the attachment of email
 
 **Example:**
 ```ruby
@@ -267,6 +287,8 @@ end
 
 Example, how custom class might look like:
 ```ruby
+# put the class to ./emails/my_email.rb file
+
 class MyEmail <Email
   SUBJECT = "Test email" # specify the subject of an email
 
