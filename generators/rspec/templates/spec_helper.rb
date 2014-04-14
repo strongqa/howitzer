@@ -31,7 +31,6 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Gen.delete_all_mailboxes
     DataStorage.clear_ns("user")
     if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
@@ -51,6 +50,5 @@ RSpec.configure do |config|
       log.info "SAUCE SERVER LOG URL: #{CapybaraSettings.sauce_resource_path('selenium-server.log')}"
       CapybaraSettings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
     end
-    Gen.delete_all_mailboxes
   end
 end

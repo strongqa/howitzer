@@ -5,6 +5,8 @@
 
 ### Bugfixes
 
+* Change mailgun support according to Mailgun service API changes
+
 ## [v1.0.1](https://github.com/romikoops/howitzer/compare/v1.0...v1.0.1)
 
 ### Bugfixes

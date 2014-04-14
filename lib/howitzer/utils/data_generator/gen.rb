@@ -72,18 +72,15 @@ module DataGenerator
       ##
       #
       # Deletes mailboxes for all users that were generated before
-      #
-
+      #@deprecated
       def delete_all_mailboxes
-        DataStorage.extract('user').each_value do |user|
-          user.delete_mailbox
-        end
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
 
       private
 
       def gen_user_email(serial=nil)
-        "#{gen_user_name(serial)}@#{settings.mail_pop3_domain}"
+        "#{gen_user_name(serial)}@#{settings.mailgun_domain}"
       end
 
       def gen_user_name(serial=nil)
@@ -105,7 +102,7 @@ module DataGenerator
 
     class User < Object
 
-      attr_reader :login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
+      attr_reader :login, :domain, :email, :password, :first_name, :last_name, :full_name
 
       def initialize(params={})
         @email = params.delete(:email)
@@ -115,16 +112,16 @@ module DataGenerator
         @first_name = params.delete(:first_name)
         @last_name = params.delete(:last_name)
         @full_name = "#@first_name #@last_name"
-        @mailbox = params.delete(:mailbox)
       end
 
+      #@deprecated
       def create_mailbox
-        @mailbox = MailClient.create_mailbox(@email_name) if settings.mail_pop3_domain == @domain
-        self
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
 
+      #@deprecated
       def delete_mailbox
-        MailClient.delete_mailbox(@mailbox) unless @mailbox.nil?
+        warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
     end
   end

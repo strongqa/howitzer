@@ -147,6 +147,15 @@ class String
   #
 
   def as_page_class
-    Object.const_get("#{self.capitalize}Page")
+    as_class('Page')
+  end
+
+  def as_email_class
+    as_class('Email')
+  end
+
+  private
+  def as_class(type)
+    "#{self.gsub(/\s/, '_').classify}#{type}".constantize
   end
 end

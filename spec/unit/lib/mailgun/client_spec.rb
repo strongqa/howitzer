@@ -1,0 +1,27 @@
+require 'spec_helper'
+require "#{lib_path}/howitzer/mailgun/client"
+
+describe Mailgun::Client do
+  let(:mg_obj) { Mailgun::Client.new("Fake-API-Key") }
+  describe ".new" do
+    subject { mg_obj }
+    it { expect { subject }.not_to raise_error }
+  end
+
+  describe "#get" do
+    let(:query_string){ {'skip' => '10', 'limit' => '5'} }
+    subject { mg_obj.get("test.com/bounces", query_string) }
+    context "when simulation of client" do
+      before do
+        expect(RestClient::Resource).to receive(:new).once { Mailgun::UnitClient::new('Fake-API-Key', 'api.mailgun.net', 'v2') }
+      end
+      it do
+        expect(subject.body).to include("total_count")
+        expect(subject.body).to include("items")
+      end
+    end
+    context "when real client" do
+      it { expect{ subject }.to raise_error(Mailgun::CommunicationError, '401 Unauthorized: Forbidden') }
+    end
+  end
+end

@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'active_support/core_ext'
 require "#{lib_path}/howitzer/helpers"
 
 describe "Helpers" do
@@ -610,10 +609,34 @@ describe "Helpers" do
       it { expect(subject).to be_nil }
     end
     describe "#as_page_class" do
-      subject { "my".as_page_class }
+      subject { page_name.as_page_class }
       let(:my_page) { double }
-      before { stub_const("MyPage", my_page) }
-      it { expect(subject).to eql(my_page) }
+      context "when 1 word" do
+        let(:page_name) { 'my' }
+        before { stub_const("MyPage", my_page) }
+        it { expect(subject).to eql(my_page) }
+      end
+
+      context "when more 1 word" do
+        let(:page_name) { 'my  super mega' }
+        before { stub_const("MySuperMegaPage", my_page) }
+        it { expect(subject).to eql(my_page) }
+      end
+    end
+    describe "#as_email_class" do
+      subject { email_name.as_email_class }
+      let(:my_email) { double }
+      context "when 1 word" do
+        let(:email_name) { 'my' }
+        before { stub_const("MyEmail", my_email) }
+        it { expect(subject).to eql(my_email) }
+      end
+
+      context "when more 1 word" do
+        let(:email_name) { 'my  super mega' }
+        before { stub_const("MySuperMegaEmail", my_email) }
+        it { expect(subject).to eql(my_email) }
+      end
     end
   end
 end

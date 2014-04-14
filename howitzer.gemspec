@@ -27,13 +27,12 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '1.1.10'
-  gem.add_runtime_dependency 'mail'
   gem.add_runtime_dependency 'rest-client'
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'
   gem.add_runtime_dependency 'capybara'
   gem.add_runtime_dependency 'selenium-webdriver'
-  gem.add_runtime_dependency 'activeresource', '~>4.0'
+  gem.add_runtime_dependency 'activesupport', '~>4.0'
   gem.add_runtime_dependency 'testingbot'
 
   gem.add_development_dependency('aruba')
