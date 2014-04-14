@@ -1,9 +1,8 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/mailgun_connector"
-require 'mailgun'
+require "#{lib_path}/howitzer/mailgun/connector"
 
-describe MailgunConnector do
-  let(:connector) { MailgunConnector.instance }
+describe Mailgun::Connector do
+  let(:connector) { Mailgun::Connector.instance }
   let(:domain_name) { 'test@domain.com' }
   describe "#client" do
     subject { connector.client }
@@ -26,12 +25,12 @@ describe MailgunConnector do
     context "when api_key is nil" do
       let(:key) { nil }
       subject { connector.client(key) }
-      it { expect { subject}.to raise_error(MailgunConnector::InvalidApiKeyError, "Api key can not be blank") }
+      it { expect { subject}.to raise_error(Mailgun::Connector::InvalidApiKeyError, "Api key can not be blank") }
     end
     context "when api_key is blank string" do
       let(:key) { "" }
       subject { connector.client(key) }
-      it { expect { subject}.to raise_error(MailgunConnector::InvalidApiKeyError, "Api key can not be blank") }
+      it { expect { subject}.to raise_error(Mailgun::Connector::InvalidApiKeyError, "Api key can not be blank") }
     end
   end
   describe '#domain' do

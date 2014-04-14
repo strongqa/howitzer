@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/email"
+require "#{lib_path}/howitzer/email"
 require "#{lib_path}/howitzer/utils/log"
 
 describe "Email" do
@@ -44,8 +44,8 @@ describe "Email" do
     context "when message is found" do
       let(:event) { {'message' => {'recipients' => [recipient], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
       before do
-        allow(MailgunConnector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').ordered.once {events}
-        allow(MailgunConnector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { message }
+        allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').ordered.once {events}
+        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { message }
       end
       it do
         expect(Email).to receive(:new).with(message).once
@@ -57,8 +57,8 @@ describe "Email" do
       before do
         allow(settings).to receive(:timeout_small) { 0.5 }
         allow(settings).to receive(:timeout_short) { 0.05 }
-        allow(MailgunConnector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
-        allow(MailgunConnector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").at_least(:twice).ordered { message }
+        allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
+        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").at_least(:twice).ordered { message }
       end
       it { expect { subject }.to raise_error(Email::NotFound, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.") }
     end

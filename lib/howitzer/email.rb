@@ -1,6 +1,5 @@
 require 'rspec/matchers'
-require 'mailgun'
-require_relative './mailgun_connector'
+require 'howitzer/mailgun/connector'
 
 class Email
   NotFound = Class.new(StandardError)
@@ -43,12 +42,12 @@ class Email
   def self.find(recipient, subject)
     message = {}
     retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Email::NotFound) do
-      events = MailgunConnector.instance.client.get("#{MailgunConnector.instance.domain}/events", event: 'stored')
+      events = Mailgun::Connector.instance.client.get("#{Mailgun::Connector.instance.domain}/events", event: 'stored')
       event = events.to_h['items'].find do |hash|
         hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
       end
       if event
-        message = MailgunConnector.instance.client.get("domains/#{MailgunConnector.instance.domain}/messages/#{event['storage']['key']}").to_h
+        message = Mailgun::Connector.instance.client.get("domains/#{Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
       else
         raise NotFound.new('Message not received yet, retry...')
       end
