@@ -39,13 +39,14 @@ describe "Email" do
   end
 
   describe '.find' do
+    let(:mailgun_message){ double(to_h: message) }
     let(:events) { double(to_h: {'items' => [event]}) }
     subject { Email.find(recipient, message_subject) }
     context "when message is found" do
       let(:event) { {'message' => {'recipients' => [recipient], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
       before do
         allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').ordered.once {events}
-        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { message }
+        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { mailgun_message }
       end
       it do
         expect(Email).to receive(:new).with(message).once
@@ -58,7 +59,6 @@ describe "Email" do
         allow(settings).to receive(:timeout_small) { 0.5 }
         allow(settings).to receive(:timeout_short) { 0.05 }
         allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
-        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").at_least(:twice).ordered { message }
       end
       it { expect { subject }.to raise_error(Email::NotFound, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.") }
     end
