@@ -1,6 +1,6 @@
 require 'spec_helper'
 require "#{lib_path}/howitzer/web_page"
-require "#{lib_path}/howitzer/utils/capybara_settings"
+require "#{lib_path}/howitzer/capybara/settings"
 
 
 describe "WebPage" do

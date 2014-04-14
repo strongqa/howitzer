@@ -8,7 +8,7 @@ RSpec.configure do |config|
   DataStorage.store('sauce', :start_time, Time.now.utc)
   DataStorage.store('sauce', :status, true)
 
-  config.include CapybaraSettings
+  config.include Capybara::Settings
   config.include Capybara::RSpecMatchers
   config.include DataGenerator
 
