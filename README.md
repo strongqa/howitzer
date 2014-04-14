@@ -7,7 +7,7 @@
 Howitzer is Ruby based framework for acceptance testing.
 
 Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
-The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/romikoops/howitzer/wiki/Test-Framework-Design).
+The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/strongqa/howitzer/wiki/Test-Framework-Design).
 
 ## Key benefits
 - Independent of test web application, its technologies and lanquage.
@@ -21,7 +21,7 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 
 
 ## Documentation
-See [GETTING_STARTED](https://github.com/romikoops/howitzer/blob/develop/GETTING_STARTED.md) how to work with *howitzer*.
+See [GETTING_STARTED](https://github.com/strongqa/howitzer/blob/develop/GETTING_STARTED.md) how to work with *howitzer*.
 
 Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
@@ -86,10 +86,10 @@ Learn and specify correct default settings in `config/default.yml` file. For det
 
 ## Test implementation workflow (with Cucumber)
 
-- Read and learn [Cucumber Best Practices](https://github.com/romikoops/howitzer/wiki/Cucumber-Best-Practices)
+- Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
 - Prepare some feature with scenarios in `features/some.feature` file.
 - Implement step definitions in `features/step_definitions/common_steps.rb` file.
-- Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/romikoops/howitzer/wiki/PageObject-pattern).
+- Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
 - Debug feature.
 - Enjoy it!
 
@@ -104,7 +104,7 @@ rake -T
 ## More information
 * [Rubygems](https://rubygems.org/gems/howitzer)
 * [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
-* [Issues](https://github.com/romikoops/howitzer/issues)
+* [Issues](https://github.com/strongqa/howitzer/issues)
 
 ## Contributing
 
