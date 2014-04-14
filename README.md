@@ -25,6 +25,10 @@ See [GETTING_STARTED](https://github.com/strongqa/howitzer/blob/develop/GETTING_
 
 Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
+## Related products
+* [Howitzer Example](https://github.com/strongqa/howitzer_example) - Demo Rails application and Acceptance tests
+* [Howitzer Stat](https://github.com/strongqa/howitzer_example) - Howitzer extension for test coverage of web app by scenarios
+
 ## Requirements
 Ruby 1.9.3+
 
