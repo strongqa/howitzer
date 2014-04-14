@@ -147,6 +147,6 @@ class String
   #
 
   def as_page_class
-    Object.const_get("#{self.capitalize}Page")
+    "#{self.gsub(/\s/, '_').classify}Page".constantize
   end
 end

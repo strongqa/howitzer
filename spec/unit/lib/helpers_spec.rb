@@ -609,10 +609,19 @@ describe "Helpers" do
       it { expect(subject).to be_nil }
     end
     describe "#as_page_class" do
-      subject { "my".as_page_class }
+      subject { page_name.as_page_class }
       let(:my_page) { double }
-      before { stub_const("MyPage", my_page) }
-      it { expect(subject).to eql(my_page) }
+      context "when 1 word" do
+        let(:page_name) { 'my' }
+        before { stub_const("MyPage", my_page) }
+        it { expect(subject).to eql(my_page) }
+      end
+
+      context "when more 1 word" do
+        let(:page_name) { 'my  super mega' }
+        before { stub_const("MySuperMegaPage", my_page) }
+        it { expect(subject).to eql(my_page) }
+      end
     end
   end
 end
