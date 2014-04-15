@@ -6,6 +6,7 @@ require 'ffaker'
 require 'capybara'
 require 'json'
 require 'capybara/dsl'
+require 'active_support'
 require 'active_support/core_ext'
 require 'repeater'
 SimpleCov.start do
