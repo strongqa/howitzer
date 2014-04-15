@@ -143,7 +143,7 @@ class String
 
 
   def given
-    as_page_class.instance
+    as_page_class.given
   end
 
   ##

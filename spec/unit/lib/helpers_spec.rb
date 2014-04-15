@@ -604,7 +604,7 @@ describe "Helpers" do
       let(:page_object) { double }
       before do
         stub_const("MyPage", page_object)
-        expect(page_object).to receive(:instance).once
+        expect(page_object).to receive(:given).once
       end
       it { expect(subject).to be_nil }
     end
