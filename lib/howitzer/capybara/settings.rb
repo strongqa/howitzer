@@ -107,13 +107,13 @@ module Capybara
       end
 
       def define_phantomjs_driver
-        Capybara.register_driver :poltergeist do |app|
+        Capybara.register_driver :phantomjs do |app|
           Capybara::Selenium::Driver.new(
             app, browser: :phantomjs,
                 desired_capabilities: {
-                    javascript_enabled: !settings.pjs_ignore_js_errors,
-                    args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
-                }
+                    javascript_enabled: !settings.pjs_ignore_js_errors
+                },
+                args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
           )
         end
       end

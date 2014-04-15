@@ -23,6 +23,11 @@ def selenium_driver?
   settings.driver.to_sym == :selenium
 end
 
+def phantomjs_driver?
+  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
+  settings.driver.to_sym == :phantomjs
+end
+
 def ie_browser?
   ie_browsers = [:ie, :iexplore]
   if sauce_driver?
