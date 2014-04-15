@@ -19,7 +19,7 @@
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
 
- # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, sauce, testingbot
+ # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot
  driver: poltergeist
 
  # -Selenium-

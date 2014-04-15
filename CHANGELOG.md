@@ -5,6 +5,7 @@
 - Rewritten Mailgun integration to support Fabruary changes
 - Created [Howitzer_example](https://github.com/strongqa/howitzer_example)
 - Moved from personal github account to organization
+- Added supporting of native selenium phantomjs driver
 - Minor fixes
 
 ### Bugfixes

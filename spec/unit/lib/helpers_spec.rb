@@ -46,6 +46,27 @@ describe "Helpers" do
     end
   end
 
+  describe "#phantomjs_driver?" do
+    subject { phantomjs_driver? }
+    before { allow(settings).to receive(:driver) { driver_setting } }
+    context "when :phantomjs" do
+      let(:driver_setting) {:phantomjs}
+      it{ expect(subject).to be_true }
+    end
+    context "when not :phantomjs" do
+      let(:driver_setting) {:selenium}
+      it{ expect(subject).to be_false }
+    end
+    context "when driver specified as String" do
+      let(:driver_setting) {"phantomjs"}
+      it{ expect(subject).to be_true }
+    end
+    context "when driver is not specified" do
+      let(:driver_setting) { nil }
+      it { expect {subject}.to raise_error(DriverNotSpecified, "Please check your settings") }
+    end
+  end
+
   describe "#selenium_driver?" do
     subject { selenium_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
