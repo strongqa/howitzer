@@ -17,6 +17,7 @@ Getting Started
    * [Generator](#generator)
    * [Cucumber Tranformers](#cucumber-transformers)
 * [RSpec Folder Structure](#rspec-folder-structure)
+* [Available Drivers] (#available-drivers)
 
 Pages
 ------
@@ -549,3 +550,106 @@ You can run all tests from this folder by command:
 ```bash
 rake rspec:bvt:accounts
 ```
+
+Available Drivers
+------
+[[Back To Top]](#jump-to-section)
+
+* Selenium-Browsers
+    * Firefox
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: ff
+    ```
+
+    * Chrome
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: chrome
+    ```
+
+    * Internet Explorer
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: ie
+    ```
+
+    * Safari
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: safari
+    ```
+
+    * Opera
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: opera
+    ```
+
+* PhantomJS
+
+**Configs :**
+
+```yml
+driver: phantomjs
+```
+
+* Poltergeist
+
+**Configs :**
+
+```yml
+driver: poltergeist
+```
+
+* SauceLabs
+
+**Configs :**
+
+```yml
+driver: sauce
+
+sl_user: some_user
+sl_api_key: some_api_key
+sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
+sl_platform: :VISTA
+sl_browser_name: firefox
+sl_selenium_version: "2.18.0"
+sl_max_duration: '1800'
+sl_idle_timeout: '180'
+```
+
+* TestingBot
+
+**Configs :**
+
+```yml
+driver: sauce
+
+tb_api_key: client_key
+tb_api_secret: client_secret
+tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
+tb_platform: :WIN8
+tb_browser_name: firefox
+tb_browser_version: 8
+tb_selenium_version: "2.18.0"
+tb_max_duration: '1800'
+tb_idle_timeout: '180'
+tb_record_screenshot: false
+```
+
