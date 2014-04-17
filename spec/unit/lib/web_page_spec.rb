@@ -2,7 +2,6 @@ require 'spec_helper'
 require "#{lib_path}/howitzer/web_page"
 require "#{lib_path}/howitzer/capybara/settings"
 
-
 describe "WebPage" do
   describe ".open" do
     let(:url_value) { "google.com" }
@@ -10,26 +9,30 @@ describe "WebPage" do
     let(:check_correct_page_loaded) { double }
     let(:other_instance) { WebPage.instance }
     subject { WebPage.open(url_value) }
-    before do
-      stub_const("WebPage::URL_PATTERN", 'pattern')
-      allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
-    end
     it do
       expect(log).to receive(:info).with("Open WebPage page by 'google.com' url")
       expect(WebPage).to receive(:retryable) { retryable }
-      expect(subject).to eq(other_instance)
+      expect(WebPage).to receive(:given)
       subject
     end
   end
 
   describe ".given" do
-    let(:wait_for_url) { double }
-    before do
-      stub_const("WebPage::URL_PATTERN",'pattern')
-      allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
+    subject { WebPage.given }
+    context "when no one validation is defined" do
+      it { expect { subject }.to raise_error(StandardError) }
     end
-    it do
-      expect(WebPage.given).to be_a_kind_of(WebPage)
+    context "when validation present" do
+      before do
+        stub_const("WebPage::URL_PATTERN",/pattern/)
+        allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
+        allow(WebPage.page).to receive(:current_url) { 'http://test.com' }
+        allow(settings).to receive(:timeout_small){ 0.1 }
+      end
+      it do
+        expect(log).to receive(:error).with(WebPage::IncorrectPageError, "Current page: WebPage::UnknownPage, expected: WebPage")
+        subject
+      end
     end
   end
 

@@ -17,8 +17,8 @@ describe "PageValidator" do
     end
   end
   let(:web_page) { web_page_class.new }
-  describe "#check_correct_page_loaded" do
-    subject { web_page.check_correct_page_loaded }
+  describe "#check_validations_are_defined!" do
+    subject { web_page.check_validations_are_defined! }
     context "when no validation specified" do
       it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError, "No any page validation was found for 'TestWebPageClass' page") }
     end
@@ -27,28 +27,32 @@ describe "PageValidator" do
       after { web_page_class.send :remove_const, "URL_PATTERN"}
       it do
         expect(web_page_class).to receive(:validates).with(:url, pattern: /Foo/).and_return{ Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {}}
-        expect(subject).to_not be_nil
+        expect{subject}.to_not raise_error
       end
     end
-    context "when all validation are specified" do
+    context "when title validation is specified" do
       before do
         web_page.class.validates :title, pattern: /Foo/
+      end
+      it { expect{subject}.to_not raise_error }
+    end
+    context "when url validation is specified" do
+      before do
         web_page.class.validates :url, pattern: /Foo/
+      end
+      it { expect{subject}.to_not raise_error }
+    end
+    context "when element_presence validation is specified" do
+      before do
         web_page.class.validates :element_presence, locator: :test_locator
       end
-      it do
-        expect(web_page).to receive(:wait_for_url).with(/Foo/).once
-        expect(web_page).to receive(:wait_for_title).with(/Foo/).once
-        expect(web_page).to receive(:find_element).with(:test_locator)
-        subject
-      end
+      it { expect{subject}.to_not raise_error }
     end
   end
 
   describe ".validates" do
     before do
       Howitzer::Utils::PageValidator.validations[web_page.class.name] = nil
-      Howitzer::Utils::PageIdentifier.validations[web_page.class.name] = nil
     end
     subject { web_page.class.validates(name, options) }
     context "when name = :url" do
@@ -60,7 +64,6 @@ describe "PageValidator" do
             it do
               expect(subject).to be_a(Proc)
               expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
-              expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
           context "(as symbol)" do
@@ -68,7 +71,6 @@ describe "PageValidator" do
             it do
               expect(subject).to be_a(Proc)
               expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
-              expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
         end
@@ -93,7 +95,6 @@ describe "PageValidator" do
         it do
           expect(subject).to be_a(Proc)
           expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
-          expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:url]).to be_a Proc
         end
       end
     end
@@ -134,7 +135,6 @@ describe "PageValidator" do
           it do
             expect(subject).to be_a(Proc)
             expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
-            expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
         context "(as symbol)" do
@@ -142,7 +142,6 @@ describe "PageValidator" do
           it do
             expect(subject).to be_a(Proc)
             expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
-            expect(Howitzer::Utils::PageIdentifier.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
       end

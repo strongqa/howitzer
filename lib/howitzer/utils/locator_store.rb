@@ -157,6 +157,15 @@ module LocatorStore
       end
     end
 
+    def first_element(name)
+      type, locator = find_locator(name)
+      if type == :base
+        send :first, locator
+      else
+        send :first, type, locator
+      end
+    end
+
     protected
 
     def find_locator(name)
