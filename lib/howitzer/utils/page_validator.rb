@@ -92,6 +92,18 @@ module Howitzer
           PageValidator.validations[self.name].all? {|(_, validation)| validation.call(self)}
         end
 
+        ##
+        #
+        # Finds all matched pages which are satisfy of defined validations
+        #
+        # *Returns:*
+        # * +array+ - page names
+        #
+
+        def matched_pages
+          PageValidator.pages.select{|klass| klass.opened? }
+        end
+
         private
 
         def validate_element(options)

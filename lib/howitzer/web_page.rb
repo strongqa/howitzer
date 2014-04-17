@@ -82,18 +82,6 @@ class WebPage
 
   ##
   #
-  # Finds all matched pages which are satisfy of defined validations
-  #
-  # *Returns:*
-  # * +array+ - page names
-  #
-
-  def self.matched_pages
-    Howitzer::Utils::PageValidator.pages.select{|klass| klass.instance.opened? }
-  end
-
-  ##
-  #
   # Tries to identify current page name or raise error if ambiguous page matching
   #
   # *Returns:*
