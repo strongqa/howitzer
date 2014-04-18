@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/helpers"
+require "howitzer/helpers"
 
 describe "Helpers" do
   let(:settings) { double("settings")}
@@ -611,43 +611,47 @@ describe "Helpers" do
     it { expect {subject}.to raise_error(RuntimeError, /boom/) }
   end
   describe String do
+    let(:page_name) { "my" }
+    let(:page_object) { double }
+    before { stub_const("MyPage", page_object) }
     describe "#open" do
-      subject { "my".open(:exit) }
-      let(:page_object) { double }
+      subject { page_name.open(:exit) }
       before do
-        stub_const("MyPage", page_object)
         expect(page_object).to receive(:open).with(:exit).once
       end
       it { expect(subject).to be_nil }
     end
     describe "#given" do
-      subject { "my".given }
-      let(:page_object) { double }
+      subject { page_name.given }
       before do
-        stub_const("MyPage", page_object)
+        allow(page_name).to receive(:as_page_class){ page_object }
         expect(page_object).to receive(:given).once
+      end
+      it { expect(subject).to be_nil }
+    end
+    describe "#wait_for_opened" do
+      subject { page_name.wait_for_opened }
+      before do
+        allow(page_name).to receive(:as_page_class){ page_object }
+        expect(page_object).to receive(:wait_for_opened).once
       end
       it { expect(subject).to be_nil }
     end
     describe "#as_page_class" do
       subject { page_name.as_page_class }
-      let(:my_page) { double }
       context "when 1 word" do
-        let(:page_name) { 'my' }
-        before { stub_const("MyPage", my_page) }
-        it { expect(subject).to eql(my_page) }
+        it { expect(subject).to eql(page_object) }
       end
-
       context "when more 1 word" do
         let(:page_name) { 'my  super mega' }
-        before { stub_const("MySuperMegaPage", my_page) }
-        it { expect(subject).to eql(my_page) }
+        before { stub_const("MySuperMegaPage", page_object) }
+        it { expect(subject).to eql(page_object) }
       end
 
       context "when plural word" do
         let(:page_name) { 'user notifications' }
-        before { stub_const("UserNotificationsPage", my_page) }
-        it { expect(subject).to eql(my_page) }
+        before { stub_const("UserNotificationsPage", page_object) }
+        it { expect(subject).to eql(page_object) }
       end
     end
     describe "#as_email_class" do

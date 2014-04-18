@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/mailgun/client"
+require 'howitzer/mailgun/client'
 
 describe Mailgun::Client do
   let(:mg_obj) { Mailgun::Client.new("Fake-API-Key") }
@@ -21,6 +21,12 @@ describe Mailgun::Client do
       end
     end
     context "when real client" do
+      let(:resource) { double }
+      before do
+        allow(resource).to receive('[]'){ resource }
+        allow(resource).to receive(:get).and_raise(StandardError, '401 Unauthorized: Forbidden')
+        allow(RestClient::Resource).to receive(:new) { resource }
+      end
       it { expect{ subject }.to raise_error(Mailgun::CommunicationError, '401 Unauthorized: Forbidden') }
     end
   end

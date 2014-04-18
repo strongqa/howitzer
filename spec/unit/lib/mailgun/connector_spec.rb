@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/mailgun/connector"
+require 'howitzer/mailgun/connector'
 
 describe Mailgun::Connector do
   let(:connector) { Mailgun::Connector.instance }

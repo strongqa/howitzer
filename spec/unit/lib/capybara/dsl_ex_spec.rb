@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/capybara/dsl_ex"
+require 'howitzer/capybara/dsl_ex'
 
 describe Howitzer::Capybara::DslEx do
   let(:test_page_klass) do

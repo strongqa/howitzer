@@ -6,8 +6,10 @@ require "singleton"
 
 class WebPage
 
-  BLANK_PAGE = 'about:blank'
+  BLANK_PAGE = 'about:blank' # @deprecated , use BlankPage instead
   IncorrectPageError = Class.new(StandardError)
+  AmbiguousPageMatchingError = Class.new(StandardError)
+  UnknownPage = Class.new
 
   include LocatorStore
   include Howitzer::Utils::PageValidator
@@ -18,6 +20,7 @@ class WebPage
 
   def self.inherited(subclass)
     subclass.class_eval { include Singleton }
+    Howitzer::Utils::PageValidator.pages << subclass
   end
 
   ##
@@ -49,7 +52,8 @@ class WebPage
   #
 
   def self.given
-    self.instance.tap{ |page| page.check_correct_page_loaded }
+    wait_for_opened
+    self.instance
   end
 
   ##
@@ -60,8 +64,8 @@ class WebPage
   # * +string+ - Current url
   #
 
-  def self.current_url
-    page.current_url
+  def self.url
+    self.current_url
   end
 
   ##
@@ -74,6 +78,46 @@ class WebPage
 
   def self.text
     page.find('body').text
+  end
+
+  ##
+  #
+  # Tries to identify current page name or raise error if ambiguous page matching
+  #
+  # *Returns:*
+  # * +string+ - page name
+  #
+
+  def self.current_page
+    page_list = matched_pages
+    if page_list.count.zero?
+      UnknownPage
+    elsif page_list.count > 1
+      log.error AmbiguousPageMatchingError,
+                "Current page matches more that one page class (#{page_list.join(', ')}).\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+    elsif page_list.count == 1
+      page_list.first
+    end
+  end
+
+  ##
+  #
+  # Waits until web page is not opened, or raise error after timeout
+  #
+  # *Parameters:*
+  # * +time_out+ - Seconds that will be waiting for web page to be loaded
+  #
+
+  def self.wait_for_opened(timeout=settings.timeout_small)
+    end_time = ::Time.now + timeout
+    until ::Time.now > end_time
+      self.opened? ? return : sleep(0.5)
+    end
+    log.error IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+  end
+
+  def initialize
+    check_validations_are_defined!
   end
 
   ##
@@ -134,6 +178,7 @@ class WebPage
 
   # @deprecated
   # With Capybara 2.x it is extra
+  #:nocov:
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
@@ -142,8 +187,10 @@ class WebPage
     end
     log.error message || "Timed out waiting for ajax requests to complete"
   end
+  #:nocov:
 
   ##
+  # @deprecated
   #
   # Waits until web page is loaded
   #
@@ -153,6 +200,7 @@ class WebPage
   #
 
   def wait_for_url(expected_url, timeout=settings.timeout_small)
+    warn "[Deprecated] This method is deprecated, and will be removed in next version of Howitzer"
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
       operator = expected_url.is_a?(Regexp) ? :=~ : :==
@@ -162,6 +210,7 @@ class WebPage
   end
 
   ##
+  # @deprecated
   #
   # Waits until web is loaded with expected title
   #
@@ -171,6 +220,7 @@ class WebPage
   #
 
   def wait_for_title(expected_title, timeout=settings.timeout_small)
+    warn "[Deprecated] This method is deprecated, and will be removed in next version of Howitzer"
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
       operator = expected_title.is_a?(Regexp) ? :=~ : :==

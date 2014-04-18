@@ -45,7 +45,9 @@ module Howitzer
            exception = args.first.new(args[1])
            exception.set_backtrace(args.last)
            exception
+          #:nocov:
           else nil
+          #:nocov:
         end
       end
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil

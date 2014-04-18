@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-require "#{lib_path}/howitzer/capybara/settings"
+require 'howitzer/capybara/settings'
 
 describe "CapybaraSettings" do
   it "supports deprecated module name" do

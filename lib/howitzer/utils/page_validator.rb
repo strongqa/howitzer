@@ -1,5 +1,3 @@
-require_relative '../utils/page_identifier'
-
 module Howitzer
   module Utils
     module PageValidator
@@ -7,6 +5,10 @@ module Howitzer
       NoValidationError = Class.new(StandardError)
       UnknownValidationName = Class.new(StandardError)
       @validations = {}
+
+      def self.included(base)  #:nodoc:
+        base.extend(ClassMethods)
+      end
 
       ##
       #
@@ -18,26 +20,26 @@ module Howitzer
         @validations
       end
 
-      def self.included(base)  #:nodoc:
-        base.extend(ClassMethods)
+      ##
+      #
+      # Returns page list
+      #
+      # @return [Array]
+      #
+      def self.pages
+        @pages ||= []
       end
 
       ##
+      # Check if any validations are defined, if no, tries to find old style, else raise error
       #
-      # Checks that correct page has been loaded
+      # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
       #
-      # @raise  [Howitzer::Utils::PageValidator::NoValidationError]   If no validation was specified
-      #
-      def check_correct_page_loaded
-        if validations.nil?
-          if old_url_validation_present?
-            self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
-            puts "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
-          else
-            raise NoValidationError, "No any page validation was found for '#{self.class.name}' page"
-          end
+
+      def check_validations_are_defined!
+        if validations.nil? && !old_url_validation_present?
+          raise NoValidationError, "No any page validation was found for '#{self.class.name}' page"
         end
-        validations.each {|(_, validation)| validation.call(self)}
       end
 
       private
@@ -47,7 +49,11 @@ module Howitzer
       end
 
       def old_url_validation_present?
-        self.class.const_defined?("URL_PATTERN")
+        if self.class.const_defined?("URL_PATTERN")
+          self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
+          warn "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
+          true
+        end
       end
 
       module ClassMethods
@@ -65,39 +71,60 @@ module Howitzer
         def validates(name, options)
           raise TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
-          PageIdentifier.validations[self.name] ||= {}
           case name.to_sym
             when :url
-              validate_url options
+              validate_by_pattern(:url, options)
             when :element_presence
               validate_element options
             when :title
-              validate_title options
+              validate_by_pattern(:title, options)
             else
               raise UnknownValidationName, "unknown '#{name}' validation name"
           end
         end
 
-        private
+        ##
+        # Check whether page is opened or no
+        #
+        # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
+        #
+        # *Returns:*
+        # * +boolean+
+        #
 
-        def validate_url(options)
-          pattern = options[:pattern] || options["pattern"]
-          raise WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
-          PageValidator.validations[self.name][:url] = lambda { |web_page| web_page.wait_for_url(pattern) }
-          PageIdentifier.validations[self.name][:url] = lambda { |url| pattern === url }
+        def opened?
+          validation_list = PageValidator.validations[self.name]
+          if validation_list.blank?
+            raise NoValidationError, "No any page validation was found for '#{self.name}' page"
+          else
+            !validation_list.any? {|(_, validation)| !validation.call(self)}
+          end
         end
+
+        ##
+        #
+        # Finds all matched pages which are satisfy of defined validations
+        #
+        # *Returns:*
+        # * +array+ - page names
+        #
+
+        def matched_pages
+          PageValidator.pages.select{|klass| klass.opened? }
+        end
+
+        private
 
         def validate_element(options)
           locator = options[:locator] || options["locator"]
           raise WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
-          PageValidator.validations[self.name][:element_presence] = lambda { |web_page| web_page.find_element(locator) }
+          PageValidator.validations[self.name][:element_presence] = lambda { |web_page| web_page.first_element(locator) }
         end
 
-        def validate_title(options)
+        def validate_by_pattern(name, options)
           pattern = options[:pattern] || options["pattern"]
           raise WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
-          PageValidator.validations[self.name][:title] = lambda { |web_page| web_page.wait_for_title(pattern) }
-          PageIdentifier.validations[self.name][:title] = lambda { |title| pattern === title }
+          PageValidator.validations[self.name][name] = lambda { |web_page| pattern === web_page.send(name) }
         end
 
       end

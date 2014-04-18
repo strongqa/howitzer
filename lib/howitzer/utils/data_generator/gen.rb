@@ -73,9 +73,12 @@ module DataGenerator
       #
       # Deletes mailboxes for all users that were generated before
       #@deprecated
+
+      #:nocov:
       def delete_all_mailboxes
         warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
+      #:nocov:
 
       private
 
@@ -115,14 +118,18 @@ module DataGenerator
       end
 
       #@deprecated
+      #:nocov:
       def create_mailbox
         warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
+      #:nocov:
 
       #@deprecated
+      #:nocov:
       def delete_mailbox
         warn "[WARN] Method '#{__method__}' has not been using anymore. You have to remove usage from here #{caller.first}"
       end
+      #:nocov:
     end
   end
 end

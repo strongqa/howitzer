@@ -7,6 +7,7 @@
 - Moved from personal github account to organization
 - Added supporting of native selenium phantomjs driver
 - Minor fixes
+- Implemented smart page identification
 
 ### Bugfixes
 

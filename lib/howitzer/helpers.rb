@@ -141,9 +141,12 @@ class String
   # Returns page instance
   #
 
-
   def given
     as_page_class.given
+  end
+
+  def wait_for_opened
+    as_page_class.wait_for_opened
   end
 
   ##

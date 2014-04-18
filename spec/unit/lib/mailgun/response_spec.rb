@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/mailgun/client"
+require 'howitzer/mailgun/client'
 
 describe Mailgun::Response do
   let(:body) { {foo: 'bar'}.to_json }
