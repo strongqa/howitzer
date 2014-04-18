@@ -111,7 +111,7 @@ class WebPage
   def self.wait_for_opened(timeout=settings.timeout_small)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
-      return true if self.opened? || sleep(0.5)
+      self.opened? ? return(true) : sleep(0.5)
     end
     log.error IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
