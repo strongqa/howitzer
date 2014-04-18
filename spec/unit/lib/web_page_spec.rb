@@ -10,9 +10,10 @@ describe "WebPage" do
     let(:other_instance) { WebPage.instance }
     subject { WebPage.open(url_value) }
     it do
-      expect(log).to receive(:info).with("Open WebPage page by 'google.com' url")
-      expect(WebPage).to receive(:retryable) { retryable }
-      expect(WebPage).to receive(:given)
+      expect(log).to receive(:info).with("Open WebPage page by 'google.com' url").once.ordered
+      expect(WebPage).to receive(:retryable).ordered.once.and_call_original
+      expect(WebPage).to receive(:visit).with(url_value).once.ordered
+      expect(WebPage).to receive(:given).once.ordered
       subject
     end
   end
@@ -24,6 +25,115 @@ describe "WebPage" do
       allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!){ true }
     end
     it { expect(subject.class).to eql(WebPage) }
+  end
+
+  describe ".title" do
+    let(:page) { double }
+    subject { WebPage.instance.title }
+    before do
+      allow(WebPage.instance).to receive(:current_url) { "google.com" }
+    end
+    it do
+      expect(WebPage.instance).to receive(:page) { page }
+      expect(page).to receive(:title)
+      subject
+    end
+  end
+
+  describe ".url" do
+    let(:page) { double }
+    subject { WebPage.url }
+    it do
+      expect(WebPage).to receive(:page) { page }
+      expect(page).to receive(:current_url) { "google.com" }
+      expect(subject).to eq("google.com")
+    end
+  end
+
+  describe ".current_url" do
+    let(:page) { double }
+    subject { WebPage.current_url }
+    it do
+      expect(WebPage).to receive(:page) { page }
+      expect(page).to receive(:current_url) { "google.com" }
+      expect(subject).to eq("google.com")
+    end
+  end
+
+  describe ".text" do
+    let(:page) { double }
+    let(:find) { double }
+    subject { WebPage.text }
+    it do
+      expect(WebPage).to receive(:page) { page }
+      expect(page).to receive(:find).with('body') { find }
+      expect(find).to receive(:text) { "some body text" }
+      expect(subject).to eq("some body text")
+    end
+  end
+
+  describe ".current_page" do
+    subject { WebPage.current_page }
+    context "when matched_pages has no pages" do
+      before { allow(WebPage).to receive(:matched_pages){ [] } }
+      it { expect(subject).to eq(WebPage::UnknownPage) }
+    end
+    context "when matched_pages has more than 1 page" do
+      let(:foo_page) { double(inspect: "FooPage") }
+      let(:bar_page) { double(inspect: "BarPage") }
+      before do
+        allow(WebPage).to receive(:current_url) { 'http://test.com' }
+        allow(WebPage).to receive(:title) { 'Test site' }
+        allow(WebPage).to receive(:matched_pages){ [foo_page, bar_page] }
+      end
+      it do
+        expect(log).to receive(:error).with(
+          WebPage::AmbiguousPageMatchingError,
+          "Current page matches more that one page class (FooPage, BarPage).\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
+        ).once
+        subject
+      end
+    end
+    context "when matched_pages has only 1 page" do
+      let(:foo_page) { double(to_s: "FooPage") }
+      before { allow(WebPage).to receive(:matched_pages){ [foo_page] } }
+      it { expect(subject).to eq(foo_page) }
+    end
+  end
+
+  describe ".wait_for_opened" do
+    subject { WebPage.wait_for_opened }
+    context "when page is opened" do
+      before { allow(WebPage).to receive(:opened?) { true } }
+      it { expect(subject).to be_nil }
+    end
+    context "when page is not opened" do
+      before do
+        allow(WebPage).to receive(:current_page) { 'FooPage' }
+        allow(WebPage).to receive(:current_url) { 'http://test.com' }
+        allow(WebPage).to receive(:title) { 'Test site' }
+        allow(settings).to receive(:timeout_small) { 0.1 }
+        allow(WebPage).to receive(:opened?) { false }
+      end
+      it do
+        expect(log).to receive(:error).with(
+          WebPage::IncorrectPageError,
+          "Current page: FooPage, expected: WebPage.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
+        )
+        subject
+      end
+    end
+  end
+
+  describe "inherited callback" do
+    let!(:page_class) do
+      Howitzer::Utils::PageValidator.instance_variable_set(:@pages, [])
+      Class.new(WebPage)
+    end
+    it { expect(Howitzer::Utils::PageValidator.pages).to eq([page_class]) }
+    it "can not be instantiated with new" do
+      expect { page_class.new }.to raise_error(NoMethodError, "private method `new' called for #{page_class}")
+    end
   end
 
   describe "#tinymce_fill_in" do
@@ -203,41 +313,6 @@ describe "WebPage" do
       expect(log).to receive(:info) { "Reload 'google.com' " }
       expect(WebPage.instance).to receive(:visit).with("google.com")
       subject
-    end
-  end
-
-  describe ".title" do
-    let(:page) { double }
-    subject { WebPage.instance.title }
-    before do
-      allow(WebPage.instance).to receive(:current_url) { "google.com" }
-    end
-    it do
-      expect(WebPage.instance).to receive(:page) { page }
-      expect(page).to receive(:title)
-      subject
-    end
-  end
-
-  describe ".current_url" do
-    let(:page) { double }
-    subject { WebPage.current_url }
-    it do
-      expect(WebPage).to receive(:page) { page }
-      expect(page).to receive(:current_url) { "google.com" }
-      expect(subject).to eq("google.com")
-    end
-  end
-
-  describe ".text" do
-    let(:page) { double }
-    let(:find) { double }
-    subject { WebPage.text }
-    it do
-      expect(WebPage).to receive(:page) { page }
-      expect(page).to receive(:find).with('body') { find }
-      expect(find).to receive(:text) { "some body text" }
-      expect(subject).to eq("some body text")
     end
   end
 end

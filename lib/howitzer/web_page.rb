@@ -91,7 +91,7 @@ class WebPage
   def self.current_page
     page_list = matched_pages
     if page_list.count.zero?
-      UnknownPage.name
+      UnknownPage
     elsif page_list.count > 1
       log.error AmbiguousPageMatchingError,
                 "Current page matches more that one page class (#{page_list.join(', ')}).\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
@@ -178,6 +178,7 @@ class WebPage
 
   # @deprecated
   # With Capybara 2.x it is extra
+  #:nocov:
   def wait_for_ajax(timeout=settings.timeout_small, message=nil)
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
@@ -186,6 +187,7 @@ class WebPage
     end
     log.error message || "Timed out waiting for ajax requests to complete"
   end
+  #:nocov:
 
   ##
   # @deprecated

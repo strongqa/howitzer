@@ -165,6 +165,15 @@ describe "PageValidator" do
     end
   end
 
+  describe ".pages" do
+    subject { Howitzer::Utils::PageValidator.pages }
+    it { expect(subject).to eq([]) }
+    it do
+      subject << Class
+      expect(subject).to eql([Class])
+    end
+  end
+
   describe ".opened?" do
     subject { web_page_class.opened? }
     context "when no one validation is defined" do
@@ -197,6 +206,35 @@ describe "PageValidator" do
         it { expect(subject).to be_false }
       end
     end
+  end
+
+  describe "#matched_pages" do
+    let!(:web_page1_class) do
+      Class.new do
+        include Howitzer::Utils::PageValidator
+        def self.name
+          'TestWebPage1Class'
+        end
+        def self.opened?
+          true
+        end
+      end
+    end
+
+    let!(:web_page2_class) do
+      Class.new do
+        include Howitzer::Utils::PageValidator
+        def self.name
+          'TestWebPage2Class'
+        end
+        def self.opened?
+          false
+        end
+      end
+    end
+    subject {web_page2_class.matched_pages }
+    before { Howitzer::Utils::PageValidator.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
+    it { expect(subject).to eq([web_page1_class]) }
   end
 
 end
