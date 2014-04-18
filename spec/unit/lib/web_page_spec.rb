@@ -1,6 +1,6 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/web_page"
-require "#{lib_path}/howitzer/capybara/settings"
+require 'howitzer/web_page'
+require 'howitzer/capybara/settings'
 
 describe "WebPage" do
   describe ".open" do
@@ -19,21 +19,11 @@ describe "WebPage" do
 
   describe ".given" do
     subject { WebPage.given }
-    context "when no one validation is defined" do
-      it { expect { subject }.to raise_error(StandardError) }
+    before do
+      expect(WebPage).to receive(:wait_for_opened).with(no_args).once
+      allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!){ true }
     end
-    context "when validation present" do
-      before do
-        stub_const("WebPage::URL_PATTERN",/pattern/)
-        allow(WebPage.instance).to receive(:check_correct_page_loaded) { true }
-        allow(WebPage.page).to receive(:current_url) { 'http://test.com' }
-        allow(settings).to receive(:timeout_small){ 0.1 }
-      end
-      it do
-        expect(log).to receive(:error).with(WebPage::IncorrectPageError, "Current page: WebPage::UnknownPage, expected: WebPage")
-        subject
-      end
-    end
+    it { expect(subject.class).to eql(WebPage) }
   end
 
   describe "#tinymce_fill_in" do

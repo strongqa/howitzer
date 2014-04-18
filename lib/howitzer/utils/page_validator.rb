@@ -31,8 +31,10 @@ module Howitzer
       end
 
       ##
-      # @deprecated
-      # This method will added for
+      # Check if any validations are defined, if no, tries to find old style, else raise error
+      #
+      # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
+      #
 
       def check_validations_are_defined!
         if validations.nil? && !old_url_validation_present?
@@ -84,12 +86,19 @@ module Howitzer
         ##
         # Check whether page is opened or no
         #
+        # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
+        #
         # *Returns:*
         # * +boolean+
         #
 
         def opened?
-          PageValidator.validations[self.name].all? {|(_, validation)| validation.call(self)}
+          validation_list = PageValidator.validations[self.name]
+          if validation_list.blank?
+            raise NoValidationError, "No any page validation was found for '#{self.name}' page"
+          else
+            !validation_list.any? {|(_, validation)| !validation.call(self)}
+          end
         end
 
         ##

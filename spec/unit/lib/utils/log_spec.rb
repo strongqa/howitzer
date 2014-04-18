@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/log"
+require 'howitzer/utils/log'
 include LoggerHelper
 
 describe "Logger" do

@@ -1,6 +1,6 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/email"
-require "#{lib_path}/howitzer/utils/log"
+require "howitzer/email"
+require "howitzer/utils/log"
 
 describe "Email" do
   let(:recipient){ 'first_tester@gmail.com' }

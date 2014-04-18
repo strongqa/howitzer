@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/mailgun/client"
+require 'howitzer/mailgun/client'
 
 describe Mailgun::Client do
   let(:mg_obj) { Mailgun::Client.new("Fake-API-Key") }

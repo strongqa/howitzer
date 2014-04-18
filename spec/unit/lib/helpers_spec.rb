@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/helpers"
+require "howitzer/helpers"
 
 describe "Helpers" do
   let(:settings) { double("settings")}

@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/locator_store"
+require 'howitzer/utils/locator_store'
 
 describe "Locator store" do
   let(:bad_name) { 'name' }

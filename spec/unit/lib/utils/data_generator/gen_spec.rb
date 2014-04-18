@@ -1,5 +1,5 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/data_generator/gen"
+require 'howitzer/utils/data_generator/gen'
 
 describe "DataGenerator" do
   describe "Gen" do
