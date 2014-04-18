@@ -69,13 +69,13 @@ module Capybara
         Capybara.register_driver :selenium_dev do |app|
           profile = base_ff_profile_settings
           vendor_dir = settings.custom_vendor_dir || File.join(File.dirname(__FILE__), '..', 'vendor')
-          raise "Vendor directory was not found('#{vendor_dir}')." unless Dir.exist?(vendor_dir)
+          log.error "Vendor directory was not found('#{vendor_dir}')." unless Dir.exist?(vendor_dir)
           %w(firebug*.xpi firepath*.xpi).each do |file_name|
             full_path_pattern = File.join(File.expand_path(vendor_dir), file_name)
             if (full_path = Dir[full_path_pattern].first)
               profile.add_extension full_path
             else
-              raise "Extension was not found by '#{full_path_pattern}' pattern!"
+              log.error "Extension was not found by '#{full_path_pattern}' pattern!"
             end
           end
           profile['extensions.firebug.currentVersion']    = 'Last' # avoid 'first run' tab

@@ -1,9 +1,8 @@
 require 'rspec/matchers'
 require 'howitzer/mailgun/connector'
+require 'howitzer/exceptions'
 
 class Email
-  NotFound = Class.new(StandardError)
-  NoAttachments = Class.new(StandardError)
   include RSpec::Matchers
 
   ##
@@ -41,7 +40,7 @@ class Email
 
   def self.find(recipient, subject)
     message = {}
-    retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Email::NotFound) do
+    retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Howitzer::EmailNotFoundError) do
       events = Mailgun::Connector.instance.client.get("#{Mailgun::Connector.instance.domain}/events", event: 'stored')
       event = events.to_h['items'].find do |hash|
         hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
@@ -49,10 +48,10 @@ class Email
       if event
         message = Mailgun::Connector.instance.client.get("domains/#{Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
       else
-        raise NotFound.new('Message not received yet, retry...')
+        raise Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
       end
     end
-    log.error NotFound.new("Message with subject '#{subject}' for recipient '#{recipient}' was not found.") if message.empty?
+    log.error Howitzer::EmailNotFoundError, "Message with subject '#{subject}' for recipient '#{recipient}' was not found." if message.empty?
     new(message)
   end
 
@@ -127,7 +126,7 @@ class Email
   def get_mime_part
     files = @message['attachments']
     if files.empty?
-      log.error NoAttachments, 'No attachments where found.'
+      log.error Howitzer::NoAttachmentsError, 'No attachments where found.'
       return
     end
     files

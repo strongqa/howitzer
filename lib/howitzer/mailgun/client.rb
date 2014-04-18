@@ -1,10 +1,9 @@
 require 'rest_client'
 require 'json'
-require "howitzer/mailgun/response"
+require 'howitzer/mailgun/response'
+require 'howitzer/exceptions'
 
 module Mailgun
-  CommunicationError = Class.new(StandardError)
-  ParseError = Class.new(StandardError)
 
   # A Mailgun::Client object is used to communicate with the Mailgun API. It is a
   # wrapper around RestClient so you don't have to worry about the HTTP aspect
@@ -34,7 +33,7 @@ module Mailgun
       response = @http_client[resource_path].get(http_params)
       Response.new(response)
     rescue => e
-      raise CommunicationError.new(e)
+      log.error Howitzer::CommunicationError, e.message
     end
 
     private

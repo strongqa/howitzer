@@ -25,12 +25,18 @@ describe Mailgun::Connector do
     context "when api_key is nil" do
       let(:key) { nil }
       subject { connector.client(key) }
-      it { expect { subject}.to raise_error(Mailgun::Connector::InvalidApiKeyError, "Api key can not be blank") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, "Api key can not be blank").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
+      end
     end
     context "when api_key is blank string" do
       let(:key) { "" }
       subject { connector.client(key) }
-      it { expect { subject}.to raise_error(Mailgun::Connector::InvalidApiKeyError, "Api key can not be blank") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, "Api key can not be blank").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
+      end
     end
   end
   describe '#domain' do

@@ -3,13 +3,16 @@ require 'howitzer/utils/locator_store'
 
 describe "Locator store" do
   let(:bad_name) { 'name' }
-  let(:error) { LocatorStore::LocatorNotDefinedError }
+  let(:error) { Howitzer::LocatorNotDefinedError }
 
   shared_examples "locator methods" do |prefix, web_page|
     describe "#{prefix}locator" do
       context "when bad locator given" do
         subject { web_page.locator(bad_name) }
-        it { expect {subject}.to raise_error(error) }
+        it do
+          expect(log).to receive(:error).with(error, bad_name).once.and_call_original
+          expect { subject }.to raise_error(error)
+        end
       end
       context "when CSS locator given" do
         before { web_page.add_locator :base_locator, 'base_locator' }
@@ -90,7 +93,7 @@ describe "Locator store" do
       end
       context "when not existing locator name" do
         subject { web_page.find_element(:unknown_locator) }
-        it { expect{ subject }.to raise_error(LocatorStore::LocatorNotDefinedError, "unknown_locator") }
+        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, "unknown_locator") }
       end
     end
     describe "#{prefix}first_element" do
@@ -124,7 +127,7 @@ describe "Locator store" do
       end
       context "when not existing locator name" do
         subject { web_page.first_element(:unknown_locator) }
-        it { expect{ subject }.to raise_error(LocatorStore::LocatorNotDefinedError, "unknown_locator") }
+        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, "unknown_locator") }
       end
     end
     describe "#{prefix}apply" do
@@ -133,7 +136,6 @@ describe "Locator store" do
         let(:locator)  { lambda{|test| test}  }
         subject { web_page.apply(locator, 'test') }
         it { expect {subject}.to raise_error(NoMethodError) }
-
       end
       context "when correct locator given" do
         before { web_page.add_locator :test_locator,  lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }

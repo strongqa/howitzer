@@ -1,9 +1,9 @@
 require 'singleton'
 require 'howitzer/mailgun/client'
+require 'howitzer/exceptions'
 
 module Mailgun
   class Connector
-    InvalidApiKeyError = Class.new(StandardError)
     include Singleton
 
     attr_reader :api_key
@@ -28,7 +28,7 @@ module Mailgun
 
     private
     def check_api_key(api_key)
-      raise InvalidApiKeyError, "Api key can not be blank" if api_key.blank?
+      log.error Howitzer::InvalidApiKeyError, "Api key can not be blank" if api_key.blank?
     end
   end
 end

@@ -1,3 +1,5 @@
+require 'howitzer/exceptions'
+
 module Mailgun
   # A Mailgun::Response object is instantiated for each response generated
   # by the Client request. The Response object supports deserialization of
@@ -20,7 +22,7 @@ module Mailgun
     def to_h
       JSON.parse(@body)
     rescue Exception => e
-      raise ParseError.new(e)
+      log.error Howitzer::ParseError, e.message
     end
   end
 end

@@ -1,6 +1,7 @@
 require 'spec_helper'
 require "howitzer/email"
 require "howitzer/utils/log"
+require 'howitzer/exceptions'
 
 describe "Email" do
   let(:recipient){ 'first_tester@gmail.com' }
@@ -60,7 +61,10 @@ describe "Email" do
         allow(settings).to receive(:timeout_short) { 0.05 }
         allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
       end
-      it { expect { subject }.to raise_error(Email::NotFound, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::EmailNotFoundError, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.")
+        subject
+      end
     end
   end
 
@@ -114,7 +118,7 @@ describe "Email" do
     end
 
     context 'when no attachments' do
-      let(:error) { Email::NoAttachments }
+      let(:error) { Howitzer::NoAttachmentsError }
       let(:error_message) { 'No attachments where found.' }
       it do
         expect(log).to receive(:error).with(error, error_message).once

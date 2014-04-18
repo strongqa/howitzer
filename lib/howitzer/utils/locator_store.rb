@@ -1,3 +1,5 @@
+require 'howitzer/exceptions'
+
 #The following are locator aliases:
 #
 #1) locator
@@ -18,8 +20,6 @@
 
 
 module LocatorStore
-  BadLocatorParamsError = Class.new(StandardError)
-  LocatorNotDefinedError = Class.new(StandardError)
 
   def self.included(base)
     base.extend(ClassMethods)
@@ -27,8 +27,6 @@ module LocatorStore
 
   module ClassMethods
     LOCATOR_TYPES = [:base, :link, :field, :button]
-    class BadLocatorParamsError < StandardError; end
-    class LocatorNotSpecifiedError < StandardError; end
 
     ##
     #
@@ -173,7 +171,7 @@ module LocatorStore
       LOCATOR_TYPES.each do|type|
         return [type, locator_by_type(type, name)] if (@locators || {}).fetch(self.name, {}).fetch(type, {})[name]
       end
-      raise(LocatorNotDefinedError, name)
+      log.error(Howitzer::LocatorNotDefinedError, name)
     end
 
     # looks up locator in current and all super classes
@@ -189,7 +187,7 @@ module LocatorStore
 
     def locator_by_type(type, name)
       locator = parent_locator(type, name)
-      raise(LocatorNotDefinedError, name) if locator.nil?
+      log.error(Howitzer::LocatorNotDefinedError, name) if locator.nil?
       locator
     end
 
@@ -197,7 +195,7 @@ module LocatorStore
       @locators ||= {}
       @locators[self.name] ||= {}
       @locators[self.name][type] ||= {}
-      raise BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
+      log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
       case params.class.name
         when 'Hash'
           @locators[self.name][type][name] = [params.keys.first.to_sym, params.values.first.to_s]

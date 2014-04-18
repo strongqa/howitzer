@@ -22,7 +22,10 @@ describe "PageValidator" do
   describe "#check_validations_are_defined!" do
     subject { web_page.check_validations_are_defined! }
     context "when no validation specified" do
-      it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError, "No any page validation was found for 'TestWebPageClass' page") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::NoValidationError, "No any page validation was found for 'TestWebPageClass' page").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::NoValidationError)
+      end
     end
     context "when old validation style is using" do
       before { web_page_class.const_set("URL_PATTERN",/Foo/) }
@@ -79,11 +82,17 @@ describe "PageValidator" do
         context "when options is incorrect" do
           context "(missing pattern)" do
             let(:options) { {} }
-            it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':pattern' option as Regexp object") }
+            it do
+              expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+              expect { subject }.to raise_error(Howitzer::WrongOptionError)
+            end
           end
           context "(string pattern)" do
             let(:options) { {pattern: "foo"} }
-            it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':pattern' option as Regexp object") }
+            it do
+              expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+              expect { subject }.to raise_error(Howitzer::WrongOptionError)
+            end
           end
           context "(not hash)" do
             let(:options) { "foo" }
@@ -121,11 +130,17 @@ describe "PageValidator" do
       context "when options is incorrect" do
         context "(missing locator)" do
           let(:options) { {} }
-          it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':locator' option as one of page locator names") }
+          it do
+            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names").once.and_call_original
+            expect { subject }.to raise_error(Howitzer::WrongOptionError)
+          end
         end
         context "(blank locator name)" do
           let(:options) { {locator: ""} }
-          it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':locator' option as one of page locator names") }
+          it do
+            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names").once.and_call_original
+            expect { subject }.to raise_error(Howitzer::WrongOptionError)
+          end
         end
       end
     end
@@ -150,18 +165,27 @@ describe "PageValidator" do
       context "when options is incorrect" do
         context "(missing pattern)" do
           let(:options) { {} }
-          it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':pattern' option as Regexp object") }
+          it do
+            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+            expect { subject }.to raise_error(Howitzer::WrongOptionError)
+          end
         end
         context "(string pattern)" do
           let(:options) { {pattern: "foo"} }
-          it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::WrongOptionError, "Please specify ':pattern' option as Regexp object") }
+          it do
+            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+            expect { subject }.to raise_error(Howitzer::WrongOptionError)
+          end
         end
       end
     end
     context "when other name" do
       let(:name) { :unknown }
       let(:options) { {} }
-      it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::UnknownValidationName, "unknown 'unknown' validation name") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::UnknownValidationError, "unknown 'unknown' validation name").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::UnknownValidationError)
+      end
     end
   end
 
@@ -177,8 +201,10 @@ describe "PageValidator" do
   describe ".opened?" do
     subject { web_page_class.opened? }
     context "when no one validation is defined" do
-      it { expect{subject}.to raise_error(Howitzer::Utils::PageValidator::NoValidationError,
-                                          "No any page validation was found for 'TestWebPageClass' page") }
+      it do
+        expect(log).to receive(:error).with(Howitzer::NoValidationError, "No any page validation was found for 'TestWebPageClass' page").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::NoValidationError)
+      end
     end
     context "when all validations are defined" do
       before do

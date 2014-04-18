@@ -1,14 +1,13 @@
+require "singleton"
 require "rspec/expectations"
 require "howitzer/utils/locator_store"
 require "howitzer/utils/page_validator"
 require "howitzer/capybara/dsl_ex"
-require "singleton"
+require 'howitzer/exceptions'
 
 class WebPage
 
   BLANK_PAGE = 'about:blank' # @deprecated , use BlankPage instead
-  IncorrectPageError = Class.new(StandardError)
-  AmbiguousPageMatchingError = Class.new(StandardError)
   UnknownPage = Class.new
 
   include LocatorStore
@@ -93,7 +92,7 @@ class WebPage
     if page_list.count.zero?
       UnknownPage
     elsif page_list.count > 1
-      log.error AmbiguousPageMatchingError,
+      log.error Howitzer::AmbiguousPageMatchingError,
                 "Current page matches more that one page class (#{page_list.join(', ')}).\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
     elsif page_list.count == 1
       page_list.first
@@ -113,7 +112,7 @@ class WebPage
     until ::Time.now > end_time
       self.opened? ? return : sleep(0.5)
     end
-    log.error IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+    log.error Howitzer::IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
 
   def initialize
@@ -206,7 +205,7 @@ class WebPage
       operator = expected_url.is_a?(Regexp) ? :=~ : :==
       return true if current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
     end
-    log.error IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
+    log.error Howitzer::IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
   end
 
   ##
@@ -226,7 +225,7 @@ class WebPage
       operator = expected_title.is_a?(Regexp) ? :=~ : :==
       return true if title.send(operator, expected_title).tap{|res| sleep 1 unless res}
     end
-    log.error IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
+    log.error Howitzer::IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
   end
 
   ##

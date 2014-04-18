@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'howitzer/mailgun/client'
+require 'howitzer/exceptions'
 
 describe Mailgun::Response do
   let(:body) { {foo: 'bar'}.to_json }
@@ -19,7 +20,10 @@ describe Mailgun::Response do
     end
     context "when impossible parse body" do
       let(:body) { '123' }
-      it { expect { subject }.to raise_error(Mailgun::ParseError, "757: unexpected token at '123'")}
+      it do
+        expect(log).to receive(:error).with(Howitzer::ParseError, "757: unexpected token at '123'").once.and_call_original
+        expect { subject }.to raise_error(Howitzer::ParseError)
+      end
     end
   end
 end

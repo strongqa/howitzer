@@ -1,5 +1,6 @@
 require "time"
 require "json"
+require 'howitzer/exceptions'
 
 module Mailgun
   class UnitClient
@@ -33,7 +34,7 @@ module Mailgun
         end
         Response.new(response)
       rescue Exception => e
-        raise CommunicationError.new(e), e.response
+        log.error Howitzer::CommunicationError.new(e), e.response
       end
     end
 

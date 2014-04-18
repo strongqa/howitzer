@@ -58,7 +58,7 @@ module DataGenerator
         if ns
           init_ns(ns) if ns_absent?(ns)
         else
-          raise 'Data storage namespace can not be empty'
+          log.error 'Data storage namespace can not be empty'
         end
       end
 

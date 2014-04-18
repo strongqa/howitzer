@@ -1,9 +1,8 @@
+require 'howitzer/exceptions'
+
 module Howitzer
   module Utils
     module PageValidator
-      WrongOptionError = Class.new(StandardError)
-      NoValidationError = Class.new(StandardError)
-      UnknownValidationName = Class.new(StandardError)
       @validations = {}
 
       def self.included(base)  #:nodoc:
@@ -33,12 +32,12 @@ module Howitzer
       ##
       # Check if any validations are defined, if no, tries to find old style, else raise error
       #
-      # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
+      # @raise  [Howitzer::NoValidationError] If no one validation is defined for page
       #
 
       def check_validations_are_defined!
         if validations.nil? && !old_url_validation_present?
-          raise NoValidationError, "No any page validation was found for '#{self.class.name}' page"
+          log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
         end
       end
 
@@ -66,10 +65,10 @@ module Howitzer
         # @option options [Hash]                                            Validation options
         #    :pattern => [Regexp]                                             For :url and :title validation types
         #    :locator => [String]                                             For :element_presence (Existing locator name)
-        # @raise  [Howitzer::Utils::PageValidator::UnknownValidationName]   If unknown validation type was passed
+        # @raise  [Howitzer::UnknownValidationError]   If unknown validation type was passed
         #
         def validates(name, options)
-          raise TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
+          log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
           case name.to_sym
             when :url
@@ -79,14 +78,14 @@ module Howitzer
             when :title
               validate_by_pattern(:title, options)
             else
-              raise UnknownValidationName, "unknown '#{name}' validation name"
+              log.error Howitzer::UnknownValidationError, "unknown '#{name}' validation name"
           end
         end
 
         ##
         # Check whether page is opened or no
         #
-        # @raise  [Howitzer::Utils::PageValidator::NoValidationError] If no one validation is defined for page
+        # @raise  [Howitzer::NoValidationError] If no one validation is defined for page
         #
         # *Returns:*
         # * +boolean+
@@ -95,7 +94,7 @@ module Howitzer
         def opened?
           validation_list = PageValidator.validations[self.name]
           if validation_list.blank?
-            raise NoValidationError, "No any page validation was found for '#{self.name}' page"
+            log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.name}' page"
           else
             !validation_list.any? {|(_, validation)| !validation.call(self)}
           end
@@ -117,13 +116,13 @@ module Howitzer
 
         def validate_element(options)
           locator = options[:locator] || options["locator"]
-          raise WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
+          log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
           PageValidator.validations[self.name][:element_presence] = lambda { |web_page| web_page.first_element(locator) }
         end
 
         def validate_by_pattern(name, options)
           pattern = options[:pattern] || options["pattern"]
-          raise WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
+          log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
           PageValidator.validations[self.name][name] = lambda { |web_page| pattern === web_page.send(name) }
         end
 

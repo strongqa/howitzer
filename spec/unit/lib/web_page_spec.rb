@@ -88,7 +88,7 @@ describe "WebPage" do
       end
       it do
         expect(log).to receive(:error).with(
-          WebPage::AmbiguousPageMatchingError,
+          Howitzer::AmbiguousPageMatchingError,
           "Current page matches more that one page class (FooPage, BarPage).\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
         ).once
         subject
@@ -117,7 +117,7 @@ describe "WebPage" do
       end
       it do
         expect(log).to receive(:error).with(
-          WebPage::IncorrectPageError,
+          Howitzer::IncorrectPageError,
           "Current page: FooPage, expected: WebPage.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
         )
         subject
@@ -275,9 +275,12 @@ describe "WebPage" do
     end
     context "when title not equals expected title" do
       let(:expected_title) { "bad title" }
-      let(:error) { WebPage::IncorrectPageError }
+      let(:error) { Howitzer::IncorrectPageError }
       let(:error_message) { "Current title: title, expected:  bad title" }
-      it { expect{subject}.to raise_error(error,error_message) }
+      it do
+        expect(log).to receive(:error).with(error,error_message).once.and_call_original
+        expect { subject }.to raise_error(error)
+      end
     end
   end
 
@@ -293,9 +296,12 @@ describe "WebPage" do
     end
     context "when current_url not equals expected_url" do
       let(:expected_url) { "bad_url" }
-      let(:error) { WebPage::IncorrectPageError }
+      let(:error) { Howitzer::IncorrectPageError }
       let(:error_message) { "Current url: google.com, expected:  #{expected_url}"  }
-      it { expect{subject}.to raise_error(error, error_message) }
+      it do
+        expect(log).to receive(:error).with(error, error_message).once.and_call_original
+        expect { subject }.to raise_error(error)
+      end
     end
   end
 

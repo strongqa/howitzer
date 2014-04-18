@@ -27,7 +27,10 @@ describe Mailgun::Client do
         allow(resource).to receive(:get).and_raise(StandardError, '401 Unauthorized: Forbidden')
         allow(RestClient::Resource).to receive(:new) { resource }
       end
-      it { expect{ subject }.to raise_error(Mailgun::CommunicationError, '401 Unauthorized: Forbidden') }
+      it do
+        expect(log).to receive(:error).with(Howitzer::CommunicationError, '401 Unauthorized: Forbidden').once.and_call_original
+        expect { subject }.to raise_error(Howitzer::CommunicationError)
+      end
     end
   end
 end
