@@ -2,6 +2,7 @@ Getting Started
 ===============
 
 ## Jump to Section
+* [Available Drivers](#available-drivers)
 * [Pages](#pages)
    * [Validations](#validations)
    * [Locators](#locators)
@@ -17,7 +18,125 @@ Getting Started
    * [Generator](#generator)
    * [Cucumber Tranformers](#cucumber-transformers)
 * [RSpec Folder Structure](#rspec-folder-structure)
-* [Available Drivers] (#available-drivers)
+
+Available Drivers
+------
+[[Back To Top]](#jump-to-section)
+
+**Driver** - universal interface for test runners against to different web browsers. All implementations of drivers can be divided to 2 categories:
+
+* **Headless testing** - browser emulation without GUI(very useful on CI servers, like Bamboo, TeamCity, Jenkins, etc.)
+* **Real browser testing** - integration with real browsers via extensions, plugins, ActiveX, etc.(for local and cloud based testing, like SauceLabs, Testingbot)
+
+Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver management and configuration. All that you really need:
+ - specify the **driver** settings in _config/default.yml_
+ - specify some additional settings for chosen driver.
+Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
+
+| Driver        | Category      | Settings  |
+| ------------- |:-------------:| ---------:|
+| [webkit](https://github.com/thoughtbot/capybara-webkit) | Headless | none |
+| [poltergeist](https://github.com/teampoltergeist/poltergeist) | Headless | 
+| [phantomjs](http://phantomjs.org/) **default** | Headless | TODO |
+
+
+* Selenium-Browsers
+    * Firefox
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: ff
+    ```
+
+    * Chrome
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: chrome
+    ```
+
+    * Internet Explorer
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: ie
+    ```
+
+    * Safari
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: safari
+    ```
+
+    * Opera
+
+    **Configs :**
+
+    ```yml
+    driver: selenium
+    sel_browser: opera
+    ```
+
+* PhantomJS
+
+**Configs :**
+
+```yml
+driver: phantomjs
+```
+
+* Poltergeist
+
+**Configs :**
+
+```yml
+driver: poltergeist
+```
+
+* SauceLabs
+
+**Configs :**
+
+```yml
+driver: sauce
+
+sl_user: some_user
+sl_api_key: some_api_key
+sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
+sl_platform: :VISTA
+sl_browser_name: firefox
+sl_selenium_version: "2.18.0"
+sl_max_duration: '1800'
+sl_idle_timeout: '180'
+```
+
+* TestingBot
+
+**Configs :**
+
+```yml
+driver: sauce
+
+tb_api_key: client_key
+tb_api_secret: client_secret
+tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
+tb_platform: :WIN8
+tb_browser_name: firefox
+tb_browser_version: 8
+tb_selenium_version: "2.18.0"
+tb_max_duration: '1800'
+tb_idle_timeout: '180'
+tb_record_screenshot: false
+```
 
 Pages
 ------
@@ -549,107 +668,5 @@ You can run all tests from this folder by command:
 
 ```bash
 rake rspec:bvt:accounts
-```
-
-Available Drivers
-------
-[[Back To Top]](#jump-to-section)
-
-* Selenium-Browsers
-    * Firefox
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: ff
-    ```
-
-    * Chrome
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: chrome
-    ```
-
-    * Internet Explorer
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: ie
-    ```
-
-    * Safari
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: safari
-    ```
-
-    * Opera
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: opera
-    ```
-
-* PhantomJS
-
-**Configs :**
-
-```yml
-driver: phantomjs
-```
-
-* Poltergeist
-
-**Configs :**
-
-```yml
-driver: poltergeist
-```
-
-* SauceLabs
-
-**Configs :**
-
-```yml
-driver: sauce
-
-sl_user: some_user
-sl_api_key: some_api_key
-sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
-sl_platform: :VISTA
-sl_browser_name: firefox
-sl_selenium_version: "2.18.0"
-sl_max_duration: '1800'
-sl_idle_timeout: '180'
-```
-
-* TestingBot
-
-**Configs :**
-
-```yml
-driver: sauce
-
-tb_api_key: client_key
-tb_api_secret: client_secret
-tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
-tb_platform: :WIN8
-tb_browser_name: firefox
-tb_browser_version: 8
-tb_selenium_version: "2.18.0"
-tb_max_duration: '1800'
-tb_idle_timeout: '180'
-tb_record_screenshot: false
 ```
 
