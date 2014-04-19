@@ -27,7 +27,7 @@ Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/how
 
 ## Related products
 * [Howitzer Example](https://github.com/strongqa/howitzer_example) - Demo Rails application and Acceptance tests
-* [Howitzer Stat](https://github.com/strongqa/howitzer_example) - Howitzer extension for test coverage of web app by scenarios
+* [Howitzer Stat](https://github.com/strongqa/howitzer_stat) - Howitzer extension for test coverage visualization of web web pages
 
 ## Requirements
 Ruby 1.9.3+
