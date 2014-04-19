@@ -33,91 +33,94 @@ Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver managem
  - specify some additional settings for chosen driver.
 Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
 
-| Driver        | Category      | Settings  |
-| ------------- |:-------------:| ---------:|
-| [webkit](https://github.com/thoughtbot/capybara-webkit) | Headless | none |
-| [poltergeist](https://github.com/teampoltergeist/poltergeist) | Headless | 
-| [phantomjs](http://phantomjs.org/) **default** | Headless | TODO |
+<table>
+<thead>
+  <tr>
+    <th>Driver</th>
+    <th align="center">Category</th>
+    <th align="center">Setting name</th>
+    <th align="center">Setting type</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)</td>
+    <td align="center">Headless</td>
+    <td align="left" rowspan="2">
+      <strong>pjs_ignore_js_errors</strong><br/><br/>
+      <strong>pjs_ignore_ssl_errors</strong>
+    </td>
+    <td align="left" rowspan="2">
+      Boolean <br/><br/>
+      Boolean
+    </td>
+    <td align="left" rowspan="2">
+      if false, then raises exception on js error in app<br/>
+      if false, then ignores ssl warnings
+    </td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a></td>
+    <td align="center">Headless</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
+    <td align="center">Headless</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+  </tr>
+  <tr>
+    <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
+    <td align="center">Real</td>
+    <td align="center"><strong>sel_browser</strong></td>
+    <td align="center">String</td>
+    <td align="center">specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari</td>
+  </tr>
+  <tr>
+    <td>selenium_dev</td>
+    <td align="center">Real</td>
+    <td align="center"><strong>-</strong></td>
+    <td align="center">-</td>
+    <td align="center">Execute tests against to FireFox with firebug and firepath extensions</td>
+  </tr>
+  <tr>
+    <td><a href="https://saucelabs.com">sauce</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+    <strong>sl_user<strong><br/>
+    <strong>sl_api_key</strong><br/>
+    <strong>sl_url</strong><br/>
+    <strong>sl_platform</strong><br/>
+    <strong>sl_browser_name</strong><br/>
+    <strong>sl_selenium_version</strong><br/>
+    <strong>sl_max_duration</strong><br/>
+    <strong>sl_idle_timeout</strong></td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String</td>
+    <td align="center">See details <a href="https://saucelabs.com/docs/additional-config">here</a></td>
+  </tr>
+  <tr>
+    <td><a href="http://testingbot.com">testingbot</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+      <strong>tb_api_key<strong><br/>
+      <strong>tb_api_key<strong><br/>
+      <strong>tb_api_key<strong><br/>
+  </tr>
+</tbody>
+</table>
 
 
-* Selenium-Browsers
-    * Firefox
 
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: ff
-    ```
-
-    * Chrome
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: chrome
-    ```
-
-    * Internet Explorer
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: ie
-    ```
-
-    * Safari
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: safari
-    ```
-
-    * Opera
-
-    **Configs :**
-
-    ```yml
-    driver: selenium
-    sel_browser: opera
-    ```
-
-* PhantomJS
-
-**Configs :**
-
-```yml
-driver: phantomjs
-```
-
-* Poltergeist
-
-**Configs :**
-
-```yml
-driver: poltergeist
-```
-
-* SauceLabs
-
-**Configs :**
-
-```yml
-driver: sauce
-
-sl_user: some_user
-sl_api_key: some_api_key
-sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
-sl_platform: :VISTA
-sl_browser_name: firefox
-sl_selenium_version: "2.18.0"
-sl_max_duration: '1800'
-sl_idle_timeout: '180'
-```
 
 * TestingBot
 
