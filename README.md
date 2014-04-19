@@ -36,7 +36,7 @@ Ruby 1.9.3+
 To install, type
 
 ```bash
-sudo gem install howitzer
+gem install howitzer
 ```
 
 ## Usage
