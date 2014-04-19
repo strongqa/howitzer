@@ -101,7 +101,7 @@ Bellow you can find aggregated table with some useful informations about driver 
     String<br/>
     String<br/>
     String<br/>
-    String<br/>
+    Symbol<br/>
     String<br/>
     String<br/>
     String<br/>
@@ -113,33 +113,31 @@ Bellow you can find aggregated table with some useful informations about driver 
     <td align="center">Real</td>
     <td align="center">
       <strong>tb_api_key<strong><br/>
-      <strong>tb_api_key<strong><br/>
-      <strong>tb_api_key<strong><br/>
+      <strong>tb_api_secret<strong><br/>
+      <strong>tb_url<strong><br/>
+      <strong>tb_platform<strong><br/>
+      <strong>tb_browser_name<strong><br/>
+      <strong>tb_browser_version<strong><br/>
+      <strong>tb_selenium_version<strong><br/>
+      <strong>tb_max_duration<strong><br/>
+      <strong>tb_idle_timeout<strong><br/>
+      <strong>tb_record_screenshot<strong>
+    </td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    Symbol<br/>
+    String<br/>
+    Numberic<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    Boolean</td>
+    <td align="center">See details <a href="http://testingbot.com/support/other/test-options">here</a></td>
   </tr>
 </tbody>
 </table>
-
-
-
-
-* TestingBot
-
-**Configs :**
-
-```yml
-driver: sauce
-
-tb_api_key: client_key
-tb_api_secret: client_secret
-tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
-tb_platform: :WIN8
-tb_browser_name: firefox
-tb_browser_version: 8
-tb_selenium_version: "2.18.0"
-tb_max_duration: '1800'
-tb_idle_timeout: '180'
-tb_record_screenshot: false
-```
 
 Pages
 ------
