@@ -2,6 +2,7 @@ Getting Started
 ===============
 
 ## Jump to Section
+* [Available Drivers](#available-drivers)
 * [Pages](#pages)
    * [Validations](#validations)
    * [Locators](#locators)
@@ -17,6 +18,126 @@ Getting Started
    * [Generator](#generator)
    * [Cucumber Tranformers](#cucumber-transformers)
 * [RSpec Folder Structure](#rspec-folder-structure)
+
+Available Drivers
+------
+[[Back To Top]](#jump-to-section)
+
+**Driver** - universal interface for test runners against to different web browsers. All implementations of drivers can be divided to 2 categories:
+
+* **Headless testing** - browser emulation without GUI(very useful on CI servers, like Bamboo, TeamCity, Jenkins, etc.)
+* **Real browser testing** - integration with real browsers via extensions, plugins, ActiveX, etc.(for local and cloud based testing, like SauceLabs, Testingbot)
+
+Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver management and configuration. All that you really need:
+ - specify the **driver** settings in _config/default.yml_
+ - specify some additional settings for chosen driver.
+Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
+
+<table>
+<thead>
+  <tr>
+    <th>Driver</th>
+    <th align="center">Category</th>
+    <th align="center">Setting name</th>
+    <th align="center">Setting type</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)</td>
+    <td align="center">Headless</td>
+    <td align="left" rowspan="2">
+      <strong>pjs_ignore_js_errors</strong><br/><br/>
+      <strong>pjs_ignore_ssl_errors</strong>
+    </td>
+    <td align="left" rowspan="2">
+      Boolean <br/><br/>
+      Boolean
+    </td>
+    <td align="left" rowspan="2">
+      if false, then raises exception on js error in app<br/>
+      if false, then ignores ssl warnings
+    </td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a></td>
+    <td align="center">Headless</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
+    <td align="center">Headless</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+  </tr>
+  <tr>
+    <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
+    <td align="center">Real</td>
+    <td align="center"><strong>sel_browser</strong></td>
+    <td align="center">String</td>
+    <td align="center">specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari</td>
+  </tr>
+  <tr>
+    <td>selenium_dev</td>
+    <td align="center">Real</td>
+    <td align="center"><strong>-</strong></td>
+    <td align="center">-</td>
+    <td align="center">Execute tests against to FireFox with firebug and firepath extensions</td>
+  </tr>
+  <tr>
+    <td><a href="https://saucelabs.com">sauce</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+    <strong>sl_user<strong><br/>
+    <strong>sl_api_key</strong><br/>
+    <strong>sl_url</strong><br/>
+    <strong>sl_platform</strong><br/>
+    <strong>sl_browser_name</strong><br/>
+    <strong>sl_selenium_version</strong><br/>
+    <strong>sl_max_duration</strong><br/>
+    <strong>sl_idle_timeout</strong></td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    Symbol<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String</td>
+    <td align="center">See details <a href="https://saucelabs.com/docs/additional-config">here</a></td>
+  </tr>
+  <tr>
+    <td><a href="http://testingbot.com">testingbot</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+      <strong>tb_api_key<strong><br/>
+      <strong>tb_api_secret<strong><br/>
+      <strong>tb_url<strong><br/>
+      <strong>tb_platform<strong><br/>
+      <strong>tb_browser_name<strong><br/>
+      <strong>tb_browser_version<strong><br/>
+      <strong>tb_selenium_version<strong><br/>
+      <strong>tb_max_duration<strong><br/>
+      <strong>tb_idle_timeout<strong><br/>
+      <strong>tb_record_screenshot<strong>
+    </td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    Symbol<br/>
+    String<br/>
+    Numberic<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    Boolean</td>
+    <td align="center">See details <a href="http://testingbot.com/support/other/test-options">here</a></td>
+  </tr>
+</tbody>
+</table>
 
 Pages
 ------
@@ -549,3 +670,4 @@ You can run all tests from this folder by command:
 ```bash
 rake rspec:bvt:accounts
 ```
+
