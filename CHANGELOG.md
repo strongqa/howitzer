@@ -1,15 +1,18 @@
-## In git
+## [In git](https://github.com/strongqa/howitzer/compare/master...develop)
 
 ### New Features
+- Added Ruby 2.1 supporting
+- Improved project documentation
 - Simplified new project creation
 - Rewritten Mailgun integration to support Fabruary changes
 - Created [Howitzer_example](https://github.com/strongqa/howitzer_example)
 - Moved from personal github account to organization
 - Added supporting of native selenium phantomjs driver
-- Minor fixes
 - Implemented smart page identification
+- Rewritten command line interface and covered by acceptance tests fully
 
 ### Bugfixes
+- Minor bug fixing and code refactoring
 
 * Change mailgun support according to Mailgun service API changes
 
