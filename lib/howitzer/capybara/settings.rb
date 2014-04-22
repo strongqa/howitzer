@@ -2,7 +2,8 @@
 #
 # Predefined Capybara settings and capybara drivers
 #
-
+require 'selenium-webdriver'
+require 'capybara'
 require 'howitzer/utils/log'
 module Capybara
   module Settings
@@ -18,7 +19,7 @@ module Capybara
 
 
     def self.base_ff_profile_settings
-      profile = Selenium::WebDriver::Firefox::Profile.new
+      profile = ::Selenium::WebDriver::Firefox::Profile.new
       profile["network.http.phishy-userpass-length"] = 255
       profile["browser.safebrowsing.malware.enabled"] = false
       profile["network.automatic-ntlm-auth.allow-non-fqdn"] = true
@@ -51,7 +52,7 @@ module Capybara
           when :testingbot
             define_testingbot_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, sauce, testingbot]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
         end
       end
 
@@ -137,8 +138,8 @@ module Capybara
 
         options = {
             url: settings.sl_url,
-            desired_capabilities: Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-            http_client: Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+            desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+            http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
             browser: :remote
         }
 
@@ -171,8 +172,8 @@ module Capybara
         end
         options = {
           url: settings.tb_url,
-          desired_capabilities: Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-          http_client: Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+          desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
           browser: :remote
         }
         Capybara.register_driver :testingbot do |app|
@@ -216,7 +217,7 @@ module Capybara
       host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
       path = "/rest/v1/#{settings.sl_user}/jobs/#{session_id}"
       url = "#{host}#{path}"
-      RestClient.put url, json_data.to_json, content_type: :json, accept: :json
+      ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
     end
 
     ##
