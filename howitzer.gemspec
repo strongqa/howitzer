@@ -17,6 +17,7 @@ Gem::Specification.new do |gem|
   gem.version       = Howitzer::VERSION
   gem.required_ruby_version = '>= 1.9.3'
 
+  gem.add_runtime_dependency 'nokogiri', '~> 1.6.2.rc2' if gem.platform.to_s =~ /mswin|mingw/
   gem.add_runtime_dependency 'rake'
   gem.add_runtime_dependency 'gli'
   gem.add_runtime_dependency 'i18n'
