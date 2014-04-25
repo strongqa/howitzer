@@ -33,7 +33,7 @@ class WebPage
   # * +WebPage+ - New instance of current class
   #
 
-  def self.open(url = "#{self::URL.to_s == BlankPage::URL.to_s ? '' : app_url}#{self::URL}")
+  def self.open(url = "#{app_url unless self == BlankPage}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info "Retry..." unless retries.zero?
