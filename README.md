@@ -88,13 +88,17 @@ howitzer new <PROJECT NAME> --cucumber --rspec
 ### Configuration
 Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
-## Test implementation workflow (with Cucumber)
+## Test implementation workflow
 
-- Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
-- Prepare some feature with scenarios in `features/some.feature` file.
-- Implement step definitions in `features/step_definitions/common_steps.rb` file.
+- Prepare Features and Scenarios
 - Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
-- Debug feature.
+- Implement emails in `emails` folder.
+- Implement scenarios:
+  * Cucumber:
+    1. Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
+    2. Implement step definitions in `features/step_definitions/common_steps.rb` file.
+  * Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara for creating descriptive acceptance tests
+- Debug feature against to desired driver.
 - Enjoy it!
 
 ## Rake tasks
