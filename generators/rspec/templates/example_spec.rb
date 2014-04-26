@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe "Some feature" do
-  it "test scenario" do
+feature "Some feature" do
+  scenario "test scenario" do
     expect(true).to be_true
   end
 end
