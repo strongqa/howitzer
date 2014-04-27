@@ -25,7 +25,7 @@ After do |scenario|
     session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
     log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
   end
-  DataStorage.clear_ns("user")
+  DataStorage.clear_all_ns
 end
 
 at_exit do
