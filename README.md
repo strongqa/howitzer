@@ -31,6 +31,9 @@ Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/how
 
 ## Requirements
 Ruby 1.9.3+
+[DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions)(For **Windows** only)
+[PhantomJS](http://phantomjs.org/download.html)
+[ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
 
 ## Setup
 To install, type
