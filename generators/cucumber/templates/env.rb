@@ -28,7 +28,7 @@ After do |scenario|
     log.info 'IE reset session'
     page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
   end
-  DataStorage.clear_ns("user")
+  DataStorage.clear_all_ns
 end
 
 at_exit do

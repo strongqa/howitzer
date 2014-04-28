@@ -546,11 +546,12 @@ Data Storage is simple key value storage, which uses namespaces (for example, :u
 This module has next methods:
 
 
-Method                                |  Description
-:------------------------------------:|:--------------------------------------------------:
-|  DataStorage.store(ns,key,value)    | Adds data to storage, where ns - uniq namespace name
-|  DataStorage::extract(ns, key=nil)  | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
-|  DataStorage::clear_ns(ns)          | Removes namespace with data
+Method                                      |  Description
+:------------------------------------------:|:--------------------------------------------------:
+|  DataStorage.store(ns,key,value)          | Adds data to storage, where ns - uniq namespace name
+|  DataStorage::extract(ns, key=nil)        | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
+|  DataStorage::clear_ns(ns)                | Removes namespace with data
+|  DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)| Removes all namespaces except special namespaces provided as array
 
 **Example:**
 ```ruby

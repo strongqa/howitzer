@@ -31,7 +31,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    DataStorage.clear_ns("user")
+    DataStorage.clear_all_ns
     if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
       log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
