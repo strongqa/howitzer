@@ -12,9 +12,8 @@
 - Rewritten command line interface and covered by acceptance tests fully
 
 ### Bugfixes
+- Fixed reset session after each scenario against to IE
 - Minor bug fixing and code refactoring
-
-* Change mailgun support according to Mailgun service API changes
 
 ## [v1.0.1](https://github.com/strongqa/howitzer/compare/v1.0...v1.0.1)
 
