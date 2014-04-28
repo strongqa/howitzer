@@ -1,8 +1,10 @@
 # Howitzer
-
+[![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
 [![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=develop)](https://travis-ci.org/strongqa/howitzer)
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)](https://codeclimate.com/github/romikoops/howitzer)
+
+[gem]: https://rubygems.org/gems/howitzer
 
 Howitzer is Ruby based framework for acceptance testing.
 
