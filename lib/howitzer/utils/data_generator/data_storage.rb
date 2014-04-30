@@ -6,10 +6,11 @@ module DataGenerator
   #
 
   module DataStorage
+    SPECIAL_NS_LIST = ['sauce']
     @data ||= {}
 
     class << self
-
+      attr_reader :data
       ##
       #
       # Saves data into memory. Marking by namespace and key
@@ -52,13 +53,25 @@ module DataGenerator
         init_ns(ns)
       end
 
+      ##
+      #
+      # Deletes all namespaces with data
+      #
+      # *Parameters:*
+      # * +exception_list+ - Array of special namespaces for excluding
+      #
+
+      def clear_all_ns(exception_list=SPECIAL_NS_LIST)
+        (@data.keys - exception_list).each {|ns| clear_ns(ns) }
+      end
+
       private
 
       def check_ns(ns)
         if ns
           init_ns(ns) if ns_absent?(ns)
         else
-          raise 'Data storage namespace can not be empty'
+          log.error 'Data storage namespace can not be empty'
         end
       end
 

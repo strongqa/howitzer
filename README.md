@@ -1,13 +1,20 @@
 # Howitzer
+[![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
+[![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
+[![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
+[![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)][codeclimate]
+[![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
 
-[![Build Status](https://api.travis-ci.org/romikoops/howitzer.png)](http://travis-ci.org/romikoops/howitzer)
-[![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)](https://gemnasium.com/romikoops/howitzer)
-[![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)](https://codeclimate.com/github/romikoops/howitzer)
+[gem]: https://rubygems.org/gems/howitzer
+[travis]: https://travis-ci.org/strongqa/howitzer
+[gemnasium]: https://gemnasium.com/romikoops/howitzer
+[codeclimate]: https://codeclimate.com/github/romikoops/howitzer
+[license]: https://github.com/strongqa/howitzer/blob/master/LICENSE
 
 Howitzer is Ruby based framework for acceptance testing.
 
 Initially it was developed for testing of web applications, but it is applicable to testing of web services or some API as well.
-The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/romikoops/howitzer/wiki/Test-Framework-Design).
+The framework uses modern patterns, techniques and tools in automated testing area. For details, please see [Test Framework Design](https://github.com/strongqa/howitzer/wiki/Test-Framework-Design).
 
 ## Key benefits
 - Independent of test web application, its technologies and lanquage.
@@ -21,44 +28,35 @@ The framework uses modern patterns, techniques and tools in automated testing ar
 
 
 ## Documentation
-See [GETTING_STARTED](https://github.com/romikoops/howitzer/blob/develop/GETTING_STARTED.md) how to work with *howitzer*.
+See [GETTING_STARTED](https://github.com/strongqa/howitzer/blob/develop/GETTING_STARTED.md) how to work with *howitzer*.
 
 Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
+## Related products
+* [Howitzer Example](https://github.com/strongqa/howitzer_example) - Demo Rails application and Acceptance tests
+* [Howitzer Stat](https://github.com/strongqa/howitzer_stat) - Howitzer extension for test coverage visualization of web web pages
+
 ## Requirements
-Ruby 1.9.3+
+* Supported OS: Mac OS X, Linux, Windows
+* Ruby 1.9.3+
+* [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions)(For **Windows** only)
+* [PhantomJS](http://phantomjs.org/download.html)
+* [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
 
 ## Setup
 To install, type
 
 ```bash
-sudo gem install howitzer
+gem install howitzer
 ```
 
 ## Usage
-To deploy the framework, type:
+navigate to desired directory where new project will be created
+
+To deploy the framework with Cucumber, type:
 
 ```bash
-mkdir test_automation
-cd test_automation
-```
-
-Then for Cucumber:
-
-```bash
-howitzer install --cucumber
-```
-
-For Rspec:
-
-```bash
-howitzer install --rspec
-```
-
-Or for both the ones:
-
-```bash
-howitzer install --cucumber --rspec
+howitzer new <PROJECT NAME> --cucumber
 ```
 
 This command will generate next folders and files:
@@ -85,15 +83,33 @@ Gemfile
 Rakefile
 .gitignore
 ```
+
+With Rspec:
+
+```bash
+howitzer new <PROJECT NAME> --rspec
+```
+
+With both the ones:
+
+```bash
+howitzer new <PROJECT NAME> --cucumber --rspec
+```
+
 ### Configuration
 Learn and specify correct default settings in `config/default.yml` file. For details, please see original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
 ## Test implementation workflow
 
-- Prepare some feature with scenarios in `features/some.feature` file.
-- Implement step definitions in `features/step_definitions/common_steps.rb` file.
-- Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/romikoops/howitzer/wiki/PageObject-pattern).
-- Debug feature.
+- Prepare Features and Scenarios
+- Implement appropriate pages in `pages` folder. For details, see [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
+- Implement emails in `emails` folder.
+- Implement scenarios:
+  * Cucumber:
+    1. Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
+    2. Implement step definitions in `features/step_definitions/common_steps.rb` file.
+  * Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara for creating descriptive acceptance tests
+- Debug feature against to desired driver.
 - Enjoy it!
 
 ## Rake tasks
@@ -107,7 +123,7 @@ rake -T
 ## More information
 * [Rubygems](https://rubygems.org/gems/howitzer)
 * [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
-* [Issues](https://github.com/romikoops/howitzer/issues)
+* [Issues](https://github.com/strongqa/howitzer/issues)
 
 ## Contributing
 

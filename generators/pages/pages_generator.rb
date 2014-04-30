@@ -14,7 +14,7 @@ module Howitzer
     protected
     def banner
       <<-EOS
-      Creates PageOriented pattern structure
+  * PageOriented pattern structure generation ...
       EOS
     end
   end

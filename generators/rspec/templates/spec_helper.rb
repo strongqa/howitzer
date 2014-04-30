@@ -8,7 +8,7 @@ RSpec.configure do |config|
   DataStorage.store('sauce', :start_time, Time.now.utc)
   DataStorage.store('sauce', :status, true)
 
-  config.include CapybaraSettings
+  config.include Capybara::Settings
   config.include Capybara::RSpecMatchers
   config.include DataGenerator
 
@@ -31,18 +31,20 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Gen.delete_all_mailboxes
-    DataStorage.clear_ns("user")
+    DataStorage.clear_all_ns
     if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
       log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+    elsif ie_browser?
+      log.info 'IE reset session'
+      page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
     end  
   end
 
   config.after(:suite) do
     if sauce_driver?
       report_failures_count = config.reporter.instance_variable_get(:@failure_count)
-      DataStorage.store('sauce', :status, report_failures_count.zero?) 
+      DataStorage.store('sauce', :status, report_failures_count.zero?)
     end
   end
 
@@ -51,6 +53,5 @@ RSpec.configure do |config|
       log.info "SAUCE SERVER LOG URL: #{CapybaraSettings.sauce_resource_path('selenium-server.log')}"
       CapybaraSettings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
     end
-    Gen.delete_all_mailboxes
   end
 end

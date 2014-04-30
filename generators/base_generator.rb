@@ -16,9 +16,11 @@ module Howitzer
         case type
           when :files
             copy_files(list)
+          #:nocov:
           when :templates
             copy_templates(list)
           else nil
+          #:nocov:
         end
       end
     end

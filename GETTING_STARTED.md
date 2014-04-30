@@ -2,6 +2,7 @@ Getting Started
 ===============
 
 ## Jump to Section
+* [Available Drivers](#available-drivers)
 * [Pages](#pages)
    * [Validations](#validations)
    * [Locators](#locators)
@@ -17,6 +18,126 @@ Getting Started
    * [Generator](#generator)
    * [Cucumber Tranformers](#cucumber-transformers)
 * [RSpec Folder Structure](#rspec-folder-structure)
+
+Available Drivers
+------
+[[Back To Top]](#jump-to-section)
+
+**Driver** - universal interface for test runners against to different web browsers. All implementations of drivers can be divided to 2 categories:
+
+* **Headless testing** - browser emulation without GUI(very useful on CI servers, like Bamboo, TeamCity, Jenkins, etc.)
+* **Real browser testing** - integration with real browsers via extensions, plugins, ActiveX, etc.(for local and cloud based testing, like SauceLabs, Testingbot)
+
+Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver management and configuration. All that you really need:
+ - specify the **driver** settings in _config/default.yml_
+ - specify some additional settings for chosen driver.
+Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
+
+<table>
+<thead>
+  <tr>
+    <th>Driver</th>
+    <th align="center">Category</th>
+    <th align="center">Setting name</th>
+    <th align="center">Setting type</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td><a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)</td>
+    <td align="center">Headless</td>
+    <td align="left" rowspan="2">
+      <strong>pjs_ignore_js_errors</strong><br/><br/>
+      <strong>pjs_ignore_ssl_errors</strong>
+    </td>
+    <td align="left" rowspan="2">
+      Boolean <br/><br/>
+      Boolean
+    </td>
+    <td align="left" rowspan="2">
+      if false, then raises exception on js error in app<br/>
+      if false, then ignores ssl warnings
+    </td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a></td>
+    <td align="center">Headless</td>
+  </tr>
+  <tr>
+    <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
+    <td align="center">Headless</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+    <td align="center">-</td>
+  </tr>
+  <tr>
+    <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
+    <td align="center">Real</td>
+    <td align="center"><strong>sel_browser</strong></td>
+    <td align="center">String</td>
+    <td align="center">specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari</td>
+  </tr>
+  <tr>
+    <td>selenium_dev</td>
+    <td align="center">Real</td>
+    <td align="center"><strong>-</strong></td>
+    <td align="center">-</td>
+    <td align="center">Execute tests against to FireFox with firebug and firepath extensions</td>
+  </tr>
+  <tr>
+    <td><a href="https://saucelabs.com">sauce</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+    <strong>sl_user<strong><br/>
+    <strong>sl_api_key</strong><br/>
+    <strong>sl_url</strong><br/>
+    <strong>sl_platform</strong><br/>
+    <strong>sl_browser_name</strong><br/>
+    <strong>sl_selenium_version</strong><br/>
+    <strong>sl_max_duration</strong><br/>
+    <strong>sl_idle_timeout</strong></td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    Symbol<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String</td>
+    <td align="center">See details <a href="https://saucelabs.com/docs/additional-config">here</a></td>
+  </tr>
+  <tr>
+    <td><a href="http://testingbot.com">testingbot</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+      <strong>tb_api_key<strong><br/>
+      <strong>tb_api_secret<strong><br/>
+      <strong>tb_url<strong><br/>
+      <strong>tb_platform<strong><br/>
+      <strong>tb_browser_name<strong><br/>
+      <strong>tb_browser_version<strong><br/>
+      <strong>tb_selenium_version<strong><br/>
+      <strong>tb_max_duration<strong><br/>
+      <strong>tb_idle_timeout<strong><br/>
+      <strong>tb_record_screenshot<strong>
+    </td>
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    Symbol<br/>
+    String<br/>
+    Numberic<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    Boolean</td>
+    <td align="center">See details <a href="http://testingbot.com/support/other/test-options">here</a></td>
+  </tr>
+</tbody>
+</table>
 
 Pages
 ------
@@ -36,6 +157,8 @@ Each page contains required constant URL(the relative URL of the page):
 **Example :**
 
 ```ruby
+# put the class to ./pages/home_page.rb file
+
 class HomePage < WebPage
   URL = '/'
 end
@@ -65,7 +188,7 @@ Validation Type    | Options | Value Type    | Description
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
+  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -119,7 +242,7 @@ Each page contains a description of all elements by adding the appropriate locat
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /#{Regexp.escape(settings.app_host)}\/?\z/
+  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
   add_locator :test_locator_name2,  css: '.foo'                    #css locator
@@ -247,16 +370,34 @@ Emails
 ------
 [[Back To Top]](#jump-to-section)
 
-_**Email**_ class uses `Mailgun` gem and allows you to work with the mailbox.
-Class corresponds to one letter. Used to test the notifications.
+Howitzer uses amazing service [Mailgun](http://mailgun.com) which allows to catch all emails of sandbox domain, and to store them to its data storage during 3 days. It is extrimaly useful for new user creation with email confirmation during testing of web applications
 
-**.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
+You can use **free** account. Follow steps below:
 
-**.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
+1. Sign up [here](https://mailgun.com/signup)
+2. Login and copy your API Key
+3. Open config/default.yml file of your project, find **mailgun_key** setting and past copied api key there.
+4. Open Mailgun web page again and copy mailgun domain, ie. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
+5. Open config/default.yml file of your project again, find **mailgun_domain** setting and past copied mailgun domain there.
+6. Open Mailgun web page again and navigate to **Routes** menu
+7. Create new route with following parameters
 
-**\#plain_text_body** - receiving text of messages
+Priority  | Filter Expression     | Action  | Description         
+:--------:|:---------------------:|:-------:|:------------------
+ 0        | match_recipient(".*") | store() | Store all messages
 
-**\#get_mime_part** - allows you to receive the attachment of email
+_**Email**_ Class corresponds to one letter. Used to test the notifications.
+
+* **.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
+* **.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
+* **\#plain_text_body** - receiving body of message as plain text
+* **\#html_body** - receiving body of messages as html
+* **\#text_body** - receiving body of messages as stripped text
+* **\#mail_from** - returns who has send email data in format: User Name <user@email>
+* **\#recipients** - returns array of recipients who has received current email
+* **\#received_time** - returns email received time
+* **\#sender_email** - returns sender user email
+* **\#get_mime_part** - allows you to receive the attachment of email
 
 **Example:**
 ```ruby
@@ -267,6 +408,8 @@ end
 
 Example, how custom class might look like:
 ```ruby
+# put the class to ./emails/my_email.rb file
+
 class MyEmail <Email
   SUBJECT = "Test email" # specify the subject of an email
 
@@ -403,11 +546,12 @@ Data Storage is simple key value storage, which uses namespaces (for example, :u
 This module has next methods:
 
 
-Method                                |  Description
-:------------------------------------:|:--------------------------------------------------:
-|  DataStorage.store(ns,key,value)    | Adds data to storage, where ns - uniq namespace name
-|  DataStorage::extract(ns, key=nil)  | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
-|  DataStorage::clear_ns(ns)          | Removes namespace with data
+Method                                      |  Description
+:------------------------------------------:|:--------------------------------------------------:
+|  DataStorage.store(ns,key,value)          | Adds data to storage, where ns - uniq namespace name
+|  DataStorage::extract(ns, key=nil)        | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
+|  DataStorage::clear_ns(ns)                | Removes namespace with data
+|  DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)| Removes all namespaces except special namespaces provided as array
 
 **Example:**
 ```ruby
@@ -527,3 +671,4 @@ You can run all tests from this folder by command:
 ```bash
 rake rspec:bvt:accounts
 ```
+

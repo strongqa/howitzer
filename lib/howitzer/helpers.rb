@@ -1,38 +1,37 @@
-DriverNotSpecified = Class.new(StandardError)
-SlBrowserNameNotSpecified = Class.new(StandardError)
-TbBrowserNameNotSpecified = Class.new(StandardError)
-SelBrowserNotSpecified = Class.new(StandardError)
+require 'howitzer/exceptions'
+
 CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
-DRIVER_NOT_SPECIFIED = DriverNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
-SL_BROWSER_NAME_NOT_SPECIFIED = SlBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
-TB_BROWSER_NAME_NOT_SPECIFIED = TbBrowserNameNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
-SEL_BROWSER_NOT_SPECIFIED = SelBrowserNotSpecified.new(CHECK_YOUR_SETTINGS_MSG)
 
 def sauce_driver?
-  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
   settings.driver.to_sym == :sauce
 end
 
 def testingbot_driver?
-  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
   settings.driver.to_sym == :testingbot
 end
 
 def selenium_driver?
-  raise DRIVER_NOT_SPECIFIED if settings.driver.nil?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
   settings.driver.to_sym == :selenium
+end
+
+def phantomjs_driver?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+  settings.driver.to_sym == :phantomjs
 end
 
 def ie_browser?
   ie_browsers = [:ie, :iexplore]
   if sauce_driver?
-    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
     ie_browsers.include?(settings.sl_browser_name.to_sym)
   elsif testingbot_driver?
-    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     ie_browsers.include?(settings.tb_browser_name.to_sym)
   elsif selenium_driver?
-    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     ie_browsers.include?(settings.sel_browser.to_sym)
   end
 end
@@ -40,13 +39,13 @@ end
 def ff_browser?
   ff_browsers = [:ff, :firefox]
   if sauce_driver?
-    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
     ff_browsers.include?(settings.sl_browser_name.to_sym)
   elsif testingbot_driver?
-    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     ff_browsers.include?(settings.tb_browser_name.to_sym)
   elsif selenium_driver?
-    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     ff_browsers.include?(settings.sel_browser.to_sym)
   end
 end
@@ -55,13 +54,13 @@ end
 def chrome_browser?
   chrome_browser = :chrome
   if sauce_driver?
-    raise SL_BROWSER_NAME_NOT_SPECIFIED if settings.sl_browser_name.nil?
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
     settings.sl_browser_name.to_sym == chrome_browser
   elsif testingbot_driver?
-    raise TB_BROWSER_NAME_NOT_SPECIFIED if settings.tb_browser_name.nil?
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     settings.tb_browser_name.to_sym == chrome_browser
   elsif selenium_driver?
-    raise SEL_BROWSER_NOT_SPECIFIED if settings.sel_browser.nil?
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     settings.sel_browser.to_sym == chrome_browser
   end
 end
@@ -136,9 +135,12 @@ class String
   # Returns page instance
   #
 
-
   def given
-    as_page_class.new
+    as_page_class.given
+  end
+
+  def wait_for_opened
+    as_page_class.wait_for_opened
   end
 
   ##
@@ -147,6 +149,15 @@ class String
   #
 
   def as_page_class
-    Object.const_get("#{self.capitalize}Page")
+    as_class('Page')
+  end
+
+  def as_email_class
+    as_class('Email')
+  end
+
+  private
+  def as_class(type)
+    "#{self.gsub(/\s/, '_').camelize}#{type}".constantize
   end
 end

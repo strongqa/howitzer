@@ -1,10 +1,17 @@
 require 'spec_helper'
 
-require "#{lib_path}/howitzer/utils/capybara_settings"
+require 'howitzer/capybara/settings'
 
 describe "CapybaraSettings" do
+  it "supports deprecated module name" do
+    expect { CapybaraSettings }.to_not raise_error
+    expect(CapybaraSettings).to eq(Capybara::Settings)
+  end
+end
+
+describe "Capybara::Settings" do
   let(:log) { double("log") }
-  let(:test_object) { double("test_object").extend(CapybaraSettings) }
+  let(:test_object) { double("test_object").extend(Capybara::Settings) }
   before do
     allow(log).to receive(:error).and_return( true )
   end
@@ -12,21 +19,20 @@ describe "CapybaraSettings" do
  describe "#sauce_resource_path" do
     subject { test_object.sauce_resource_path(name) }
     let (:name) { "test_name" }
-    before  do
+    before do
       allow(settings).to receive(:sl_user) { "vlad" }
       allow(settings).to receive(:sl_api_key) { "11111" }
       allow(test_object).to receive(:session_id) { '12341234' }
     end
-
     it { expect(subject).to eql("https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name") }
   end
   describe ".sauce_resource_path" do
-    subject { CapybaraSettings.sauce_resource_path(name) }
+    subject { Capybara::Settings.sauce_resource_path(name) }
     let (:name) { "test_name" }
     before  do
       allow(settings).to receive(:sl_user) { "vlad" }
       allow(settings).to receive(:sl_api_key) { "11111" }
-      allow(CapybaraSettings).to receive(:session_id) { '12341234' }
+      allow(Capybara::Settings).to receive(:session_id) { '12341234' }
     end
 
     it { expect(subject).to eql("https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name") }
@@ -48,11 +54,11 @@ describe "CapybaraSettings" do
   end
 
   describe ".update_sauce_resource_path" do
-    subject { CapybaraSettings.update_sauce_job_status }
+    subject { Capybara::Settings.update_sauce_job_status }
     before  do
       allow(settings).to receive(:sl_user) { "vlad1" }
       allow(settings).to receive(:sl_api_key) { "22222" }
-      allow(CapybaraSettings).to receive(:session_id) { '12341234' }
+      allow(Capybara::Settings).to receive(:session_id) { '12341234' }
       stub_const("RestClient", double)
     end
 
@@ -99,7 +105,7 @@ describe "CapybaraSettings" do
   end
 
   describe ".suite_name" do
-    subject { CapybaraSettings.suite_name }
+    subject { Capybara::Settings.suite_name }
     before do
       allow(settings).to receive(:sl_browser_name) { 'ie' }
     end
@@ -152,7 +158,7 @@ describe "CapybaraSettings" do
   end
 
   describe ".session_id" do
-    subject { CapybaraSettings.session_id }
+    subject { Capybara::Settings.session_id }
     before do
       browser = double
       current_session = double

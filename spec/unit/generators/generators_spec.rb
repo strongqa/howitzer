@@ -28,7 +28,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Creates config files.
+        "  * Config files generation ...
       Added 'config/custom.yml' file
       Added 'config/default.yml' file\n"
     end
@@ -48,7 +48,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Creates PageOriented pattern structure
+        "  * PageOriented pattern structure generation ...
       Added 'pages/example_page.rb' file
       Added 'pages/example_menu.rb' file\n"
       end
@@ -67,7 +67,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Creates RAKE tasks folder and file.
+        "  * Base rake task generation ...
       Added 'tasks/common.rake' file\n"
       end
       subject { output.string }
@@ -85,7 +85,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "  Creates a simple email class.\"
+        "  * Email example generation ...
       Added '/emails/example_email.rb' file\n"
       end
       subject { output.string }
@@ -104,7 +104,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Creates root config files.
+        "  * Root files generation ...
       Added '.gitignore' file
       Added 'Gemfile' file
       Added 'Rakefile' file
@@ -134,7 +134,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Integrates Cucumber to the framework
+        "  * Cucumber integration to the framework ...
       Added 'features/step_definitions/common_steps.rb' file
       Added 'features/support/env.rb' file
       Added 'features/support/transformers.rb' file
@@ -160,7 +160,7 @@ describe "Generators" do
     it { expect(subject).to eql(expected_result) }
     describe "output" do
       let(:expected_output) do
-        "      Integrates RSpec to the framework.
+        "  * RSpec integration to the framework ...
       Added 'spec/spec_helper.rb' file
       Added 'spec/example_spec.rb' file
       Added 'tasks/rspec.rake' file\n"

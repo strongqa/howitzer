@@ -1,6 +1,7 @@
 desc "Check broken links"
 task :check_links do
   require 'rawler'
+  require 'active_support'
   require 'active_support/core_ext'
   require 'howitzer/helpers'
 

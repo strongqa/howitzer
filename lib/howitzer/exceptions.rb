@@ -1,0 +1,18 @@
+module Howitzer
+  CommunicationError = Class.new(StandardError)
+  ParseError = Class.new(StandardError)
+  InvalidApiKeyError = Class.new(StandardError)
+  LocatorNotDefinedError = Class.new(StandardError)
+  BadLocatorParamsError = Class.new(StandardError)
+  WrongOptionError = Class.new(StandardError)
+  NoValidationError = Class.new(StandardError)
+  UnknownValidationError = Class.new(StandardError)
+  EmailNotFoundError = Class.new(StandardError)
+  NoAttachmentsError = Class.new(StandardError)
+  DriverNotSpecifiedError = Class.new(StandardError)
+  SlBrowserNotSpecifiedError = Class.new(StandardError)
+  TbBrowserNotSpecifiedError = Class.new(StandardError)
+  SelBrowserNotSpecifiedError = Class.new(StandardError)
+  IncorrectPageError = Class.new(StandardError)
+  AmbiguousPageMatchingError = Class.new(StandardError)
+end

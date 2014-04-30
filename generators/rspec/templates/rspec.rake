@@ -9,7 +9,7 @@ TEST_TYPES = [:all, :health, :bvt, :p1]
 TEST_AREAS = []
 
 namespace :rspec do
-  std_opts = "--format html --out=./#{settings.log_dir}/#{settings.html_log}"
+  std_opts = "--format html --out=./#{settings.log_dir}/#{settings.html_log} --format documentation --color"
   TEST_TYPES.each do |type|
     RakeTask.new(type) do |s|
       s.send :desc, "Run all #{"'#{s.name}' " unless type == :all}tests"

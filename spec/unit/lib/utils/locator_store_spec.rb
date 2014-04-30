@@ -1,15 +1,18 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/locator_store"
+require 'howitzer/utils/locator_store'
 
 describe "Locator store" do
   let(:bad_name) { 'name' }
-  let(:error) { LocatorStore::LocatorNotDefinedError }
+  let(:error) { Howitzer::LocatorNotDefinedError }
 
   shared_examples "locator methods" do |prefix, web_page|
     describe "#{prefix}locator" do
       context "when bad locator given" do
         subject { web_page.locator(bad_name) }
-        it { expect {subject}.to raise_error(error) }
+        it do
+          expect(log).to receive(:error).with(error, bad_name).once.and_call_original
+          expect { subject }.to raise_error(error)
+        end
       end
       context "when CSS locator given" do
         before { web_page.add_locator :base_locator, 'base_locator' }
@@ -90,17 +93,49 @@ describe "Locator store" do
       end
       context "when not existing locator name" do
         subject { web_page.find_element(:unknown_locator) }
-        it { expect{ subject }.to raise_error(LocatorStore::LocatorNotDefinedError, "unknown_locator") }
+        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, "unknown_locator") }
       end
     end
-
+    describe "#{prefix}first_element" do
+      context "when existing locator name given" do
+        context "of base type" do
+          before { web_page.add_locator :test_locator, '.foo' }
+          subject { web_page.first_element(name) }
+          context "as string" do
+            let(:name) { "test_locator" }
+            it do
+              expect(web_page.is_a?(Class) ? web_page : web_page.class).to receive(:first).with('.foo')
+              subject
+            end
+          end
+          context "as symbol" do
+            let(:name) { :test_locator }
+            it do
+              expect(web_page.is_a?(Class) ? web_page : web_page.class).to receive(:first).with('.foo')
+              subject
+            end
+          end
+        end
+        context "when link locator or other" do
+          before { web_page.add_link_locator :test_link_locator, 'foo' }
+          subject { web_page.first_element(:test_link_locator) }
+          it do
+            expect(web_page.is_a?(Class) ? web_page : web_page.class).to receive(:first).with(:link, 'foo')
+            subject
+          end
+        end
+      end
+      context "when not existing locator name" do
+        subject { web_page.first_element(:unknown_locator) }
+        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, "unknown_locator") }
+      end
+    end
     describe "#{prefix}apply" do
       context "when bad locator given" do
         before { web_page.add_locator :test_locator,  lambda{|test| test} }
         let(:locator)  { lambda{|test| test}  }
         subject { web_page.apply(locator, 'test') }
         it { expect {subject}.to raise_error(NoMethodError) }
-
       end
       context "when correct locator given" do
         before { web_page.add_locator :test_locator,  lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }

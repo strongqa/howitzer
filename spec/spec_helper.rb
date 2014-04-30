@@ -6,6 +6,11 @@ require 'ffaker'
 require 'capybara'
 require 'json'
 require 'capybara/dsl'
+require 'active_support'
+require 'active_support/core_ext'
+require 'repeater'
+require 'howitzer/exceptions'
+require 'howitzer/utils/log'
 
 SimpleCov.start do
   add_filter "/spec/"
@@ -26,6 +31,13 @@ RSpec.configure do |config|
   end
   config.mock_with :rspec do |c|
     c.syntax = :expect
+  end
+  config.around(:each) do |ex|
+    $stdout = StringIO.new
+    $stderr = StringIO.new
+    ex.run
+    $stdout = STDOUT
+    $stderr = STDERR
   end
 end
 

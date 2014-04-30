@@ -1,8 +1,9 @@
 require 'spec_helper'
-require "#{lib_path}/howitzer/utils/data_generator/data_storage"
+require 'howitzer/utils/data_generator/data_storage'
 
 describe "DataGenerator" do
   describe "DataStorage" do
+    before { DataGenerator::DataStorage.data.clear }
     describe ".store" do
       subject { DataGenerator::DataStorage.store(ns, 7, :halt) }
       context "when namespace specified" do
@@ -11,8 +12,8 @@ describe "DataGenerator" do
           expect(subject).to eql(:halt)
         end
         it "should store namespace value" do
-          adata = DataGenerator::DataStorage.instance_variable_get(:@data)
-          expect(adata[:user]).to eql({7 => :halt})
+          subject
+          expect(DataGenerator::DataStorage.data[:user]).to eql({7 => :halt})
         end
       end
       context "when namespace empty" do
@@ -22,7 +23,7 @@ describe "DataGenerator" do
     end
     describe ".extract" do
       subject { DataGenerator::DataStorage.extract(ns, key) }
-      before { DataGenerator::DataStorage.instance_variable_set(:@data, {user: {7 => :exit}}) }
+      before { DataGenerator::DataStorage.data[:user] = {7 => :exit} }
       describe "when namespace specified" do
         let(:ns) { :user }
         context "and namespace key found" do
@@ -51,11 +52,28 @@ describe "DataGenerator" do
     end
     describe ".clear_ns" do
       subject { DataGenerator::DataStorage.clear_ns(:user) }
-      before { DataGenerator::DataStorage.instance_variable_set(:@data, {user: {7 => :exit}}) }
+      before { DataGenerator::DataStorage.data[:user]= {7 => :exit}}
       it "should return empty hash" do
         subject
         adata = DataGenerator::DataStorage.instance_variable_get(:@data)
         expect(adata[:user]).to eql({})
+      end
+    end
+    describe ".clear_all_ns" do
+      before do
+        DataGenerator::DataStorage.store('sauce', :status, false)
+        DataGenerator::DataStorage.store(:foo, "foo", "some value1")
+        DataGenerator::DataStorage.store(:bar, "bar", "some value2")
+        DataGenerator::DataStorage.store(:baz, "baz", "some value3")
+      end
+      context "when default argument" do
+        before { DataGenerator::DataStorage.clear_all_ns }
+        it { expect(DataGenerator::DataStorage.data).to eq({"sauce"=>{:status=>false}, :foo=>{}, :bar=>{}, :baz=>{}}) }
+      end
+      context "when custom argument" do
+        let(:exception_list) { [:foo, :bar] }
+        before { DataGenerator::DataStorage.clear_all_ns(exception_list) }
+        it { expect(DataGenerator::DataStorage.data).to eq({"sauce"=>{}, :foo=>{"foo"=>"some value1"}, :bar=>{"bar"=>"some value2"}, :baz=>{}}) }
       end
     end
   end
