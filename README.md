@@ -37,6 +37,7 @@ Also you can find Rdoc documentation on [Rubygems](https://rubygems.org/gems/how
 * [Howitzer Stat](https://github.com/strongqa/howitzer_stat) - Howitzer extension for test coverage visualization of web web pages
 
 ## Requirements
+* Supported OS: Mac OS X, Linux, Windows
 * Ruby 1.9.3+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions)(For **Windows** only)
 * [PhantomJS](http://phantomjs.org/download.html)
