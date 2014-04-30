@@ -1,7 +1,14 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/master...develop)
 
 ### New Features
+
+### Bugfixes
+
+## [v1.0.2](https://github.com/strongqa/howitzer/compare/v1.0.1...v1.0.2)
+
+### New Features
 - Added Ruby 2.1 supporting
+- Added Windows Supporting
 - Improved project documentation
 - Simplified new project creation
 - Rewritten Mailgun integration to support Fabruary changes
@@ -10,9 +17,11 @@
 - Added supporting of native selenium phantomjs driver
 - Implemented smart page identification
 - Rewritten command line interface and covered by acceptance tests fully
+- Simplified DataStorage clearing after each tests
 
 ### Bugfixes
 - Fixed reset session after each scenario against to IE
+- Corrected default formatter in Cucumber
 - Minor bug fixing and code refactoring
 
 ## [v1.0.1](https://github.com/strongqa/howitzer/compare/v1.0...v1.0.1)
