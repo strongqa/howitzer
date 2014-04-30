@@ -1,5 +1,5 @@
 source "https://rubygems.org"
 
-gem 'howitzer', git: "git://github.com/strongqa/howitzer.git", branch: "develop"
+gem 'howitzer' #, github: "strongqa/howitzer", branch: "develop"
 gem 'debugger'
 

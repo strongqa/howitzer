@@ -1,6 +1,6 @@
 # Howitzer
 [![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
-[![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=develop)][travis]
+[![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)][codeclimate]
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
