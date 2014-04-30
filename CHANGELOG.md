@@ -21,7 +21,7 @@
 
 ### Bugfixes
 - Fixed reset session after each scenario against to IE
-- Corrected default formatter in Cucumber
+- Corrected default Cucumber and Rspec formatters
 - Minor bug fixing and code refactoring
 
 ## [v1.0.1](https://github.com/strongqa/howitzer/compare/v1.0...v1.0.1)
