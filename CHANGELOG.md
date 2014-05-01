@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/master...develop)
 
 ### New Features
+- Added integration with [coveralls.io](https://coveralls.io/r/strongqa/howitzer)
 
 ### Bugfixes
 
