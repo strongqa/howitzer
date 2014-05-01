@@ -2,7 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'coveralls'
-Coveralls.wear!
 require 'tmpdir'
 require 'ffaker'
 require 'capybara'
@@ -13,6 +12,11 @@ require 'active_support/core_ext'
 require 'repeater'
 require 'howitzer/exceptions'
 require 'howitzer/utils/log'
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+]
 
 SimpleCov.start do
   add_filter "/spec/"
