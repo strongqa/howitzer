@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
+require 'coveralls'
+Coveralls.wear!
 require 'tmpdir'
 require 'ffaker'
 require 'capybara'

@@ -3,12 +3,14 @@
 [![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)][codeclimate]
+[![Coverage Status](https://coveralls.io/repos/strongqa/howitzer/badge.png)](coveralls)
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
 
 [gem]: https://rubygems.org/gems/howitzer
 [travis]: https://travis-ci.org/strongqa/howitzer
 [gemnasium]: https://gemnasium.com/romikoops/howitzer
 [codeclimate]: https://codeclimate.com/github/romikoops/howitzer
+[coveralls]: https://coveralls.io/r/strongqa/howitzer
 [license]: https://github.com/strongqa/howitzer/blob/master/LICENSE
 
 Howitzer is Ruby based framework for acceptance testing.
