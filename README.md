@@ -3,7 +3,7 @@
 [![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/strongqa/howitzer/badge.png?branch=develop)]
+[![Coverage Status](https://coveralls.io/repos/strongqa/howitzer/badge.png?branch=develop)][coveralls]
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
 
 [gem]: https://rubygems.org/gems/howitzer
