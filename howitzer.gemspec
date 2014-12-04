@@ -2,18 +2,18 @@
 require File.expand_path('../lib/howitzer/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ["Roman Parashchenko, Konstantin Lynda, Nikolay Zozulyak"]
-  gem.email         = ["strongqa@gmail.com"]
+  gem.authors       = ['Roman Parashchenko, Konstantin Lynda, Nikolay Zozulyak']
+  gem.email         = ['strongqa@gmail.com']
   gem.description   = %q{Howitzer allows to generate a test project in 5 minutes. It uses the best practices and design patterns. It has out-of-the-box configurations for parallel cross-browser testing in the Cloud.}
   gem.summary       = %q{Ruby based framework for acceptance testing}
-  gem.homepage      = "https://github.com/strongqa/howitzer"
+  gem.homepage      = 'https://github.com/strongqa/howitzer'
 
   gem.bindir        = 'bin'
   gem.files         = `git ls-files`.split($\)
   gem.executables   = gem.files.grep(%r{^bin/}).map{ |f| File.basename(f) }
   gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
-  gem.name          = "howitzer"
-  gem.require_paths = ["lib"]
+  gem.name          = 'howitzer'
+  gem.require_paths = ['lib']
   gem.version       = Howitzer::VERSION
   gem.required_ruby_version = '>= 1.9.3'
 
@@ -23,7 +23,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'syntax'
   gem.add_runtime_dependency 'cucumber'
-  gem.add_runtime_dependency 'rspec', '~> 2.0'
+  gem.add_runtime_dependency 'rspec'
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
@@ -37,7 +37,6 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'testingbot'
 
   gem.add_development_dependency('aruba')
-  gem.add_development_dependency("fuubar", [">= 0.0.1"])
-  gem.add_development_dependency("ffaker")
-
+  gem.add_development_dependency('fuubar', ['>= 0.0.1'])
+  gem.add_development_dependency('ffaker')
 end
