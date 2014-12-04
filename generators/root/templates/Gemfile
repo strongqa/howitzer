@@ -1,5 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 gem 'howitzer' #, github: "strongqa/howitzer", branch: "develop"
-gem 'debugger'
-
+# gem 'debugger'
