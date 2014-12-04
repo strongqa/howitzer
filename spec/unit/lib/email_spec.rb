@@ -1,18 +1,18 @@
 require 'spec_helper'
-require "howitzer/email"
-require "howitzer/utils/log"
+require 'howitzer/email'
+require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-describe "Email" do
+describe 'Email' do
   let(:recipient){ 'first_tester@gmail.com' }
   let(:message) do
     {
         'body-plain' => 'test body footer',
-        'stripped-html' => "<p> test body </p> <p> footer </p>",
+        'stripped-html' => '<p> test body </p> <p> footer </p>',
         'stripped-text' => 'test body',
-        'From' => "Strong Tester <tester@gmail.com>",
+        'From' => 'Strong Tester <tester@gmail.com>',
         'To' => recipient,
-        'Received' => "by 10.216.46.75 with HTTP; Sat, 5 Apr 2014 05:10:42 -0700 (PDT)",
+        'Received' => 'by 10.216.46.75 with HTTP; Sat, 5 Apr 2014 05:10:42 -0700 (PDT)',
         'sender' => 'tester@gmail.com',
         'attachments' => []
     }
@@ -43,23 +43,23 @@ describe "Email" do
     let(:mailgun_message){ double(to_h: message) }
     let(:events) { double(to_h: {'items' => [event]}) }
     subject { Email.find(recipient, message_subject) }
-    context "when message is found" do
+    context 'when message is found' do
       let(:event) { {'message' => {'recipients' => [recipient], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
       before do
-        allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').ordered.once {events}
-        allow(Mailgun::Connector.instance.client).to receive(:get).with("domains/mailgun@test.domain/messages/1234567890").ordered.once { mailgun_message }
+        allow(Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').ordered.once {events}
+        allow(Mailgun::Connector.instance.client).to receive(:get).with('domains/mailgun@test.domain/messages/1234567890').ordered.once { mailgun_message }
       end
       it do
         expect(Email).to receive(:new).with(message).once
         subject
       end
     end
-    context "when message is not found" do
-      let(:event) { {'message' => {'recipients' => ["other@test.com"], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
+    context 'when message is not found' do
+      let(:event) { {'message' => {'recipients' => ['other@test.com'], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
       before do
         allow(settings).to receive(:timeout_small) { 0.5 }
         allow(settings).to receive(:timeout_short) { 0.05 }
-        allow(Mailgun::Connector.instance.client).to receive(:get).with("mailgun@test.domain/events", event: 'stored').at_least(:twice).ordered {events}
+        allow(Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').at_least(:twice).ordered {events}
       end
       it do
         expect(log).to receive(:error).with(Howitzer::EmailNotFoundError, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.")
@@ -86,17 +86,17 @@ describe "Email" do
 
   describe '#recipients' do
     subject { email_object.recipients }
-    it { expect(subject).to be_a_kind_of Array }
+    it { is_expected.to be_a_kind_of Array }
 
     context 'when one recipient' do
-      it { expect(subject).to include message['To']}
+      it { is_expected.to include message['To']}
     end
 
     context 'when more than one recipient' do
-      let(:second_recipient) { "second_tester@gmail.com" }
+      let(:second_recipient) { 'second_tester@gmail.com' }
       let(:message_with_multiple_recipients) { message.merge({'To' => "#{recipient}, #{second_recipient}"}) }
       let(:email_object) { Email.new(message_with_multiple_recipients) }
-      it { expect(subject).to eql [recipient, second_recipient] }
+      it { is_expected.to eql [recipient, second_recipient] }
     end
   end
 
@@ -114,7 +114,7 @@ describe "Email" do
     context 'when has attachments' do
       let(:files) { [double] }
       before { email_object.instance_variable_set(:@message, 'attachments' => files)}
-      it { expect(subject).to eq(files) }
+      it { is_expected.to eq(files) }
     end
 
     context 'when no attachments' do

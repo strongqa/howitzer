@@ -33,7 +33,7 @@ RSpec.configure do |config|
     DataStorage.clear_all_ns
     if sauce_driver?
       session_end = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
-      log.info "SAUCE VIDEO #{@session_start} - #{session_end} URL: #{sauce_resource_path('video.flv')}"
+      log.info "SAUCE VIDEO #@session_start - #{session_end} URL: #{sauce_resource_path('video.flv')}"
     elsif ie_browser?
       log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")

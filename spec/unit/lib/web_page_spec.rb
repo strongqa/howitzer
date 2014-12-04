@@ -46,7 +46,7 @@ describe 'WebPage' do
     it do
       expect(WebPage).to receive(:page) { page }
       expect(page).to receive(:current_url) { 'google.com' }
-      expect(subject).to eq('google.com')
+      is_expected.to eq('google.com')
     end
   end
 
@@ -56,7 +56,7 @@ describe 'WebPage' do
     it do
       expect(WebPage).to receive(:page) { page }
       expect(page).to receive(:current_url) { 'google.com' }
-      expect(subject).to eq('google.com')
+      is_expected.to eq('google.com')
     end
   end
 
@@ -68,7 +68,7 @@ describe 'WebPage' do
       expect(WebPage).to receive(:page) { page }
       expect(page).to receive(:find).with('body') { find }
       expect(find).to receive(:text) { 'some body text' }
-      expect(subject).to eq('some body text')
+      is_expected.to eq('some body text')
     end
   end
 
@@ -76,7 +76,7 @@ describe 'WebPage' do
     subject { WebPage.current_page }
     context 'when matched_pages has no pages' do
       before { allow(WebPage).to receive(:matched_pages){ [] } }
-      it { expect(subject).to eq(WebPage::UnknownPage) }
+      it { is_expected.to eq(WebPage::UnknownPage) }
     end
     context 'when matched_pages has more than 1 page' do
       let(:foo_page) { double(inspect: 'FooPage') }
@@ -97,7 +97,7 @@ describe 'WebPage' do
     context 'when matched_pages has only 1 page' do
       let(:foo_page) { double(to_s: 'FooPage') }
       before { allow(WebPage).to receive(:matched_pages){ [foo_page] } }
-      it { expect(subject).to eq(foo_page) }
+      it { is_expected.to eq(foo_page) }
     end
   end
 
@@ -105,7 +105,7 @@ describe 'WebPage' do
     subject { WebPage.wait_for_opened }
     context 'when page is opened' do
       before { allow(WebPage).to receive(:opened?) { true } }
-      it { expect(subject).to be_nil }
+      it { is_expected.to be_nil }
     end
     context 'when page is not opened' do
       before do
@@ -270,7 +270,7 @@ describe 'WebPage' do
     context 'when title equals expected title' do
       let(:expected_title) { 'title' }
       it do
-        expect(subject).to be_truthy
+        is_expected.to be_truthy
       end
     end
     context 'when title not equals expected title' do
@@ -292,7 +292,7 @@ describe 'WebPage' do
     end
     context 'when current_url equals expected_url' do
       let(:expected_url) { 'google.com' }
-      it { expect(subject).to be_truthy }
+      it { is_expected.to be_truthy }
     end
     context 'when current_url not equals expected_url' do
       let(:expected_url) { 'bad_url' }

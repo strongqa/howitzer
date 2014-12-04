@@ -9,15 +9,15 @@ describe 'Helpers' do
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :sauce' do
       let(:driver_setting) {:sauce}
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when not :sauce' do
       let(:driver_setting) {:phantomjs}
-      it{ expect(subject).to be_falsey }
+      it{ is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'sauce' }
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be true }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -33,15 +33,15 @@ describe 'Helpers' do
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :testingbot' do
       let(:driver_setting) {:testingbot}
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when not :testingbot' do
       let(:driver_setting) {:phantomjs}
-      it{ expect(subject).to be_falsey }
+      it{ is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'testingbot' }
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -57,15 +57,15 @@ describe 'Helpers' do
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :phantomjs' do
       let(:driver_setting) {:phantomjs}
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when not :phantomjs' do
       let(:driver_setting) {:selenium}
-      it{ expect(subject).to be_falsey }
+      it{ is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'phantomjs' }
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -81,15 +81,15 @@ describe 'Helpers' do
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :selenium' do
       let(:driver_setting) {:selenium}
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when not :selenium' do
       let(:driver_setting) {:phantomjs}
-      it{ expect(subject).to be_falsey }
+      it{ is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'selenium' }
-      it{ expect(subject).to be_truthy }
+      it{ is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -109,15 +109,15 @@ describe 'Helpers' do
       let(:testingbot_driver) { false }
       context 'settings.sl_browser_name = :ie' do
         before { allow(settings).to receive(:sl_browser_name) { :ie } }
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.sl_browser_name = :iexplore' do
         before { allow(settings).to receive(:sl_browser_name) { :iexplore } }
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.sl_browser_name = :chrome' do
         before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -135,15 +135,15 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ie' do
           before { allow(settings).to receive(:sel_browser) { :ie } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :iexplore' do
           before { allow(settings).to receive(:sel_browser) { :iexplore } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -155,7 +155,7 @@ describe 'Helpers' do
       end
       context 'when selenium_driver? is FALSE' do
         let(:selenium_driver) { false }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
@@ -167,21 +167,21 @@ describe 'Helpers' do
           allow(settings).to receive(:tb_browser_name) { :ie }
           allow(settings).to receive(:tb_browser_version) { 9 }
         end
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.tb_browser_name = :iexplore' do
         before do
           allow(settings).to receive(:tb_browser_name) { :iexplore }
           allow(settings).to receive(:tb_browser_version) { 9 }
         end
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.tb_browser_name = :firefox' do
         before do
           allow(settings).to receive(:tb_browser_name) { :firefox }
           allow(settings).to receive(:tb_browser_version) { 8 }
         end
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
@@ -198,15 +198,15 @@ describe 'Helpers' do
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :ie' do
           before { allow(settings).to receive(:sl_browser_name) { :ie } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sl_browser_name = :iexplore' do
           before { allow(settings).to receive(:sl_browser_name) { :iexplore } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sl_browser_name = :chrome' do
           before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -225,15 +225,15 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ie' do
           before { allow(settings).to receive(:sel_browser) { :ie } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :iexplore' do
           before { allow(settings).to receive(:sel_browser) { :iexplore } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -255,21 +255,21 @@ describe 'Helpers' do
             allow(settings).to receive(:tb_browser_name) { :ie }
             allow(settings).to receive(:tb_browser_version) { 9 }
           end
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.tb_browser_name = :iexplore' do
           before do
             allow(settings).to receive(:tb_browser_name) { :iexplore }
             allow(settings).to receive(:tb_browser_version) { 9 }
           end
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.tb_browser_name = :firefox' do
           before do
             allow(settings).to receive(:tb_browser_name) { :firefox }
             allow(settings).to receive(:tb_browser_version) { 8 }
           end
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.tb_browser_name is not specified' do
           before { allow(settings).to receive(:tb_browser_name) { nil } }
@@ -291,15 +291,15 @@ describe 'Helpers' do
       let(:testingbot_driver) { false }
       context 'settings.sl_browser_name = :ff' do
         before { allow(settings).to receive(:sl_browser_name) { :ff } }
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.sl_browser_name = :firefox' do
         before { allow(settings).to receive(:sl_browser_name) { :firefox } }
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.sl_browser_name = :chrome' do
         before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -317,15 +317,15 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ff' do
           before { allow(settings).to receive(:sel_browser) { :ff } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :firefox' do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -337,7 +337,7 @@ describe 'Helpers' do
       end
       context 'when selenium_driver? is FALSE' do
         let(:selenium_driver) { false }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
@@ -349,21 +349,21 @@ describe 'Helpers' do
           allow(settings).to receive(:tb_browser_name) { :ff }
           allow(settings).to receive(:tb_browser_version) { 8 }
         end
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.tb_browser_name = :firefox' do
         before do
           allow(settings).to receive(:tb_browser_name) { :firefox }
           allow(settings).to receive(:tb_browser_version) { 8 }
         end
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.tb_browser_name = :iexplore' do
         before do
           allow(settings).to receive(:tb_browser_name) { :iexplore }
           allow(settings).to receive(:tb_browser_version) { 9 }
         end
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
@@ -380,15 +380,15 @@ describe 'Helpers' do
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :ff' do
           before { allow(settings).to receive(:sl_browser_name) { :ff } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sl_browser_name = :firefox' do
           before { allow(settings).to receive(:sl_browser_name) { :firefox } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sl_browser_name = :chrome' do
           before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -407,15 +407,15 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ff' do
           before { allow(settings).to receive(:sel_browser) { :ff } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :firefox' do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -437,21 +437,21 @@ describe 'Helpers' do
             allow(settings).to receive(:tb_browser_name) { :firefox }
             allow(settings).to receive(:tb_browser_version) { 8 }
           end
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.tb_browser_name = :ff' do
           before do
             allow(settings).to receive(:tb_browser_name) { :ff }
             allow(settings).to receive(:tb_browser_version) { 8 }
           end
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.tb_browser_name = :iexplore' do
           before do
             allow(settings).to receive(:tb_browser_name) { :iexplore }
             allow(settings).to receive(:tb_browser_version) { 9 }
           end
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.tb_browser_name is not specified' do
           before { allow(settings).to receive(:tb_browser_name) { nil } }
@@ -474,11 +474,11 @@ describe 'Helpers' do
       let(:testingbot_driver) { true }
       context 'settings.sl_browser_name = :chrome' do
         before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.sl_browser_name = :firefox' do
         before { allow(settings).to receive(:sl_browser_name) { :firefox } }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -496,11 +496,11 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :firefox' do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -512,7 +512,7 @@ describe 'Helpers' do
       end
       context 'when selenium_driver? is FALSE' do
         let(:selenium_driver) { false }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
@@ -524,14 +524,14 @@ describe 'Helpers' do
           allow(settings).to receive(:tb_browser_name) { :chrome }
           allow(settings).to receive(:tb_browser_version) { 9 }
         end
-        it { expect(subject).to be_truthy }
+        it { is_expected.to be_truthy }
       end
       context 'settings.tb_browser_name = :iexplore' do
         before do
           allow(settings).to receive(:tb_browser_name) { :iexplore }
           allow(settings).to receive(:tb_browser_version) { 9 }
         end
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
@@ -548,11 +548,11 @@ describe 'Helpers' do
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :chrome' do
           before { allow(settings).to receive(:sl_browser_name) { :chrome } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sl_browser_name = :firefox' do
           before { allow(settings).to receive(:sl_browser_name) { :firefox } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
@@ -571,11 +571,11 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :firefox' do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -594,11 +594,11 @@ describe 'Helpers' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :chrome' do
           before { allow(settings).to receive(:sel_browser) { :chrome } }
-          it { expect(subject).to be_truthy }
+          it { is_expected.to be_truthy }
         end
         context 'settings.sel_browser = :firefox' do
           before { allow(settings).to receive(:sel_browser) { :firefox } }
-          it { expect(subject).to be_falsey }
+          it { is_expected.to be_falsey }
         end
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
@@ -610,7 +610,7 @@ describe 'Helpers' do
       end
       context 'when selenium_driver? is FALSE' do
         let(:selenium_driver) { false }
-        it { expect(subject).to be_falsey }
+        it { is_expected.to be_falsey }
       end
     end
   end
@@ -628,12 +628,12 @@ describe 'Helpers' do
     context 'when login and password present' do
       let(:app_base_auth_login_setting) { 'alex' }
       let(:app_base_auth_pass_setting) { 'pa$$w0rd' }
-      it{ expect(subject).to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
+      it{ is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
     end
     context 'when login and password blank' do
       let(:app_base_auth_login_setting) { '' }
       let(:app_base_auth_pass_setting) { '' }
-      it{ expect(subject).to eq('http://redmine.strongqa.com') }
+      it{ is_expected.to eq('http://redmine.strongqa.com') }
     end
   end
 
@@ -647,11 +647,11 @@ describe 'Helpers' do
     let(:app_host_setting) { 'redmine.strongqa.com' }
     context 'when login and password present' do
       let(:prefix) { 'alex:pa$$w0rd@' }
-      it{ expect(subject).to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
+      it{ is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
     end
     context 'when login and password blank' do
       let(:prefix) { nil }
-      it{ expect(subject).to eq('http://redmine.strongqa.com') }
+      it{ is_expected.to eq('http://redmine.strongqa.com') }
     end
   end
 
@@ -690,7 +690,7 @@ describe 'Helpers' do
       before do
         expect(page_object).to receive(:open).with(:exit).once
       end
-      it { expect(subject).to be_nil }
+      it { is_expected.to be_nil }
     end
     describe '#given' do
       subject { page_name.given }
@@ -698,7 +698,7 @@ describe 'Helpers' do
         allow(page_name).to receive(:as_page_class){ page_object }
         expect(page_object).to receive(:given).once
       end
-      it { expect(subject).to be_nil }
+      it { is_expected.to be_nil }
     end
     describe '#wait_for_opened' do
       subject { page_name.wait_for_opened }
@@ -706,22 +706,22 @@ describe 'Helpers' do
         allow(page_name).to receive(:as_page_class){ page_object }
         expect(page_object).to receive(:wait_for_opened).once
       end
-      it { expect(subject).to be_nil }
+      it { is_expected.to be_nil }
     end
     describe '#as_page_class' do
       subject { page_name.as_page_class }
       context 'when 1 word' do
-        it { expect(subject).to eql(page_object) }
+        it { is_expected.to eql(page_object) }
       end
       context 'when more 1 word' do
         let(:page_name) { 'my  super mega' }
         before { stub_const('MySuperMegaPage', page_object) }
-        it { expect(subject).to eql(page_object) }
+        it { is_expected.to eql(page_object) }
       end
       context 'when plural word' do
         let(:page_name) { 'user notifications' }
         before { stub_const('UserNotificationsPage', page_object) }
-        it { expect(subject).to eql(page_object) }
+        it { is_expected.to eql(page_object) }
       end
     end
     describe '#as_email_class' do
@@ -730,17 +730,17 @@ describe 'Helpers' do
       context 'when 1 word' do
         let(:email_name) { 'my' }
         before { stub_const('MyEmail', my_email) }
-        it { expect(subject).to eql(my_email) }
+        it { is_expected.to eql(my_email) }
       end
       context 'when more 1 word' do
         let(:email_name) { 'my  super mega' }
         before { stub_const('MySuperMegaEmail', my_email) }
-        it { expect(subject).to eql(my_email) }
+        it { is_expected.to eql(my_email) }
       end
       context 'when plural word' do
         let(:email_name) { 'email notifications' }
         before { stub_const('EmailNotificationsEmail', my_email) }
-        it { expect(subject).to eql(my_email) }
+        it { is_expected.to eql(my_email) }
       end
     end
   end
