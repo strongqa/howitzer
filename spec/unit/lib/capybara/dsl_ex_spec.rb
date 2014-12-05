@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/capybara/dsl_ex'
 
-describe Howitzer::Capybara::DslEx do
+RSpec.describe Howitzer::Capybara::DslEx do
   let(:test_page_klass) do
     Class.new do
       include Howitzer::Capybara::DslEx
@@ -10,22 +10,22 @@ describe Howitzer::Capybara::DslEx do
   end
   let(:test_page) { test_page_klass.new }
 
-  describe "#find" do
-    context "when string argument with block" do
+  describe '#find' do
+    context 'when string argument with block' do
       subject { test_page.find('foo'){ 'bar' } }
       it do
         expect(test_page.page).to receive(:find).with('foo').and_yield.once
         subject
       end
     end
-    context "when first hash argument and second hash" do
+    context 'when first hash argument and second hash' do
       subject { test_page.find({xpath: '//bar'}, {with: 'foo'}) }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=>"foo"}).once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=> 'foo'}).once
         subject
       end
     end
-    context "when array argument" do
+    context 'when array argument' do
       subject { test_page.find([:xpath, '//bar']) }
       it do
         expect(test_page.page).to receive(:find).with(:xpath, '//bar').once
@@ -34,22 +34,22 @@ describe Howitzer::Capybara::DslEx do
     end
   end
 
-  describe ".find" do
-    context "when string argument with block" do
+  describe '.find' do
+    context 'when string argument with block' do
       subject { test_page_klass.find('foo'){ 'bar' } }
       it do
         expect(test_page.page).to receive(:find).with('foo').and_yield.once
         subject
       end
     end
-    context "when first hash argument and second hash" do
+    context 'when first hash argument and second hash' do
       subject { test_page_klass.find({xpath: '//bar'}, {with: 'foo'}) }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=>"foo"}).once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=> 'foo'}).once
         subject
       end
     end
-    context "when array argument" do
+    context 'when array argument' do
       subject { test_page_klass.find([:xpath, '//bar']) }
       it do
         expect(test_page.page).to receive(:find).with(:xpath, '//bar').once

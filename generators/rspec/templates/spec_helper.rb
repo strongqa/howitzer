@@ -12,21 +12,18 @@ RSpec.configure do |config|
   config.include Capybara::RSpecMatchers
   config.include DataGenerator
 
-  config.mock_with(:rspec){|c| c.syntax = :expect}
-  config.expect_with(:rspec) { |c| c.syntax = :expect }
-
-  config.color_enabled = true
-  config.treat_symbols_as_metadata_keys_with_true_values = true
+  config.disable_monkey_patching = true
+  config.color = true
 
   config.before(:all) do
     if sauce_driver?
-      suite_name = "#{(ENV['RAKE_TASK'] || 'CUSTOM').sub("rspec:", '').upcase} #{settings.sl_browser_name.upcase}"
+      suite_name = "#{(ENV['RAKE_TASK'] || 'CUSTOM').sub('rspec:', '').upcase} #{settings.sl_browser_name.upcase}"
       Capybara.drivers[:sauce][].options[:desired_capabilities][:name] = suite_name
     end
   end
 
   config.before(:each) do
-    log.print_scenario_name(example.description.empty? ? example.metadata[:full_description] : example.description)
+    log.print_scenario_name(RSpec.current_example.description.empty? ? RSpec.current_example.metadata[:full_description] : RSpec.current_example.description)
     @session_start = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
   end
 
