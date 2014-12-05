@@ -12,9 +12,7 @@ RSpec.configure do |config|
   config.include Capybara::RSpecMatchers
   config.include DataGenerator
 
-  config.mock_with(:rspec){|c| c.syntax = :expect}
-  config.expect_with(:rspec) { |c| c.syntax = :expect }
-
+  config.disable_monkey_patching = true
   config.color = true
 
   config.before(:all) do

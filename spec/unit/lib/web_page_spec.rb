@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/web_page'
 require 'howitzer/capybara/settings'
 
-describe 'WebPage' do
+RSpec.describe 'WebPage' do
   describe '.open' do
     let(:url_value) { 'google.com' }
     let(:retryable) { double }

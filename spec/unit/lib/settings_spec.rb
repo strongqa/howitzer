@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'Settings' do
+RSpec.describe 'Settings' do
   context '#settings' do
     subject { settings }
     context 'when method called two times' do

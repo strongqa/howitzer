@@ -19,25 +19,20 @@ SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
 ]
 
 SimpleCov.start do
-  add_filter "/spec/"
+  add_filter '/spec/'
   add_filter '/config/'
   add_filter do |source_file|
     source_file.lines.count < 5
   end
-  add_group "generators", "/generators"
-  add_group "lib", "/lib"
+  add_group 'generators', '/generators'
+  add_group 'lib', '/lib'
 end
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
 
 RSpec.configure do |config|
   config.include GeneratorHelper
-  config.expect_with :rspec do |c|
-    c.syntax = :expect
-  end
-  config.mock_with :rspec do |c|
-    c.syntax = :expect
-  end
+  config.disable_monkey_patching = true
   config.around(:each) do |ex|
     $stdout = StringIO.new
     $stderr = StringIO.new

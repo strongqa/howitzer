@@ -3,7 +3,7 @@ require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-describe 'Email' do
+RSpec.describe 'Email' do
   let(:recipient){ 'first_tester@gmail.com' }
   let(:message) do
     {

@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/mailgun/client'
 require 'howitzer/exceptions'
 
-describe Mailgun::Response do
+RSpec.describe Mailgun::Response do
   let(:body) { {foo: 'bar'}.to_json }
   let(:response) { double(:response, body: body, code: 201)}
   describe '#body' do

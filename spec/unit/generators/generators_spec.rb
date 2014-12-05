@@ -3,7 +3,7 @@ require 'fileutils'
 
 Dir[File.join(generators_path, '**', '*_generator.rb')].each{ |f| require f }
 
-describe 'Generators' do
+RSpec.describe 'Generators' do
   let(:destination) { Dir.mktmpdir }
   let(:output) { StringIO.new }
   subject { file_tree_info(destination) }

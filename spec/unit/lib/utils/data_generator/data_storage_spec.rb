@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/utils/data_generator/data_storage'
 
-describe 'DataGenerator' do
+RSpec.describe 'DataGenerator' do
   describe 'DataStorage' do
     before { DataGenerator::DataStorage.data.clear }
     describe '.store' do

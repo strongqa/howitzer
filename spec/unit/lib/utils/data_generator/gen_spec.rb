@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/utils/data_generator/gen'
 
-describe 'DataGenerator' do
+RSpec.describe 'DataGenerator' do
   describe 'Gen' do
     describe '.user' do
       subject { DataGenerator::Gen.user(params) }

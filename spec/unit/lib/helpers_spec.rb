@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/helpers'
 
-describe 'Helpers' do
+RSpec.describe 'Helpers' do
   let(:settings) { double('settings')}
 
   describe '#sauce_driver?' do

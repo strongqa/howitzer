@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/utils/log'
 include LoggerHelper
 
-describe 'Logger' do
+RSpec.describe 'Logger' do
   let(:path) { File.join(log_path,'log.txt') }
   context '#log' do
     subject { log }

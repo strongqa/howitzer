@@ -2,14 +2,14 @@ require 'spec_helper'
 
 require 'howitzer/capybara/settings'
 
-describe 'CapybaraSettings' do
+RSpec.describe 'CapybaraSettings' do
   it 'supports deprecated module name' do
     expect { CapybaraSettings }.to_not raise_error
     expect(CapybaraSettings).to eq(Capybara::Settings)
   end
 end
 
-describe 'Capybara::Settings' do
+RSpec.describe 'Capybara::Settings' do
   let(:log) { double('log') }
   let(:test_object) { double('test_object').extend(Capybara::Settings) }
   before do

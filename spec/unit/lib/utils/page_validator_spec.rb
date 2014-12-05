@@ -2,13 +2,13 @@ require 'spec_helper'
 require 'howitzer/utils/page_validator'
 require 'howitzer/utils/locator_store'
 
-describe Howitzer::Utils::PageValidator do
+RSpec.describe Howitzer::Utils::PageValidator do
   describe '.validations' do
     it { expect(subject.validations).to eql({}) }
   end
 end
 
-describe 'PageValidator' do
+RSpec.describe 'PageValidator' do
   let(:web_page_class) do
     Class.new do
       include LocatorStore

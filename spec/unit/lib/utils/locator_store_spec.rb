@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/utils/locator_store'
 
-describe 'Locator store' do
+RSpec.describe 'Locator store' do
   let(:bad_name) { 'name' }
   let(:error) { Howitzer::LocatorNotDefinedError }
 
