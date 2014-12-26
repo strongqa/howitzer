@@ -19,6 +19,9 @@
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
 
+ # Specify maximized browser window size
+ maximized_window: false
+
  # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot
  driver: poltergeist
 
@@ -86,4 +89,3 @@
  timeout_short: 3
  timeout_small: 20
  timeout_medium: 60
-
