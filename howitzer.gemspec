@@ -22,7 +22,8 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'gli'
   gem.add_runtime_dependency 'i18n'
   gem.add_runtime_dependency 'syntax'
-  gem.add_runtime_dependency 'cucumber'
+  gem.add_runtime_dependency 'cucumber', '~>1.2.0'
+  gem.add_runtime_dependency 'minitest', '~>4.0' # limitation for cucumber (1.2.5)
   gem.add_runtime_dependency 'rspec', '>= 3.0.0'
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'repeater'
