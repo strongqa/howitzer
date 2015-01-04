@@ -7,6 +7,7 @@ Gem::Specification.new do |gem|
   gem.description   = %q{Howitzer allows to generate a test project in 5 minutes. It uses the best practices and design patterns. It has out-of-the-box configurations for parallel cross-browser testing in the Cloud.}
   gem.summary       = %q{Ruby based framework for acceptance testing}
   gem.homepage      = 'https://github.com/strongqa/howitzer'
+  gem.license       = 'MIT'
 
   gem.bindir        = 'bin'
   gem.files         = `git ls-files`.split($\)
