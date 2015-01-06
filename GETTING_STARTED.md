@@ -257,6 +257,18 @@ class HomePage < WebPage
 end
 ```
 
+Sometimes it needs to have universal locators, for instance for many items from menu. Another case, when it's unknown text in locator in advance. For such cases, Howitzer suggests to use _lambda_ locators.
+
+**Example:**
+```ruby
+ add_locator   :menu_item, ->(name){ {xpath: ".//*[@id='main_menu']//li[.='#{name}']/a"} }
+ 
+ #and then usage
+ def choose_menu(text)
+    find(locator(:menu_item).(text)).click
+ end
+```
+
 ### Pages with static information ###
 [[Back To Top]](#jump-to-section)
 
