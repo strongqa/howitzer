@@ -21,7 +21,7 @@ module HowitzerCli
     c.action do |global_options, options, args|
       if args.size > 0
         validate_options(options)
-        Dir[File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')].each{ |f| require File.expand_path(f) }
+        load_generators
         path_to_dir = File.join(Dir.pwd, args.first)
         puts "  * New project directory creation ..."
         Dir.mkdir(path_to_dir)
@@ -41,10 +41,19 @@ module HowitzerCli
     end
   end
 
-  def self.call
-    exit run(ARGV)
+  desc 'Upgrade existing project'
+  command :update do |c|
+    c.action do
+        check_project_presence
+        load_generators
+        Howitzer::ConfigGenerator.new
+        Howitzer::RootGenerator.new
+        Howitzer::CucumberGenerator.new if cucumber_integrated?
+        Howitzer::RspecGenerator.new if rspec_integrated?
+    end
   end
 
+  #helpers
   class << self
     private
     def validate_options(options)
@@ -52,9 +61,25 @@ module HowitzerCli
         exit_now!("Provide --cucumber and/or --rspec option", 64)
       end
     end
+
+    def check_project_presence
+      #TODO update only if current directory is howitzer project
+    end
+
+    def load_generators
+      Dir[File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')].each{ |f| require File.expand_path(f) }
+    end
+
+    def cucumber_integrated?
+      #TODO implement me
+    end
+
+    def rspec_integrated?
+      #TODO implement me
+    end
   end
 end
 
 unless ENV['TEST_MODE']
-  HowitzerCli.call
+  exit(HowitzerCli.run(ARGV))
 end
