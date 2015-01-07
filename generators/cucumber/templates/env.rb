@@ -38,3 +38,31 @@ at_exit do
     Capybara::Settings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
   end
 end
+
+# BrowserStack settings
+
+url = settings.bs_url
+
+capabilities = Selenium::WebDriver::Remote::Capabilities.new
+
+capabilities['project'] = settings.bs_build
+capabilities['build']   = settings.bs_project
+if settings.bs_mobile.true?
+  capabilities['os'] = settings.bs_os_name
+  capabilities['os_version'] = settings.bs_os_version
+else
+  capabilities['platform'] = settings.bs_m_platform
+end
+
+capabilities['browser'] = settings.bs_browser_name
+capabilities['browser_version'] = settings.bs_browser_version
+
+browser = Selenium::WebDriver.for(:remote, :url => url, :desired_capabilities => capabilities)
+
+Before do |scenario|
+  @browser = browser
+end
+
+at_exit do
+  browser.quit
+end

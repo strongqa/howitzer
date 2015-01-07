@@ -59,7 +59,7 @@
  # -BrowserStack
  bs_user_name: bs_user
  bs_password: bs_password
- bs_url: "http://#{bs_some_user}:#{bs_password}@hub.browserstack.com/wd/hub",
+ bs_url: "http://#{bs_user_name}:#{bs_password}@hub.browserstack.com/wd/hub"
  bs_os_name: 'Windows'
  bs_os_version: '8'
  bs_browser_name: 'Firefox'
@@ -67,6 +67,7 @@
  bs_resolution: '1024x768'
 
  # Run tests on mobile browsers
+ bs_mobile: false
  bs_m_browser: 'iPhone'
  bs_m_platform: 'MAC'
  bs_m_device: 'iPhone 5'
@@ -77,7 +78,6 @@
  bs_project: 'Test Project'
  bs_ssl: 'true'
  bs_debug: 'false'
-
 
 ###########################################################
 # DATABASE SETTINGS                                       #
