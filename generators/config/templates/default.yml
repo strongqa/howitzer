@@ -59,7 +59,7 @@
  # -BrowserStack
  bs_user_name: bs_user
  bs_password: bs_password
- bs_url: "http://#{bs_user_name}:#{bs_password}@hub.browserstack.com/wd/hub"
+ bs_url: "http://${bs_user_name}:${bs_password}@hub.browserstack.com/wd/hub"
  bs_os_name: 'Windows'
  bs_os_version: '8'
  bs_browser_name: 'Firefox'
