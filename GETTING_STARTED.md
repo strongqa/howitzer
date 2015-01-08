@@ -401,16 +401,16 @@ Priority  | Filter Expression     | Action  | Description
 
 _**Email**_ Class corresponds to one letter. Used to test the notifications.
 
-* **.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
-* **.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
-* **\#plain_text_body** - receiving body of message as plain text
-* **\#html_body** - receiving body of messages as html
-* **\#text_body** - receiving body of messages as stripped text
-* **\#mail_from** - returns who has send email data in format: User Name <user@email>
-* **\#recipients** - returns array of recipients who has received current email
-* **\#received_time** - returns email received time
-* **\#sender_email** - returns sender user email
-* **\#get_mime_part** - allows you to receive the attachment of email
+* **.find_by_recipient (recipient)** - searches for the letter recipient. The parameter receives email recipient.
+* **.find (recipient, subject)** - same as the **self.find_by_recipient** (recipient), but only when we do not know in advance what kind of __subject__ has an email.
+* **\#plain_text_body** - receiving the body of messages in a plain text.
+* **\#html_body** - receiving the body of messages in html.
+* **\#text_body** - receiving the body of messages as a stripped text.
+* **\#mail_from** - returns the sender’s email data in the format: User Name <user@email>
+* **\#recipients** - returns the array of recipients who received the current email.
+* **\#received_time** - returns the time when an email was received.
+* **\#sender_email** - returns an email of a sender.
+* **\#get_mime_part** - allows you receiving an email attachment.
 
 **Example:**
 ```ruby
@@ -419,7 +419,7 @@ class MyEmail < Email
 end
 ```
 
-Example, how custom class might look like:
+This is how a custom class might look like:
 ```ruby
 # put the class to ./emails/my_email.rb file
 
@@ -440,55 +440,55 @@ Logging
 
 ### BUILT-IN logging ###
 
-*Howitzer* uses the opportunity of Cucumber and RSpec generate HTML, JUnit logging. HTML provide ability to view the log in HTML, JUnit - use the logs in CI, accordingly.
+*Howitzer* uses the resources of Cucumber and RSpec to generate HTML and JUnit logging. HTML provides the possibility to view the log in HTML while JUnit uses the logs in CI, correspondingly.
 
-
-Running of an built-in HTML generators for RSpec and Cucumber logging, is available if you run the tests using a `rake` tasks.
+Running of built-in HTML generators for RSpec and Cucumber logging is available if you run the tests using the `rake` tasks.
 
 **Example:**
 
-Running **_RSpec_** tests through `rake` tasks.
+Running **_RSpec_** tests with the `rake` tasks.
 ```bash
 rake rspec: all
 ```
 
 **Example:**
 
-Running **_Cucumber_** tests through `rake` tasks.
+Running **_Cucumber_** tests with the `rake` tasks.
 ```bash
 rake cucumber: all
 ```
 
-Manually running of the tests with automatic logging is also possible.
+It is also possible to manually run the tests with automatic logging.
 
 **Example:**
 
-Manual start of some specific RSpec tests:
+To manually start a specific RSpec test:
 ```bash
 rspec spec / my_spec.rb - format html-out =. / log / log.html
 ```
 
-Running RSpec tests manually:
+To manually run an RSpec test:
 ```bash
 rspec - format html-out =. / log / log.html
 ```
 
-Manual start of certain _feature_:
+To manually start a certain _feature_:
 ```bash
 cucumber features / first.feature - format html-out =. / log / log.html
 ```
-Manual start all _features_:
+
+To manually start all _features_:
 ```bash
 cucumber - format html - out =. / log / log.html
 ```
 
-### Extended logging ###
+### Extended Logging ###
 [[Back To Top]](#jump-to-section)
 
-Extended logging to a text file and to the console also available.
-It uses the _log manager_ provided by **_log_** method.
+The Extended logging in a text file and in the console is also available.
+It uses the _log manager_ provided by the **_log_** method.
 
-_Howitzer_ has 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
+_Howitzer_ supports 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
 
 FATAL <WARN <INFO <DEBUG
 
@@ -505,7 +505,7 @@ log.warn "warning message"
 log.fatal "fatal message"
 ```
 
-If the option `settings.debug_mode` = true, logger will record messages with **DEBUG** status.
+If the option `settings.debug_mode` = true, the logger will record messages with **DEBUG** status.
 
 Logs are generated in the **log** _directory_ .
 ```bash
