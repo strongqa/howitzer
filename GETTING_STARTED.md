@@ -1,4 +1,4 @@
-Getting Started 1
+Getting Started 
 ===============
 
 ## Jump to Section
@@ -548,23 +548,25 @@ end
 ```
 
 ## Data Generators ##
+
 [[Back To Top]](#jump-to-section)
 
-Data generator allows to generate some data structures like User and store it to own Memory storage
+The Data generator allows generating data structures (e.g. User) and store the data in its own Memory storage.
 
-### Data Storage ###
+## Data Storage ##
 
-Data Storage is simple key value storage, which uses namespaces (for example, :user, :sauce, etc).
+The Data Storage is a simple key value storage that uses namespaces (e.g. :user, :sauce, etc.).
 
 This module has next methods:
+The module supports the following methods:
 
 
 Method                                      |  Description
 :------------------------------------------:|:--------------------------------------------------:
-|  DataStorage.store(ns,key,value)          | Adds data to storage, where ns - uniq namespace name
-|  DataStorage::extract(ns, key=nil)        | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
-|  DataStorage::clear_ns(ns)                | Removes namespace with data
-|  DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)| Removes all namespaces except special namespaces provided as array
+|  DataStorage.store(ns,key,value)          | Adds data to the storage, where ns is a unique namespace name.
+|  DataStorage::extract(ns, key=nil)        | Gets data from the storage by a namespace and a key. If a key is not specified, it will return all data from the namespace.
+|  DataStorage::clear_ns(ns)                | Removes a namespace with the data.
+|  DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)| Removes all namespaces except special namespaces provided as an array.
 
 **Example:**
 ```ruby
@@ -590,8 +592,8 @@ In memory it looks like:
 ### Generator ####
 [[Back To Top]](#jump-to-section)
 
-This module has standard methods for generate test data. It has one standard data object for generate, because this is
-more common for almost all tests:
+This module uses standard methods for generating test data. 
+It has one standard data object for generation, because it is applicable to almost all tests:
 
 _DataGenerator::Gen::User._
 
@@ -599,19 +601,17 @@ _DataGenerator::Gen::User_ has the params:
 
 :login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
 
-To generate this object use _Gen::user(params={})_ method.
+Use _Gen::user(params={})_ method to generate this object.
 
-Also you can reopen _Gen_ module to add your own objects to generate, also use this module to generate some other data
-specific for your tests.
-When using Cucumber create Gen.rb file in **/features/support** directory. When using Rspec create
-_Gen.rb_ file in **/spec/support** directory.
+Also you can reopen _Gen_ module to add your own objects for generation. You can use this module to generate some other data specific for your tests.
+When using Cucumber, create a Gen.rb file in the **/features/support** directory. When using Rspec, create a _Gen.rb_ file in the **/spec/support** directory.
 
 ### Cucumber Transformers ###
 
 In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
+You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site: 
 [https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
-We are using transformers to use generated data objects in tests. For example let’s imagine that we need to
-write _sign_up.feature:_
+We use transformers for generating data objects in tests. Let’s imagine, for example, that you need to write a _sign_up.feature:_
 
 ```ruby
 Feature: Sign Up
@@ -628,40 +628,37 @@ When I put next register data and apply it
 |username    	     |email		         |password	    	   |
 |UNIQ_USER[:username]|UNIQ_USER[:email]  | UNIQ_USER[:password]|
 ```
-Last line will automatically replace UNIQ_USER[:username] for generated data, which you can use.
+The last line will automatically replace UNIQ_USER[:username] for generated data which you can use.
 
-You can wright your own transformers for some other generated objects, that you will generate
-in _DataGenerator::Gen_ module.
+You can write your own transformers for other generated objects (that you will create in the DataGenerator::Gen module).
 
 
-## RSpec Folder Structure ##
+## Structure of RSpec Folder ##
 [[Back To Top]](#jump-to-section)
 
-**/spec** folder contains all supporting .rspec code and tests.
-There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
+The **/spec** folder contains all supporting .rspec code and tests. 
+All .rspec settings are located in the **spec_helper.rb** file. You can edit the .rspec settings as you want.
 
-**/spec/support** contains helpers code, for example code that generates test data.
+The **/spec/support** file contains a help code, e.g. the code that generates test data.
 It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
 and every **_page.rb** file.
 
-All **_spec.rb** files should contains in folder that has tests priority meaning in it’s name.
-You should create folders in **/spec** to add there tests with needed priority level and edit constant **TEST_TYPES**
-in **/tasks/rspec.rake** file to add a name of create folder as symbol in list.
+It is important to keep all **_spec.rb** files in the folder that contains tests priority meaning in its name.
+You must create folders in the **/spec** in order to add the tests with the required priority level, then edit the constant **TEST_TYPES** in the **/tasks/rspec.rake** file to add a name of the  folder you created as a symbol in the list.
 
-To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant
-**TEST_TYPES = [:all, :health, :bvt, :p1]** has a list of available tests priorities as a standard settings.
-To run all tests in **/spec** folder use this:
+To run tests by a priority level, use the **Rake** tasks in the **/tasks/rspec.rake** file.
+The **TEST_TYPES = [:all, :health, :bvt, :p1]** constant has a list of all available test priorities as standard settings.
+To run all tests in the **/spec** folder, type in:
 
 ```bash
    rake rspec:all
 ```
-(_:all_ will run all tests in **/spec** folder). For example, to run _:bvt_ tests you need to create
-**/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
+(:all will run all tests in the **/spec** folder). For example, to run :bvt tests you need to create a **/spec/bvt** folder and add some **_spec.rb** files there, then run a Rake task by:
 
 ```bash
 rake rspec:bvt
 ```
-For running tests with less priority level use _:p1_:
+To run tests with less priority level, use _:p1_:
 
 ```bash
 rake rspec:p1
@@ -673,13 +670,13 @@ Also there is a standard option to run _Smoke_ tests:
 rake rspec:health
 ```
 In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
-you can create subfolders that represents the business areas of tests. In **/tasks/rspec.rake** there is a constant:
+you can create subfolders that represents the business areas of tests. There is a constant in the **/tasks/rspec.rake**:
 
 **TEST_AREAS  = []**
 
-You can add here business areas of created tests that are in subfolders, names should be equal, for example:
-If *TEST_AREAS = [:accounts]* and there is a folder with specs in it: **/spec/bvt/accounts.**
-You can run all tests from this folder by command:
+Here you can add business areas of the created tests that are in subfolders. The names should be equal, e.g.:
+If *TEST_AREAS = [:accounts]*. There is a folder with the specs: **/spec/bvt/accounts.**
+You can run all tests from this folder using the command:
 
 ```bash
 rake rspec:bvt:accounts
