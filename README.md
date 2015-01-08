@@ -102,36 +102,36 @@ howitzer new <PROJECT NAME> --cucumber --rspec
 ### Configuration
 Learn and specify correct default settings in the `config/default.yml` file. For more details, please refer to the original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
-## Test implementation workflow
+## Test Implementation Workflow
 
 - Prepare features and scenarios
 - Implement appropriate pages in the `pages` folder. For details, refer to  [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
 - Implement emails in `emails` folder.
 - Implement scenarios:
-  * Cucumber:
+  * For Cucumber:
     1. Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
-    2. Implement step definitions in `features/step_definitions/common_steps.rb` file.
-  * Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara for creating descriptive acceptance tests
+    2. Implement step definitions in the `features/step_definitions/common_steps.rb` file.
+  * For Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara to create descriptive acceptance tests.
 - Debug feature against to desired driver.
 - Enjoy it!
 
-## Rake tasks
+## Rake Tasks
 
-You can list all available tasks with next command
+You can get a list of all available tasks by typing the following command:
 
 ```bash
 rake -T
 ```
 
-## More information
+## Additional Information
 * [Rubygems](https://rubygems.org/gems/howitzer)
 * [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
 * [Issues](https://github.com/strongqa/howitzer/issues)
 
 ## Contributing
 
-1. Fork it
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Added some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. Fork the project.
+2. Create a new feature branch (`git checkout -b my-new-feature`).
+3. Commit your changes (`git commit -am 'Added some feature'`).
+4. Push the branch (`git push origin my-new-feature`).
+5. Create a new pull request.
