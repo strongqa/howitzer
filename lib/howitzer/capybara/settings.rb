@@ -51,6 +51,8 @@ module Capybara
             define_sauce_driver
           when :testingbot
             define_testingbot_driver
+          when :browserstack
+            define_browserstack_driver
           else
             log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
         end
@@ -184,6 +186,39 @@ module Capybara
           end
           driver
         end
+      end
+    end
+
+    def define_browserstack_driver
+      task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+      caps_opts = {
+          os: settings.bs_os_name,
+          os_version: settings.bs_os_version,
+          browser: settings.bs_browser_name,
+          browser_version: settings.bs_browser_version,
+          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_browser_name.upcase}",
+          maxduration: settings.bs_max_duration.to_i,
+          idletimeout: settings.bs_idle_timeout.to_i,
+          project: settings.bs_project,
+          build: settings.bs_build,
+          resolution: settings.bs_resolution,
+          browserName: (settings.bs_m_browser if settings.bs_mobile.true? ),
+          platform: (settings.bs_m_platform if settings.bs_mobile.true? ),
+          device: (settings.bs_m_device if settings.bs_mobile.true? )
+      }
+      options = {
+          url: settings.bs_url,
+          desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+          browser: :remote
+      }
+      Capybara.register_driver :browserstack do |app|
+        driver = Capybara::Selenium::Driver.new(app, options)
+        driver.browser.file_detector = lambda do |args|
+          str = args.first.to_s
+          str if File.exist?(str)
+        end
+
+        driver
       end
     end
 

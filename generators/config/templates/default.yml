@@ -65,6 +65,8 @@
  bs_browser_name: 'Firefox'
  bs_browser_version: '16.0'
  bs_resolution: '1024x768'
+ bs_max_duration: '1800'
+ bs_idle_timeout: '180'
 
  # Run tests on mobile browsers
  bs_mobile: false
