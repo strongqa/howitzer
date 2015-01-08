@@ -74,7 +74,7 @@ Feature: Howitzer CLI Update Existing Project
         update - Upgrade existing project
 
     SYNOPSIS
-        howitzer [global options] update
+        howitzer [global options] update 
 
     """
     And the exit status should be 0
