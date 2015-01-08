@@ -202,9 +202,9 @@ module Capybara
           project: settings.bs_project,
           build: settings.bs_build,
           resolution: settings.bs_resolution,
-          browserName: (settings.bs_m_browser if settings.bs_mobile.true? ),
-          platform: (settings.bs_m_platform if settings.bs_mobile.true? ),
-          device: (settings.bs_m_device if settings.bs_mobile.true? )
+          browserName: (settings.bs_m_browser if settings.bs_mobile ),
+          platform: (settings.bs_m_platform if settings.bs_mobile ),
+          device: (settings.bs_m_device if settings.bs_mobile )
       }
       options = {
           url: settings.bs_url,
