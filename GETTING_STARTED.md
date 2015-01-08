@@ -507,14 +507,14 @@ log.fatal "fatal message"
 
 If the option `settings.debug_mode` = true, the logger will record messages with **DEBUG** status.
 
-Logs are generated in the **log** _directory_ .
+Logs are generated and saved in the **log** _directory_.
 ```bash
  / log
      log.txt
      log.html
      TEST-(your-feature-name). Xml
 ```
-Examples of using logs in **Pages** and **Email**.
+Examples of logs usage in **Pages** and **Email**.
 
 **Example:** with **Page.**
 
