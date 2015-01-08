@@ -23,15 +23,15 @@ Available Drivers
 ------
 [[Back To Top]](#jump-to-section)
 
-**Driver** - universal interface for test runners against to different web browsers. All implementations of drivers can be divided to 2 categories:
+**Driver** is a universal interface for test runners against various web browsers. All driver implementations can be divided into 2 categories:
 
-* **Headless testing** - browser emulation without GUI(very useful on CI servers, like Bamboo, TeamCity, Jenkins, etc.)
-* **Real browser testing** - integration with real browsers via extensions, plugins, ActiveX, etc.(for local and cloud based testing, like SauceLabs, Testingbot)
+* **Headless testing** – a browser emulation without a GUI (very useful on CI servers, e.g. Bamboo, TeamCity, Jenkins, etc.).
+* **Real browser testing** - an integration with real browsers through extensions, plugins, ActiveX, etc., (for local and cloud based testing, like SauceLabs, Testingbot, BrowserStack).
 
-Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver management and configuration. All that you really need:
- - specify the **driver** settings in _config/default.yml_
- - specify some additional settings for chosen driver.
-Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
+Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for the driver management and configuration. All you need to do is to:
+ - specify the **driver** settings in the _config/default.yml_
+ - Specify a few extra settings for the selected driver. 
+The table below gives an important information on the driver settings in Howitzer:
 
 <table>
 <thead>
@@ -76,14 +76,14 @@ Bellow you can find aggregated table with some useful informations about driver 
     <td align="center">Real</td>
     <td align="center"><strong>sel_browser</strong></td>
     <td align="center">String</td>
-    <td align="center">specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari</td>
+    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
   </tr>
   <tr>
     <td>selenium_dev</td>
     <td align="center">Real</td>
     <td align="center"><strong>-</strong></td>
     <td align="center">-</td>
-    <td align="center">Execute tests against to FireFox with firebug and firepath extensions</td>
+    <td align="center">Execute tests against FireFox (with Firebug and FirePath extensions).</td>
   </tr>
   <tr>
     <td><a href="https://saucelabs.com">sauce</a></td>
@@ -143,16 +143,16 @@ Pages
 ------
 [[Back To Top]](#jump-to-section)
 
-Pages - are classes that’s describe real web pages. For example,  'Home page' can be described as:
+Pages are classes describing real web pages. For example, 'Home page' can be described as:
 
 ```ruby
 class HomePage < WebPage
 end
 ```
 
-Thus, we realize that each page is inherited from a parent class 'Web Page', which contains the common methods for all pages.
+It means that each page is inherited from a parent class 'Web Page' which contains common methods for all pages.
 
-Each page contains required constant URL(the relative URL of the page):
+Every page contains a required constant URL (the relative URL of the page):
 
 **Example :**
 
@@ -167,14 +167,13 @@ end
 ### Validations
 [[Back To Top]](#jump-to-section)
 
-Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
-some anchor in order to identify page exclusively.
+The Pape Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
 validates <type>, options
 ```
 
-Howitzer providers 3 different validation types:
+Howitzer provides 3 different validation types:
 
 
 Validation Type    | Options | Value Type    | Description
@@ -213,7 +212,7 @@ class LoginPage < WebPage
 end
 ```
 
-Howitzer allows use all 3 validations, but only 1 is really required. If any validation is failed, exception will be raised.
+Howitzer allows using all 3 validations, but only 1 is really required. If any validation fails, the exception will appear.
 
 **CAUTION:** Page validation is triggered in 2 cases only:
 
@@ -272,7 +271,7 @@ Sometimes it needs to have universal locators, for instance for many items from 
 ### Pages with static information ###
 [[Back To Top]](#jump-to-section)
 
-In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
+If static information is repeated on several different pages, it can be a good idea to move these methods into a separate module.
 
 **Example:**
 ```ruby
@@ -302,11 +301,12 @@ class MyPage < WebPage
 end
 ```
 
-### Good practices ###
+### Good Practices Rules ###
 [[Back To Top]](#jump-to-section)
 
 
-**First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
+Good Practice Rules
+**Rule One:** Do not get tied to the interface. This means that you should use common phrases in the name and description of the methods.
 
 **Example:**
 ```ruby
@@ -320,8 +320,8 @@ class MyPage < WebPage
   end
 end
 ```
-**Second rule:** any ACTION methods should return an instance of the page.
-This allows you to do the following:
+
+**Rule Two:** Any ACTION method should return an instance of the page. This allows you to do the following:
 
 ```ruby
 MyPage.open.fill_form.submit_form
@@ -336,7 +336,7 @@ class MyPage < WebPage
 end
 ```
 
-**Third rule:** coding of checks in the methods in the class pages are __prohibited.__
+**Rule Three:** Coding of checks in the class pages methods are __prohibited.__
 
 **Example:**
 ```ruby
@@ -361,7 +361,7 @@ describe “some feature” do
   end
 end
 ```
-**Fourth rule:** all ACTION methods should create log entries
+**Rule Four:** All ACTION methods should create log entries.
 
 **Example:**
 ```ruby
