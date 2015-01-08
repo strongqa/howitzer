@@ -129,14 +129,19 @@ From version _v1.1.0_ howitzer provides howitzer:update command. After updating 
 
 ```
 $ howitzer update
-   identical  config/custom.yml
-    conflict  config/default.yml
-Overwrite /myproject/config/default.yml? [Yn]
-       force  config/default.yml
-    conflict  .gitignore
-Overwrite /myproject/.gitignore? [Yn]
-       force  .gitignore
-    conflict  Gemfile
+        *  Config files generation ...
+            Identical 'config/custom.yml' file
+            Added 'config/default.yml' file
+        * Root files generation ...
+            Added '.gitignore' file
+            Conflict with 'Gemfile' file
+              Overwrite 'Gemfile' file? [Yn]:Y
+                Forced 'Gemfile' file
+            Identical 'Rakefile' file
+            Conflict with 'boot.rb' file
+              Overwrite 'boot.rb' file? [Yn]:n
+                Skipped 'boot.rb' file
+
 ...
 ```
 Don't forget to review the difference, to see if there were any unexpected changes and merge them. It is easy if your project is under revision control systems like _Git_.
