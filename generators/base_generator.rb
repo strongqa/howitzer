@@ -59,6 +59,10 @@ module Howitzer
     end
 
     def print_info(data)
+      logger.print "      #{data}"
+    end
+
+    def puts_info(data)
       logger.puts "      #{data}"
     end
 
@@ -80,8 +84,25 @@ module Howitzer
       src = source_path(data[:source])
       dst = dest_path(data[:destination])
       FileUtils.mkdir_p(File.dirname(dst))
-      FileUtils.cp(src, dst)
-      print_info("Added '#{data[:destination]}' file")
+      if File.exists?(dst)
+        if FileUtils.identical?(src, dst)
+          puts_info("Identical '#{data[:destination]}' file")
+        else
+          puts_info("Conflict with '#{data[:destination]}' file")
+          print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
+          case gets.strip.downcase
+            when 'y'
+              FileUtils.cp(src, dst)
+              puts_info("    Forced '#{data[:destination]}' file")
+            when 'n' then nil
+              puts_info("    Skipped '#{data[:destination]}' file")
+            else nil
+          end
+        end
+      else
+        FileUtils.cp(src, dst)
+        puts_info("Added '#{data[:destination]}' file")
+      end
     rescue => e
       print_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
     end

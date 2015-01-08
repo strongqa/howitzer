@@ -63,7 +63,11 @@ module HowitzerCli
     end
 
     def check_project_presence
-      #TODO update only if current directory is howitzer project
+      exit_now!('Current directory is not Howitzer project', 126) unless howitzer_project?
+    end
+
+    def howitzer_project?
+      Dir.exists?('pages') && Dir.exists?('pages') && File.exists?('boot.rb')
     end
 
     def load_generators
@@ -71,11 +75,11 @@ module HowitzerCli
     end
 
     def cucumber_integrated?
-      #TODO implement me
+      Dir.exists?('features')
     end
 
     def rspec_integrated?
-      #TODO implement me
+      Dir.exists?('spec')
     end
   end
 end
