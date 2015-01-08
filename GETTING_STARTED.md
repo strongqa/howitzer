@@ -382,17 +382,18 @@ Emails
 ------
 [[Back To Top]](#jump-to-section)
 
-Howitzer uses amazing service [Mailgun](http://mailgun.com) which allows to catch all emails of sandbox domain, and to store them to its data storage during 3 days. It is extrimaly useful for new user creation with email confirmation during testing of web applications
+Howitzer uses an outstanding service called [Mailgun](http://mailgun.com) that allows to catch all emails of a sandbox domain and store them in its own data storage within 3 days.
+It is extremely useful during web application testing when a new user with email confirmation is created.
 
-You can use **free** account. Follow steps below:
+You can use a **free** account. Follow the below steps to create an account:
 
-1. Sign up [here](https://mailgun.com/signup)
-2. Login and copy your API Key
-3. Open config/default.yml file of your project, find **mailgun_key** setting and past copied api key there.
-4. Open Mailgun web page again and copy mailgun domain, ie. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
-5. Open config/default.yml file of your project again, find **mailgun_domain** setting and past copied mailgun domain there.
-6. Open Mailgun web page again and navigate to **Routes** menu
-7. Create new route with following parameters
+1.	Sign up [here](https://mailgun.com/signup).
+2.	Login and copy your API Key.
+3.	Open the `config/default.yml` file of your project, find the **mailgun_key** setting and paste the API key there.
+4.	Browse to the MailGun web page again and copy the mailgun domain, i.e. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
+5.	Open the `config/default.yml` file of your project again, find the **mailgun_domain** setting and paste the mailgun domain there.
+6.	Open the MailGun web page again and navigate to the **Routes** menu.
+7.	Create a new route with the following parameters:
 
 Priority  | Filter Expression     | Action  | Description         
 :--------:|:---------------------:|:-------:|:------------------
