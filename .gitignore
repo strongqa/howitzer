@@ -6,6 +6,6 @@ vendor/bundle/*
 spec/log/*
 Gemfile.lock
 doc
-tmp
+tmp/*
 .bundle
 **/.DS_Store

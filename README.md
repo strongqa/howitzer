@@ -121,7 +121,32 @@ You can get a list of all available tasks by typing the following command:
 
 ```bash
 rake -T
+
 ```
+
+## Upgrading Howitzer
+Before attempting to upgrade an existing project, you should be sure you have a good reason to upgrade. You need to balance several factors: the need for new features, the increasing difficulty of finding support for old code, and your available time and skills, to name a few.
+
+From version _v1.1.0_ howitzer provides **howitzer update** command. After updating the Howitzer version in the Gemfile, run this rake task. This will help you with the creation of new files and changes of old files in an interactive session.
+
+```
+$ howitzer update
+        *  Config files generation ...
+            Identical 'config/custom.yml' file
+            Added 'config/default.yml' file
+        * Root files generation ...
+            Added '.gitignore' file
+            Conflict with 'Gemfile' file
+              Overwrite 'Gemfile' file? [Yn]:Y
+                Forced 'Gemfile' file
+            Identical 'Rakefile' file
+            Conflict with 'boot.rb' file
+              Overwrite 'boot.rb' file? [Yn]:n
+                Skipped 'boot.rb' file
+
+...
+```
+Don't forget to review the difference, to see if there were any unexpected changes and merge them. It is easy if your project is under revision control systems like _Git_.
 
 ## Additional Information
 * [Rubygems](https://rubygems.org/gems/howitzer)

@@ -18,8 +18,9 @@ Feature: Howitzer CLI Help
         --version - Display the program version
 
     COMMANDS
-        help - Shows a list of commands or help for one command
-        new  - Generate new project
+        help   - Shows a list of commands or help for one command
+        new    - Generate new project
+        update - Upgrade existing project
 
     """
     And the exit status should be 0
