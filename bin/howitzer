@@ -67,7 +67,7 @@ module HowitzerCli
     end
 
     def howitzer_project?
-      Dir.exists?('pages') && Dir.exists?('pages') && File.exists?('boot.rb')
+      Dir.exists?('pages') && Dir.exists?('config') && File.exists?('boot.rb')
     end
 
     def load_generators
