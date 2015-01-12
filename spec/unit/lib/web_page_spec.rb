@@ -22,16 +22,16 @@ RSpec.describe 'WebPage' do
     subject { WebPage.given }
     before do
       expect(WebPage).to receive(:wait_for_opened).with(no_args).once
-      allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!){ true }
+      expect(WebPage).to receive(:instance) { true }
     end
-    it { expect(subject.class).to eql(WebPage) }
+    it { is_expected.to be_truthy }
   end
 
   describe '.title' do
     let(:page) { double }
     subject { WebPage.instance.title }
     before do
-      # allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!) { true }
+      allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!) { true }
       allow(WebPage.instance).to receive(:current_url) { 'google.com' }
     end
     it do
@@ -127,17 +127,21 @@ RSpec.describe 'WebPage' do
   end
 
   describe '#initialize' do
-    subject { WebPage.instance }
+    subject { WebPage.send(:new) }
     before do
-      allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!) { true }
-      allow_any_instance_of(WebPage).to receive_message_chain('page.driver.browser.manage.window.maximize')
+      expect_any_instance_of(WebPage).to receive(:check_validations_are_defined!).once { true }
     end
-    context 'when maximized window' do
-      before do
-        allow(settings).to receive(:maximized_window) { true }
-      end
+    context 'when maximized_window is true' do
+      before { allow(settings).to receive(:maximized_window) { true } }
       it do
-        allow_any_instance_of(WebPage).to receive_message_chain('page.driver.browser.manage.window.maximize')
+        expect_any_instance_of(WebPage).to receive_message_chain('page.driver.browser.manage.window.maximize')
+        subject
+      end
+    end
+    context 'when maximized_window is false' do
+      before { allow(settings).to receive(:maximized_window) { false } }
+      it do
+        expect_any_instance_of(WebPage).not_to receive('page')
         subject
       end
     end
