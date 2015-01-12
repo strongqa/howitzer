@@ -31,6 +31,7 @@ RSpec.describe 'WebPage' do
     let(:page) { double }
     subject { WebPage.instance.title }
     before do
+      # allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!) { true }
       allow(WebPage.instance).to receive(:current_url) { 'google.com' }
     end
     it do
@@ -120,6 +121,23 @@ RSpec.describe 'WebPage' do
           Howitzer::IncorrectPageError,
           "Current page: FooPage, expected: WebPage.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
         )
+        subject
+      end
+    end
+  end
+
+  describe '#initialize' do
+    subject { WebPage.instance }
+    before do
+      allow_any_instance_of(WebPage).to receive(:check_validations_are_defined!) { true }
+      allow_any_instance_of(WebPage).to receive_message_chain('page.driver.browser.manage.window.maximize')
+    end
+    context 'when maximized window' do
+      before do
+        allow(settings).to receive(:maximized_window) { true }
+      end
+      it do
+        allow_any_instance_of(WebPage).to receive_message_chain('page.driver.browser.manage.window.maximize')
         subject
       end
     end
