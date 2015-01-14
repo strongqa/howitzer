@@ -22,7 +22,7 @@
  # Specify maximized browser window size
  maximized_window: false
 
- # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot
+ # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack
  driver: poltergeist
 
  # -Selenium-
