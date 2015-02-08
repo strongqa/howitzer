@@ -36,7 +36,7 @@ Refer to the [Getting Started](https://github.com/strongqa/howitzer/blob/develop
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
 ## Related Products
-* [Howitzer Example](https://github.com/strongqa/howitzer_example) – a Demo version of the Rails application and Acceptance tests.
+* [Howitzer Example](https://github.com/strongqa/howitzer_example) – an example of Howitzer based project for demo web application.
 * [Howitzer Stat](https://github.com/strongqa/howitzer_stat) – is the extension to Howitzer product. It is used for automated tests coverage visualization of web pages.
 
 ## Requirements
