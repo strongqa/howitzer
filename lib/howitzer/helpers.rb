@@ -22,6 +22,11 @@ def phantomjs_driver?
   settings.driver.to_sym == :phantomjs
 end
 
+def remote_browser_driver?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+  settings.driver.to_sym == :remote_browser
+end
+
 def ie_browser?
   ie_browsers = [:ie, :iexplore]
   if sauce_driver?
@@ -30,7 +35,7 @@ def ie_browser?
   elsif testingbot_driver?
     log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     ie_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver?
+  elsif selenium_driver? || remote_browser_driver?
     log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     ie_browsers.include?(settings.sel_browser.to_sym)
   end
@@ -44,7 +49,7 @@ def ff_browser?
   elsif testingbot_driver?
     log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     ff_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver?
+  elsif selenium_driver? || remote_browser_driver?
     log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     ff_browsers.include?(settings.sel_browser.to_sym)
   end
@@ -59,7 +64,7 @@ def chrome_browser?
   elsif testingbot_driver?
     log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
     settings.tb_browser_name.to_sym == chrome_browser
-  elsif selenium_driver?
+  elsif selenium_driver? || remote_browser_driver?
     log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
     settings.sel_browser.to_sym == chrome_browser
   end
