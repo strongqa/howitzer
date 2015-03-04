@@ -154,7 +154,7 @@ It means that each page is inherited from a parent class 'Web Page' which contai
 
 Every page contains a required constant URL (the relative URL of the page):
 
-**Example :**
+**Example:**
 
 ```ruby
 # put the class to ./pages/home_page.rb file
@@ -178,9 +178,9 @@ Howitzer provides 3 different validation types:
 
 Validation Type    | Options | Value Type    | Description
 :-----------------:|:-------:|:-------------:|:-----------------------------------------:
-: url              | pattern | Regexp        | matches current url to pattern
-: title            | pattern | Regexp        | matches current pate title to pattern
-: element_presence | locator | String/Symbol | find element by locator on current page
+ :url              | pattern | Regexp        | matches current url to pattern
+ :title            | pattern | Regexp        | matches current pate title to pattern
+ :element_presence | locator | String/Symbol | find element by locator on current page
 
 **Example 1:**
 
@@ -230,10 +230,10 @@ The table below lists the types of locators, the possible methods of searching a
 
 Locator Type      | Search Methods          | Capybara Methods
 :----------------:|:-----------------------:|:----------------------------:
-: locator         | css(by default), path   | find, all, first
-: link_locator    | id, text                | click_link, find_link
-: field_locator   | id, name, text          | find_field, fill_in
-: button_locator  | id, name, text          | click_button, find_button
+ :locator         | css(by default), path   | find, all, first
+ :link_locator    | id, text                | click_link, find_link
+ :field_locator   | id, name, text          | find_field, fill_in
+ :button_locator  | id, name, text          | click_button, find_button
 
 Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add_**
 
@@ -264,7 +264,7 @@ Sometimes it needs to have universal locators, for instance for many items from 
  
  #and then usage
  def choose_menu(text)
-    find(locator(:menu_item).(text)).click
+    find(apply(locator(:menu_item), text)).click
  end
 ```
 
@@ -306,6 +306,7 @@ end
 
 
 Good Practice Rules
+
 **Rule One:** Do not get tied to the interface. This means that you should use common phrases in the name and description of the methods.
 
 **Example:**
@@ -327,7 +328,7 @@ end
 MyPage.open.fill_form.submit_form
 ```
 **Example:**
-```
+```ruby
 class MyPage < WebPage
   def fill_form
   ..............
@@ -464,22 +465,22 @@ It is also possible to manually run the tests with automatic logging.
 
 To manually start a specific RSpec test:
 ```bash
-rspec spec / my_spec.rb - format html-out =. / log / log.html
+rspec spec/my_spec.rb -format html -out =./log/log.html
 ```
 
 To manually run an RSpec test:
 ```bash
-rspec - format html-out =. / log / log.html
+rspec -format html -out =./log/log.html
 ```
 
 To manually start a certain _feature_:
 ```bash
-cucumber features / first.feature - format html-out =. / log / log.html
+cucumber features/first.feature -format html -out =./log/log.html
 ```
 
 To manually start all _features_:
 ```bash
-cucumber - format html - out =. / log / log.html
+cucumber -format html -out =./log/log.html
 ```
 
 ### Extended Logging ###
