@@ -60,7 +60,7 @@ The table below gives an important information on the driver settings in Howitze
     </td>
     <td align="left" rowspan="2">
       if false, then raises exception on js error in app<br/>
-      if false, then ignores ssl warnings
+      if false, then ignores ssl warnings<br/>
     </td>
   </tr>
   <tr>
