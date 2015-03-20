@@ -63,6 +63,7 @@ The table below gives an important information on the driver settings in Howitze
       if false, then ignores ssl warnings<br/>
     </td>
   </tr>
+  
   <tr>
     <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
     <td align="center">Headless</td>
