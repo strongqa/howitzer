@@ -45,20 +45,20 @@ The table below gives an important information on the driver settings in Howitze
 </thead>
 <tbody>
   <tr>
-    <td rowspan="2">
+    <td>
       <a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)<br/>
       <a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a>
     </td>
-    <td align="center" rowspan="2">Headless</td>
-    <td align="left" rowspan="2">
+    <td align="center">Headless</td>
+    <td align="left">
       <strong>pjs_ignore_js_errors</strong><br/><br/>
       <strong>pjs_ignore_ssl_errors</strong>
     </td>
-    <td align="left" rowspan="2">
+    <td align="left">
       Boolean <br/><br/>
       Boolean
     </td>
-    <td align="left" rowspan="2">
+    <td align="left">
       if false, then raises exception on js error in app<br/>
       if false, then ignores ssl warnings<br/>
     </td>
