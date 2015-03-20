@@ -45,8 +45,11 @@ The table below gives an important information on the driver settings in Howitze
 </thead>
 <tbody>
   <tr>
-    <td><a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)</td>
-    <td align="center">Headless</td>
+    <td rowspan="2">
+      <a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)<br/>
+      <a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a>
+    </td>
+    <td align="center" rowspan="2">Headless</td>
     <td align="left" rowspan="2">
       <strong>pjs_ignore_js_errors</strong><br/><br/>
       <strong>pjs_ignore_ssl_errors</strong>
@@ -59,10 +62,6 @@ The table below gives an important information on the driver settings in Howitze
       if false, then raises exception on js error in app<br/>
       if false, then ignores ssl warnings
     </td>
-  </tr>
-  <tr>
-    <td><a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a></td>
-    <td align="center">Headless</td>
   </tr>
   <tr>
     <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
@@ -167,7 +166,7 @@ end
 ### Validations
 [[Back To Top]](#jump-to-section)
 
-The Pape Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
+The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
 validates <type>, options
