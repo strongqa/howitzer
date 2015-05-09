@@ -9,3 +9,4 @@ doc
 tmp/*
 .bundle
 **/.DS_Store
+.ruby-version
