@@ -1,4 +1,6 @@
 # Howitzer
+
+[![Join the chat at https://gitter.im/strongqa/howitzer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/strongqa/howitzer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
 [![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
 [![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
