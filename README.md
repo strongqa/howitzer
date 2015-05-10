@@ -155,6 +155,7 @@ Don't forget to review the difference, to see if there were any unexpected chang
 * [Rubygems](https://rubygems.org/gems/howitzer)
 * [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
 * [Issues](https://github.com/strongqa/howitzer/issues)
+* [Developer chat](https://gitter.im/strongqa/howitzer)
 
 Contributing
 ------------
