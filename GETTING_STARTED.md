@@ -260,8 +260,8 @@ Sometimes it needs to have universal locators, for instance for many items from 
 
 **Example:**
 ```ruby
- add_locator   :menu_item, ->(name){ {xpath: ".//*[@id='main_menu']//li[.='#{name}']/a"} }
- 
+ add_locator   :menu_item, ->(name) { { xpath: ".//*[@id='main_menu']//li[.='#{ name }']/a" } }
+
  #and then usage
  def choose_menu(text)
     find(apply(locator(:menu_item), text)).click
@@ -358,7 +358,7 @@ require 'spec_helper'
 
 describe “some feature” do
   context “when...” do
-    it {expect(MyPage.get_all_prices).to include(400)}
+    it { expect(MyPage.get_all_prices).to include(400) }
   end
 end
 ```
@@ -428,7 +428,7 @@ class MyEmail <Email
   SUBJECT = "Test email" # specify the subject of an email
 
   def addressed_to? (new_user) # check that the letter were sent to proper recipient
-    / Hi # {new_user} / === plain_text_body
+    / Hi # { new_user } / === plain_text_body
   end
 end
 ```
@@ -539,7 +539,7 @@ class TestEmail < Email
   SUBJECT = "Test email"
 
   def addressed_to?(new_user)
-    if /Hi #{new_user}/ === plain_text_body
+    if /Hi #{ new_user }/ === plain_text_body
       log.info "some message"
     else
       log.warn "some mesage"

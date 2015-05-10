@@ -23,7 +23,7 @@ module Mailgun
     #
     # @param [String] resource_path This is the API resource you wish to interact
     # with. Be sure to include your domain, where necessary.
-    # @param [Hash] query_string This should be a standard Hash
+    # @param [Hash] params This should be a standard Hash for query
     # containing required parameters for the requested resource.
     # @return [Mailgun::Response] A Mailgun::Response object.
 

@@ -1,7 +1,3 @@
-##
-#
-# Predefined Capybara settings and capybara drivers
-#
 require 'selenium-webdriver'
 require 'capybara'
 require 'howitzer/utils/log'
