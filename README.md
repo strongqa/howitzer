@@ -10,7 +10,7 @@
 [travis]: https://travis-ci.org/strongqa/howitzer
 [gemnasium]: https://gemnasium.com/romikoops/howitzer
 [codeclimate]: https://codeclimate.com/github/romikoops/howitzer
-[coveralls]: https://coveralls.io/r/strongqa/howitzer?branch=develop
+[coveralls]: https://coveralls.io/r/strongqa/howitzer?branch=master
 [license]: https://github.com/strongqa/howitzer/blob/master/LICENSE
 
 Howitzer is a Ruby-based framework for acceptance testing.
@@ -31,7 +31,7 @@ The framework was built with modern patterns, techniques, and tools in automated
 
 
 ## Documentation
-Refer to the [Getting Started](https://github.com/strongqa/howitzer/blob/develop/GETTING_STARTED.md) document to start working with *Howitzer*.
+Refer to the [GETTING STARTED](http://rubydoc.info/gems/howitzer/file/GETTING_STARTED.md) document to start working with *Howitzer*.
 
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
@@ -99,7 +99,8 @@ With both Cucumber and Rspec:
 howitzer new <PROJECT NAME> --cucumber --rspec
 ```
 
-### Configuration
+**Configuration**
+
 Learn and specify correct default settings in the `config/default.yml` file. For more details, please refer to the original [sexy_settings](https://github.com/romikoops/sexy_settings) gem.
 
 ## Test Implementation Workflow
@@ -153,10 +154,31 @@ Don't forget to review the difference, to see if there were any unexpected chang
 * [Mailing list](https://groups.google.com/forum/#!forum/howitzer_ruby)
 * [Issues](https://github.com/strongqa/howitzer/issues)
 
-## Contributing
+Contributing
+------------
 
-1. Fork the project.
-2. Create a new feature branch (`git checkout -b my-new-feature`).
-3. Commit your changes (`git commit -am 'Added some feature'`).
-4. Push the branch (`git push origin my-new-feature`).
-5. Create a new pull request.
+Please see [CONTRIBUTING.md](https://github.com/strongqa/howitzer/blob/master/CONTRIBUTING.md).
+
+howitzer was originally designed by Roman Parashchenko and is now maintained by StrongQA team. You can find list of contributors here [open source
+community](https://github.com/strongqa/howitzer/graphs/contributors).
+
+License
+-------
+
+howitzer is Copyright © 2012-2015 Roman Parashchenko and StrongQA. It is free
+software, and may be redistributed under the terms specified in the
+[LICENSE](/LICENSE) file.
+
+About StrongQA
+----------------
+
+![StrongQA](http://strongqa.com/head_logo_big.png)
+
+howitzer is maintained and funded by StrongQA, Ltd.
+The names and logos for StrongQA are trademarks of StrongQA, Ltd.
+
+We love open source software!
+See [our other projects][testing_solutions] or [hire us][hire] to consult and develop testing solutions.
+
+[testing_solutions]: http://strongqa.com/testing_solutions/?utm_source=github
+[hire]: https://strongqa.com?utm_source=github

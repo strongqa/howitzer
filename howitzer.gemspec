@@ -41,4 +41,5 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency('aruba')
   gem.add_development_dependency('fuubar', ['>= 0.0.1'])
   gem.add_development_dependency('ffaker')
+  gem.add_development_dependency("yard")
 end
