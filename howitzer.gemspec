@@ -2,11 +2,11 @@
 require File.expand_path('../lib/howitzer/version', __FILE__)
 
 Gem::Specification.new do |gem|
-  gem.authors       = ['Roman Parashchenko, Konstantin Lynda, Nikolay Zozulyak']
-  gem.email         = ['strongqa@gmail.com']
-  gem.description   = %q{Howitzer allows to generate a test project in 5 minutes. It uses the best practices and design patterns. It has out-of-the-box configurations for parallel cross-browser testing in the Cloud.}
+  gem.authors       = 'Roman Parashchenko'
+  gem.email         = 'howitzer@strongqa.com'
+  gem.description   = %q{Howitzer uses the best practices and design patterns allowing to generate a test project in less than 5 minutes. It has out-of-the-box configurations for parallel cross-browser testing in the Cloud.}
   gem.summary       = %q{Ruby based framework for acceptance testing}
-  gem.homepage      = 'https://github.com/strongqa/howitzer'
+  gem.homepage      = 'http://strongqa.github.io/howitzer/'
   gem.license       = 'MIT'
 
   gem.bindir        = 'bin'
