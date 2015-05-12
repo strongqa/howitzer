@@ -14,7 +14,7 @@ if sauce_driver?
 end
 
 Before do |scenario|
-  log.print_feature_name(scenario.feature.title)
+  log.print_feature_name(scenario.feature.name)
   log.print_scenario_name(scenario.name)
   @session_start = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
 end
