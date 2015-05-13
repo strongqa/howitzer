@@ -24,5 +24,7 @@ Transform /^table:.*$/ do |table|
       res
     end
   end
-  Cucumber::Ast::Table.new(raw)
+  location = Cucumber::Core::Ast::Location.of_caller
+  ast_table = Cucumber::Core::Ast::DataTable.new(raw, location)
+  Cucumber::MultilineArgument::DataTable.new(ast_table)
 end
