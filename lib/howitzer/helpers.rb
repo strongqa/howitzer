@@ -17,59 +17,48 @@ def selenium_driver?
   settings.driver.to_sym == :selenium
 end
 
+def selenium_grid_driver?
+  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+  settings.driver.to_sym == :selenium_grid
+end
+
 def phantomjs_driver?
   log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
   settings.driver.to_sym == :phantomjs
 end
 
-def remote_browser_driver?
-  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-  settings.driver.to_sym == :remote_browser
-end
-
 def ie_browser?
-  ie_browsers = [:ie, :iexplore]
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    ie_browsers.include?(settings.sl_browser_name.to_sym)
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    ie_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver? || remote_browser_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    ie_browsers.include?(settings.sel_browser.to_sym)
-  end
+  browser? :ie, :iexplore
 end
 
 def ff_browser?
-  ff_browsers = [:ff, :firefox]
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    ff_browsers.include?(settings.sl_browser_name.to_sym)
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    ff_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver? || remote_browser_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    ff_browsers.include?(settings.sel_browser.to_sym)
-  end
+  browser? :ff, :firefox
 end
-
 
 def chrome_browser?
-  chrome_browser = :chrome
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    settings.sl_browser_name.to_sym == chrome_browser
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    settings.tb_browser_name.to_sym == chrome_browser
-  elsif selenium_driver? || remote_browser_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    settings.sel_browser.to_sym == chrome_browser
-  end
+  browser? :chrome
 end
 
+def opera_browser?
+  browser? :opera
+end
+
+def safari_browser?
+  browser? :safari
+end
+
+def browser?(*browser_aliases)
+  if sauce_driver?
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
+    browser_aliases.include?(settings.sl_browser_name.to_sym)
+  elsif testingbot_driver?
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
+    browser_aliases.include?(settings.tb_browser_name.to_sym)
+  elsif selenium_driver? || selenium_grid_driver?
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
+    browser_aliases.include?(settings.sel_browser.to_sym)
+  end
+end
 
 ##
 #

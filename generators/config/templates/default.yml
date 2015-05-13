@@ -23,15 +23,15 @@
  # Specify maximized browser window size
  maximized_window: false
 
- # Specify one of the following drivers: selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, remote_browser
+ # Specify one of the following drivers: selenium, selenium_dev, selenium_grid, webkit, poltergeist, phantomjs, sauce, testingbot
  driver: poltergeist
 
  # -Selenium-
- # specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera
+ # specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari
  sel_browser: ff
 
  # -Selenium Grid URL-
- sel_hub_url: "http://192.168.0.100:4444/wd/hub"
+ sel_hub_url: "http://example.com:4444/wd/hub"
 
  # -PhantomJS-
  # specify settings for poltergeist

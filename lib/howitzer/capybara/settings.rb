@@ -47,15 +47,15 @@ module Capybara
             define_sauce_driver
           when :testingbot
             define_testingbot_driver
-          when :remote_browser
-            define_remote_browser_driver
+          when :selenium_grid
+            define_selenium_grid_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
         end
       end
 
       private
-      def define_remote_browser_driver
+      def define_selenium_grid_driver
         Capybara.register_driver :remote_browser do |app|
           caps = if ie_browser?
             ::Selenium::WebDriver::Remote::Capabilities.internet_explorer
@@ -63,8 +63,12 @@ module Capybara
             ::Selenium::WebDriver::Remote::Capabilities.firefox
           elsif chrome_browser?
             ::Selenium::WebDriver::Remote::Capabilities.chrome
+          elsif opera_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.opera
+          elsif safari_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.safari
           else
-            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome]"
+            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, :opera, safari]"
           end
 
           Capybara::Selenium::Driver.new(app, :browser => :remote, :url => settings.sel_hub_url, :desired_capabilities => caps)

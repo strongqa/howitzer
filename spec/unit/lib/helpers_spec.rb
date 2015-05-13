@@ -3,6 +3,10 @@ require 'howitzer/helpers'
 
 RSpec.describe 'Helpers' do
   let(:settings) { double('settings')}
+  let(:selenium_driver) { false }
+  let(:selenium_grid_driver) { false }
+  let(:sauce_driver) { false }
+  let(:testingbot_driver) { false }
 
   describe '#sauce_driver?' do
     subject { sauce_driver? }
@@ -102,11 +106,11 @@ RSpec.describe 'Helpers' do
 
   describe '#ie_browser?' do
     subject { ie_browser? }
-    before { allow(self).to receive(:sauce_driver?) {sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?) {testingbot_driver} }
+    before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?) { testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?) { selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
-      let(:testingbot_driver) { false }
       context 'settings.sl_browser_name = :ie' do
         before { allow(settings).to receive(:sl_browser_name) { :ie } }
         it { is_expected.to be_truthy }
@@ -128,8 +132,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -154,13 +156,11 @@ RSpec.describe 'Helpers' do
         end
       end
       context 'when selenium_driver? is FALSE' do
-        let(:selenium_driver) { false }
         it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
       let(:testingbot_driver) { true }
-      let(:sauce_driver) { false }
       before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
       context 'settings.sel_browser = :ie' do
         before do
@@ -194,7 +194,6 @@ RSpec.describe 'Helpers' do
     context 'when testingbot_driver? is FALSE' do
       before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
       context 'when sauce_driver? is TRUE' do
-        let(:testingbot_driver) { false }
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :ie' do
           before { allow(settings).to receive(:sl_browser_name) { :ie } }
@@ -218,8 +217,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is TRUE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -248,7 +245,6 @@ RSpec.describe 'Helpers' do
       before { allow(self).to receive(:selenium_driver?) { false } }
       context 'when testingbot_driver? is TRUE' do
         let(:testingbot_driver) { true }
-        let(:sauce_driver) { false }
         before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
         context 'settings.sl_browser_name = :ie' do
           before do
@@ -284,11 +280,11 @@ RSpec.describe 'Helpers' do
 
   describe '#ff_browser?' do
     subject { ff_browser? }
-    before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} }
+    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
-      let(:testingbot_driver) { false }
       context 'settings.sl_browser_name = :ff' do
         before { allow(settings).to receive(:sl_browser_name) { :ff } }
         it { is_expected.to be_truthy }
@@ -310,8 +306,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      let(:testingbot_driver) { false }
-      let(:sauce_driver) { false }
       before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -336,13 +330,11 @@ RSpec.describe 'Helpers' do
         end
       end
       context 'when selenium_driver? is FALSE' do
-        let(:selenium_driver) { false }
         it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
       let(:testingbot_driver) { true }
-      let(:sauce_driver) { false }
       before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
       context 'settings.tb_browser_name = :ff' do
         before do
@@ -376,7 +368,6 @@ RSpec.describe 'Helpers' do
     context 'when testingbot_driver? is FALSE' do
       before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
       context 'when sauce_driver? is TRUE' do
-        let(:testingbot_driver) { false }
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :ff' do
           before { allow(settings).to receive(:sl_browser_name) { :ff } }
@@ -400,8 +391,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is TRUE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -430,7 +419,6 @@ RSpec.describe 'Helpers' do
       before { allow(self).to receive(:selenium_driver?) { false } }
       context 'when testingbot_driver? is TRUE' do
         let(:testingbot_driver) { true }
-        let(:sauce_driver) { false }
         before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
         context 'settings.tb_browser_name = :firefox' do
           before do
@@ -467,8 +455,9 @@ RSpec.describe 'Helpers' do
 
   describe '#chrome_browser?' do
     subject { chrome_browser? }
-    before { allow(self).to receive(:sauce_driver?){ sauce_driver} }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver} }
+    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { true }
@@ -489,8 +478,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -511,13 +498,11 @@ RSpec.describe 'Helpers' do
         end
       end
       context 'when selenium_driver? is FALSE' do
-        let(:selenium_driver) { false }
         it { is_expected.to be_falsey }
       end
     end
     context 'when testingbot_driver? is TRUE' do
       let(:testingbot_driver) { true }
-      let(:sauce_driver) { false }
       before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
       context 'settings.tb_browser_name = :chrome' do
         before do
@@ -544,7 +529,6 @@ RSpec.describe 'Helpers' do
     context 'when testingbot_driver? is FALSE' do
       before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
       context 'when sauce_driver? is TRUE' do
-        let(:testingbot_driver) { false }
         let(:sauce_driver) { true }
         context 'settings.sl_browser_name = :chrome' do
           before { allow(settings).to receive(:sl_browser_name) { :chrome } }
@@ -564,8 +548,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is TRUE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -587,8 +569,6 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is FALSE' do
-      let(:sauce_driver) { false }
-      let(:testingbot_driver) { false }
       before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
@@ -609,7 +589,6 @@ RSpec.describe 'Helpers' do
         end
       end
       context 'when selenium_driver? is FALSE' do
-        let(:selenium_driver) { false }
         it { is_expected.to be_falsey }
       end
     end
