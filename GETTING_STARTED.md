@@ -52,7 +52,7 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">Headless</td>
     <td align="center">-</td>
     <td align="center">-</td>
-    <td align="center">-</td>
+    <td align="center">Uncomment `gem 'capybara-webkit'` in Gemfile</td>
   </tr>
   <tr>
     <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
