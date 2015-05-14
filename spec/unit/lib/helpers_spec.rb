@@ -5,6 +5,7 @@ RSpec.describe 'Helpers' do
   let(:settings) { double('settings')}
   let(:selenium_driver) { false }
   let(:selenium_grid_driver) { false }
+  let(:phantomjs_driver) { false }
   let(:sauce_driver) { false }
   let(:testingbot_driver) { false }
 
@@ -67,6 +68,10 @@ RSpec.describe 'Helpers' do
       let(:driver_setting) {:selenium}
       it{ is_expected.to be_falsey }
     end
+    context 'when :selenium_grid' do
+      let(:driver_setting) {:selenium_grid}
+      it{ is_expected.to be_falsey }
+    end
     context 'when driver specified as String' do
       let(:driver_setting) { 'phantomjs' }
       it{ is_expected.to be_truthy }
@@ -87,12 +92,44 @@ RSpec.describe 'Helpers' do
       let(:driver_setting) {:selenium}
       it{ is_expected.to be_truthy }
     end
+    context 'when :selenium_grid' do
+      let(:driver_setting) {:selenium_grid}
+      it{ is_expected.to be_falsey }
+    end
     context 'when not :selenium' do
       let(:driver_setting) {:phantomjs}
       it{ is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'selenium' }
+      it{ is_expected.to be_truthy }
+    end
+    context 'when driver is not specified' do
+      let(:driver_setting) { nil }
+      it do
+        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
+      end
+    end
+  end
+
+  describe '#selenium_grid_driver?' do
+    subject { selenium_grid_driver? }
+    before { allow(settings).to receive(:driver) { driver_setting } }
+    context 'when :selenium_grid' do
+      let(:driver_setting) {:selenium_grid}
+      it{ is_expected.to be_truthy }
+    end
+    context 'when :selenium' do
+      let(:driver_setting) {:selenium}
+      it{ is_expected.to be_falsey }
+    end
+    context 'when not :selenium' do
+      let(:driver_setting) {:phantomjs}
+      it{ is_expected.to be_falsey }
+    end
+    context 'when driver specified as String' do
+      let(:driver_setting) { 'selenium_grid' }
       it{ is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
@@ -156,6 +193,31 @@ RSpec.describe 'Helpers' do
         end
       end
       context 'when selenium_driver? is FALSE' do
+        it { is_expected.to be_falsey }
+      end
+      context 'when selenium_grid_driver? is TRUE' do
+        let(:selenium_grid_driver) { true }
+        context 'settings.sel_browser = :ie' do
+          before { allow(settings).to receive(:sel_browser) { :ie } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :iexplore' do
+          before { allow(settings).to receive(:sel_browser) { :iexplore } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :chrome' do
+          before { allow(settings).to receive(:sel_browser) { :chrome } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+      context 'when selenium_grid_driver? is FALSE' do
         it { is_expected.to be_falsey }
       end
     end
@@ -449,7 +511,66 @@ RSpec.describe 'Helpers' do
           end
         end
       end
-
+      context 'when selenium_grid_driver? is TRUE' do
+        before { allow(self).to receive(:selenium_grid_driver?) { selenium_grid_driver } }
+        context 'when selenium_grid_driver? is TRUE' do
+          let(:selenium_grid_driver) { true }
+          context 'settings.sel_browser = :ff' do
+            before { allow(settings).to receive(:sel_browser) { :ff } }
+            it { is_expected.to be_truthy }
+          end
+          context 'settings.sel_browser = :firefox' do
+            before { allow(settings).to receive(:sel_browser) { :firefox } }
+            it { is_expected.to be_truthy }
+          end
+          context 'settings.sel_browser = :chrome' do
+            before { allow(settings).to receive(:sel_browser) { :chrome } }
+            it { is_expected.to be_falsey }
+          end
+          context 'settings.sel_browser is not specified' do
+            before { allow(settings).to receive(:sel_browser) { nil } }
+            it do
+              expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+              expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+            end
+          end
+        end
+      end
+      context 'when selenium_grid_driver? is FALSE' do
+        before { allow(self).to receive(:selenium_grid_driver?) { false } }
+        context 'when testingbot_driver? is TRUE' do
+          let(:testingbot_driver) { true }
+          before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
+          context 'settings.tb_browser_name = :firefox' do
+            before do
+              allow(settings).to receive(:tb_browser_name) { :firefox }
+              allow(settings).to receive(:tb_browser_version) { 8 }
+            end
+            it { is_expected.to be_truthy }
+          end
+          context 'settings.tb_browser_name = :ff' do
+            before do
+              allow(settings).to receive(:tb_browser_name) { :ff }
+              allow(settings).to receive(:tb_browser_version) { 8 }
+            end
+            it { is_expected.to be_truthy }
+          end
+          context 'settings.tb_browser_name = :iexplore' do
+            before do
+              allow(settings).to receive(:tb_browser_name) { :iexplore }
+              allow(settings).to receive(:tb_browser_version) { 9 }
+            end
+            it { is_expected.to be_falsey }
+          end
+          context 'settings.tb_browser_name is not specified' do
+            before { allow(settings).to receive(:tb_browser_name) { nil } }
+            it do
+              expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+              expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
+            end
+          end
+        end
+      end
     end
   end
 
