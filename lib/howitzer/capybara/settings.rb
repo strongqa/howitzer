@@ -210,20 +210,30 @@ module Capybara
     def define_browserstack_driver
       task_name = rake_task_name
       caps_opts = {
-          os: settings.bs_os_name,
-          os_version: settings.bs_os_version,
-          browser: settings.bs_browser_name,
-          browser_version: settings.bs_browser_version,
-          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_browser_name.upcase}",
+          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
           maxduration: settings.bs_max_duration.to_i,
           idletimeout: settings.bs_idle_timeout.to_i,
           project: settings.bs_project,
           build: settings.bs_build,
-          resolution: settings.bs_resolution,
-          browserName: settings.bs_m_browser,
-          platform: settings.bs_mobile,
-          device: settings.bs_mobile
+          resolution: settings.bs_resolution
       }
+
+      if settings.bs_local
+        caps_opts['browserstack.local'] = settings.bs_local
+        caps_opts['browserstack.localIdentifier'] = settings.bs_local_ID
+      end
+
+      if settings.bs_mobile
+        caps_opts[:browserName] = settings.bs_m_browser
+        caps_opts[:platform] = settings.bs_m_platform
+        caps_opts[:device] = settings.bs_m_device
+      else
+        caps_opts[:os] = settings.bs_os_name
+        caps_opts[:os_version] = settings.bs_os_version
+        caps_opts[:browser] = settings.bs_browser_name
+        caps_opts[:browser_version] = settings.bs_browser_version
+      end
+
       options = {
           url: settings.bs_url,
           desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
