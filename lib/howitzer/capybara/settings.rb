@@ -1,6 +1,7 @@
 require 'selenium-webdriver'
 require 'capybara'
 require 'howitzer/utils/log'
+require 'howitzer/helpers'
 module Capybara
   module Settings
     extend self
