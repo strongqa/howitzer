@@ -382,4 +382,62 @@ RSpec.describe 'Capybara::Settings' do
 
     it { is_expected.to eql('test') }
   end
+
+  describe '#rake_task_name' do
+    subject { test_object.rake_task_name }
+    before { ENV['RAKE_TASK'] = rake_task }
+    context 'when includes rspec' do
+      let(:rake_task) { 'rspec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes cucumber' do
+      let(:rake_task) { 'cucumber:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes spec' do
+      let(:rake_task) { 'spec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes only cucumber' do
+      let(:rake_task) { 'cucumber' }
+      it { is_expected.to eq('') }
+    end
+    context 'when includes unknown task' do
+      let(:rake_task) { 'unknown' }
+      it { is_expected.to eq('UNKNOWN') }
+    end
+    context 'when environment is empty' do
+      let(:rake_task) { nil }
+      it { is_expected.to eq('') }
+    end
+  end
+
+  describe '.rake_task_name' do
+    subject { Capybara::Settings.rake_task_name }
+    before { ENV['RAKE_TASK'] = rake_task }
+    context 'when includes rspec' do
+      let(:rake_task) { 'rspec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes cucumber' do
+      let(:rake_task) { 'cucumber:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes spec' do
+      let(:rake_task) { 'spec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes only cucumber' do
+      let(:rake_task) { 'cucumber' }
+      it { is_expected.to eq('') }
+    end
+    context 'when includes unknown task' do
+      let(:rake_task) { 'unknown' }
+      it { is_expected.to eq('UNKNOWN') }
+    end
+    context 'when environment is empty' do
+      let(:rake_task) { nil }
+      it { is_expected.to eq('') }
+    end
+  end
 end

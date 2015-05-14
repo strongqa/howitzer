@@ -29,19 +29,19 @@ The table below gives an important information on the driver settings in Howitze
 <tbody>
   <tr>
     <td>
-      <a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)<br/>
+      <a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)<br/><br/>
       <a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a>
     </td>
     <td align="center">Headless</td>
-    <td align="left">
+    <td align="center">
       <strong>pjs_ignore_js_errors</strong><br/><br/>
       <strong>pjs_ignore_ssl_errors</strong>
     </td>
-    <td align="left">
+    <td align="center">
       Boolean <br/><br/>
       Boolean
     </td>
-    <td align="left">
+    <td align="center">
       if false, then raises exception on js error in app<br/>
       if false, then ignores ssl warnings<br/>
     </td>
@@ -52,7 +52,7 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">Headless</td>
     <td align="center">-</td>
     <td align="center">-</td>
-    <td align="center">-</td>
+    <td align="center">Uncomment `gem 'capybara-webkit'` in Gemfile</td>
   </tr>
   <tr>
     <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
@@ -61,6 +61,13 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">String</td>
     <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
   </tr>
+  <tr>
+      <td><a href="http://docs.seleniumhq.org/docs/07_selenium_grid.jsp">selenium_grid</a></td>
+      <td align="center">Real</td>
+      <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
+      <td align="center">String<br/>String<br/><br/><br/></td>
+      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+    </tr>
   <tr>
     <td>selenium_dev</td>
     <td align="center">Real</td>

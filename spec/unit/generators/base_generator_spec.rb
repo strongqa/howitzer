@@ -37,7 +37,8 @@ RSpec.describe Howitzer::BaseGenerator do
       allow_any_instance_of(described_class).to receive(:manifest) do
         {
           files: list1,
-          templates: list2
+          templates: list2,
+          unknown: nil
         }
       end
     end
@@ -74,19 +75,14 @@ RSpec.describe Howitzer::BaseGenerator do
     end
   end
 
-  # describe '#destination' do
-  #   subject { described_class.new.send(:destination) }
-  #   before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
-  #   context 'when not specified' do
-  #     before { described_class.instance_variable_set('@destination', nil) }
-  #     it { is_expected.to eq(Dir.pwd) }
-  #   end
-  #   context 'when custom' do
-  #     let(:destination) { '/' }
-  #     before { described_class.instance_variable_set('@destination', destination) }
-  #     it { is_expected.to eq(destination) }
-  #   end
-  # end
+  describe '#destination' do
+    subject { described_class.new.send(:destination) }
+    before do
+      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow(described_class).to receive(:destination) { '/' }
+    end
+    it { is_expected.to eq('/') }
+  end
 
   describe '#copy_files' do
     let(:list) { [ {source: 'example.txt'} ] }
@@ -162,11 +158,11 @@ RSpec.describe Howitzer::BaseGenerator do
     it { is_expected.to eq('/base/templates/example.txt') }
   end
 
-  # describe '#dest_path' do
-  #   subject { described_class.new.send(:dest_path, 'example.txt') }
-  #   before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
-  #   it { is_expected.to eq('/example.txt') }
-  # end
+  describe '#dest_path' do
+    subject { described_class.new.send(:dest_path, 'example.txt') }
+    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    it { is_expected.to include('/example.txt') }
+  end
 
   describe '#copy_with_path' do
     let(:generator) { described_class.new }
@@ -178,39 +174,68 @@ RSpec.describe Howitzer::BaseGenerator do
       allow_any_instance_of(described_class).to receive(:initialize) { nil }
       allow(generator).to receive(:source_path).with('s.txt') { src }
       allow(generator).to receive(:dest_path).with('d.txt') { dst }
-      #allow(File).to receive(:dirname).with('/path/to/d.txt') { ''}
       allow(FileUtils).to receive(:mkdir_p).with('/path/to') { true }
     end
     after { subject }
     context 'when destination file present' do
       before { allow(File).to receive(:exists?).with(dst) { true } }
       context 'when identical with source file' do
-        before { allow(File).to receive(:identical?).with(src, dst) { true } }
+        before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
+        it { expect(generator).to receive(:puts_info).with("Identical 'd.txt' file").once }
       end
       context 'when not identical with source file' do
-        before { allow(File).to receive(:identical?).with(src, dst) { false } }
-        # context 'when user typed Y' do
-        #   allow(generator).to receive(:gets) { 'Y' }
-        # end
-        # context 'when user typed y' do
-        #   allow(generator).to receive(:gets) { 'y' }
-        # end
-        # context 'when user typed N' do
-        #   allow(generator).to receive(:gets) { 'N' }
-        # end
-        # context 'when user typed n' do
-        #   allow(generator).to receive(:gets) { 'n' }
-        # end
-        # context 'when user typed hello' do
-        #   allow(generator).to receive(:gets) { 'hello' }
-        # end
+        before do
+          allow(FileUtils).to receive(:identical?).with(src, dst) { false }
+          expect(generator).to receive(:puts_info).with("Conflict with 'd.txt' file")
+          expect(generator).to receive(:print_info).with("  Overwrite 'd.txt' file? [Yn]:")
+        end
+        context 'when user typed Y' do
+          before { allow(generator).to receive(:gets) { 'Y' } }
+          it do
+            expect(FileUtils).to receive(:cp).with(src, dst) {nil}.once
+            expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
+          end
+        end
+        context 'when user typed y' do
+          before { allow(generator).to receive(:gets) { 'y' } }
+          it do
+            expect(FileUtils).to receive(:cp).with(src, dst) {nil}.once
+            expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
+          end
+        end
+        context 'when user typed N' do
+          before { allow(generator).to receive(:gets) { 'N' } }
+          it do
+            expect(generator).to receive(:puts_info).with("    Skipped 'd.txt' file")
+            expect(FileUtils).not_to receive(:cp)
+          end
+        end
+        context 'when user typed n' do
+          before { allow(generator).to receive(:gets) { 'n' } }
+          it do
+            expect(generator).to receive(:puts_info).with("    Skipped 'd.txt' file")
+            expect(FileUtils).not_to receive(:cp)
+          end
+        end
+        context 'when user typed hello' do
+          before { allow(generator).to receive(:gets) { 'hello' } }
+          it do
+            expect(generator).not_to receive(:puts_info)
+            expect(FileUtils).not_to receive(:cp)
+          end
+        end
       end
     end
     context 'when destination file missing' do
       before { allow(File).to receive(:exists?).with(dst) { false } }
+      it do
+        expect(generator).to receive(:puts_info).with("Added 'd.txt' file")
+        expect(FileUtils).to receive(:cp).with(src, dst).once
+      end
     end
     context 'when exception happened' do
-
+      before { allow(FileUtils).to receive(:mkdir_p).and_raise(StandardError.new('Some error')) }
+      it { expect(generator).to receive(:puts_error).with("Impossible to create 'd.txt' file. Reason: Some error")}
     end
   end
 
