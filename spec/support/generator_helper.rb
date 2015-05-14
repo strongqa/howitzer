@@ -1,3 +1,6 @@
+require 'fileutils'
+require_relative '../../generators/base_generator'
+
 module GeneratorHelper
   def file_tree_info(root)
     Dir["#{root}/**/*"].sort_by{|name| name.sub(root, '') }.map do |name|
@@ -11,3 +14,7 @@ module GeneratorHelper
     File.size(File.join(generators_path, root_directory, 'templates', file))
   end
 end
+
+Howitzer::BaseGenerator.logger = StringIO.new
+Howitzer::BaseGenerator.destination = Dir.mktmpdir
+Dir[File.join(generators_path, '**', '*_generator.rb')].each{ |f| require f }

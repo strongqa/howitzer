@@ -715,6 +715,288 @@ RSpec.describe 'Helpers' do
     end
   end
 
+  describe '#opera_browser?' do
+    subject { opera_browser? }
+    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
+    context 'when sauce_driver? is TRUE' do
+      let(:sauce_driver) { true }
+      let(:testingbot_driver) { true }
+      context 'settings.sl_browser_name = :opera' do
+        before { allow(settings).to receive(:sl_browser_name) { :opera } }
+        it { is_expected.to be_truthy }
+      end
+      context 'settings.sl_browser_name = :firefox' do
+        before { allow(settings).to receive(:sl_browser_name) { :firefox } }
+        it { is_expected.to be_falsey }
+      end
+      context 'settings.sl_browser_name is not specified' do
+        before { allow(settings).to receive(:sl_browser_name) { nil } }
+        it do
+          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
+        end
+      end
+    end
+    context 'when sauce_driver? is FALSE' do
+      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :opera' do
+          before { allow(settings).to receive(:sel_browser) { :opera } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+      context 'when selenium_driver? is FALSE' do
+        it { is_expected.to be_falsey }
+      end
+    end
+    context 'when testingbot_driver? is TRUE' do
+      let(:testingbot_driver) { true }
+      before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
+      context 'settings.tb_browser_name = :opera' do
+        before do
+          allow(settings).to receive(:tb_browser_name) { :opera }
+          allow(settings).to receive(:tb_browser_version) { 9 }
+        end
+        it { is_expected.to be_truthy }
+      end
+      context 'settings.tb_browser_name = :iexplore' do
+        before do
+          allow(settings).to receive(:tb_browser_name) { :iexplore }
+          allow(settings).to receive(:tb_browser_version) { 9 }
+        end
+        it { is_expected.to be_falsey }
+      end
+      context 'settings.tb_browser_name is not specified' do
+        before { allow(settings).to receive(:tb_browser_name) { nil } }
+        it do
+          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
+        end
+      end
+    end
+    context 'when testingbot_driver? is FALSE' do
+      before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+      context 'when sauce_driver? is TRUE' do
+        let(:sauce_driver) { true }
+        context 'settings.sl_browser_name = :opera' do
+          before { allow(settings).to receive(:sl_browser_name) { :opera } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sl_browser_name = :firefox' do
+          before { allow(settings).to receive(:sl_browser_name) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sl_browser_name is not specified' do
+          before { allow(settings).to receive(:sl_browser_name) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
+          end
+        end
+      end
+    end
+    context 'when selenium_driver? is TRUE' do
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :opera' do
+          before { allow(settings).to receive(:sel_browser) { :opera } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+    end
+    context 'when selenium_driver? is FALSE' do
+      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :opera' do
+          before { allow(settings).to receive(:sel_browser) { :opera } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+      context 'when selenium_driver? is FALSE' do
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
+
+  describe '#safari_browser?' do
+    subject { safari_browser? }
+    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
+    context 'when sauce_driver? is TRUE' do
+      let(:sauce_driver) { true }
+      let(:testingbot_driver) { true }
+      context 'settings.sl_browser_name = :safari' do
+        before { allow(settings).to receive(:sl_browser_name) { :safari } }
+        it { is_expected.to be_truthy }
+      end
+      context 'settings.sl_browser_name = :firefox' do
+        before { allow(settings).to receive(:sl_browser_name) { :firefox } }
+        it { is_expected.to be_falsey }
+      end
+      context 'settings.sl_browser_name is not specified' do
+        before { allow(settings).to receive(:sl_browser_name) { nil } }
+        it do
+          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
+        end
+      end
+    end
+    context 'when sauce_driver? is FALSE' do
+      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :safari' do
+          before { allow(settings).to receive(:sel_browser) { :safari } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+      context 'when selenium_driver? is FALSE' do
+        it { is_expected.to be_falsey }
+      end
+    end
+    context 'when testingbot_driver? is TRUE' do
+      let(:testingbot_driver) { true }
+      before { allow(settings).to receive(:testingbot_driver?) { testingbot_driver } }
+      context 'settings.tb_browser_name = :safari' do
+        before do
+          allow(settings).to receive(:tb_browser_name) { :safari }
+          allow(settings).to receive(:tb_browser_version) { 9 }
+        end
+        it { is_expected.to be_truthy }
+      end
+      context 'settings.tb_browser_name = :iexplore' do
+        before do
+          allow(settings).to receive(:tb_browser_name) { :iexplore }
+          allow(settings).to receive(:tb_browser_version) { 9 }
+        end
+        it { is_expected.to be_falsey }
+      end
+      context 'settings.tb_browser_name is not specified' do
+        before { allow(settings).to receive(:tb_browser_name) { nil } }
+        it do
+          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
+        end
+      end
+    end
+    context 'when testingbot_driver? is FALSE' do
+      before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+      context 'when sauce_driver? is TRUE' do
+        let(:sauce_driver) { true }
+        context 'settings.sl_browser_name = :safari' do
+          before { allow(settings).to receive(:sl_browser_name) { :safari } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sl_browser_name = :firefox' do
+          before { allow(settings).to receive(:sl_browser_name) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sl_browser_name is not specified' do
+          before { allow(settings).to receive(:sl_browser_name) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
+          end
+        end
+      end
+    end
+    context 'when selenium_driver? is TRUE' do
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :safari' do
+          before { allow(settings).to receive(:sel_browser) { :safari } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+    end
+    context 'when selenium_driver? is FALSE' do
+      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      context 'when selenium_driver? is TRUE' do
+        let(:selenium_driver) { true }
+        context 'settings.sel_browser = :safari' do
+          before { allow(settings).to receive(:sel_browser) { :safari } }
+          it { is_expected.to be_truthy }
+        end
+        context 'settings.sel_browser = :firefox' do
+          before { allow(settings).to receive(:sel_browser) { :firefox } }
+          it { is_expected.to be_falsey }
+        end
+        context 'settings.sel_browser is not specified' do
+          before { allow(settings).to receive(:sel_browser) { nil } }
+          it do
+            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
+          end
+        end
+      end
+      context 'when selenium_driver? is FALSE' do
+        it { is_expected.to be_falsey }
+      end
+    end
+  end
+
   describe '#app_url' do
     subject { app_url }
     before do

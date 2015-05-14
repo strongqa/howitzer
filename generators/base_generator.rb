@@ -2,12 +2,8 @@ require 'fileutils'
 
 module Howitzer
   class BaseGenerator
-    def self.logger=(logger)
-      @logger = logger
-    end
-
-    def self.destination=(destination)
-      @destination = destination
+    class << self
+      attr_accessor :logger, :destination
     end
 
     def initialize
@@ -16,11 +12,9 @@ module Howitzer
         case type
           when :files
             copy_files(list)
-          #:nocov:
           when :templates
             copy_templates(list)
           else nil
-          #:nocov:
         end
       end
     end
@@ -31,11 +25,11 @@ module Howitzer
     def banner; end
 
     def logger
-      BaseGenerator.instance_variable_get(:@logger) || $stdout
+      BaseGenerator.logger || $stdout
     end
 
     def destination
-      BaseGenerator.instance_variable_get(:@destination) || Dir.pwd
+      BaseGenerator.destination || Dir.pwd
     end
 
     def copy_files(list)
@@ -45,7 +39,7 @@ module Howitzer
         if File.exists?(source_file)
           copy_with_path(data)
         else
-          print_error("File '#{source_file}' was not found.")
+          puts_error("File '#{source_file}' was not found.")
         end
       end
     end
@@ -66,7 +60,7 @@ module Howitzer
       logger.puts "      #{data}"
     end
 
-    def print_error(data)
+    def puts_error(data)
       logger.puts "      ERROR: #{data}"
     end
 
@@ -104,7 +98,7 @@ module Howitzer
         puts_info("Added '#{data[:destination]}' file")
       end
     rescue => e
-      print_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
+      puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
     end
   end
 end

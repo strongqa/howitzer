@@ -16,7 +16,25 @@ RSpec.describe 'Capybara::Settings' do
     allow(log).to receive(:error).and_return( true )
   end
 
- describe '#sauce_resource_path' do
+  describe '.base_ff_profile_settings' do
+    subject { Capybara::Settings.base_ff_profile_settings }
+    before do
+      allow(::Selenium::WebDriver::Firefox::Profile).to receive(:new) { Hash.new }
+      allow(settings).to receive(:app_host) { 'localhost' }
+    end
+
+    it do
+      is_expected.to eq(
+                         'network.http.phishy-userpass-length' => 255,
+                         'browser.safebrowsing.malware.enabled' => false,
+                         'network.automatic-ntlm-auth.allow-non-fqdn' => true,
+                         'network.ntlm.send-lm-response' => true,
+                         'network.automatic-ntlm-auth.trusted-uris' => 'localhost'
+                     )
+    end
+  end
+
+  describe '#sauce_resource_path' do
     subject { test_object.sauce_resource_path(name) }
     let (:name) { 'test_name' }
     before do
