@@ -16,11 +16,11 @@ module Capybara
 
     def self.base_ff_profile_settings
       profile = ::Selenium::WebDriver::Firefox::Profile.new
-      profile["network.http.phishy-userpass-length"] = 255
-      profile["browser.safebrowsing.malware.enabled"] = false
-      profile["network.automatic-ntlm-auth.allow-non-fqdn"] = true
-      profile["network.ntlm.send-lm-response"] = true
-      profile["network.automatic-ntlm-auth.trusted-uris"] = settings.app_host
+      profile['network.http.phishy-userpass-length'] = 255
+      profile['browser.safebrowsing.malware.enabled'] = false
+      profile['network.automatic-ntlm-auth.allow-non-fqdn'] = true
+      profile['network.ntlm.send-lm-response'] = true
+      profile['network.automatic-ntlm-auth.trusted-uris'] = settings.app_host
       profile
     end
 
@@ -47,12 +47,33 @@ module Capybara
             define_sauce_driver
           when :testingbot
             define_testingbot_driver
+          when :selenium_grid
+            define_selenium_grid_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
         end
       end
 
       private
+      def define_selenium_grid_driver
+        Capybara.register_driver :selenium_grid do |app|
+          caps = if ie_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.internet_explorer
+          elsif ff_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.firefox
+          elsif chrome_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.chrome
+          elsif opera_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.opera
+          elsif safari_browser?
+            ::Selenium::WebDriver::Remote::Capabilities.safari
+          else
+            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, :opera, safari]"
+          end
+
+          Capybara::Selenium::Driver.new(app, :browser => :remote, :url => settings.sel_hub_url, :desired_capabilities => caps)
+        end
+      end
 
       def define_selenium_driver
         Capybara.register_driver :selenium do |app|
@@ -76,12 +97,12 @@ module Capybara
             end
           end
           profile['extensions.firebug.currentVersion']    = 'Last' # avoid 'first run' tab
-          profile["extensions.firebug.previousPlacement"] = 1
-          profile["extensions.firebug.onByDefault"]       = true
-          profile["extensions.firebug.defaultPanelName"]  = "firepath"
-          profile["extensions.firebug.script.enableSites"] = true
-          profile["extensions.firebug.net.enableSites"] = true
-          profile["extensions.firebug.console.enableSites"] = true
+          profile['extensions.firebug.previousPlacement'] = 1
+          profile['extensions.firebug.onByDefault']       = true
+          profile['extensions.firebug.defaultPanelName']  = 'firepath'
+          profile['extensions.firebug.script.enableSites'] = true
+          profile['extensions.firebug.net.enableSites'] = true
+          profile['extensions.firebug.console.enableSites'] = true
 
           Capybara::Selenium::Driver.new app, browser: :firefox, profile: profile
         end
@@ -95,10 +116,10 @@ module Capybara
         require 'capybara/poltergeist'
         Capybara.register_driver :poltergeist do |app|
           Capybara::Poltergeist::Driver.new(
-              app, {
-              js_errors: !settings.pjs_ignore_js_errors,
-              phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
-          }
+            app, {
+                 js_errors: !settings.pjs_ignore_js_errors,
+                 phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
+               }
           )
         end
       end
@@ -107,10 +128,10 @@ module Capybara
         Capybara.register_driver :phantomjs do |app|
           Capybara::Selenium::Driver.new(
             app, browser: :phantomjs,
-                desired_capabilities: {
-                    javascript_enabled: !settings.pjs_ignore_js_errors
-                },
-                args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
+            desired_capabilities: {
+              javascript_enabled: !settings.pjs_ignore_js_errors
+            },
+            args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
           )
         end
       end
@@ -118,25 +139,25 @@ module Capybara
       def define_sauce_driver
         task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
         caps_opts = {
-            platform: settings.sl_platform,
-            browser_name: settings.sl_browser_name,
-            name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.sl_browser_name.upcase}",
-            "max-duration" => settings.sl_max_duration,
-            'idle-timeout' => settings.sl_idle_timeout,
-            'selenium-version' => settings.sl_selenium_version,
-            'record-screenshots' => settings.sl_record_screenshot,
-            'video-upload-on-pass' => settings.sl_video_upload_on_pass
+          platform: settings.sl_platform,
+          browser_name: settings.sl_browser_name,
+          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.sl_browser_name.upcase}",
+          'max-duration' => settings.sl_max_duration,
+          'idle-timeout' => settings.sl_idle_timeout,
+          'selenium-version' => settings.sl_selenium_version,
+          'record-screenshots' => settings.sl_record_screenshot,
+          'video-upload-on-pass' => settings.sl_video_upload_on_pass
         }
 
-        unless (settings.sl_browser_version.to_s || "").empty?
+        unless (settings.sl_browser_version.to_s || '').empty?
           caps_opts['version'] = settings.sl_browser_version.to_s
         end
 
         options = {
-            url: settings.sl_url,
-            desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-            http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
-            browser: :remote
+          url: settings.sl_url,
+          desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+          browser: :remote
         }
 
         Capybara.register_driver :sauce do |app|
@@ -164,7 +185,7 @@ module Capybara
         }
 
         unless (settings.tb_browser_version.to_s || "").empty?
-                  caps_opts['version'] = settings.tb_browser_version.to_s
+          caps_opts['version'] = settings.tb_browser_version.to_s
         end
         options = {
           url: settings.tb_url,
@@ -226,11 +247,11 @@ module Capybara
 
     def suite_name
       res = if ENV['RAKE_TASK']
-        res = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
-        res.empty? ? 'ALL' : res
-      else
-        'CUSTOM'
-      end
+              res = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+              res.empty? ? 'ALL' : res
+            else
+              'CUSTOM'
+            end
       "#{res} #{settings.sl_browser_name.upcase}"
     end
 
