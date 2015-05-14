@@ -56,7 +56,7 @@ module Capybara
 
       private
       def define_selenium_grid_driver
-        Capybara.register_driver :remote_browser do |app|
+        Capybara.register_driver :selenium_grid do |app|
           caps = if ie_browser?
             ::Selenium::WebDriver::Remote::Capabilities.internet_explorer
           elsif ff_browser?
