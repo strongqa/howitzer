@@ -21,7 +21,7 @@ RSpec.describe 'Logger' do
   end
 
   context '.settings_as_formatted_text' do
-    let(:formatted_text) { Faker::Lorem.sentence }
+    let(:formatted_text) { FFaker::Lorem.sentence }
     let(:as_formatted_text) { double }
     let(:expected_result) { formatted_text }
     subject { read_file(path) }

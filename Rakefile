@@ -3,6 +3,7 @@ require "bundler"
 Bundler.setup
 
 require 'rake'
+require 'yard'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 Bundler::GemHelper.install_tasks
@@ -14,5 +15,8 @@ end
 
 desc "All tests"
 task(all_tests: [:spec, :cucumber]) {}
+
+YARD::Rake::YardocTask.new do |t|
+end
 
 task :default => :all_tests

@@ -2,12 +2,8 @@ require 'fileutils'
 
 module Howitzer
   class BaseGenerator
-    def self.logger=(logger)
-      @logger = logger
-    end
-
-    def self.destination=(destination)
-      @destination = destination
+    class << self
+      attr_accessor :logger, :destination
     end
 
     def initialize
@@ -16,11 +12,9 @@ module Howitzer
         case type
           when :files
             copy_files(list)
-          #:nocov:
           when :templates
             copy_templates(list)
           else nil
-          #:nocov:
         end
       end
     end
@@ -31,11 +25,11 @@ module Howitzer
     def banner; end
 
     def logger
-      BaseGenerator.instance_variable_get(:@logger) || $stdout
+      BaseGenerator.logger || $stdout
     end
 
     def destination
-      BaseGenerator.instance_variable_get(:@destination) || Dir.pwd
+      BaseGenerator.destination || Dir.pwd
     end
 
     def copy_files(list)
@@ -45,7 +39,7 @@ module Howitzer
         if File.exists?(source_file)
           copy_with_path(data)
         else
-          print_error("File '#{source_file}' was not found.")
+          puts_error("File '#{source_file}' was not found.")
         end
       end
     end
@@ -59,10 +53,14 @@ module Howitzer
     end
 
     def print_info(data)
+      logger.print "      #{data}"
+    end
+
+    def puts_info(data)
       logger.puts "      #{data}"
     end
 
-    def print_error(data)
+    def puts_error(data)
       logger.puts "      ERROR: #{data}"
     end
 
@@ -80,10 +78,27 @@ module Howitzer
       src = source_path(data[:source])
       dst = dest_path(data[:destination])
       FileUtils.mkdir_p(File.dirname(dst))
-      FileUtils.cp(src, dst)
-      print_info("Added '#{data[:destination]}' file")
+      if File.exists?(dst)
+        if FileUtils.identical?(src, dst)
+          puts_info("Identical '#{data[:destination]}' file")
+        else
+          puts_info("Conflict with '#{data[:destination]}' file")
+          print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
+          case gets.strip.downcase
+            when 'y'
+              FileUtils.cp(src, dst)
+              puts_info("    Forced '#{data[:destination]}' file")
+            when 'n' then nil
+              puts_info("    Skipped '#{data[:destination]}' file")
+            else nil
+          end
+        end
+      else
+        FileUtils.cp(src, dst)
+        puts_info("Added '#{data[:destination]}' file")
+      end
     rescue => e
-      print_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
+      puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
     end
   end
 end

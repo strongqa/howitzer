@@ -1,120 +1,177 @@
 require 'howitzer/exceptions'
 
-CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
+module Helpers
 
-def sauce_driver?
-  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-  settings.driver.to_sym == :sauce
-end
+  CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
 
-def testingbot_driver?
-  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-  settings.driver.to_sym == :testingbot
-end
+  ##
+  #
+  # Returns whether or not the current driver is SauceLabs.
+  #
 
-def selenium_driver?
-  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-  settings.driver.to_sym == :selenium
-end
-
-def phantomjs_driver?
-  log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-  settings.driver.to_sym == :phantomjs
-end
-
-def ie_browser?
-  ie_browsers = [:ie, :iexplore]
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    ie_browsers.include?(settings.sl_browser_name.to_sym)
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    ie_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    ie_browsers.include?(settings.sel_browser.to_sym)
+  def sauce_driver?
+    log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+    settings.driver.to_sym == :sauce
   end
-end
 
-def ff_browser?
-  ff_browsers = [:ff, :firefox]
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    ff_browsers.include?(settings.sl_browser_name.to_sym)
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    ff_browsers.include?(settings.tb_browser_name.to_sym)
-  elsif selenium_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    ff_browsers.include?(settings.sel_browser.to_sym)
+  ##
+  #
+  # Returns whether or not the current driver is TestingBot.
+  #
+
+  def testingbot_driver?
+    log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+    settings.driver.to_sym == :testingbot
   end
-end
 
+  ##
+  #
+  # Returns whether or not the current driver is Selenium.
+  #
 
-def chrome_browser?
-  chrome_browser = :chrome
-  if sauce_driver?
-    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-    settings.sl_browser_name.to_sym == chrome_browser
-  elsif testingbot_driver?
-    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-    settings.tb_browser_name.to_sym == chrome_browser
-  elsif selenium_driver?
-    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-    settings.sel_browser.to_sym == chrome_browser
+  def selenium_driver?
+    log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+    settings.driver.to_sym == :selenium
   end
-end
 
+  ##
+  #
+  # Returns whether or not the current driver is Selenium Grid.
+  #
 
-##
-#
-# Returns application url including base authentication (if specified in settings)
-#
-
-def app_url                         
-  prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
-  app_base_url prefix
-end
-
-##
-# Returns application url without base authentication by default
-#
-# *Parameters:*
-# * +prefix+ - Sets base authentication prefix (defaults to: nil)
-#
-
-def app_base_url(prefix=nil)
-  "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
-end
-
-# *Parameters:*
-# * +time_in_numeric+ - Number of seconds
-#
-
-def duration(time_in_numeric)
-  secs = time_in_numeric.to_i
-  mins = secs / 60
-  hours = mins / 60
-  if hours > 0
-    "[#{hours}h #{mins % 60}m #{secs % 60}s]"
-  elsif mins > 0
-    "[#{mins}m #{secs % 60}s]"
-  elsif secs >= 0
-    "[0m #{secs}s]"
+  def selenium_grid_driver?
+    log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+    settings.driver.to_sym == :selenium_grid
   end
+
+  ##
+  #
+  # Returns whether or not the current driver is PhantomJS.
+  #
+
+  def phantomjs_driver?
+    log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
+    settings.driver.to_sym == :phantomjs
+  end
+
+  ##
+  #
+  # Returns whether or not the current browser is Internet Explorer.
+  #
+
+  def ie_browser?
+    browser? :ie, :iexplore
+  end
+
+  ##
+  #
+  # Returns whether or not the current browser is FireFox.
+  #
+
+  def ff_browser?
+    browser? :ff, :firefox
+  end
+
+  ##
+  #
+  # Returns whether or not the current browser is Google Chrome.
+  #
+
+  def chrome_browser?
+    browser? :chrome
+  end
+
+  ##
+  #
+  # Returns whether or not the current browser is Opera.
+  #
+
+  def opera_browser?
+    browser? :opera
+  end
+
+  ##
+  #
+  # Returns whether or not the current browser is Safari.
+  #
+
+  def safari_browser?
+    browser? :safari
+  end
+
+  ##
+  #
+  # Returns application url including base authentication (if specified in settings)
+  #
+
+  def app_url
+    prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+    app_base_url prefix
+  end
+
+  ##
+  #
+  # Returns application url without base authentication by default
+  #
+  # *Parameters:*
+  # * +prefix+ - Sets base authentication prefix (defaults to: nil)
+  #
+
+  def app_base_url(prefix=nil)
+    "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
+  end
+
+  ##
+  #
+  # Returns formatted duration time
+  #
+  # *Parameters:*
+  # * +time_in_numeric+ - Number of seconds
+  #
+
+  def duration(time_in_numeric)
+    secs = time_in_numeric.to_i
+    mins = secs / 60
+    hours = mins / 60
+    if hours > 0
+      "[#{hours}h #{mins % 60}m #{secs % 60}s]"
+    elsif mins > 0
+      "[#{mins}m #{secs % 60}s]"
+    elsif secs >= 0
+      "[0m #{secs}s]"
+    end
+  end
+
+  ##
+  #
+  # Evaluates given value
+  #
+  # *Parameters:*
+  # * +value+ - Value to be evaluated
+  #
+
+  def ri(value)
+    raise value.inspect
+  end
+
+  private
+
+  def browser?(*browser_aliases)
+    if sauce_driver?
+      log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
+      browser_aliases.include?(settings.sl_browser_name.to_sym)
+    elsif testingbot_driver?
+      log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
+      browser_aliases.include?(settings.tb_browser_name.to_sym)
+    elsif selenium_driver? || selenium_grid_driver?
+      log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
+      browser_aliases.include?(settings.sel_browser.to_sym)
+    end
+  end
+
 end
 
-##
-#
-# Evaluates given value
-#
-# *Parameters:*
-# * +value+ - Value to be evaluated
-#
-
-def ri(value)
-  raise value.inspect
-end
+include Helpers
 
 class String
 
@@ -139,6 +196,11 @@ class String
     as_page_class.given
   end
 
+  ##
+  #
+  # Waits until page is opened or raise error
+  #
+
   def wait_for_opened
     as_page_class.wait_for_opened
   end
@@ -151,6 +213,11 @@ class String
   def as_page_class
     as_class('Page')
   end
+
+  ##
+  #
+  # Returns email class
+  #
 
   def as_email_class
     as_class('Email')

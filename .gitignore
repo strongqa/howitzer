@@ -6,6 +6,8 @@ vendor/bundle/*
 spec/log/*
 Gemfile.lock
 doc
-tmp
+.yardoc
+tmp/*
 .bundle
 **/.DS_Store
+.ruby-version

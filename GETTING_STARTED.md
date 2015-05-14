@@ -1,37 +1,20 @@
-Getting Started
+Getting Started 
 ===============
-
-## Jump to Section
-* [Available Drivers](#available-drivers)
-* [Pages](#pages)
-   * [Validations](#validations)
-   * [Locators](#locators)
-   * [Pages With Static Information](#pages-with-static-information)
-   * [Redefining of the pen method](#redefining-of-the-open-method)
-   * [Good Practices](#good-practices)
-* [Emails](#emails)
-* [Logging](#logging)
-   * [BUILT-IN Logging](#built-in-logging)
-   * [Extended Logging](#extended-logging)
-* [Data Generators](#data-generators)
-   * [Data Storage](#data-storage)
-   * [Generator](#generator)
-   * [Cucumber Tranformers](#cucumber-transformers)
-* [RSpec Folder Structure](#rspec-folder-structure)
 
 Available Drivers
 ------
-[[Back To Top]](#jump-to-section)
 
-**Driver** - universal interface for test runners against to different web browsers. All implementations of drivers can be divided to 2 categories:
+**Driver** is a universal interface for test runners against various web browsers. All driver implementations can be divided into 2 categories:
 
-* **Headless testing** - browser emulation without GUI(very useful on CI servers, like Bamboo, TeamCity, Jenkins, etc.)
-* **Real browser testing** - integration with real browsers via extensions, plugins, ActiveX, etc.(for local and cloud based testing, like SauceLabs, Testingbot)
+* **Headless testing** – a browser emulation without a GUI (very useful on CI servers, e.g. Bamboo, TeamCity, Jenkins, etc.).
+* **Real browser testing** - an integration with real browsers through extensions, plugins, ActiveX, etc., (for local and cloud based testing, like SauceLabs, Testingbot, BrowserStack).
 
-Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for driver management and configuration. All that you really need:
- - specify the **driver** settings in _config/default.yml_
- - specify some additional settings for chosen driver.
-Bellow you can find aggregated table with some useful informations about driver settings in Howitzer:
+Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for the driver management and configuration. All you need to do is to:
+
+  - specify the **driver** settings in the _config/default.yml_
+  - Specify a few extra settings for the selected driver.
+
+The table below gives an important information on the driver settings in Howitzer:
 
 <table>
 <thead>
@@ -45,45 +28,52 @@ Bellow you can find aggregated table with some useful informations about driver 
 </thead>
 <tbody>
   <tr>
-    <td><a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)</td>
+    <td>
+      <a href="http://phantomjs.org/">phantomjs</a>(<strong>default</strong>)<br/><br/>
+      <a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a>
+    </td>
     <td align="center">Headless</td>
-    <td align="left" rowspan="2">
+    <td align="center">
       <strong>pjs_ignore_js_errors</strong><br/><br/>
       <strong>pjs_ignore_ssl_errors</strong>
     </td>
-    <td align="left" rowspan="2">
+    <td align="center">
       Boolean <br/><br/>
       Boolean
     </td>
-    <td align="left" rowspan="2">
+    <td align="center">
       if false, then raises exception on js error in app<br/>
-      if false, then ignores ssl warnings
+      if false, then ignores ssl warnings<br/>
     </td>
   </tr>
-  <tr>
-    <td><a href="https://github.com/teampoltergeist/poltergeist">poltergeist</a></td>
-    <td align="center">Headless</td>
-  </tr>
+  
   <tr>
     <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
     <td align="center">Headless</td>
     <td align="center">-</td>
     <td align="center">-</td>
-    <td align="center">-</td>
+    <td align="center">Uncomment `gem 'capybara-webkit'` in Gemfile</td>
   </tr>
   <tr>
     <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
     <td align="center">Real</td>
     <td align="center"><strong>sel_browser</strong></td>
     <td align="center">String</td>
-    <td align="center">specify one of next browsers: iexplore (ie), firefox (ff), chrome, opera, safari</td>
+    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
   </tr>
+  <tr>
+      <td><a href="http://docs.seleniumhq.org/docs/07_selenium_grid.jsp">selenium_grid</a></td>
+      <td align="center">Real</td>
+      <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
+      <td align="center">String<br/>String<br/><br/><br/></td>
+      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+    </tr>
   <tr>
     <td>selenium_dev</td>
     <td align="center">Real</td>
     <td align="center"><strong>-</strong></td>
     <td align="center">-</td>
-    <td align="center">Execute tests against to FireFox with firebug and firepath extensions</td>
+    <td align="center">Execute tests against FireFox (with Firebug and FirePath extensions).</td>
   </tr>
   <tr>
     <td><a href="https://saucelabs.com">sauce</a></td>
@@ -141,20 +131,19 @@ Bellow you can find aggregated table with some useful informations about driver 
 
 Pages
 ------
-[[Back To Top]](#jump-to-section)
 
-Pages - are classes that’s describe real web pages. For example,  'Home page' can be described as:
+Pages are classes describing real web pages. For example, 'Home page' can be described as:
 
 ```ruby
 class HomePage < WebPage
 end
 ```
 
-Thus, we realize that each page is inherited from a parent class 'Web Page', which contains the common methods for all pages.
+It means that each page is inherited from a parent class 'Web Page' which contains common methods for all pages.
 
-Each page contains required constant URL(the relative URL of the page):
+Every page contains a required constant URL (the relative URL of the page):
 
-**Example :**
+**Example:**
 
 ```ruby
 # put the class to ./pages/home_page.rb file
@@ -165,23 +154,45 @@ end
 ```
 
 ### Validations
-[[Back To Top]](#jump-to-section)
 
-Pape Object pattern does not expect using any validations on UI driver level. But at the same time, each page must have
-some anchor in order to identify page exclusively.
+The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
 validates <type>, options
 ```
 
-Howitzer providers 3 different validation types:
+Howitzer provides 3 different validation types:
 
-
-Validation Type    | Options | Value Type    | Description
-:-----------------:|:-------:|:-------------:|:-----------------------------------------:
-: url              | pattern | Regexp        | matches current url to pattern
-: title            | pattern | Regexp        | matches current pate title to pattern
-: element_presence | locator | String/Symbol | find element by locator on current page
+<table>
+<thead>
+  <tr>
+    <th align="center">Validation Type</th>
+    <th align="center">Options</th>
+    <th align="center">Value Type</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>:url</td>
+    <td>pattern</td>
+    <td>Regexp</td>
+    <td>matches current url to pattern</td>
+  </tr>
+  <tr>
+    <td>:title</td>
+    <td>pattern</td>
+    <td>Regexp</td>
+    <td>matches current pate title to pattern</td>
+  </tr>
+  <tr>
+    <td>:element_presence</td>
+    <td>locator</td>
+    <td>String/Symbol</td>
+    <td>find element by locator on current page</td>
+  </tr>
+</tbody>
+</table>
 
 **Example 1:**
 
@@ -213,7 +224,7 @@ class LoginPage < WebPage
 end
 ```
 
-Howitzer allows use all 3 validations, but only 1 is really required. If any validation is failed, exception will be raised.
+Howitzer allows using all 3 validations, but only 1 is really required. If any validation fails, the exception will appear.
 
 **CAUTION:** Page validation is triggered in 2 cases only:
 
@@ -222,23 +233,47 @@ Howitzer allows use all 3 validations, but only 1 is really required. If any val
 
 
 ### Locators ###
-[[Back To Top]](#jump-to-section)
 
 Locator is a search item (selector) of one or more elements on a 'Web page'.
 
 The table below lists the types of locators, the possible methods of searching and Capybara methods, which may be called.
 
+<table>
+<thead>
+  <tr>
+    <th align="center">Locator Type</th>
+    <th align="center">Search Methods</th>
+    <th align="center">Capybara Methods</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>:locator</td>
+    <td>css(by default), xpath</td>
+    <td>find, all, first</td>
+  </tr>
+  <tr>
+    <td>:link_locator</td>
+    <td>id, text </td>
+    <td>click_link, find_link</td>
+  </tr>
+  <tr>
+    <td>:field_locator</td>
+    <td>id, name, text</td>
+    <td>find_field, fill_in</td>
+  </tr>
+  <tr>
+    <td>:button_locator</td>
+    <td>id, name, text</td>
+    <td>click_button, find_button</td>
+  </tr>
+</tbody>
+</table>
 
-Locator Type      | Search Methods          | Capybara Methods
-:----------------:|:-----------------------:|:----------------------------:
-: locator         | css(by default), path   | find, all, first
-: link_locator    | id, text                | click_link, find_link
-: field_locator   | id, name, text          | find_field, fill_in
-: button_locator  | id, name, text          | click_button, find_button
-
-Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add_**
+Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add\_**
 
 **Example:**
+
 ```ruby
 class HomePage < WebPage
   URL = '/'
@@ -257,12 +292,25 @@ class HomePage < WebPage
 end
 ```
 
-### Pages with static information ###
-[[Back To Top]](#jump-to-section)
-
-In case of repeated static information in several different pages, it would be good decision to move up these methods into separate module.
+Sometimes it needs to have universal locators, for instance for many items from menu. Another case, when it's unknown text in locator in advance. For such cases, Howitzer suggests to use _lambda_ locators.
 
 **Example:**
+
+```ruby
+ add_locator   :menu_item, ->(name) { { xpath: ".//*[@id='main_menu']//li[.='#{ name }']/a" } }
+
+ #and then usage
+ def choose_menu(text)
+    find(apply(locator(:menu_item), text)).click
+ end
+```
+
+### Pages with static information ###
+
+If static information is repeated on several different pages, it can be a good idea to move these methods into a separate module.
+
+**Example:**
+
 ```ruby
 module TopMenu
   def self.included(base)
@@ -277,11 +325,13 @@ module TopMenu
   end
 end
 ```
-#### Redefining of the *open* method #####
+
+### Redefining of the *open* method #####
 
 It is used when you need to open a page with additional parameters.
 
 **Example:**
+
 ```ruby
 class MyPage < WebPage
   def self.open(url="#{app_url}#{self::URL}+'?no_popup=true'")
@@ -290,196 +340,225 @@ class MyPage < WebPage
 end
 ```
 
-### Good practices ###
-[[Back To Top]](#jump-to-section)
+### Good Practices Rules ###
 
+Good Practice Rules
 
-**First rule:** do not get tied to the interface. Thats means that the name and description of the methods you should use a common phrases.
+**Rule One:** Do not get tied to the interface. This means that you should use common phrases in the name and description of the methods.
 
 **Example:**
+
 ```ruby
 class MyPage < WebPage
   def submit_form
-    …
+    # ...
   end
 
   def fill_form(value)
-    …
+    # ...
   end
 end
 ```
-**Second rule:** any ACTION methods should return an instance of the page.
-This allows you to do the following:
+
+**Rule Two:** Any ACTION method should return an instance of the page. This allows you to do the following:
 
 ```ruby
 MyPage.open.fill_form.submit_form
 ```
+
 **Example:**
-```
+
+```ruby
 class MyPage < WebPage
   def fill_form
-  ..............
-  MyPage.given
+    # ...
+    MyPage.given
   end
 end
 ```
 
-**Third rule:** coding of checks in the methods in the class pages are __prohibited.__
+**Rule Three:** Coding of checks in the class pages methods are __prohibited.__
 
 **Example:**
+
 ```ruby
 class MyPage < WebPage
   def submit_form
-    ….
+    # ...
   end
 
   def get_all_prices
-    …
+   # ...
    prices
   end
 end
 ```
+
 my_page_spec.rb
 ```ruby
 require 'spec_helper'
 
 describe “some feature” do
   context “when...” do
-    it {expect(MyPage.get_all_prices).to include(400)}
+    it { expect(MyPage.get_all_prices).to include(400) }
   end
 end
 ```
-**Fourth rule:** all ACTION methods should create log entries
+
+**Rule Four:** All ACTION methods should create log entries.
 
 **Example:**
+
 ```ruby
 class MyPage < WebPage
   def submit_form
     log.info { "[ACTION] Submit form" }
-    ….
+    # ...
   end
 
   def fill_form
     log.info { "[ACTION] Fill form" }
-    …
+    # ...
   end
 end
 ```
 
 Emails
 ------
-[[Back To Top]](#jump-to-section)
 
-Howitzer uses amazing service [Mailgun](http://mailgun.com) which allows to catch all emails of sandbox domain, and to store them to its data storage during 3 days. It is extrimaly useful for new user creation with email confirmation during testing of web applications
+Howitzer uses an outstanding service called [Mailgun](http://mailgun.com) that allows to catch all emails of a sandbox domain and store them in its own data storage within 3 days.
+It is extremely useful during web application testing when a new user with email confirmation is created.
 
-You can use **free** account. Follow steps below:
+You can use a **free** account. Follow the below steps to create an account:
 
-1. Sign up [here](https://mailgun.com/signup)
-2. Login and copy your API Key
-3. Open config/default.yml file of your project, find **mailgun_key** setting and past copied api key there.
-4. Open Mailgun web page again and copy mailgun domain, ie. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
-5. Open config/default.yml file of your project again, find **mailgun_domain** setting and past copied mailgun domain there.
-6. Open Mailgun web page again and navigate to **Routes** menu
-7. Create new route with following parameters
+1.	Sign up [here](https://mailgun.com/signup).
+2.	Login and copy your API Key.
+3.	Open the `config/default.yml` file of your project, find the **mailgun_key** setting and paste the API key there.
+4.	Browse to the MailGun web page again and copy the mailgun domain, i.e. 'sandboxbaf443d4c81b43d0b64a413805dc6f68.mailgun.org'
+5.	Open the `config/default.yml` file of your project again, find the **mailgun_domain** setting and paste the mailgun domain there.
+6.	Open the MailGun web page again and navigate to the **Routes** menu.
+7.	Create a new route with the following parameters:
 
-Priority  | Filter Expression     | Action  | Description         
-:--------:|:---------------------:|:-------:|:------------------
- 0        | match_recipient(".*") | store() | Store all messages
+<table>
+<thead>
+  <tr>
+    <th align="center">Priority</th>
+    <th align="center">Filter Expression</th>
+    <th align="center">Action</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>0</td>
+    <td>match_recipient(".*")</td>
+    <td>store()</td>
+    <td>Store all messages</td>
+  </tr>
+</tbody>
+</table>
 
 _**Email**_ Class corresponds to one letter. Used to test the notifications.
 
-* **.find_by_recipient (recipient)** - search for the letter recipient. The parameter receives email recipient.
-* **.find (recipient, subject)** - same as the **self.find_by_recipient (recipient)**, but only in case, when we do not know in advance what kind of _subject_ has email.
-* **\#plain_text_body** - receiving body of message as plain text
-* **\#html_body** - receiving body of messages as html
-* **\#text_body** - receiving body of messages as stripped text
-* **\#mail_from** - returns who has send email data in format: User Name <user@email>
-* **\#recipients** - returns array of recipients who has received current email
-* **\#received_time** - returns email received time
-* **\#sender_email** - returns sender user email
-* **\#get_mime_part** - allows you to receive the attachment of email
+* **.find_by_recipient (recipient)** - searches for the letter recipient. The parameter receives email recipient.
+* **.find (recipient, subject)** - same as the **self.find_by_recipient** (recipient), but only when we do not know in advance what kind of __subject__ has an email.
+* **\#plain_text_body** - receiving the body of messages in a plain text.
+* **\#html_body** - receiving the body of messages in html.
+* **\#text_body** - receiving the body of messages as a stripped text.
+* **\#mail_from** - returns the sender’s email data in the format: User Name <user@email>
+* **\#recipients** - returns the array of recipients who received the current email.
+* **\#received_time** - returns the time when an email was received.
+* **\#sender_email** - returns an email of a sender.
+* **\#get_mime_part** - allows you receiving an email attachment.
 
 **Example:**
+
 ```ruby
 class MyEmail < Email
   SUBJECT = 'TEST SUBJECT' # specify the subject of an email
 end
 ```
 
-Example, how custom class might look like:
+This is how a custom class might look like:
+
 ```ruby
-# put the class to ./emails/my_email.rb file
+ #put the class to ./emails/my_email.rb file
 
-class MyEmail <Email
-  SUBJECT = "Test email" # specify the subject of an email
+ class MyEmail <Email
+   SUBJECT = "Test email" # specify the subject of an email
 
-  def addressed_to? (new_user) # check that the letter were sent to proper recipient
-    / Hi # {new_user} / === plain_text_body
-  end
-end
+   def addressed_to? (new_user) # check that the letter were sent to proper recipient
+     / Hi # { new_user } / === plain_text_body
+   end
+ end
 ```
 
 Logging
 -------
-[[Back To Top]](#jump-to-section)
 
 *Howitzer* allows logging to the text file, HTML and output to the console.
 
 ### BUILT-IN logging ###
 
-*Howitzer* uses the opportunity of Cucumber and RSpec generate HTML, JUnit logging. HTML provide ability to view the log in HTML, JUnit - use the logs in CI, accordingly.
+*Howitzer* uses the resources of Cucumber and RSpec to generate HTML and JUnit logging. HTML provides the possibility to view the log in HTML while JUnit uses the logs in CI, correspondingly.
 
-
-Running of an built-in HTML generators for RSpec and Cucumber logging, is available if you run the tests using a `rake` tasks.
+Running of built-in HTML generators for RSpec and Cucumber logging is available if you run the tests using the `rake` tasks.
 
 **Example:**
 
-Running **_RSpec_** tests through `rake` tasks.
+Running **_RSpec_** tests with the `rake` tasks.
+
 ```bash
 rake rspec: all
 ```
 
 **Example:**
 
-Running **_Cucumber_** tests through `rake` tasks.
+Running **_Cucumber_** tests with the `rake` tasks.
+
 ```bash
 rake cucumber: all
 ```
 
-Manually running of the tests with automatic logging is also possible.
+It is also possible to manually run the tests with automatic logging.
 
 **Example:**
 
-Manual start of some specific RSpec tests:
+To manually start a specific RSpec test:
+
 ```bash
-rspec spec / my_spec.rb - format html-out =. / log / log.html
+rspec spec/my_spec.rb -format html -out =./log/log.html
 ```
 
-Running RSpec tests manually:
+To manually run an RSpec test:
+
 ```bash
-rspec - format html-out =. / log / log.html
+rspec -format html -out =./log/log.html
 ```
 
-Manual start of certain _feature_:
+To manually start a certain _feature_:
+
 ```bash
-cucumber features / first.feature - format html-out =. / log / log.html
-```
-Manual start all _features_:
-```bash
-cucumber - format html - out =. / log / log.html
+cucumber features/first.feature -format html -out =./log/log.html
 ```
 
-### Extended logging ###
-[[Back To Top]](#jump-to-section)
+To manually start all _features_:
 
-Extended logging to a text file and to the console also available.
-It uses the _log manager_ provided by **_log_** method.
+```bash
+cucumber -format html -out =./log/log.html
+```
 
-_Howitzer_ has 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
+### Extended Logging ###
+
+The Extended logging in a text file and in the console is also available.
+It uses the _log manager_ provided by the **_log_** method.
+
+_Howitzer_ supports 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
 
 FATAL <WARN <INFO <DEBUG
 
 **Example:**
+
 ```bash
 log.info "info message"
 ```
@@ -487,21 +566,24 @@ log.info "info message"
 To create a record with a different level, use the appropriate method.
 
 **Example:**
+
 ```bash
 log.warn "warning message"
 log.fatal "fatal message"
 ```
 
-If the option `settings.debug_mode` = true, logger will record messages with **DEBUG** status.
+If the option `settings.debug_mode` = true, the logger will record messages with **DEBUG** status.
 
-Logs are generated in the **log** _directory_ .
+Logs are generated and saved in the **log** _directory_.
+
 ```bash
  / log
      log.txt
      log.html
      TEST-(your-feature-name). Xml
 ```
-Examples of using logs in **Pages** and **Email**.
+
+Examples of logs usage in **Pages** and **Email**.
 
 **Example:** with **Page.**
 
@@ -520,12 +602,13 @@ end
 ```
 
 **Example:** with **Email.**
+
 ```ruby
 class TestEmail < Email
   SUBJECT = "Test email"
 
   def addressed_to?(new_user)
-    if /Hi #{new_user}/ === plain_text_body
+    if /Hi #{ new_user }/ === plain_text_body
       log.info "some message"
     else
       log.warn "some mesage"
@@ -535,25 +618,45 @@ end
 ```
 
 ## Data Generators ##
-[[Back To Top]](#jump-to-section)
 
-Data generator allows to generate some data structures like User and store it to own Memory storage
+The Data generator allows generating data structures (e.g. User) and store the data in its own Memory storage.
 
-### Data Storage ###
+### Data Storage ##
 
-Data Storage is simple key value storage, which uses namespaces (for example, :user, :sauce, etc).
+The Data Storage is a simple key value storage that uses namespaces (e.g. :user, :sauce, etc.).
 
 This module has next methods:
+The module supports the following methods:
 
-
-Method                                      |  Description
-:------------------------------------------:|:--------------------------------------------------:
-|  DataStorage.store(ns,key,value)          | Adds data to storage, where ns - uniq namespace name
-|  DataStorage::extract(ns, key=nil)        | Gets data from storage by namespace and key. If key is not specified, then it will returns all data from namespace
-|  DataStorage::clear_ns(ns)                | Removes namespace with data
-|  DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)| Removes all namespaces except special namespaces provided as array
+<table>
+<thead>
+  <tr>
+    <th align="center">Method</th>
+    <th align="center">Description</th>
+  </tr>
+</thead>
+<tbody>
+  <tr>
+    <td>DataStorage.store(ns,key,value) </td>
+    <td>Adds data to the storage, where ns is a unique namespace name.</td>
+  </tr>
+  <tr>
+    <td>DataStorage::extract(ns, key=nil)</td>
+    <td>Gets data from the storage by a namespace and a key. If a key is not specified, it will return all data from the namespace.</td>
+  </tr>
+  <tr>
+    <td>DataStorage::clear_ns(ns)</td>
+    <td>Removes a namespace with the data.</td>
+  </tr>
+  <tr>
+    <td>DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)</td>
+    <td>Removes all namespaces except special namespaces provided as an array.</td>
+  </tr>
+</tbody>
+</table>
 
 **Example:**
+
 ```ruby
 DataStorage.store(:user, 1, User.new('Peter'))
 DataStorage.store(:user, 2, User.new('Dan'))
@@ -575,10 +678,9 @@ In memory it looks like:
 ```
 
 ### Generator ####
-[[Back To Top]](#jump-to-section)
 
-This module has standard methods for generate test data. It has one standard data object for generate, because this is
-more common for almost all tests:
+This module uses standard methods for generating test data. 
+It has one standard data object for generation, because it is applicable to almost all tests:
 
 _DataGenerator::Gen::User._
 
@@ -586,19 +688,17 @@ _DataGenerator::Gen::User_ has the params:
 
 :login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
 
-To generate this object use _Gen::user(params={})_ method.
+Use _Gen::user(params={})_ method to generate this object.
 
-Also you can reopen _Gen_ module to add your own objects to generate, also use this module to generate some other data
-specific for your tests.
-When using Cucumber create Gen.rb file in **/features/support** directory. When using Rspec create
-_Gen.rb_ file in **/spec/support** directory.
+Also you can reopen _Gen_ module to add your own objects for generation. You can use this module to generate some other data specific for your tests.
+When using Cucumber, create a Gen.rb file in the **/features/support** directory. When using Rspec, create a _Gen.rb_ file in the **/spec/support** directory.
 
 ### Cucumber Transformers ###
 
 In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
+You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site: 
 [https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
-We are using transformers to use generated data objects in tests. For example let’s imagine that we need to
-write _sign_up.feature:_
+We use transformers for generating data objects in tests. Let’s imagine, for example, that you need to write a _sign_up.feature:_
 
 ```ruby
 Feature: Sign Up
@@ -612,43 +712,42 @@ Given Register page
 And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
 When I put next register data and apply it
 
-|username    	     |email		         |password	    	   |
-|UNIQ_USER[:username]|UNIQ_USER[:email]  | UNIQ_USER[:password]|
+|username            |email              |password            |
+|UNIQ_USER[:username]|UNIQ_USER[:email]  |UNIQ_USER[:password]|
 ```
-Last line will automatically replace UNIQ_USER[:username] for generated data, which you can use.
 
-You can wright your own transformers for some other generated objects, that you will generate
-in _DataGenerator::Gen_ module.
+The last line will automatically replace `UNIQ_USER[:username]` for generated data which you can use.
+
+You can write your own transformers for other generated objects (that you will create in the DataGenerator::Gen module).
 
 
-## RSpec Folder Structure ##
-[[Back To Top]](#jump-to-section)
+## Structure of RSpec Folder ##
 
-**/spec** folder contains all supporting .rspec code and tests.
-There is **spec_helper.rb** file where all .rspec settings are. You could edit this .rspec settings for your purposes.
+The **/spec** folder contains all supporting .rspec code and tests. 
+All .rspec settings are located in the **spec_helper.rb** file. You can edit the .rspec settings as you want.
 
-**/spec/support** contains helpers code, for example code that generates test data.
+The **/spec/support** file contains a help code, e.g. the code that generates test data.
 It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
 and every **_page.rb** file.
 
-All **_spec.rb** files should contains in folder that has tests priority meaning in it’s name.
-You should create folders in **/spec** to add there tests with needed priority level and edit constant **TEST_TYPES**
-in **/tasks/rspec.rake** file to add a name of create folder as symbol in list.
+It is important to keep all **_spec.rb** files in the folder that contains tests priority meaning in its name.
+You must create folders in the **/spec** in order to add the tests with the required priority level, then edit the constant **TEST_TYPES** in the **/tasks/rspec.rake** file to add a name of the  folder you created as a symbol in the list.
 
-To run tests by priority level user **Rake** tasks in **/tasks/rspec.rake** file. Constant
-**TEST_TYPES = [:all, :health, :bvt, :p1]** has a list of available tests priorities as a standard settings.
-To run all tests in **/spec** folder use this:
+To run tests by a priority level, use the **Rake** tasks in the **/tasks/rspec.rake** file.
+The **TEST_TYPES = [:all, :health, :bvt, :p1]** constant has a list of all available test priorities as standard settings.
+To run all tests in the **/spec** folder, type in:
 
 ```bash
    rake rspec:all
 ```
-(_:all_ will run all tests in **/spec** folder). For example, to run _:bvt_ tests you need to create
-**/spec/bvt** folder and add some **_spec.rb** files there, than run Rake task by:
+
+(:all will run all tests in the **/spec** folder). For example, to run :bvt tests you need to create a **/spec/bvt** folder and add some **_spec.rb** files there, then run a Rake task by:
 
 ```bash
 rake rspec:bvt
 ```
-For running tests with less priority level use _:p1_:
+
+To run tests with less priority level, use _:p1_:
 
 ```bash
 rake rspec:p1
@@ -659,14 +758,15 @@ Also there is a standard option to run _Smoke_ tests:
 ```bash
 rake rspec:health
 ```
+
 In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
-you can create subfolders that represents the business areas of tests. In **/tasks/rspec.rake** there is a constant:
+you can create subfolders that represents the business areas of tests. There is a constant in the **/tasks/rspec.rake**:
 
 **TEST_AREAS  = []**
 
-You can add here business areas of created tests that are in subfolders, names should be equal, for example:
-If *TEST_AREAS = [:accounts]* and there is a folder with specs in it: **/spec/bvt/accounts.**
-You can run all tests from this folder by command:
+Here you can add business areas of the created tests that are in subfolders. The names should be equal, e.g.:
+If *TEST_AREAS = [:accounts]*. There is a folder with the specs: **/spec/bvt/accounts.**
+You can run all tests from this folder using the command:
 
 ```bash
 rake rspec:bvt:accounts

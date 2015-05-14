@@ -1,4 +1,4 @@
-Feature: Howitzer CLI Version
+Feature: Howitzer CLI Unknown command
 
   Scenario: Run with --unknown global option
     When I run `howitzer --unknown`

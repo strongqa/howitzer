@@ -1,8 +1,8 @@
-require "singleton"
-require "rspec/expectations"
-require "howitzer/utils/locator_store"
-require "howitzer/utils/page_validator"
-require "howitzer/capybara/dsl_ex"
+require 'singleton'
+require 'rspec/expectations'
+require 'howitzer/utils/locator_store'
+require 'howitzer/utils/page_validator'
+require 'howitzer/capybara/dsl_ex'
 require 'howitzer/exceptions'
 
 class WebPage
@@ -36,7 +36,7 @@ class WebPage
   def self.open(url = "#{app_url unless self == BlankPage}#{self::URL}")
     log.info "Open #{self.name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
-      log.info "Retry..." unless retries.zero?
+      log.info 'Retry...' unless retries.zero?
       visit url
     end
     given
@@ -117,6 +117,7 @@ class WebPage
 
   def initialize
     check_validations_are_defined!
+    page.driver.browser.manage.window.maximize if settings.maximized_window
   end
 
   ##
@@ -184,7 +185,7 @@ class WebPage
       return true if page.evaluate_script('$.active') == 0
       sleep 0.25
     end
-    log.error message || "Timed out waiting for ajax requests to complete"
+    log.error message || 'Timed out waiting for ajax requests to complete'
   end
   #:nocov:
 
@@ -199,7 +200,7 @@ class WebPage
   #
 
   def wait_for_url(expected_url, timeout=settings.timeout_small)
-    warn "[Deprecated] This method is deprecated, and will be removed in next version of Howitzer"
+    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
       operator = expected_url.is_a?(Regexp) ? :=~ : :==
@@ -219,7 +220,7 @@ class WebPage
   #
 
   def wait_for_title(expected_title, timeout=settings.timeout_small)
-    warn "[Deprecated] This method is deprecated, and will be removed in next version of Howitzer"
+    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
     end_time = ::Time.now + timeout
     until ::Time.now > end_time
       operator = expected_title.is_a?(Regexp) ? :=~ : :==
@@ -249,5 +250,4 @@ class WebPage
   def title
     page.title
   end
-
 end

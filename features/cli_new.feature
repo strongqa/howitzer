@@ -1,4 +1,4 @@
-Feature: Howitzer CLI Version
+Feature: Howitzer CLI New Project Creation
 
   Scenario: Run with new command without argument and options
     When I run `howitzer new`

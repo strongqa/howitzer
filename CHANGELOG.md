@@ -2,6 +2,8 @@
 
 ### New Features
 - Added integration with [coveralls.io](https://coveralls.io/r/strongqa/howitzer)
+- Extended documentation for locators
+- Simplified upgrading process
 
 ### Bugfixes
 

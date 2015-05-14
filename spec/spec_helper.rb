@@ -8,6 +8,8 @@ require 'capybara'
 require 'json'
 require 'capybara/dsl'
 require 'active_support'
+require 'active_support/deprecation'
+require 'active_support/deprecation/method_wrappers'
 require 'active_support/core_ext'
 require 'repeater'
 require 'howitzer/exceptions'
@@ -28,20 +30,6 @@ SimpleCov.start do
   add_group 'lib', '/lib'
 end
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
-
-RSpec.configure do |config|
-  config.include GeneratorHelper
-  config.disable_monkey_patching = true
-  config.around(:each) do |ex|
-    $stdout = StringIO.new
-    $stderr = StringIO.new
-    ex.run
-    $stdout = STDOUT
-    $stderr = STDERR
-  end
-end
-
 def project_path
   File.expand_path(File.join(File.dirname(__FILE__), '..'))
 end
@@ -56,4 +44,18 @@ end
 
 def log_path
   File.join(project_path, 'spec/log')
+end
+
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
+
+RSpec.configure do |config|
+  config.include GeneratorHelper
+  config.disable_monkey_patching = true
+  config.around(:each) do |ex|
+    $stdout = StringIO.new
+    $stderr = StringIO.new
+    ex.run
+    $stdout = STDOUT
+    $stderr = STDERR
+  end
 end
