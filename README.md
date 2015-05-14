@@ -47,6 +47,7 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
 * [PhantomJS](http://phantomjs.org/download.html)
 * [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
+* [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For 'webkit' driver only)
 
 ## Setup
 To install, type
