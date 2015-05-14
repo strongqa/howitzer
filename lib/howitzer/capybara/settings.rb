@@ -47,6 +47,8 @@ module Capybara
             define_sauce_driver
           when :testingbot
             define_testingbot_driver
+          when :browserstack
+            define_browserstack_driver
           when :selenium_grid
             define_selenium_grid_driver
           else
@@ -137,7 +139,7 @@ module Capybara
       end
 
       def define_sauce_driver
-        task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+        task_name = rake_task_name
         caps_opts = {
           platform: settings.sl_platform,
           browser_name: settings.sl_browser_name,
@@ -172,7 +174,7 @@ module Capybara
 
       def define_testingbot_driver
         require 'testingbot'
-        task_name = ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+        task_name = rake_task_name
         caps_opts = {
           platform: settings.tb_platform,
           browser_name: settings.tb_browser_name,
@@ -201,6 +203,39 @@ module Capybara
           end
           driver
         end
+      end
+    end
+
+    def define_browserstack_driver
+      task_name = rake_task_name
+      caps_opts = {
+          os: settings.bs_os_name,
+          os_version: settings.bs_os_version,
+          browser: settings.bs_browser_name,
+          browser_version: settings.bs_browser_version,
+          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_browser_name.upcase}",
+          maxduration: settings.bs_max_duration.to_i,
+          idletimeout: settings.bs_idle_timeout.to_i,
+          project: settings.bs_project,
+          build: settings.bs_build,
+          resolution: settings.bs_resolution,
+          browserName: settings.bs_m_browser,
+          platform: settings.bs_mobile,
+          device: settings.bs_mobile
+      }
+      options = {
+          url: settings.bs_url,
+          desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+          browser: :remote
+      }
+      Capybara.register_driver :browserstack do |app|
+        driver = Capybara::Selenium::Driver.new(app, options)
+        driver.browser.file_detector = lambda do |args|
+          str = args.first.to_s
+          str if File.exist?(str)
+        end
+
+        driver
       end
     end
 
@@ -262,6 +297,18 @@ module Capybara
 
     def session_id
       Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
+    end
+
+    ##
+    #
+    # Returns custom name for rake task
+    #
+    # *Returns:*
+    # * +string+ - Returns rake task name
+    #
+
+    def rake_task_name
+      ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
     end
 
     Capybara.run_server = false
