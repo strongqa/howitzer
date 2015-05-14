@@ -215,6 +215,17 @@ RSpec.describe 'Capybara::Settings' do
       end
     end
 
+    context 'when browserstack driver' do
+      let(:driver) { Object.new }
+      before do
+        allow(settings).to receive(:driver).and_return('browserstack')
+        allow(settings).to receive(:bs_browser_name).and_return('firefox')
+        allow(driver).to receive_message_chain(:browser, :file_detector=)
+        allow(Capybara::Selenium::Driver).to receive(:new).and_return(driver)
+      end
+      it { expect(subject.call).to eql(driver) }
+    end
+
     context 'when incorrect driver' do
       before do
         allow(settings).to receive(:driver).and_return('caramba')
