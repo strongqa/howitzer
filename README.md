@@ -3,14 +3,14 @@
 [![Join the chat at https://gitter.im/strongqa/howitzer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/strongqa/howitzer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
 [![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/romikoops/howitzer.png)][gemnasium]
+[![Dependency Status](https://gemnasium.com/strongqa/howitzer.svg)][gemnasium]
 [![Code Climate](https://codeclimate.com/github/romikoops/howitzer.png)][codeclimate]
 [![Coverage Status](https://coveralls.io/repos/strongqa/howitzer/badge.png?branch=develop)][coveralls]
 [![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
 
 [gem]: https://rubygems.org/gems/howitzer
 [travis]: https://travis-ci.org/strongqa/howitzer
-[gemnasium]: https://gemnasium.com/romikoops/howitzer
+[gemnasium]: https://gemnasium.com/strongqa/howitzer
 [codeclimate]: https://codeclimate.com/github/romikoops/howitzer
 [coveralls]: https://coveralls.io/r/strongqa/howitzer?branch=master
 [license]: https://github.com/strongqa/howitzer/blob/master/LICENSE
