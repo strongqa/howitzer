@@ -11,7 +11,7 @@ module Helpers
 
   def sauce_driver?
     log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-    settings.driver.to_sym == :sauce
+    settings.driver.to_s.to_sym == :sauce
   end
 
   ##
@@ -21,7 +21,7 @@ module Helpers
 
   def testingbot_driver?
     log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-    settings.driver.to_sym == :testingbot
+    settings.driver.to_s.to_sym == :testingbot
   end
 
   ##
@@ -31,7 +31,7 @@ module Helpers
 
   def selenium_driver?
     log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-    settings.driver.to_sym == :selenium
+    settings.driver.to_s.to_sym == :selenium
   end
 
   ##
@@ -41,7 +41,7 @@ module Helpers
 
   def selenium_grid_driver?
     log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-    settings.driver.to_sym == :selenium_grid
+    settings.driver.to_s.to_sym == :selenium_grid
   end
 
   ##
@@ -51,7 +51,7 @@ module Helpers
 
   def phantomjs_driver?
     log.error Howitzer::DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-    settings.driver.to_sym == :phantomjs
+    settings.driver.to_s.to_sym == :phantomjs
   end
 
   ##
@@ -159,13 +159,13 @@ module Helpers
   def browser?(*browser_aliases)
     if sauce_driver?
       log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-      browser_aliases.include?(settings.sl_browser_name.to_sym)
+      browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
     elsif testingbot_driver?
       log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-      browser_aliases.include?(settings.tb_browser_name.to_sym)
+      browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
     elsif selenium_driver? || selenium_grid_driver?
       log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-      browser_aliases.include?(settings.sel_browser.to_sym)
+      browser_aliases.include?(settings.sel_browser.to_s.to_sym)
     end
   end
 

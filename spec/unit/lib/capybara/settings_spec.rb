@@ -231,7 +231,7 @@ RSpec.describe 'Capybara::Settings' do
         allow(settings).to receive(:driver).and_return('caramba')
       end
       it do
-        expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]")
+        expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]")
       end
     end
   end

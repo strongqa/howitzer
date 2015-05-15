@@ -198,7 +198,7 @@ module LocatorStore
       log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
       case params.class.name
         when 'Hash'
-          @locators[self.name][type][name] = [params.keys.first.to_sym, params.values.first.to_s]
+          @locators[self.name][type][name] = [params.keys.first.to_s.to_sym, params.values.first.to_s]
         when 'Proc'
           @locators[self.name][type][name] = params
         else

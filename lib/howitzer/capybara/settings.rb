@@ -33,7 +33,7 @@ module Capybara
       #
 
       def define_driver
-        case settings.driver.to_sym
+        case settings.driver.to_s.to_sym
           when :selenium
             define_selenium_driver
           when :selenium_dev
@@ -53,7 +53,7 @@ module Capybara
           when :selenium_grid
             define_selenium_grid_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]"
         end
       end
 
@@ -80,7 +80,7 @@ module Capybara
 
       def define_selenium_driver
         Capybara.register_driver :selenium do |app|
-          params = {browser: settings.sel_browser.to_sym}
+          params = {browser: settings.sel_browser.to_s.to_sym}
           params[:profile] = base_ff_profile_settings if ff_browser?
           Capybara::Selenium::Driver.new app, params
         end
@@ -330,8 +330,8 @@ module Capybara
     Capybara.visible_text_only = true
     Capybara.match = :one
     Capybara.exact_options = true
-    Capybara.default_driver = settings.driver.to_sym
-    Capybara.javascript_driver = settings.driver.to_sym
+    Capybara.default_driver = settings.driver.to_s.to_sym
+    Capybara.javascript_driver = settings.driver.to_s.to_sym
 
     define_driver
 

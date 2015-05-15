@@ -70,7 +70,7 @@ module Howitzer
         def validates(name, options)
           log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
-          case name.to_sym
+          case name.to_s.to_sym
             when :url
               validate_by_pattern(:url, options)
             when :element_presence
