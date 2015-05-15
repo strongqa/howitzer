@@ -1,11 +1,30 @@
-## [In git](https://github.com/strongqa/howitzer/compare/master...develop)
+## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
 
 ### New Features
-- Added integration with [coveralls.io](https://coveralls.io/r/strongqa/howitzer)
-- Extended documentation for locators
-- Simplified upgrading process
 
 ### Bugfixes
+
+## [v1.1.0](https://github.com/strongqa/howitzer/compare/v1.0.2...v1.1.0)
+
+### New Features
+- Simplified upgrading process(`howitzer update`)
+- Added new Rubies supporting (2.1.4-2.2.2)
+- Added Selenium Grid supporting
+- Added Browserstack supporting
+- Added windows maximization in tests
+- Added Safari supporting
+- Added general framework rake tasks
+- Migrated to Cucumber 2.x
+- Migrated to Rspec 3.x
+- Actualized other dependencies
+- Updated and extended documentation.
+- Improved unit test coverage
+- Added integration with [coveralls.io](https://coveralls.io/r/strongqa/howitzer)
+- Integrated YardDoc
+- Integrated Gitter
+
+### Bugfixes
+- Fixed issue with loading ActiveSupport
 
 ## [v1.0.2](https://github.com/strongqa/howitzer/compare/v1.0.1...v1.0.2)
 
