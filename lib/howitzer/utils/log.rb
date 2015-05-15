@@ -93,7 +93,7 @@ module Howitzer
       @logger = Logger.new("ruby_log")
       @logger.add(console_log)
       @logger.add(error_log)
-      @logger.add(txt_log)
+      @logger.add(txt_log) if !settings.log_dir.to_s.empty? && !settings.txt_log.to_s.empty?
       self.base_formatter = default_formatter
       Logger["ruby_log"].level = settings.debug_mode ? ALL : INFO
       Logger["ruby_log"].trace = true
