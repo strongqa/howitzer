@@ -32,8 +32,11 @@ module HowitzerCli
         Howitzer::TasksGenerator.new
         Howitzer::EmailsGenerator.new
         Howitzer::RootGenerator.new
-        Howitzer::CucumberGenerator.new if options['cucumber']
-        Howitzer::RspecGenerator.new if options['rspec']
+        if options['cucumber']
+          Howitzer::CucumberGenerator.new
+        elsif options['rspec']
+          Howitzer::RspecGenerator.new
+        end
         puts "[WARN] Extra parameters were skipped" if args.size > 1
       elsif args.size.zero?
         exit_now!("Please specify <PROJECT NAME>", 64)
@@ -57,8 +60,8 @@ module HowitzerCli
   class << self
     private
     def validate_options(options)
-      if !options['cucumber'] && !options['rspec']
-        exit_now!("Provide --cucumber and/or --rspec option", 64)
+      unless options['cucumber'] ^ options['rspec']
+        exit_now!("Provide --cucumber or --rspec option", 64)
       end
     end
 

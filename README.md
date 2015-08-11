@@ -22,7 +22,7 @@ It was originally developed for testing web applications, but you can also use i
 The framework was built with modern patterns, techniques, and tools in automated testing. For details, please see [Test Framework Design](https://github.com/strongqa/howitzer/wiki/Test-Framework-Design).
 
 ## Key Benefits
-- Independent of test web application, its technologies and lanquage.
+- Independent of test web application, its technologies and languages.
 - Fast installation of the complete testing infrastructure (takes less than 5 minutes).
 - Flexible configuration of the test framework.
 - Possibility to choose between Cucumber or RSpec BDD tool.
@@ -94,12 +94,6 @@ With Rspec:
 
 ```bash
 howitzer new <PROJECT NAME> --rspec
-```
-
-With both Cucumber and Rspec:
-
-```bash
-howitzer new <PROJECT NAME> --cucumber --rspec
 ```
 
 **Configuration**
