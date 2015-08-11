@@ -83,15 +83,6 @@ module Helpers
 
   ##
   #
-  # Returns whether or not the current browser is Opera.
-  #
-
-  def opera_browser?
-    browser? :opera
-  end
-
-  ##
-  #
   # Returns whether or not the current browser is Safari.
   #
 

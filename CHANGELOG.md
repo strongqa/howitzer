@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
 
 ### New Features
+- Removed Opera browser supporting
 
 ### Bugfixes
 

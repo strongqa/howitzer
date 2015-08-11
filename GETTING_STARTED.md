@@ -59,14 +59,14 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">Real</td>
     <td align="center"><strong>sel_browser</strong></td>
     <td align="center">String</td>
-    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
   </tr>
   <tr>
       <td><a href="http://docs.seleniumhq.org/docs/07_selenium_grid.jsp">selenium_grid</a></td>
       <td align="center">Real</td>
       <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
       <td align="center">String<br/>String<br/><br/><br/></td>
-      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
     </tr>
   <tr>
     <td>selenium_dev</td>

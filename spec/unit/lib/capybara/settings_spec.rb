@@ -174,25 +174,11 @@ RSpec.describe 'Capybara::Settings' do
         end
       end
 
-      context "and opera browser" do
-        before do
-          allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:opera_browser?).and_return(true)
-        end
-        it do
-          expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
-          expect(subject.call.options[:desired_capabilities][:browser_name]).to eq('opera')
-        end
-      end
-
       context "and safari browser" do
         before do
           allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:opera_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:safari_browser?).and_return(true)
         end
         it do
@@ -206,10 +192,9 @@ RSpec.describe 'Capybara::Settings' do
           allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:opera_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:safari_browser?).and_return(false)
           it do
-            expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, :opera, safari]")
+            expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]")
           end
         end
       end
