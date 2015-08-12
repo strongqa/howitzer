@@ -98,11 +98,6 @@
  html_log: log.html
  selenium_server_log: selenium-server.log
  required_clean_logs: true
- rawler_log: rawler_log.txt
- add_rawler_xml_log: false
- rawler_xml_log: rawler_log.xml
- add_rawler_html_log: false # not implemented yet
- rawler_html_log: rawler_log.html # not implemented yet
 
 ###########################################################
 # MAILGUN SETTINGS                                        #
