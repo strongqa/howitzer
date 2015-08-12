@@ -2,6 +2,7 @@
 
 ### New Features
 - Restricted using several bdd frameworks at the same time
+- Removed Opera browser supporting
 
 ### Bugfixes
 

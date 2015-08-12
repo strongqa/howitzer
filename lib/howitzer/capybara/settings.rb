@@ -66,12 +66,10 @@ module Capybara
             ::Selenium::WebDriver::Remote::Capabilities.firefox
           elsif chrome_browser?
             ::Selenium::WebDriver::Remote::Capabilities.chrome
-          elsif opera_browser?
-            ::Selenium::WebDriver::Remote::Capabilities.opera
           elsif safari_browser?
             ::Selenium::WebDriver::Remote::Capabilities.safari
           else
-            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, :opera, safari]"
+            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
           end
 
           Capybara::Selenium::Driver.new(app, :browser => :remote, :url => settings.sel_hub_url, :desired_capabilities => caps)
