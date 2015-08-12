@@ -1,7 +1,51 @@
 Feature: Howitzer CLI Update Existing Project
 
-  Scenario: Run with update command when project present
-    Given created old howitzer project
+  Scenario: Run with update command when rspec based project present
+    Given created old howitzer project based on rspec
+    When I run `howitzer update` interactively
+    And I type "y"
+    And I type "n"
+    And I type "i"
+    Then the output should contain:
+    """
+      * Config files generation ...
+          Identical 'config/custom.yml' file
+          Added 'config/default.yml' file
+      * Root files generation ...
+          Added '.gitignore' file
+          Conflict with 'Gemfile' file
+            Overwrite 'Gemfile' file? [Yn]:          Forced 'Gemfile' file
+          Identical 'Rakefile' file
+          Conflict with 'boot.rb' file
+            Overwrite 'boot.rb' file? [Yn]:          Skipped 'boot.rb' file
+      * RSpec integration to the framework ...
+          Identical 'spec/spec_helper.rb' file
+          Identical 'spec/example_spec.rb' file
+          Identical 'tasks/rspec.rake' file
+    """
+    And the exit status should be 0
+    When I run `howitzer update` interactively
+    And I type "y"
+    Then the output should contain:
+    """
+      * Config files generation ...
+          Identical 'config/custom.yml' file
+          Identical 'config/default.yml' file
+      * Root files generation ...
+          Identical '.gitignore' file
+          Identical 'Gemfile' file
+          Identical 'Rakefile' file
+          Conflict with 'boot.rb' file
+            Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
+      * RSpec integration to the framework ...
+          Identical 'spec/spec_helper.rb' file
+          Identical 'spec/example_spec.rb' file
+          Identical 'tasks/rspec.rake' file
+    """
+    And the exit status should be 0
+
+  Scenario: Run with update command when cucumber based project present
+    Given created old howitzer project based on cucumber
     When I run `howitzer update` interactively
     And I type "y"
     And I type "n"
@@ -25,10 +69,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
           Identical 'config/cucumber.yml' file
-      * RSpec integration to the framework ...
-          Identical 'spec/spec_helper.rb' file
-          Identical 'spec/example_spec.rb' file
-          Identical 'tasks/rspec.rake' file
     """
     And the exit status should be 0
     When I run `howitzer update` interactively
@@ -51,10 +91,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
           Identical 'config/cucumber.yml' file
-      * RSpec integration to the framework ...
-          Identical 'spec/spec_helper.rb' file
-          Identical 'spec/example_spec.rb' file
-          Identical 'tasks/rspec.rake' file
     """
     And the exit status should be 0
 
