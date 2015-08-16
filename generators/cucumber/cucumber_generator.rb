@@ -10,7 +10,8 @@ module Howitzer
           { source: 'transformers.rb', destination: 'features/support/transformers.rb'},
           { source: 'example.feature', destination: 'features/example.feature'},
           { source: 'cucumber.rake', destination: 'tasks/cucumber.rake'},
-          { source: 'cucumber.yml', destination: 'config/cucumber.yml'}
+          { source: 'cucumber.yml', destination: 'config/cucumber.yml'},
+          { source: 'Gemfile', destination: 'Gemfile' }
         ]
       }
     end

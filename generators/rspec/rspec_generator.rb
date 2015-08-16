@@ -7,7 +7,8 @@ module Howitzer
         [
           { source: 'spec_helper.rb', destination: 'spec/spec_helper.rb'},
           { source: 'example_spec.rb', destination: 'spec/example_spec.rb'},
-          { source: 'rspec.rake', destination: 'tasks/rspec.rake'}
+          { source: 'rspec.rake', destination: 'tasks/rspec.rake'},
+          { source: 'Gemfile', destination: 'Gemfile' }
         ]
       }
     end

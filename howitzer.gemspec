@@ -20,21 +20,15 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'nokogiri', '~> 1.6' if gem.platform.to_s =~ /mswin|mingw/
   gem.add_runtime_dependency 'rake'
-  gem.add_runtime_dependency 'gli'
-  gem.add_runtime_dependency 'syntax'
-  gem.add_runtime_dependency 'cucumber', '~>2.0'
   gem.add_runtime_dependency 'rspec', '~>3.2'
   gem.add_runtime_dependency 'sexy_settings'
-  gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '~>1.1.10'
-  gem.add_runtime_dependency 'rest-client'
-  gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'capybara'
   gem.add_runtime_dependency 'selenium-webdriver'
   gem.add_runtime_dependency 'activesupport', '~>4.2'
-  gem.add_runtime_dependency 'testingbot'
 
+  gem.add_development_dependency('gli')
   gem.add_development_dependency('aruba')
   gem.add_development_dependency('fuubar')
   gem.add_development_dependency('ffaker')
