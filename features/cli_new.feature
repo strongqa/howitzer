@@ -66,13 +66,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
           Added 'tasks/rspec.rake' file
+          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist
@@ -114,7 +114,6 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
       * Cucumber integration to the framework ...
@@ -124,6 +123,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'features/example.feature' file
           Added 'tasks/cucumber.rake' file
           Added 'config/cucumber.yml' file
+          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist
@@ -185,13 +185,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
           Added 'tasks/rspec.rake' file
+          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist
