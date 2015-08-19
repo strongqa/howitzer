@@ -32,7 +32,7 @@ module HowitzerCli
         Howitzer::TasksGenerator.new
         Howitzer::EmailsGenerator.new
         Howitzer::RootGenerator.new
-        Howitzer::PreRequisitesGenerator.new
+        Howitzer::PrerequisitesGenerator.new
         if options['cucumber']
           Howitzer::CucumberGenerator.new
         elsif options['rspec']

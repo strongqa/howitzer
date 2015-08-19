@@ -708,9 +708,6 @@ When I put next register data and apply it
 
 The last line will automatically replace `UNIQ_USER[:username]` for generated data which you can use.
 
-You can write your own transformers for other generated objects (that you will create in the DataGenerator::Gen module).
-
-
 ## Structure of RSpec Folder ##
 
 The **/spec** folder contains all supporting .rspec code and tests. 

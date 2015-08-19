@@ -69,6 +69,11 @@ Feature: Howitzer CLI New Project Creation
           Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+      * Pre-requisites integration to the framework ...
+          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/her.rb' file
+          Added 'prerequisites/factories/users.rb' file
+          Added 'prerequisites/models/user.rb' file
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
@@ -77,19 +82,23 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
-      | test_automation/config/custom.yml       |
-      | test_automation/config/default.yml      |
-      | test_automation/emails/example_email.rb |
-      | test_automation/pages/example_menu.rb   |
-      | test_automation/pages/example_page.rb   |
-      | test_automation/spec/example_spec.rb    |
-      | test_automation/spec/spec_helper.rb     |
-      | test_automation/tasks/common.rake       |
-      | test_automation/tasks/rspec.rake        |
-      | test_automation/boot.rb                 |
-      | test_automation/Gemfile                 |
-      | test_automation/Rakefile                |
-      | test_automation/.gitignore              |
+      | test_automation/config/custom.yml                |
+      | test_automation/config/default.yml               |
+      | test_automation/emails/example_email.rb          |
+      | test_automation/pages/example_menu.rb            |
+      | test_automation/pages/example_page.rb            |
+      | test_automation/prerequisites/factory_girl.rb    |
+      | test_automation/prerequisites/her.rb             |
+      | test_automation/prerequisites/factories/users.rb |
+      | test_automation/prerequisites/models/user.rb     |
+      | test_automation/spec/example_spec.rb             |
+      | test_automation/spec/spec_helper.rb              |
+      | test_automation/tasks/common.rake                |
+      | test_automation/tasks/rspec.rake                 |
+      | test_automation/boot.rb                          |
+      | test_automation/Gemfile                          |
+      | test_automation/Rakefile                         |
+      | test_automation/.gitignore                       |
     And the exit status should be 0
   Examples:
     | option  |
@@ -117,6 +126,11 @@ Feature: Howitzer CLI New Project Creation
           Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+      * Pre-requisites integration to the framework ...
+          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/her.rb' file
+          Added 'prerequisites/factories/users.rb' file
+          Added 'prerequisites/models/user.rb' file
       * Cucumber integration to the framework ...
           Added 'features/step_definitions/common_steps.rb' file
           Added 'features/support/env.rb' file
@@ -138,6 +152,10 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/features/example.feature                  |
       | test_automation/pages/example_menu.rb                     |
       | test_automation/pages/example_page.rb                     |
+      | test_automation/prerequisites/factory_girl.rb    |
+      | test_automation/prerequisites/her.rb             |
+      | test_automation/prerequisites/factories/users.rb |
+      | test_automation/prerequisites/models/user.rb     |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/cucumber.rake                       |
       | test_automation/boot.rb                                   |
@@ -188,6 +206,11 @@ Feature: Howitzer CLI New Project Creation
           Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+      * Pre-requisites integration to the framework ...
+          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/her.rb' file
+          Added 'prerequisites/factories/users.rb' file
+          Added 'prerequisites/models/user.rb' file
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
@@ -201,6 +224,10 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/emails/example_email.rb |
       | test_automation/pages/example_menu.rb   |
       | test_automation/pages/example_page.rb   |
+      | test_automation/prerequisites/factory_girl.rb    |
+      | test_automation/prerequisites/her.rb             |
+      | test_automation/prerequisites/factories/users.rb |
+      | test_automation/prerequisites/models/user.rb     |
       | test_automation/spec/example_spec.rb    |
       | test_automation/spec/spec_helper.rb     |
       | test_automation/tasks/common.rake       |

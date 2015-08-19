@@ -5,6 +5,7 @@ def settings
 end
 
 require 'howitzer'
+require 'her'
 
 Dir[File.join(File.dirname(__FILE__), "./emails/**/*.rb")].each {|f| require f}
 Dir[File.join(File.dirname(__FILE__), "./pages/**/*.rb")].each {|f| require f}
