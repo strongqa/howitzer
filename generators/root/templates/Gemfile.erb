@@ -5,3 +5,10 @@ source 'https://rubygems.org'
 # gem 'capybara-webkit'
 
 gem 'howitzer'
+gem 'her'
+gem 'factory_girl'
+<% if turnip? %>
+gem 'turnip'
+<% elsif cucumber? %>
+gem 'cucumber'
+<% end %>

@@ -677,21 +677,11 @@ In memory it looks like:
 }
 ```
 
-### Generator ####
+### Pre-Requisites ####
 
 This module uses standard methods for generating test data. 
-It has one standard data object for generation, because it is applicable to almost all tests:
 
-_DataGenerator::Gen::User._
-
-_DataGenerator::Gen::User_ has the params:
-
-:login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
-
-Use _Gen::user(params={})_ method to generate this object.
-
-Also you can reopen _Gen_ module to add your own objects for generation. You can use this module to generate some other data specific for your tests.
-When using Cucumber, create a Gen.rb file in the **/features/support** directory. When using Rspec, create a _Gen.rb_ file in the **/spec/support** directory.
+//TODO
 
 ### Cucumber Transformers ###
 
