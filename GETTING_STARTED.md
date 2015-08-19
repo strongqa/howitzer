@@ -698,15 +698,15 @@ As unregistered user
 I want to register to the system
 
 Scenario: correct credentials
-Given Register page
-And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
+Given there is FACTORY_USER entity # it builds :user factory in _transformers.rb_ file.
+And I am on Register page
 When I put next register data and apply it
 
-|username            |email              |password            |
-|UNIQ_USER[:username]|UNIQ_USER[:email]  |UNIQ_USER[:password]|
+|username               |email                 |password               |
+|FACTORY_USER[:username]|FACTORY_USER[:email]  |FACTORY_USER[:password]|
 ```
 
-The last line will automatically replace `UNIQ_USER[:username]` for generated data which you can use.
+The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
 ## Structure of RSpec Folder ##
 
