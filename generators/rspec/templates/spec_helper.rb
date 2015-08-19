@@ -12,7 +12,6 @@ RSpec.configure do |config|
 
   config.include Capybara::Settings
   config.include Capybara::RSpecMatchers
-  config.include DataGenerator
 
   config.disable_monkey_patching = true
   config.color = true
