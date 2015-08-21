@@ -18,6 +18,9 @@ module HowitzerCli
     c.desc 'Integrate Rspec'
     c.switch [:r, :rspec], negatable: false
 
+    c.desc 'Integrate Turnip'
+    c.switch [:t, :turnip], negatable: false
+
     c.action do |global_options, options, args|
       if args.size > 0
         validate_options(options)
@@ -36,6 +39,8 @@ module HowitzerCli
           Howitzer::CucumberGenerator.new
         elsif options['rspec']
           Howitzer::RspecGenerator.new
+        elsif options['turnip']
+          Howitzer::TurnipGenerator.new
         end
         puts "[WARN] Extra parameters were skipped" if args.size > 1
       elsif args.size.zero?
@@ -53,6 +58,7 @@ module HowitzerCli
         Howitzer::RootGenerator.new
         Howitzer::CucumberGenerator.new if cucumber_integrated?
         Howitzer::RspecGenerator.new if rspec_integrated?
+        Howitzer::TurnipGenerator.new if turnip_integrated?
     end
   end
 
@@ -60,8 +66,8 @@ module HowitzerCli
   class << self
     private
     def validate_options(options)
-      unless options['cucumber'] ^ options['rspec']
-        exit_now!("Provide --cucumber or --rspec option", 64)
+      unless [options[:cucumber], options[:rspec], options[:turnip]].select{|el| el}.size == 1
+        exit_now!("Provide --cucumber, --rspec or --turnip option", 64)
       end
     end
 
@@ -82,7 +88,11 @@ module HowitzerCli
     end
 
     def rspec_integrated?
-      Dir.exists?('spec')
+      File.exists?('spec/spec_helper.rb') && !File.exists?('spec/turnip_helper.rb')
+    end
+
+    def turnip_integrated?
+      File.exists?('spec/spec_helper.rb') && File.exists?('spec/turnip_helper.rb')
     end
   end
 end
