@@ -1,3 +1,8 @@
+## [v2.0]
+
+### New Features
+- Added Turnip supporting
+
 ## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
 
 ### New Features
