@@ -59,7 +59,7 @@ gem install howitzer
 ## Usage
 Browse to a desired directory where a new project will be created.
 
-To deploy the framework with Cucumber, type:
+To deploy the framework with [Cucumber](https://cucumber.io/), type:
 
 ```bash
 howitzer new <PROJECT NAME> --cucumber
@@ -90,13 +90,13 @@ Rakefile
 .gitignore
 ```
 
-With Rspec:
+With [Rspec](http://rspec.info/):
 
 ```bash
 howitzer new <PROJECT NAME> --rspec
 ```
 
-With Turnip:
+With [Turnip](https://github.com/jnicklas/turnip):
 
 ```bash
 howitzer new <PROJECT NAME> --turnip
