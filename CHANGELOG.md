@@ -1,3 +1,8 @@
+## [v2.0]
+
+### New Features
+- Added Turnip supporting (without using the `rake` tasks)
+
 ## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
 
 ### New Features

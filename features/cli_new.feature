@@ -13,7 +13,7 @@ Feature: Howitzer CLI New Project Creation
     When I run `howitzer new test_automation`
     Then the output should contain exactly:
     """
-    error: Provide --cucumber or --rspec option
+    error: Provide --cucumber, --rspec or --turnip option
 
     """
     And the exit status should be 64
@@ -40,6 +40,7 @@ Feature: Howitzer CLI New Project Creation
     COMMAND OPTIONS
         -c, --cucumber - Integrate Cucumber
         -r, --rspec    - Integrate Rspec
+        -t, --turnip   - Integrate Turnip
 
     """
     And the exit status should be 0
@@ -150,22 +151,104 @@ Feature: Howitzer CLI New Project Creation
     | --cucumber |
     | -c         |
 
-  Scenario Outline: Run with new command with argument and with cucumber and rspec option
+  Scenario Outline: Run with new command with argument and with turnip option
+    When I run `howitzer new test_automation <option>`
+    Then the output should contain exactly:
+    """
+      * New project directory creation ...
+          Created new './test_automation' folder
+      * Config files generation ...
+          Added 'config/custom.yml' file
+          Added 'config/default.yml' file
+      * PageOriented pattern structure generation ...
+          Added 'pages/example_page.rb' file
+          Added 'pages/example_menu.rb' file
+      * Base rake task generation ...
+          Added 'tasks/common.rake' file
+      * Email example generation ...
+          Added '/emails/example_email.rb' file
+      * Root files generation ...
+          Added '.gitignore' file
+          Added 'Gemfile' file
+          Added 'Rakefile' file
+          Added 'boot.rb' file
+      * Turnip integration to the framework ...
+          Added '.rspec' file
+          Added 'spec/spec_helper.rb' file
+          Added 'spec/turnip_helper.rb' file
+          Added 'spec/acceptance/example.feature' file
+          Added 'spec/steps/common_steps.rb' file
+
+    """
+    Then a directory named "test_automation" should exist
+    Then the following files should exist:
+      | test_automation/config/custom.yml                         |
+      | test_automation/config/default.yml                        |
+      | test_automation/emails/example_email.rb                   |
+      | test_automation/pages/example_menu.rb                     |
+      | test_automation/pages/example_page.rb                     |
+      | test_automation/tasks/common.rake                         |
+      | test_automation/spec/spec_helper.rb                       |
+      | test_automation/spec/turnip_helper.rb                     |
+      | test_automation/spec/acceptance/example.feature           |
+      | test_automation/spec/steps/common_steps.rb                |
+      | test_automation/.rspec                                    |
+      | test_automation/boot.rb                                   |
+      | test_automation/Gemfile                                   |
+      | test_automation/Rakefile                                  |
+      | test_automation/.gitignore                                |
+    And the exit status should be 0
+    Examples:
+      | option     |
+      | --turnip   |
+      | -t         |
+
+  Scenario Outline: Run with new command with argument and option
     When I run `howitzer new test_automation <options>`
     Then the output should contain exactly:
     """
-    error: Provide --cucumber or --rspec option
+    error: Provide --cucumber, --rspec or --turnip option
 
     """
     And the exit status should be 64
   Examples:
-    | options            |
-    | --cucumber --rspec |
-    | --rspec --cucumber |
-    | -c -r              |
-    | -r -c              |
-    | -cr                |
-    | -rc                |
+    | options             |
+    | --cucumber --rspec  |
+    | --rspec --cucumber  |
+    | --cucumber --turnip |
+    | --turnip --cucumber |
+    | --rspec --turnip    |
+    | --turnip --rspec    |
+    | -c -t               |
+    | -t -c               |
+    | -c -r               |
+    | -r -c               |
+    | -r -t               |
+    | -t -r               |
+    | -cr                 |
+    | -rc                 |
+    | -ct                 |
+    | -tc                 |
+    | -rt                 |
+    | -tr                 |
+    | --cucumber --rspec --turnip    |
+    | --cucumber --turnip --rspec    |
+    | --rspec --cucumber --turnip    |
+    | --rspec --turnip --cucumber    |
+    | --turnip --cucumber --rspec    |
+    | --turnip --rspec --cucumber    |
+    | -c -r -t                       |
+    | -c -t -r                       |
+    | -r -c -t                       |
+    | -r -t -c                       |
+    | -t -c -r                       |
+    | -t -r -c                       |
+    | -crt                           |
+    | -ctr                           |
+    | -rct                           |
+    | -rtc                           |
+    | -tcr                           |
+    | -trc                           |
 
   Scenario Outline: Run with new command with options and with rspec argument
     When I run `howitzer new <option> test_automation`
