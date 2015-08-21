@@ -1,5 +1,4 @@
 require 'rspec'
-require 'turnip'
 require 'capybara/rspec'
 require_relative '../boot'
 

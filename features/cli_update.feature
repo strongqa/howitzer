@@ -113,7 +113,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'spec/turnip_helper.rb' file
           Identical 'spec/acceptance/example.feature' file
           Identical 'spec/steps/common_steps.rb' file
-          Identical 'tasks/turnip.rake' file
     """
     And the exit status should be 0
 
