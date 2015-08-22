@@ -190,6 +190,11 @@ Feature: Howitzer CLI New Project Creation
           Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+      * Pre-requisites integration to the framework ...
+          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/her.rb' file
+          Added 'prerequisites/factories/users.rb' file
+          Added 'prerequisites/models/user.rb' file
       * Turnip integration to the framework ...
           Added '.rspec' file
           Added 'spec/spec_helper.rb' file
