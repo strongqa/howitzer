@@ -5,7 +5,7 @@ require 'factory_girl'
 FactoryGirl.definition_file_paths = [File.join(File.dirname(__FILE__), "prerequisites/factories")]
 FactoryGirl.find_definitions
 
-class FactoryGirl
+module FactoryGirl
   def self.given_factory_by_number(factory, num)
     data = DataStorage.extract(factory, num.to_i)
     unless data
