@@ -1,3 +1,4 @@
+@monster_steps
 Feature: Attacking a monster
   Background:
     Given there is a monster
