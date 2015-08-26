@@ -10,6 +10,7 @@ RSpec.configure do |config|
   DataStorage.store('sauce', :start_time, Time.now.utc)
   DataStorage.store('sauce', :status, true)
 
+  config.include FactoryGirl::Syntax::Methods
   config.include Capybara::Settings
   config.include Capybara::RSpecMatchers
 

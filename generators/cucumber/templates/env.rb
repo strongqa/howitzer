@@ -3,6 +3,7 @@ require 'capybara/cucumber'
 require_relative '../../boot'
 
 World(Capybara::Settings)
+World(FactoryGirl::Syntax::Methods)
 
 log.settings_as_formatted_text
 DataStorage.store('sauce', :start_time, Time.now.utc)
