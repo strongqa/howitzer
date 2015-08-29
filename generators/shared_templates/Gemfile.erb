@@ -12,3 +12,8 @@ gem 'howitzer'
 gem 'rest-client'
 gem 'repeater'
 gem 'syntax'
+<% if cucumber? %>
+gem 'cucumber', '~>2.0'
+<% elsif rspec? %>
+gem 'rspec', '~>3.2'
+<% end %>

@@ -1,4 +1,6 @@
 require 'fileutils'
+require 'erb'
+require 'ostruct'
 
 module Howitzer
   class BaseGenerator
@@ -45,7 +47,25 @@ module Howitzer
     end
 
     def copy_templates(list)
-      #TODO implement me if it is require
+      list.each do |data|
+        destination_path = dest_path(data[:destination])
+        source_path = File.expand_path(data[:source], File.join(File.dirname(__FILE__)))
+        if File.exists?(destination_path)
+          puts_info("Conflict with '#{data[:destination]}' template")
+          print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
+          case gets.strip.downcase
+            when 'y'
+              write_template(destination_path, source_path, data[:params])
+              puts_info("    Forced '#{data[:destination]}' template")
+            when 'n' then nil
+              puts_info("    Skipped '#{data[:destination]}' template")
+            else nil
+          end
+        else
+          write_template(destination_path, source_path, data[:params])
+          puts_info "Copied template '#{data[:source]}' with params '#{data[:params]}' to destination '#{data[:destination]}'"
+        end
+      end
     end
 
     def print_banner
@@ -99,6 +119,14 @@ module Howitzer
       end
     rescue => e
       puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
+    end
+
+    def write_template(dest_path, source_path, params)
+      File.open(dest_path, 'w+'){|f| f.write(erb(File.open(source_path, 'r').read, params))}
+    end
+
+    def erb(template, vars)
+      ERB.new(template).result(OpenStruct.new(vars).instance_eval { binding })
     end
   end
 end
