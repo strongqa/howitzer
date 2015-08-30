@@ -25,7 +25,7 @@ The framework was built with modern patterns, techniques, and tools in automated
 - Independent of test web application, its technologies and languages.
 - Fast installation of the complete testing infrastructure (takes less than 5 minutes).
 - Flexible configuration of the test framework.
-- Possibility to choose between Cucumber or RSpec BDD tool.
+- Possibility to choose between Cucumber, RSpec or Turnip BDD tool.
 - Integration with SauceLabs, Testingbot, BrowserStack and MailGun web services.
 - Easy tests support.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
@@ -59,7 +59,7 @@ gem install howitzer
 ## Usage
 Browse to a desired directory where a new project will be created.
 
-To deploy the framework with Cucumber, type:
+To deploy the framework with [Cucumber](https://cucumber.io/), type:
 
 ```bash
 howitzer new <PROJECT NAME> --cucumber
@@ -90,10 +90,16 @@ Rakefile
 .gitignore
 ```
 
-With Rspec:
+With [Rspec](http://rspec.info/):
 
 ```bash
 howitzer new <PROJECT NAME> --rspec
+```
+
+With [Turnip](https://github.com/jnicklas/turnip):
+
+```bash
+howitzer new <PROJECT NAME> --turnip
 ```
 
 **Configuration**

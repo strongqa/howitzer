@@ -1,6 +1,8 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
+## [v2.0](https://github.com/strongqa/howitzer/compare/v1.1.0...v2.0)
 
 ### New Features
+- Added REST API prerequisites
+- Added Turnip supporting
 - Restricted using several bdd frameworks at the same time
 - Removed Opera browser supporting
 

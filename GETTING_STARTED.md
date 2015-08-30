@@ -677,21 +677,11 @@ In memory it looks like:
 }
 ```
 
-### Generator ####
+### Pre-Requisites ####
 
 This module uses standard methods for generating test data. 
-It has one standard data object for generation, because it is applicable to almost all tests:
 
-_DataGenerator::Gen::User._
-
-_DataGenerator::Gen::User_ has the params:
-
-:login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
-
-Use _Gen::user(params={})_ method to generate this object.
-
-Also you can reopen _Gen_ module to add your own objects for generation. You can use this module to generate some other data specific for your tests.
-When using Cucumber, create a Gen.rb file in the **/features/support** directory. When using Rspec, create a _Gen.rb_ file in the **/spec/support** directory.
+//TODO
 
 ### Cucumber Transformers ###
 
@@ -708,18 +698,15 @@ As unregistered user
 I want to register to the system
 
 Scenario: correct credentials
-Given Register page
-And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
+Given there is FACTORY_USER entity # it builds :user factory in _transformers.rb_ file.
+And I am on Register page
 When I put next register data and apply it
 
-|username            |email              |password            |
-|UNIQ_USER[:username]|UNIQ_USER[:email]  |UNIQ_USER[:password]|
+|username               |email                 |password               |
+|FACTORY_USER[:username]|FACTORY_USER[:email]  |FACTORY_USER[:password]|
 ```
 
-The last line will automatically replace `UNIQ_USER[:username]` for generated data which you can use.
-
-You can write your own transformers for other generated objects (that you will create in the DataGenerator::Gen module).
-
+The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
 ## Structure of RSpec Folder ##
 

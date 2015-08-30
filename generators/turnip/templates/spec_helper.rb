@@ -18,14 +18,15 @@ RSpec.configure do |config|
   config.color = true
 
   config.before(:all) do
+    log.print_feature_name(self.class.description.empty? ? self.class.metadata[:description] : self.class.description)
     if sauce_driver?
       suite_name = "#{(ENV['RAKE_TASK'] || 'CUSTOM').sub('rspec:', '').upcase} #{settings.sl_browser_name.upcase}"
       Capybara.drivers[:sauce][].options[:desired_capabilities][:name] = suite_name
     end
   end
 
-  config.before(:each) do
-    log.print_scenario_name(RSpec.current_example.description.empty? ? RSpec.current_example.metadata[:full_description] : RSpec.current_example.description)
+  config.before(:type => :feature) do
+    log.print_scenario_name(self.class.description.empty? ? self.class.metadata[:description] : self.class.description)
     @session_start = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
   end
 
@@ -37,7 +38,7 @@ RSpec.configure do |config|
     elsif ie_browser?
       log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
-    end  
+    end
   end
 
   config.after(:suite) do

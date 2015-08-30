@@ -94,6 +94,28 @@ Feature: Howitzer CLI Update Existing Project
     """
     And the exit status should be 0
 
+  Scenario: Run with update command when turnip based project present
+    Given created old howitzer project based on turnip
+    When I run `howitzer update`
+    Then the output should contain:
+    """
+      * Config files generation ...
+          Identical 'config/custom.yml' file
+          Identical 'config/default.yml' file
+      * Root files generation ...
+          Added '.gitignore' file
+          Identical 'Gemfile' file
+          Identical 'Rakefile' file
+          Identical 'boot.rb' file
+      * Turnip integration to the framework ...
+          Added '.rspec' file
+          Identical 'spec/spec_helper.rb' file
+          Identical 'spec/turnip_helper.rb' file
+          Identical 'spec/acceptance/example.feature' file
+          Identical 'spec/steps/common_steps.rb' file
+    """
+    And the exit status should be 0
+
   Scenario: Run with update command when project missing
     When I run `howitzer update`
     Then the output should contain:
