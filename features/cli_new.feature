@@ -69,15 +69,12 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
-<<<<<<< HEAD
-          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false}' to destination 'Gemfile'
-=======
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
           Added 'prerequisites/her.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/user.rb' file
->>>>>>> v2.0
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
@@ -129,15 +126,12 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
-<<<<<<< HEAD
-          Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false}' to destination 'Gemfile'
-=======
+          Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
           Added 'prerequisites/her.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/user.rb' file
->>>>>>> v2.0
       * Cucumber integration to the framework ...
           Added 'features/step_definitions/common_steps.rb' file
           Added 'features/support/env.rb' file
@@ -193,9 +187,9 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added 'Gemfile' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+          Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
           Added 'prerequisites/her.rb' file
@@ -299,15 +293,12 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
-<<<<<<< HEAD
-          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false}' to destination 'Gemfile'
-=======
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
           Added 'prerequisites/her.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/user.rb' file
->>>>>>> v2.0
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file

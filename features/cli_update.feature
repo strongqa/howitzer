@@ -96,7 +96,8 @@ Feature: Howitzer CLI Update Existing Project
 
   Scenario: Run with update command when turnip based project present
     Given created old howitzer project based on turnip
-    When I run `howitzer update`
+    When I run `howitzer update` interactively
+    And I type "y"
     Then the output should contain:
     """
       * Config files generation ...
@@ -104,9 +105,10 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/default.yml' file
       * Root files generation ...
           Added '.gitignore' file
-          Identical 'Gemfile' file
           Identical 'Rakefile' file
           Identical 'boot.rb' file
+          Conflict with 'Gemfile' template
+            Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * Turnip integration to the framework ...
           Added '.rspec' file
           Identical 'spec/spec_helper.rb' file

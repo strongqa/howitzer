@@ -30,30 +30,18 @@ module HowitzerCli
         Dir.mkdir(path_to_dir)
         puts "      Created new './#{args.first}' folder"
         Dir.chdir(path_to_dir)
-<<<<<<< HEAD
         Howitzer::ConfigGenerator.new(options)
         Howitzer::PagesGenerator.new(options)
         Howitzer::TasksGenerator.new(options)
         Howitzer::EmailsGenerator.new(options)
         Howitzer::RootGenerator.new(options)
+        Howitzer::PrerequisitesGenerator.new(options)
         if options[:cucumber]
           Howitzer::CucumberGenerator.new(options)
         elsif options[:rspec]
           Howitzer::RspecGenerator.new(options)
-=======
-        Howitzer::ConfigGenerator.new
-        Howitzer::PagesGenerator.new
-        Howitzer::TasksGenerator.new
-        Howitzer::EmailsGenerator.new
-        Howitzer::RootGenerator.new
-        Howitzer::PrerequisitesGenerator.new
-        if options['cucumber']
-          Howitzer::CucumberGenerator.new
-        elsif options['rspec']
-          Howitzer::RspecGenerator.new
         elsif options['turnip']
-          Howitzer::TurnipGenerator.new
->>>>>>> v2.0
+          Howitzer::TurnipGenerator.new(options)
         end
         puts "[WARN] Extra parameters were skipped" if args.size > 1
       elsif args.size.zero?
@@ -67,7 +55,6 @@ module HowitzerCli
     c.action do
         check_project_presence
         load_generators
-<<<<<<< HEAD
         Howitzer::ConfigGenerator.new({})
         if cucumber_integrated?
           Howitzer::RootGenerator.new({cucumber: true})
@@ -75,14 +62,10 @@ module HowitzerCli
         elsif rspec_integrated?
           Howitzer::RootGenerator.new({rspec: true})
           Howitzer::RspecGenerator.new({})
+        elsif turnip_integrated?
+          Howitzer::RootGenerator.new({turnip: true})
+          Howitzer::TurnipGenerator.new({})
         end
-=======
-        Howitzer::ConfigGenerator.new
-        Howitzer::RootGenerator.new
-        Howitzer::CucumberGenerator.new if cucumber_integrated?
-        Howitzer::RspecGenerator.new if rspec_integrated?
-        Howitzer::TurnipGenerator.new if turnip_integrated?
->>>>>>> v2.0
     end
   end
 
