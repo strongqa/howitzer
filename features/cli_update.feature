@@ -16,12 +16,12 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'Rakefile' file
           Conflict with 'boot.rb' file
             Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
+          Conflict with 'Gemfile' template
+            Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * RSpec integration to the framework ...
           Identical 'spec/spec_helper.rb' file
           Identical 'spec/example_spec.rb' file
           Identical 'tasks/rspec.rake' file
-          Conflict with 'Gemfile' file
-            Overwrite 'Gemfile' file? [Yn]:          Skipped 'Gemfile' file
     """
     And the exit status should be 0
     When I run `howitzer update` interactively
@@ -35,12 +35,12 @@ Feature: Howitzer CLI Update Existing Project
           Identical '.gitignore' file
           Identical 'Rakefile' file
           Identical 'boot.rb' file
+          Conflict with 'Gemfile' template
+            Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * RSpec integration to the framework ...
           Identical 'spec/spec_helper.rb' file
           Identical 'spec/example_spec.rb' file
           Identical 'tasks/rspec.rake' file
-          Conflict with 'Gemfile' file
-            Overwrite 'Gemfile' file? [Yn]:          Forced 'Gemfile' file
     """
     And the exit status should be 0
 
@@ -60,6 +60,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'Rakefile' file
           Conflict with 'boot.rb' file
             Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
+          Conflict with 'Gemfile' template
+            Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * Cucumber integration to the framework ...
           Identical 'features/step_definitions/common_steps.rb' file
           Identical 'features/support/env.rb' file
@@ -67,8 +69,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
           Identical 'config/cucumber.yml' file
-          Conflict with 'Gemfile' file
-            Overwrite 'Gemfile' file? [Yn]:          Skipped 'Gemfile' file
     """
     And the exit status should be 0
     When I run `howitzer update` interactively
@@ -82,6 +82,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical '.gitignore' file
           Identical 'Rakefile' file
           Identical 'boot.rb' file
+          Conflict with 'Gemfile' template
+            Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * Cucumber integration to the framework ...
           Identical 'features/step_definitions/common_steps.rb' file
           Identical 'features/support/env.rb' file
@@ -89,8 +91,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
           Identical 'config/cucumber.yml' file
-          Conflict with 'Gemfile' file
-            Overwrite 'Gemfile' file? [Yn]:          Forced 'Gemfile' file
     """
     And the exit status should be 0
 

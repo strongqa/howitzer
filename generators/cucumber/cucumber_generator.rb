@@ -11,11 +11,7 @@ module Howitzer
           { source: 'example.feature', destination: 'features/example.feature'},
           { source: 'cucumber.rake', destination: 'tasks/cucumber.rake'},
           { source: 'cucumber.yml', destination: 'config/cucumber.yml'}
-        ],
-        templates:
-            [
-                { source: 'shared_templates/Gemfile.erb', params: {cucumber?: true}, destination: 'Gemfile' }
-            ]
+        ]
       }
     end
 

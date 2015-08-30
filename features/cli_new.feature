@@ -68,11 +68,11 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false}' to destination 'Gemfile'
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
           Added 'tasks/rspec.rake' file
-          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist
@@ -116,6 +116,7 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+          Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false}' to destination 'Gemfile'
       * Cucumber integration to the framework ...
           Added 'features/step_definitions/common_steps.rb' file
           Added 'features/support/env.rb' file
@@ -123,7 +124,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'features/example.feature' file
           Added 'tasks/cucumber.rake' file
           Added 'config/cucumber.yml' file
-          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist
@@ -187,11 +187,11 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added 'Rakefile' file
           Added 'boot.rb' file
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false}' to destination 'Gemfile'
       * RSpec integration to the framework ...
           Added 'spec/spec_helper.rb' file
           Added 'spec/example_spec.rb' file
           Added 'tasks/rspec.rake' file
-          Added 'Gemfile' file
 
     """
     Then a directory named "test_automation" should exist

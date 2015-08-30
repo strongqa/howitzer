@@ -8,10 +8,6 @@ module Howitzer
           { source: 'spec_helper.rb', destination: 'spec/spec_helper.rb'},
           { source: 'example_spec.rb', destination: 'spec/example_spec.rb'},
           { source: 'rspec.rake', destination: 'tasks/rspec.rake'}
-        ],
-        templates:
-        [
-          { source: 'shared_templates/Gemfile.erb', params: {rspec?: true}, destination: 'Gemfile' }
         ]
       }
     end

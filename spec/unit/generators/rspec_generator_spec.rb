@@ -6,7 +6,7 @@ RSpec.describe 'Generators' do
   subject { file_tree_info(destination) }
   before do
     Howitzer::BaseGenerator.logger = output
-    generator_name.new
+    generator_name.new({rspec: true})
   end
   after { FileUtils.rm_r(destination) }
 
@@ -14,7 +14,6 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::RspecGenerator }
     let(:expected_result) do
       [
-          {:name=> '/Gemfile', :is_directory=>false, :size=>template_file_size('rspec', 'Gemfile')},
           {:name=> '/spec', :is_directory=>true},
           {:name=> '/spec/example_spec.rb', :is_directory=>false, :size=>template_file_size('rspec', 'example_spec.rb')},
           {:name=> '/spec/spec_helper.rb', :is_directory=>false, :size=>template_file_size('rspec', 'spec_helper.rb')},
@@ -28,8 +27,7 @@ RSpec.describe 'Generators' do
         "  * RSpec integration to the framework ...
       Added 'spec/spec_helper.rb' file
       Added 'spec/example_spec.rb' file
-      Added 'tasks/rspec.rake' file
-      Added 'Gemfile' file\n"
+      Added 'tasks/rspec.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

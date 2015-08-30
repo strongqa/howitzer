@@ -1,6 +1,7 @@
 require 'fileutils'
 require 'erb'
 require 'ostruct'
+require 'active_support/core_ext/hash'
 
 module Howitzer
   class BaseGenerator
@@ -8,7 +9,8 @@ module Howitzer
       attr_accessor :logger, :destination
     end
 
-    def initialize
+    def initialize(options)
+      @options = options.symbolize_keys
       print_banner
       manifest.each do |type, list|
         case type
@@ -49,21 +51,21 @@ module Howitzer
     def copy_templates(list)
       list.each do |data|
         destination_path = dest_path(data[:destination])
-        source_path = File.expand_path(data[:source], File.join(File.dirname(__FILE__)))
+        source_path = source_path(data[:source])
         if File.exists?(destination_path)
           puts_info("Conflict with '#{data[:destination]}' template")
           print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
           case gets.strip.downcase
             when 'y'
-              write_template(destination_path, source_path, data[:params])
+              write_template(destination_path, source_path)
               puts_info("    Forced '#{data[:destination]}' template")
             when 'n' then nil
               puts_info("    Skipped '#{data[:destination]}' template")
             else nil
           end
         else
-          write_template(destination_path, source_path, data[:params])
-          puts_info "Copied template '#{data[:source]}' with params '#{data[:params]}' to destination '#{data[:destination]}'"
+          write_template(destination_path, source_path)
+          puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
         end
       end
     end
@@ -121,12 +123,10 @@ module Howitzer
       puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
     end
 
-    def write_template(dest_path, source_path, params)
-      File.open(dest_path, 'w+'){|f| f.write(erb(File.open(source_path, 'r').read, params))}
-    end
-
-    def erb(template, vars)
-      ERB.new(template).result(OpenStruct.new(vars).instance_eval { binding })
+    def write_template(dest_path, source_path)
+      File.open(dest_path, 'w+'){|f| f.write(
+          ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding })
+      )}
     end
   end
 end

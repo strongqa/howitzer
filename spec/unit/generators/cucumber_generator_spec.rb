@@ -6,7 +6,7 @@ RSpec.describe 'Generators' do
   subject { file_tree_info(destination) }
   before do
     Howitzer::BaseGenerator.logger = output
-    generator_name.new
+    generator_name.new({cucumber: true})
   end
   after { FileUtils.rm_r(destination) }
 
@@ -14,7 +14,6 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::CucumberGenerator }
     let(:expected_result) do
       [
-          {:name=> '/Gemfile', :is_directory=>false, :size=>template_file_size('cucumber', 'Gemfile')},
           {:name=> '/config', :is_directory=>true},
           {:name=> '/config/cucumber.yml', :is_directory=>false, :size=>template_file_size('cucumber', 'cucumber.yml')},
           {:name=> '/features', :is_directory=>true},
@@ -37,8 +36,7 @@ RSpec.describe 'Generators' do
       Added 'features/support/transformers.rb' file
       Added 'features/example.feature' file
       Added 'tasks/cucumber.rake' file
-      Added 'config/cucumber.yml' file
-      Added 'Gemfile' file\n"
+      Added 'config/cucumber.yml' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }
