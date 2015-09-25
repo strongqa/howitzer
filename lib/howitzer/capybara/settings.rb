@@ -335,7 +335,3 @@ module Capybara
 
   end
 end
-
-# @deprecated
-#
-CapybaraSettings = Capybara::Settings
