@@ -50,8 +50,8 @@ RSpec.configure do |config|
 
   at_exit do
     if sauce_driver?
-      log.info "SAUCE SERVER LOG URL: #{CapybaraSettings.sauce_resource_path('selenium-server.log')}"
-      CapybaraSettings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
+      log.info "SAUCE SERVER LOG URL: #{Capybara::Settings.sauce_resource_path('selenium-server.log')}"
+      Capybara::Settings.update_sauce_job_status(passed: DataStorage.extract('sauce', :status))
     end
   end
 end
