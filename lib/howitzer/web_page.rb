@@ -7,7 +7,6 @@ require 'howitzer/exceptions'
 
 class WebPage
 
-  BLANK_PAGE = 'about:blank' # @deprecated , use BlankPage instead
   UnknownPage = Class.new
 
   include LocatorStore
@@ -174,59 +173,6 @@ class WebPage
   def js_click(css_locator)
     page.execute_script("$('#{css_locator}').trigger('click')")
     sleep settings.timeout_tiny
-  end
-
-  # @deprecated
-  # With Capybara 2.x it is extra
-  #:nocov:
-  def wait_for_ajax(timeout=settings.timeout_small, message=nil)
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      return true if page.evaluate_script('$.active') == 0
-      sleep 0.25
-    end
-    log.error message || 'Timed out waiting for ajax requests to complete'
-  end
-  #:nocov:
-
-  ##
-  # @deprecated
-  #
-  # Waits until web page is loaded
-  #
-  # *Parameters:*
-  # * +expected_url+ - Url that will be waiting for
-  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
-  #
-
-  def wait_for_url(expected_url, timeout=settings.timeout_small)
-    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      operator = expected_url.is_a?(Regexp) ? :=~ : :==
-      return true if current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
-    end
-    log.error Howitzer::IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
-  end
-
-  ##
-  # @deprecated
-  #
-  # Waits until web is loaded with expected title
-  #
-  # *Parameters:*
-  # * +expected_title+ - Page title that will be waited for
-  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
-  #
-
-  def wait_for_title(expected_title, timeout=settings.timeout_small)
-    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      operator = expected_title.is_a?(Regexp) ? :=~ : :==
-      return true if title.send(operator, expected_title).tap{|res| sleep 1 unless res}
-    end
-    log.error Howitzer::IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
   end
 
   ##
