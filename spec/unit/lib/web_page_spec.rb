@@ -283,50 +283,6 @@ RSpec.describe 'WebPage' do
 
   end
 
-  describe '#wait_for_title' do
-    subject { WebPage.instance.wait_for_title(expected_title) }
-    before do
-      allow(settings).to receive(:timeout_small) { 0.1 }
-      allow(WebPage.instance).to receive(:title) { 'title' }
-    end
-    context 'when title equals expected title' do
-      let(:expected_title) { 'title' }
-      it do
-        is_expected.to be_truthy
-      end
-    end
-    context 'when title not equals expected title' do
-      let(:expected_title) { 'bad title' }
-      let(:error) { Howitzer::IncorrectPageError }
-      let(:error_message) { 'Current title: title, expected:  bad title' }
-      it do
-        expect(log).to receive(:error).with(error,error_message).once.and_call_original
-        expect { subject }.to raise_error(error)
-      end
-    end
-  end
-
-  describe '#wait_for_url' do
-    subject { WebPage.instance.wait_for_url(expected_url) }
-    before do
-      allow(settings).to receive(:timeout_small) { 0.1 }
-      allow(WebPage.instance).to receive(:current_url) { 'google.com' }
-    end
-    context 'when current_url equals expected_url' do
-      let(:expected_url) { 'google.com' }
-      it { is_expected.to be_truthy }
-    end
-    context 'when current_url not equals expected_url' do
-      let(:expected_url) { 'bad_url' }
-      let(:error) { Howitzer::IncorrectPageError }
-      let(:error_message) { "Current url: google.com, expected:  #{expected_url}"  }
-      it do
-        expect(log).to receive(:error).with(error, error_message).once.and_call_original
-        expect { subject }.to raise_error(error)
-      end
-    end
-  end
-
   describe '#reload' do
     let(:wait_for_url) { double }
     subject { WebPage.instance.reload }
