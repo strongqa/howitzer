@@ -6,7 +6,7 @@ RSpec.describe 'Generators' do
   subject { file_tree_info(destination) }
   before do
     Howitzer::BaseGenerator.logger = output
-    generator_name.new
+    generator_name.new({turnip: true})
   end
   after { FileUtils.rm_r(destination) }
 

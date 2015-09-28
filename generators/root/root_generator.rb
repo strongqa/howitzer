@@ -6,9 +6,12 @@ module Howitzer
       { files:
         [
           { source: '.gitignore', destination: '.gitignore'},
-          { source: 'Gemfile', destination: 'Gemfile'},
           { source: 'Rakefile', destination: 'Rakefile'},
           { source: 'boot.rb', destination: 'boot.rb'}
+        ],
+        templates:
+        [
+          { source: 'Gemfile.erb', destination: 'Gemfile' }
         ]
       }
     end

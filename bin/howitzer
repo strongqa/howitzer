@@ -30,18 +30,18 @@ module HowitzerCli
         Dir.mkdir(path_to_dir)
         puts "      Created new './#{args.first}' folder"
         Dir.chdir(path_to_dir)
-        Howitzer::ConfigGenerator.new
-        Howitzer::PagesGenerator.new
-        Howitzer::TasksGenerator.new
-        Howitzer::EmailsGenerator.new
-        Howitzer::RootGenerator.new
-        Howitzer::PrerequisitesGenerator.new
-        if options['cucumber']
-          Howitzer::CucumberGenerator.new
-        elsif options['rspec']
-          Howitzer::RspecGenerator.new
+        Howitzer::ConfigGenerator.new(options)
+        Howitzer::PagesGenerator.new(options)
+        Howitzer::TasksGenerator.new(options)
+        Howitzer::EmailsGenerator.new(options)
+        Howitzer::RootGenerator.new(options)
+        Howitzer::PrerequisitesGenerator.new(options)
+        if options[:cucumber]
+          Howitzer::CucumberGenerator.new(options)
+        elsif options[:rspec]
+          Howitzer::RspecGenerator.new(options)
         elsif options['turnip']
-          Howitzer::TurnipGenerator.new
+          Howitzer::TurnipGenerator.new(options)
         end
         puts "[WARN] Extra parameters were skipped" if args.size > 1
       elsif args.size.zero?
@@ -55,11 +55,17 @@ module HowitzerCli
     c.action do
         check_project_presence
         load_generators
-        Howitzer::ConfigGenerator.new
-        Howitzer::RootGenerator.new
-        Howitzer::CucumberGenerator.new if cucumber_integrated?
-        Howitzer::RspecGenerator.new if rspec_integrated?
-        Howitzer::TurnipGenerator.new if turnip_integrated?
+        Howitzer::ConfigGenerator.new({})
+        if cucumber_integrated?
+          Howitzer::RootGenerator.new({cucumber: true})
+          Howitzer::CucumberGenerator.new({})
+        elsif rspec_integrated?
+          Howitzer::RootGenerator.new({rspec: true})
+          Howitzer::RspecGenerator.new({})
+        elsif turnip_integrated?
+          Howitzer::RootGenerator.new({turnip: true})
+          Howitzer::TurnipGenerator.new({})
+        end
     end
   end
 
