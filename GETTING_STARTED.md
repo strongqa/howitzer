@@ -496,7 +496,7 @@ This is how a custom class might look like:
 Logging
 -------
 
-*Howitzer* allows logging to the text file, HTML and output to the console.
+*Howitzer* allows logging to HTML and output to the console.
 
 ### BUILT-IN logging ###
 
@@ -550,7 +550,7 @@ cucumber -format html -out =./log/log.html
 
 ### Extended Logging ###
 
-The Extended logging in a text file and in the console is also available.
+The Extended logging in the console is also available.
 It uses the _log manager_ provided by the **_log_** method.
 
 _Howitzer_ supports 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
@@ -578,7 +578,6 @@ Logs are generated and saved in the **log** _directory_.
 
 ```bash
  / log
-     log.txt
      log.html
      TEST-(your-feature-name). Xml
 ```
@@ -616,6 +615,11 @@ class TestEmail < Email
   end
 end
 ```
+
++### Text logging ###
++If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
++    ls -l 2>&1 | tee file.txt
++It will log BOTH stdout and stderr from ls to file.txt.
 
 ## Data Generators ##
 

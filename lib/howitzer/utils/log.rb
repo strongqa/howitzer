@@ -93,7 +93,6 @@ module Howitzer
       @logger = Logger.new("ruby_log")
       @logger.add(console_log)
       @logger.add(error_log)
-      @logger.add(txt_log) if !settings.log_dir.to_s.empty? && !settings.txt_log.to_s.empty?
       self.base_formatter = default_formatter
       Logger["ruby_log"].level = settings.debug_mode ? ALL : INFO
       Logger["ruby_log"].trace = true
@@ -111,12 +110,6 @@ module Howitzer
 
     def error_log
       StderrOutputter.new(:error, 'level' => ERROR)
-    end
-
-    def txt_log
-      FileUtils.mkdir_p(settings.log_dir) unless File.exists?(settings.log_dir)
-      filename = File.join(settings.log_dir, settings.txt_log)
-      FileOutputter.new(:txt_log, :filename => filename, :trunc => true)
     end
 
     def blank_formatter
