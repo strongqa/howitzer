@@ -1,8 +1,4 @@
 require 'spec_helper'
-require 'howitzer/email'
-require 'howitzer/utils/log'
-require 'howitzer/exceptions'
-require 'howitzer/mailgun/connector'
 require 'howitzer/mail_adapters/abstract'
 
 RSpec.describe MailAdapters::Abstract do

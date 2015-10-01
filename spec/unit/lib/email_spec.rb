@@ -24,7 +24,7 @@ RSpec.describe 'Email' do
 
     context 'when adapter_name is Symbol or String' do
       let(:name) {settings.mail_adapter}
-      it { expect(Email.adapter).to eql ::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize)}
+      it { expect(Email.adapter).to eql ::MailAdapters.const_get(name.to_s.capitalize)}
     end
 
     context 'when adapter_name is not Symbol or String' do
@@ -45,10 +45,8 @@ RSpec.describe 'Email' do
   describe '.find' do
     let(:recipient) { 'test@user.com' }
     subject { Email.find(recipient, message_subject) }
-    it do
-      expect(Email.adapter).to receive(:find).with(recipient, message_subject).once
-      subject
-    end
+    before { expect(Email.adapter).to receive(:find).with(recipient, message_subject).once {true}}
+    it { is_expected.to eq(true) }
   end
 
 end
