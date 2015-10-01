@@ -1,8 +1,9 @@
 module MailAdapters
   class Abstract
+
     attr_reader :message
 
-    def self.find
+    def self.find(recipient, subject)
       raise NotImplementedError
     end
 

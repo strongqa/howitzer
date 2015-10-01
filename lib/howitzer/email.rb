@@ -39,7 +39,7 @@ class Email
         require "howitzer/mail_adapters/#{adapter_name}"
         @adapter = ::MailAdapters.const_get("#{adapter_name.to_s.capitalize}")
       else
-        raise "Missing adapter #{adapter_name}" #TODO own exception class
+        raise Howitzer::NoAdapterError
     end
   end
 

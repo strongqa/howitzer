@@ -4,7 +4,8 @@ require 'howitzer/mail_adapters/abstract'
 
 module MailAdapters
   class Mailgun < Abstract
-    def self.find
+
+    def self.find(recipient, subject)
       message = {}
       retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: ::Howitzer::EmailNotFoundError) do
         events = ::Mailgun::Connector.instance.client.get("#{::Mailgun::Connector.instance.domain}/events", event: 'stored')
@@ -57,5 +58,6 @@ module MailAdapters
       end
       files
     end
+
   end
 end
