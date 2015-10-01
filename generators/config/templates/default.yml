@@ -106,8 +106,9 @@
  required_clean_logs: true
 
 ###########################################################
-# MAILGUN SETTINGS                                        #
+# MAIL SETTINGS                                           #
 ###########################################################
+ mail_adapter: mailgun
  mailgun_key: mailgun_account_private_key
  mailgun_domain: mailgun_domain_with_stored_method
 

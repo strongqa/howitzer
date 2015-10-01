@@ -15,4 +15,5 @@ module Howitzer
   SelBrowserNotSpecifiedError = Class.new(StandardError)
   IncorrectPageError = Class.new(StandardError)
   AmbiguousPageMatchingError = Class.new(StandardError)
+  NoMailAdapterError = Class.new(StandardError)
 end
