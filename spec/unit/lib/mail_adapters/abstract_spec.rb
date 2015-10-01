@@ -2,9 +2,16 @@ require 'spec_helper'
 require 'howitzer/mail_adapters/abstract'
 
 RSpec.describe MailAdapters::Abstract do
+  let(:recipient){ 'first_tester@gmail.com' }
+  let(:message_subject){ 'test subject' }
   let(:message) { double(:message) }
   let(:abstract_adapter) { described_class.new(message) }
   let(:email_object){ Email.adapter.new(message) }
+
+  describe '.find' do
+    subject { described_class.find(recipient, message_subject) }
+    it { expect{subject}.to raise_error(NotImplementedError)}
+  end
 
   describe '#new' do
     context 'when Email instance receive message and add create @message variable that' do
