@@ -29,7 +29,7 @@ RSpec.describe 'Email' do
 
     context 'when adapter_name is not Symbol or String' do
       let(:name) {nil}
-      it { expect { subject }.to raise_error(Howitzer::NoAdapterError)}
+      it { expect { subject }.to raise_error(Howitzer::NoMailAdapterError)}
     end
   end
 
