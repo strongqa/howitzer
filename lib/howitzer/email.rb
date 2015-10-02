@@ -4,6 +4,8 @@ require 'howitzer/exceptions'
 class Email
   include RSpec::Matchers
 
+  attr_reader :message
+
   ##
   #
   # Return mail adapter class
@@ -65,7 +67,83 @@ class Email
   #
 
   def self.find(recipient, subject)
-    adapter.find(recipient, subject)
+    new(adapter.find(recipient, subject))
+  end
+
+  def initialize(message)
+    @message = message
+  end
+
+  ##
+  #
+  # Returns plain text body of email message
+  #
+
+  def plain_text_body
+    message.plain_text_body
+  end
+
+  ##
+  #
+  # Returns html body of email message
+  #
+
+  def html_body
+    message.html_body
+  end
+
+  ##
+  #
+  # Returns mail text
+  #
+
+  def text
+    message.text
+  end
+
+  ##
+  #
+  # Returns who has send email data in format: User Name <user@email>
+  #
+
+  def mail_from
+    message.mail_from
+  end
+
+  ##
+  #
+  # Returns array of recipients who has received current email
+  #
+
+  def recipients
+    message.recipients
+  end
+
+  ##
+  #
+  # Returns email received time in format:
+  #
+
+  def received_time
+    message.received_time
+  end
+
+  ##
+  #
+  # Returns sender user email
+  #
+
+  def sender_email
+    message.sender_email
+  end
+
+  ##
+  #
+  # Allows to get email MIME attachment
+  #
+
+  def get_mime_part
+    message.get_mime_part
   end
 
 end
