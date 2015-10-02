@@ -14,7 +14,7 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::RootGenerator }
     let(:expected_result) do
       [
-          {:name=> '/Gemfile', :is_directory=>false, :size=>622},
+          {:name=> '/Gemfile', :is_directory=>false, :size=>609},
           {:name=> '/Rakefile', :is_directory=>false, :size=>template_file_size('root', 'Rakefile')},
           {:name=> '/boot.rb', :is_directory=>false, :size=>template_file_size('root', 'boot.rb')}
       ]
