@@ -6,6 +6,8 @@ require 'howitzer/exceptions'
 RSpec.describe 'Email' do
   let(:recipient){ 'first_tester@gmail.com' }
   let(:message_subject){ 'test subject' }
+  let(:message) { double(:message) }
+  let(:email_object){ Email.new(message) }
 
   before do
     stub_const('Email::SUBJECT', message_subject)
@@ -45,8 +47,80 @@ RSpec.describe 'Email' do
   describe '.find' do
     let(:recipient) { 'test@user.com' }
     subject { Email.find(recipient, message_subject) }
-    before { expect(Email.adapter).to receive(:find).with(recipient, message_subject).once {true}}
-    it { is_expected.to eq(true) }
+    it do
+      expect(Email.adapter).to receive(:find).with(recipient, message_subject).once
+      subject
+    end
+  end
+
+  describe '#new' do
+    context 'when Email instance receive message and add create @message variable that' do
+      it { expect(email_object.instance_variable_get(:@message)).to eql message}
+    end
+  end
+
+  describe '#plain_text_body' do
+    subject { email_object.plain_text_body }
+    it do
+      expect(message).to receive(:plain_text_body).once
+      subject
+    end
+  end
+
+  describe '#html_body' do
+    subject { email_object.html_body }
+    it do
+      expect(message).to receive(:html_body).once
+      subject
+    end
+  end
+
+  describe '#text' do
+    subject {email_object.text }
+    it do
+      expect(message).to receive(:text).once
+      subject
+    end
+  end
+
+  describe '#mail_from' do
+    subject { email_object.mail_from }
+    it do
+      expect(message).to receive(:mail_from).once
+      subject
+    end
+  end
+
+  describe '#recipients' do
+    subject { email_object.recipients }
+    it do
+      expect(message).to receive(:recipients).once
+      subject
+    end
+  end
+
+  describe '#received_time' do
+    subject { email_object.received_time }
+    it do
+      expect(message).to receive(:received_time).once
+      subject
+    end
+  end
+
+  describe '#sender_email' do
+    subject { email_object.sender_email }
+    it do
+      expect(message).to receive(:sender_email).once
+      subject
+    end
+  end
+
+  describe '#get_mime_part' do
+    subject { email_object.get_mime_part }
+    it do
+      expect(message).to receive(:get_mime_part).once
+      subject
+    end
   end
 
 end
