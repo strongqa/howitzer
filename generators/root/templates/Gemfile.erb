@@ -11,14 +11,13 @@ gem 'howitzer'
 # gem 'poltergeist'
 gem 'rest-client'
 gem 'repeater'
-gem 'syntax'
 gem 'her'
 gem 'factory_girl'
 <% if cucumber %>
+gem 'syntax'
 gem 'cucumber', '~>2.0'
 <% elsif rspec %>
 gem 'rspec', '~>3.2'
 <% elsif turnip %>
 gem 'turnip'
-gem 'cucumber'
 <% end %>
