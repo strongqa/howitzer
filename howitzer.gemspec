@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '~>1.1.10'
-  gem.add_runtime_dependency 'capybara'
+  gem.add_runtime_dependency 'capybara', ['>= 2.1', '< 3.0']
   gem.add_runtime_dependency 'selenium-webdriver'
   gem.add_runtime_dependency 'activesupport', '~>4.2'
   gem.add_runtime_dependency 'gli'
