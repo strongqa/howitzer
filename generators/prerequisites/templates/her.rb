@@ -4,7 +4,7 @@ require 'her'
 class TestTokenAuthentication < Faraday::Middleware
   def call(env)
     if settings.test_api_token.present?
-      env[:request_headers]["Authorization"] = "Token token=#{settings.test_api_token}"
+      env[:request_headers]['Authorization'] = "Token token=#{settings.test_api_token}"
     end
     @app.call(env)
   end

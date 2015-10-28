@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/helpers'
 
 RSpec.describe 'Helpers' do
-  let(:settings) { double('settings')}
+  let(:settings) { double('settings') }
   let(:selenium_driver) { false }
   let(:selenium_grid_driver) { false }
   let(:phantomjs_driver) { false }
@@ -13,16 +13,16 @@ RSpec.describe 'Helpers' do
     subject { sauce_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :sauce' do
-      let(:driver_setting) {:sauce}
-      it{ is_expected.to be_truthy }
+      let(:driver_setting) { :sauce }
+      it { is_expected.to be_truthy }
     end
     context 'when not :sauce' do
-      let(:driver_setting) {:phantomjs}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :phantomjs }
+      it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'sauce' }
-      it{ is_expected.to be true }
+      it { is_expected.to be true }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -37,16 +37,16 @@ RSpec.describe 'Helpers' do
     subject { testingbot_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :testingbot' do
-      let(:driver_setting) {:testingbot}
-      it{ is_expected.to be_truthy }
+      let(:driver_setting) { :testingbot }
+      it { is_expected.to be_truthy }
     end
     context 'when not :testingbot' do
-      let(:driver_setting) {:phantomjs}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :phantomjs }
+      it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'testingbot' }
-      it{ is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -61,20 +61,20 @@ RSpec.describe 'Helpers' do
     subject { phantomjs_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :phantomjs' do
-      let(:driver_setting) {:phantomjs}
-      it{ is_expected.to be_truthy }
+      let(:driver_setting) { :phantomjs }
+      it { is_expected.to be_truthy }
     end
     context 'when not :phantomjs' do
-      let(:driver_setting) {:selenium}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :selenium }
+      it { is_expected.to be_falsey }
     end
     context 'when :selenium_grid' do
-      let(:driver_setting) {:selenium_grid}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :selenium_grid }
+      it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'phantomjs' }
-      it{ is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -89,20 +89,20 @@ RSpec.describe 'Helpers' do
     subject { selenium_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :selenium' do
-      let(:driver_setting) {:selenium}
-      it{ is_expected.to be_truthy }
+      let(:driver_setting) { :selenium }
+      it { is_expected.to be_truthy }
     end
     context 'when :selenium_grid' do
-      let(:driver_setting) {:selenium_grid}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :selenium_grid }
+      it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) {:phantomjs}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :phantomjs }
+      it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'selenium' }
-      it{ is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -117,20 +117,20 @@ RSpec.describe 'Helpers' do
     subject { selenium_grid_driver? }
     before { allow(settings).to receive(:driver) { driver_setting } }
     context 'when :selenium_grid' do
-      let(:driver_setting) {:selenium_grid}
-      it{ is_expected.to be_truthy }
+      let(:driver_setting) { :selenium_grid }
+      it { is_expected.to be_truthy }
     end
     context 'when :selenium' do
-      let(:driver_setting) {:selenium}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :selenium }
+      it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) {:phantomjs}
-      it{ is_expected.to be_falsey }
+      let(:driver_setting) { :phantomjs }
+      it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
       let(:driver_setting) { 'selenium_grid' }
-      it{ is_expected.to be_truthy }
+      it { is_expected.to be_truthy }
     end
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
@@ -169,7 +169,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ie' do
@@ -342,9 +342,9 @@ RSpec.describe 'Helpers' do
 
   describe '#ff_browser?' do
     subject { ff_browser? }
-    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
-    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
+    before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?) { testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?) { selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
       context 'settings.sl_browser_name = :ff' do
@@ -368,7 +368,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :ff' do
@@ -576,9 +576,9 @@ RSpec.describe 'Helpers' do
 
   describe '#chrome_browser?' do
     subject { chrome_browser? }
-    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
-    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
+    before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?) { testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?) { selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { true }
@@ -599,7 +599,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :chrome' do
@@ -690,7 +690,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :chrome' do
@@ -717,9 +717,9 @@ RSpec.describe 'Helpers' do
 
   describe '#safari_browser?' do
     subject { safari_browser? }
-    before { allow(self).to receive(:sauce_driver?){ sauce_driver } }
-    before { allow(self).to receive(:testingbot_driver?){ testingbot_driver } }
-    before { allow(self).to receive(:selenium_grid_driver?){ selenium_grid_driver } }
+    before { allow(self).to receive(:sauce_driver?) { sauce_driver } }
+    before { allow(self).to receive(:testingbot_driver?) { testingbot_driver } }
+    before { allow(self).to receive(:selenium_grid_driver?) { selenium_grid_driver } }
     context 'when sauce_driver? is TRUE' do
       let(:sauce_driver) { true }
       let(:testingbot_driver) { true }
@@ -740,7 +740,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when sauce_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :safari' do
@@ -831,7 +831,7 @@ RSpec.describe 'Helpers' do
       end
     end
     context 'when selenium_driver? is FALSE' do
-      before { allow(self).to receive(:selenium_driver?){ selenium_driver} }
+      before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
         context 'settings.sel_browser = :safari' do
@@ -869,12 +869,12 @@ RSpec.describe 'Helpers' do
     context 'when login and password present' do
       let(:app_base_auth_login_setting) { 'alex' }
       let(:app_base_auth_pass_setting) { 'pa$$w0rd' }
-      it{ is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
+      it { is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
     end
     context 'when login and password blank' do
       let(:app_base_auth_login_setting) { '' }
       let(:app_base_auth_pass_setting) { '' }
-      it{ is_expected.to eq('http://redmine.strongqa.com') }
+      it { is_expected.to eq('http://redmine.strongqa.com') }
     end
   end
 
@@ -888,38 +888,38 @@ RSpec.describe 'Helpers' do
     let(:app_host_setting) { 'redmine.strongqa.com' }
     context 'when login and password present' do
       let(:prefix) { 'alex:pa$$w0rd@' }
-      it{ is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
+      it { is_expected.to eq('http://alex:pa$$w0rd@redmine.strongqa.com') }
     end
     context 'when login and password blank' do
       let(:prefix) { nil }
-      it{ is_expected.to eq('http://redmine.strongqa.com') }
+      it { is_expected.to eq('http://redmine.strongqa.com') }
     end
   end
 
   describe '#duration' do
     context 'when more than hour' do
-      it{ expect(duration(10000)).to eq('[2h 46m 40s]') }
+      it { expect(duration(10_000)).to eq('[2h 46m 40s]') }
     end
     context 'when 1 hour exactly' do
-      it{ expect(duration(3600)).to eq('[1h 0m 0s]') }
+      it { expect(duration(3600)).to eq('[1h 0m 0s]') }
     end
     context 'when 0 hours and more than minute' do
-      it{ expect(duration(2000)).to eq('[33m 20s]') }
+      it { expect(duration(2000)).to eq('[33m 20s]') }
     end
     context 'when 1 minute exactly' do
-      it{ expect(duration(60)).to eq('[1m 0s]') }
+      it { expect(duration(60)).to eq('[1m 0s]') }
     end
     context 'when less than minute' do
-      it{ expect(duration(45)).to eq('[0m 45s]') }
+      it { expect(duration(45)).to eq('[0m 45s]') }
     end
     context 'when zero' do
-      it{ expect(duration(0)).to eq('[0m 0s]') }
+      it { expect(duration(0)).to eq('[0m 0s]') }
     end
   end
 
   describe '#ri' do
     subject { ri 'boom' }
-    it { expect {subject}.to raise_error(RuntimeError, /boom/) }
+    it { expect { subject }.to raise_error(RuntimeError, /boom/) }
   end
 
   describe String do
@@ -936,7 +936,7 @@ RSpec.describe 'Helpers' do
     describe '#given' do
       subject { page_name.given }
       before do
-        allow(page_name).to receive(:as_page_class){ page_object }
+        allow(page_name).to receive(:as_page_class) { page_object }
         expect(page_object).to receive(:given).once
       end
       it { is_expected.to be_nil }
@@ -944,7 +944,7 @@ RSpec.describe 'Helpers' do
     describe '#wait_for_opened' do
       subject { page_name.wait_for_opened }
       before do
-        allow(page_name).to receive(:as_page_class){ page_object }
+        allow(page_name).to receive(:as_page_class) { page_object }
         expect(page_object).to receive(:wait_for_opened).once
       end
       it { is_expected.to be_nil }

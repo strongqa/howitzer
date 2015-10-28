@@ -5,9 +5,9 @@ module Howitzer
     def manifest
       { files:
         [
-          { source: '.gitignore', destination: '.gitignore'},
-          { source: 'Rakefile', destination: 'Rakefile'},
-          { source: 'boot.rb', destination: 'boot.rb'}
+          { source: '.gitignore', destination: '.gitignore' },
+          { source: 'Rakefile', destination: 'Rakefile' },
+          { source: 'boot.rb', destination: 'boot.rb' }
         ],
         templates:
         [
@@ -17,6 +17,7 @@ module Howitzer
     end
 
     protected
+
     def banner
       <<-EOF
   * Root files generation ...

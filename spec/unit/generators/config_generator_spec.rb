@@ -14,9 +14,9 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::ConfigGenerator }
     let(:expected_result) do
       [
-          {:name=> '/config', :is_directory=>true},
-          {:name=> '/config/custom.yml', :is_directory=>false, :size=>template_file_size('config', 'custom.yml')},
-          {:name=> '/config/default.yml', :is_directory=>false, :size=>template_file_size('config', 'default.yml')}
+        { name: '/config', is_directory: true },
+        { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
+        { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') }
       ]
     end
 

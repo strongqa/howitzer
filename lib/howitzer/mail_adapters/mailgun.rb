@@ -4,7 +4,6 @@ require 'howitzer/mail_adapters/abstract'
 
 module MailAdapters
   class Mailgun < Abstract
-
     def self.find(recipient, subject)
       message = {}
       retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: ::Howitzer::EmailNotFoundError) do
@@ -15,7 +14,7 @@ module MailAdapters
         if event
           message = ::Mailgun::Connector.instance.client.get("domains/#{::Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
         else
-          raise ::Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
+          fail ::Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
         end
       end
       log.error ::Howitzer::EmailNotFoundError, "Message with subject '#{subject}' for recipient '#{recipient}' was not found." if message.empty?
@@ -58,6 +57,5 @@ module MailAdapters
       end
       files
     end
-
   end
 end

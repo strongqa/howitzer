@@ -76,7 +76,7 @@ RSpec.describe 'WebPage' do
   describe '.current_page' do
     subject { WebPage.current_page }
     context 'when matched_pages has no pages' do
-      before { allow(WebPage).to receive(:matched_pages){ [] } }
+      before { allow(WebPage).to receive(:matched_pages) { [] } }
       it { is_expected.to eq(WebPage::UnknownPage) }
     end
     context 'when matched_pages has more than 1 page' do
@@ -85,7 +85,7 @@ RSpec.describe 'WebPage' do
       before do
         allow(WebPage).to receive(:current_url) { 'http://test.com' }
         allow(WebPage).to receive(:title) { 'Test site' }
-        allow(WebPage).to receive(:matched_pages){ [foo_page, bar_page] }
+        allow(WebPage).to receive(:matched_pages) { [foo_page, bar_page] }
       end
       it do
         expect(log).to receive(:error).with(
@@ -97,7 +97,7 @@ RSpec.describe 'WebPage' do
     end
     context 'when matched_pages has only 1 page' do
       let(:foo_page) { double(to_s: 'FooPage') }
-      before { allow(WebPage).to receive(:matched_pages){ [foo_page] } }
+      before { allow(WebPage).to receive(:matched_pages) { [foo_page] } }
       it { is_expected.to eq(foo_page) }
     end
   end
@@ -159,9 +159,9 @@ RSpec.describe 'WebPage' do
   end
 
   describe '#tinymce_fill_in' do
-    subject { WebPage.instance.tinymce_fill_in(name,options) }
+    subject { WebPage.instance.tinymce_fill_in(name, options) }
     let(:name) { 'name' }
-    let(:options) { {with: 'some content'} }
+    let(:options) { { with: 'some content' } }
     before do
       allow(WebPage.instance).to receive(:current_url) { 'google.com' }
       allow(settings).to receive(:driver) { driver_name }
@@ -280,7 +280,6 @@ RSpec.describe 'WebPage' do
       expect(page).to receive(:execute_script).with("$('.some_class').trigger('click')")
       subject
     end
-
   end
 
   describe '#reload' do

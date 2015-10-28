@@ -5,13 +5,14 @@ module Howitzer
     def manifest
       { files:
         [
-          { source: 'example_page.rb', destination: 'pages/example_page.rb'},
-          { source: 'example_menu.rb', destination: 'pages/example_menu.rb'}
+          { source: 'example_page.rb', destination: 'pages/example_page.rb' },
+          { source: 'example_menu.rb', destination: 'pages/example_menu.rb' }
         ]
       }
     end
 
     protected
+
     def banner
       <<-EOS
   * PageOriented pattern structure generation ...

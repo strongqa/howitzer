@@ -6,14 +6,13 @@ require 'howitzer/capybara/dsl_ex'
 require 'howitzer/exceptions'
 
 class WebPage
-
   UnknownPage = Class.new
 
   include LocatorStore
   include Howitzer::Utils::PageValidator
   include RSpec::Matchers
   include Howitzer::Capybara::DslEx
-  extend  Howitzer::Capybara::DslEx
+  extend Howitzer::Capybara::DslEx
   include Singleton
 
   def self.inherited(subclass)
@@ -33,7 +32,7 @@ class WebPage
   #
 
   def self.open(url = "#{app_url unless self == BlankPage}#{self::URL}")
-    log.info "Open #{self.name} page by '#{url}' url"
+    log.info "Open #{name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info 'Retry...' unless retries.zero?
       visit url
@@ -51,7 +50,7 @@ class WebPage
 
   def self.given
     wait_for_opened
-    self.instance
+    instance
   end
 
   ##
@@ -63,7 +62,7 @@ class WebPage
   #
 
   def self.url
-    self.current_url
+    current_url
   end
 
   ##
@@ -106,12 +105,10 @@ class WebPage
   # * +time_out+ - Seconds that will be waiting for web page to be loaded
   #
 
-  def self.wait_for_opened(timeout=settings.timeout_small)
+  def self.wait_for_opened(timeout = settings.timeout_small)
     end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      self.opened? ? return : sleep(0.5)
-    end
-    log.error Howitzer::IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+    self.opened? ? return : sleep(0.5) until ::Time.now > end_time
+    log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
 
   def initialize
@@ -129,7 +126,7 @@ class WebPage
   #
 
   def tinymce_fill_in(name, options = {})
-    if %w[selenium selenium_dev sauce].include? settings.driver
+    if %w(selenium selenium_dev sauce).include? settings.driver
       page.driver.browser.switch_to.frame("#{name}_ifr")
       page.find(:css, '#tinymce').native.send_keys(options[:with])
       page.driver.browser.switch_to.default_content
@@ -146,8 +143,8 @@ class WebPage
   # * +flag+ [TrueClass,FalseClass] - Determines accept or decline alert box
   #
 
-   def click_alert_box(flag)
-    if %w[selenium selenium_dev sauce].include? settings.driver
+  def click_alert_box(flag)
+    if %w(selenium selenium_dev sauce).include? settings.driver
       if flag
         page.driver.browser.switch_to.alert.accept
       else
@@ -160,7 +157,7 @@ class WebPage
         page.evaluate_script('window.confirm = function() { return false; }')
       end
     end
-  end
+ end
 
   ##
   #

@@ -10,7 +10,7 @@ RSpec.describe 'Gen' do
   end
 
   describe '#serial' do
-    subject { double.tap{ |s| s.extend(Gen)}.serial }
+    subject { double.tap { |s| s.extend(Gen) }.serial }
     context 'received value should conform to template' do
       it { is_expected.to match /\d{9}\w{5}/ }
     end

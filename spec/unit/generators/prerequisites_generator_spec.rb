@@ -14,13 +14,13 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::PrerequisitesGenerator }
     let(:expected_result) do
       [
-          {name: '/prerequisites', is_directory: true},
-          {name: '/prerequisites/factories', is_directory: true},
-          {name: '/prerequisites/factories/users.rb', is_directory: false, size: template_file_size('prerequisites', 'users.rb')},
-          {name: '/prerequisites/factory_girl.rb', is_directory: false, size: template_file_size('prerequisites', 'factory_girl.rb')},
-          {name: '/prerequisites/her.rb', is_directory: false, size: template_file_size('prerequisites', 'her.rb')},
-          {name: '/prerequisites/models', is_directory: true},
-          {name: '/prerequisites/models/user.rb', is_directory: false, size: template_file_size('prerequisites', 'user.rb')}
+        { name: '/prerequisites', is_directory: true },
+        { name: '/prerequisites/factories', is_directory: true },
+        { name: '/prerequisites/factories/users.rb', is_directory: false, size: template_file_size('prerequisites', 'users.rb') },
+        { name: '/prerequisites/factory_girl.rb', is_directory: false, size: template_file_size('prerequisites', 'factory_girl.rb') },
+        { name: '/prerequisites/her.rb', is_directory: false, size: template_file_size('prerequisites', 'her.rb') },
+        { name: '/prerequisites/models', is_directory: true },
+        { name: '/prerequisites/models/user.rb', is_directory: false, size: template_file_size('prerequisites', 'user.rb') }
       ]
     end
     it { is_expected.to eql(expected_result) }

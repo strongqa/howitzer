@@ -14,9 +14,9 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::PagesGenerator }
     let(:expected_result) do
       [
-          {:name=> '/pages', :is_directory=>true},
-          {:name=> '/pages/example_menu.rb', :is_directory=>false, :size=>template_file_size('pages', 'example_menu.rb')},
-          {:name=> '/pages/example_page.rb', :is_directory=>false, :size=>template_file_size('pages', 'example_page.rb')}
+        { name: '/pages', is_directory: true },
+        { name: '/pages/example_menu.rb', is_directory: false, size: template_file_size('pages', 'example_menu.rb') },
+        { name: '/pages/example_page.rb', is_directory: false, size: template_file_size('pages', 'example_page.rb') }
       ]
     end
     it { is_expected.to eql(expected_result) }

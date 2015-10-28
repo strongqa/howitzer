@@ -42,9 +42,9 @@ RSpec.describe Mailgun::Connector do
   describe '#domain' do
     subject { connector.domain }
     context 'when domain is not set' do
-      before { connector.instance_variable_set(:@domain, nil)}
+      before { connector.instance_variable_set(:@domain, nil) }
       it do
-        expect(connector).to receive(:change_domain).once{ domain_name }
+        expect(connector).to receive(:change_domain).once { domain_name }
         is_expected.to eq(domain_name)
       end
     end
@@ -60,7 +60,7 @@ RSpec.describe Mailgun::Connector do
   describe '#change_domain' do
     context 'when default' do
       before { connector.change_domain }
-      it { expect(connector.instance_variable_get(:@domain)).to eq(settings.mailgun_domain)}
+      it { expect(connector.instance_variable_get(:@domain)).to eq(settings.mailgun_domain) }
     end
     context 'when custom' do
       before { connector.change_domain(domain_name) }

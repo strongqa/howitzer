@@ -14,8 +14,8 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::TasksGenerator }
     let(:expected_result) do
       [
-          {:name=> '/tasks', :is_directory=>true},
-          {:name=> '/tasks/common.rake', :is_directory=>false, :size=>template_file_size('tasks', 'common.rake')}
+        { name: '/tasks', is_directory: true },
+        { name: '/tasks/common.rake', is_directory: false, size: template_file_size('tasks', 'common.rake') }
       ]
     end
     it { is_expected.to eql(expected_result) }

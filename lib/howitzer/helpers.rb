@@ -1,8 +1,7 @@
 require 'howitzer/exceptions'
 
 module Helpers
-
-  CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
+  CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'
 
   ##
   #
@@ -108,7 +107,7 @@ module Helpers
   # * +prefix+ - Sets base authentication prefix (defaults to: nil)
   #
 
-  def app_base_url(prefix=nil)
+  def app_base_url(prefix = nil)
     "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
   end
 
@@ -142,7 +141,7 @@ module Helpers
   #
 
   def ri(value)
-    raise value.inspect
+    fail value.inspect
   end
 
   private
@@ -159,13 +158,11 @@ module Helpers
       browser_aliases.include?(settings.sel_browser.to_s.to_sym)
     end
   end
-
 end
 
 include Helpers
 
 class String
-
   ##
   #
   # Delegates WebPage.open method. Useful in cucumber step definitions
@@ -215,7 +212,8 @@ class String
   end
 
   private
+
   def as_class(type)
-    "#{self.gsub(/\s/, '_').camelize}#{type}".constantize
+    "#{gsub(/\s/, '_').camelize}#{type}".constantize
   end
 end

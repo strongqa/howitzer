@@ -12,16 +12,16 @@ RSpec.describe Howitzer::Capybara::DslEx do
 
   describe '#find' do
     context 'when string argument with block' do
-      subject { test_page.find('foo'){ 'bar' } }
+      subject { test_page.find('foo') { 'bar' } }
       it do
         expect(test_page.page).to receive(:find).with('foo').and_yield.once
         subject
       end
     end
     context 'when first hash argument and second hash' do
-      subject { test_page.find({xpath: '//bar'}, {with: 'foo'}) }
+      subject { test_page.find({ xpath: '//bar' }, with: 'foo') }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=> 'foo'}).once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', with: 'foo').once
         subject
       end
     end
@@ -36,16 +36,16 @@ RSpec.describe Howitzer::Capybara::DslEx do
 
   describe '.find' do
     context 'when string argument with block' do
-      subject { test_page_klass.find('foo'){ 'bar' } }
+      subject { test_page_klass.find('foo') { 'bar' } }
       it do
         expect(test_page.page).to receive(:find).with('foo').and_yield.once
         subject
       end
     end
     context 'when first hash argument and second hash' do
-      subject { test_page_klass.find({xpath: '//bar'}, {with: 'foo'}) }
+      subject { test_page_klass.find({ xpath: '//bar' }, with: 'foo') }
       it do
-        expect(test_page.page).to receive(:find).with(:xpath, '//bar', {:with=> 'foo'}).once
+        expect(test_page.page).to receive(:find).with(:xpath, '//bar', with: 'foo').once
         subject
       end
     end

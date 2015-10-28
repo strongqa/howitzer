@@ -12,17 +12,17 @@ RSpec.describe 'DataStorage' do
       end
       it 'should store namespace value' do
         subject
-        expect(DataStorage.data[:user]).to eql({7 => :halt})
+        expect(DataStorage.data[:user]).to eql(7 => :halt)
       end
     end
     context 'when namespace empty' do
       let(:ns) { nil }
-      it { expect {subject}.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
+      it { expect { subject }.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
     end
   end
   describe '.extract' do
     subject { DataStorage.extract(ns, key) }
-    before { DataStorage.data[:user] = {7 => :exit} }
+    before { DataStorage.data[:user] = { 7 => :exit } }
     describe 'when namespace specified' do
       let(:ns) { :user }
       context 'and namespace key found' do
@@ -35,7 +35,7 @@ RSpec.describe 'DataStorage' do
       end
       context 'but namespace key not specified' do
         let(:key) { nil }
-        it { is_expected.to eql({ 7 => :exit }) }
+        it { is_expected.to eql(7 => :exit) }
       end
     end
     context 'when namespace not found' do
@@ -46,12 +46,12 @@ RSpec.describe 'DataStorage' do
     context 'when namespace not specified' do
       let(:ns) { nil }
       let(:key) { nil }
-      it { expect {subject}.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
+      it { expect { subject }.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
     end
   end
   describe '.clear_ns' do
     subject { DataStorage.clear_ns(:user) }
-    before { DataStorage.data[:user]= {7 => :exit}}
+    before { DataStorage.data[:user] = { 7 => :exit } }
     it 'should return empty hash' do
       subject
       data = DataStorage.instance_variable_get(:@data)
@@ -67,12 +67,12 @@ RSpec.describe 'DataStorage' do
     end
     context 'when default argument' do
       before { DataStorage.clear_all_ns }
-      it { expect(DataStorage.data).to eq({'sauce' =>{:status=>false}, :foo=>{}, :bar=>{}, :baz=>{}}) }
+      it { expect(DataStorage.data).to eq('sauce' => { status: false }, :foo => {}, :bar => {}, :baz => {}) }
     end
     context 'when custom argument' do
       let(:exception_list) { [:foo, :bar] }
       before { DataStorage.clear_all_ns(exception_list) }
-      it { expect(DataStorage.data).to eq({'sauce' =>{}, :foo=>{'foo' => 'some value1'}, :bar=>{'bar' => 'some value2'}, :baz=>{}}) }
+      it { expect(DataStorage.data).to eq('sauce' => {}, :foo => { 'foo' => 'some value1' }, :bar => { 'bar' => 'some value2' }, :baz => {}) }
     end
   end
 end

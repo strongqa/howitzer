@@ -9,11 +9,11 @@ RSpec.describe Mailgun::Client do
   end
 
   describe '#get' do
-    let(:query_string){ {'skip' => '10', 'limit' => '5'} }
+    let(:query_string) { { 'skip' => '10', 'limit' => '5' } }
     subject { mg_obj.get('test.com/bounces', query_string) }
     context 'when simulation of client' do
       before do
-        expect(RestClient::Resource).to receive(:new).once { Mailgun::UnitClient::new('Fake-API-Key', 'api.mailgun.net', 'v2') }
+        expect(RestClient::Resource).to receive(:new).once { Mailgun::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
       end
       it do
         expect(subject.body).to include('total_count')
@@ -23,7 +23,7 @@ RSpec.describe Mailgun::Client do
     context 'when real client' do
       let(:resource) { double }
       before do
-        allow(resource).to receive('[]'){ resource }
+        allow(resource).to receive('[]') { resource }
         allow(resource).to receive(:get).and_raise(StandardError, '401 Unauthorized: Forbidden')
         allow(RestClient::Resource).to receive(:new) { resource }
       end

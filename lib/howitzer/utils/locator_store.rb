@@ -1,26 +1,24 @@
 require 'howitzer/exceptions'
 
-#The following are locator aliases:
+# The following are locator aliases:
 #
-#1) locator
-#Type: :css(by default), :xpath
-#Method example: find, all, first
+# 1) locator
+# Type: :css(by default), :xpath
+# Method example: find, all, first
 #
-#2) link_locator
-#Type: id, text
-#Method example: click_link, find_link
+# 2) link_locator
+# Type: id, text
+# Method example: click_link, find_link
 #
-#3) button_locator
-#Type: id, name, value
-#Method example: click_button, find_button
+# 3) button_locator
+# Type: id, name, value
+# Method example: click_button, find_button
 #
-#4) field_locator
-#Type: name, id, text
-#Method example: find_field, fill_in
-
+# 4) field_locator
+# Type: name, id, text
+# Method example: find_field, fill_in
 
 module LocatorStore
-
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -179,7 +177,7 @@ module LocatorStore
       if !@locators.nil? && @locators.key?(self.name) && @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
         @locators[self.name][type][name]
       else
-        self.superclass.parent_locator(type, name) unless self.superclass == Object
+        superclass.parent_locator(type, name) unless superclass == Object
       end
     end
 
@@ -207,11 +205,10 @@ module LocatorStore
     end
   end
 
-  #delegate class methods to instance
+  # delegate class methods to instance
   ClassMethods.public_instance_methods.each do |name|
     define_method(name) do |*args|
       self.class.send(name, *args)
     end
   end
-
 end

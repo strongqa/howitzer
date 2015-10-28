@@ -6,7 +6,6 @@ module Mailgun
   # the JSON result.
 
   class Response
-
     attr_accessor :body
     attr_accessor :code
 

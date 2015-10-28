@@ -26,6 +26,7 @@ module Howitzer
     def manifest; end
 
     protected
+
     def banner; end
 
     def logger
@@ -40,7 +41,7 @@ module Howitzer
       list.each do |data|
         source_file = source_path(data[:source])
 
-        if File.exists?(source_file)
+        if File.exist?(source_file)
           copy_with_path(data)
         else
           puts_error("File '#{source_file}' was not found.")
@@ -52,7 +53,7 @@ module Howitzer
       list.each do |data|
         destination_path = dest_path(data[:destination])
         source_path = source_path(data[:source])
-        if File.exists?(destination_path)
+        if File.exist?(destination_path)
           puts_info("Conflict with '#{data[:destination]}' template")
           print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
           case gets.strip.downcase
@@ -88,7 +89,7 @@ module Howitzer
 
     def source_path(file_name)
       File.expand_path(
-          file_name, File.join(File.dirname(__FILE__), self.class.name.sub('Generator', '').sub('Howitzer::', '').downcase, 'templates')
+        file_name, File.join(File.dirname(__FILE__), self.class.name.sub('Generator', '').sub('Howitzer::', '').downcase, 'templates')
       )
     end
 
@@ -100,7 +101,7 @@ module Howitzer
       src = source_path(data[:source])
       dst = dest_path(data[:destination])
       FileUtils.mkdir_p(File.dirname(dst))
-      if File.exists?(dst)
+      if File.exist?(dst)
         if FileUtils.identical?(src, dst)
           puts_info("Identical '#{data[:destination]}' file")
         else
@@ -124,9 +125,11 @@ module Howitzer
     end
 
     def write_template(dest_path, source_path)
-      File.open(dest_path, 'w+'){|f| f.write(
+      File.open(dest_path, 'w+'){|f|
+        f.write(
           ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding })
-      )}
+        )
+      }
     end
   end
 end

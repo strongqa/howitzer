@@ -6,7 +6,7 @@ RSpec.describe 'Generators' do
   subject { file_tree_info(destination) }
   before do
     Howitzer::BaseGenerator.logger = output
-    generator_name.new({turnip: true})
+    generator_name.new(turnip: true)
   end
   after { FileUtils.rm_r(destination) }
 
@@ -14,13 +14,13 @@ RSpec.describe 'Generators' do
     let(:generator_name) { Howitzer::TurnipGenerator }
     let(:expected_result) do
       [
-          {:name=> '/spec', :is_directory=>true},
-          {:name=> '/spec/acceptance', :is_directory=>true},
-          {:name=> '/spec/acceptance/example.feature', :is_directory=>false, :size=>template_file_size('turnip', 'example.feature')},
-          {:name=> '/spec/spec_helper.rb', :is_directory=>false, :size=>template_file_size('turnip', 'spec_helper.rb')},
-          {:name=> '/spec/steps', :is_directory=>true},
-          {:name=> '/spec/steps/common_steps.rb', :is_directory=>false, :size=>template_file_size('turnip', 'common_steps.rb')},
-          {:name=> '/spec/turnip_helper.rb', :is_directory=>false, :size=>template_file_size('turnip', 'turnip_helper.rb')}
+        { name: '/spec', is_directory: true },
+        { name: '/spec/acceptance', is_directory: true },
+        { name: '/spec/acceptance/example.feature', is_directory: false, size: template_file_size('turnip', 'example.feature') },
+        { name: '/spec/spec_helper.rb', is_directory: false, size: template_file_size('turnip', 'spec_helper.rb') },
+        { name: '/spec/steps', is_directory: true },
+        { name: '/spec/steps/common_steps.rb', is_directory: false, size: template_file_size('turnip', 'common_steps.rb') },
+        { name: '/spec/turnip_helper.rb', is_directory: false, size: template_file_size('turnip', 'turnip_helper.rb') }
       ]
     end
     it { is_expected.to eql(expected_result) }

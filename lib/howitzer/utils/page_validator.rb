@@ -5,7 +5,7 @@ module Howitzer
     module PageValidator
       @validations = {}
 
-      def self.included(base)  #:nodoc:
+      def self.included(base) #:nodoc:
         base.extend(ClassMethods)
       end
 
@@ -48,15 +48,14 @@ module Howitzer
       end
 
       def old_url_validation_present?
-        if self.class.const_defined?("URL_PATTERN")
-          self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
+        if self.class.const_defined?('URL_PATTERN')
+          self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
           warn "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
           true
         end
       end
 
       module ClassMethods
-
         ##
         #
         # Adds validation to validation list
@@ -92,11 +91,11 @@ module Howitzer
         #
 
         def opened?
-          validation_list = PageValidator.validations[self.name]
+          validation_list = PageValidator.validations[name]
           if validation_list.blank?
-            log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.name}' page"
+            log.error Howitzer::NoValidationError, "No any page validation was found for '#{name}' page"
           else
-            !validation_list.any? {|(_, validation)| !validation.call(self)}
+            !validation_list.any? { |(_, validation)| !validation.call(self) }
           end
         end
 
@@ -109,25 +108,23 @@ module Howitzer
         #
 
         def matched_pages
-          PageValidator.pages.select{|klass| klass.opened? }
+          PageValidator.pages.select(&:opened?)
         end
 
         private
 
         def validate_element(options)
-          locator = options[:locator] || options["locator"]
+          locator = options[:locator] || options['locator']
           log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
-          PageValidator.validations[self.name][:element_presence] = lambda { |web_page| web_page.first_element(locator) }
+          PageValidator.validations[name][:element_presence] = ->(web_page) { web_page.first_element(locator) }
         end
 
         def validate_by_pattern(name, options)
-          pattern = options[:pattern] || options["pattern"]
+          pattern = options[:pattern] || options['pattern']
           log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
-          PageValidator.validations[self.name][name] = lambda { |web_page| pattern === web_page.send(name) }
+          PageValidator.validations[self.name][name] = ->(web_page) { pattern === web_page.send(name) }
         end
-
       end
     end
-
   end
 end

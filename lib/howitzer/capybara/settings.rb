@@ -14,7 +14,6 @@ module Capybara
     # * +Hash+ - Settings that can be changed
     #
 
-
     def self.base_ff_profile_settings
       profile = ::Selenium::WebDriver::Firefox::Profile.new
       profile['network.http.phishy-userpass-length'] = 255
@@ -26,10 +25,9 @@ module Capybara
     end
 
     class << self
-
       ##
       #
-      #Defines driver based on specified test environment settings
+      # Defines driver based on specified test environment settings
       #
 
       def define_driver
@@ -58,27 +56,28 @@ module Capybara
       end
 
       private
+
       def define_selenium_grid_driver
         Capybara.register_driver :selenium_grid do |app|
           caps = if ie_browser?
-            ::Selenium::WebDriver::Remote::Capabilities.internet_explorer
-          elsif ff_browser?
-            ::Selenium::WebDriver::Remote::Capabilities.firefox
-          elsif chrome_browser?
-            ::Selenium::WebDriver::Remote::Capabilities.chrome
-          elsif safari_browser?
-            ::Selenium::WebDriver::Remote::Capabilities.safari
-          else
-            log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
+                   ::Selenium::WebDriver::Remote::Capabilities.internet_explorer
+                 elsif ff_browser?
+                   ::Selenium::WebDriver::Remote::Capabilities.firefox
+                 elsif chrome_browser?
+                   ::Selenium::WebDriver::Remote::Capabilities.chrome
+                 elsif safari_browser?
+                   ::Selenium::WebDriver::Remote::Capabilities.safari
+                 else
+                   log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
           end
 
-          Capybara::Selenium::Driver.new(app, :browser => :remote, :url => settings.sel_hub_url, :desired_capabilities => caps)
+          Capybara::Selenium::Driver.new(app, browser: :remote, url: settings.sel_hub_url, desired_capabilities: caps)
         end
       end
 
       def define_selenium_driver
         Capybara.register_driver :selenium do |app|
-          params = {browser: settings.sel_browser.to_s.to_sym}
+          params = { browser: settings.sel_browser.to_s.to_sym }
           params[:profile] = base_ff_profile_settings if ff_browser?
           Capybara::Selenium::Driver.new app, params
         end
@@ -118,9 +117,9 @@ module Capybara
         Capybara.register_driver :poltergeist do |app|
           Capybara::Poltergeist::Driver.new(
             app, {
-                 js_errors: !settings.pjs_ignore_js_errors,
-                 phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
-               }
+              js_errors: !settings.pjs_ignore_js_errors,
+              phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
+            }
           )
         end
       end
@@ -129,10 +128,10 @@ module Capybara
         Capybara.register_driver :phantomjs do |app|
           Capybara::Selenium::Driver.new(
             app, browser: :phantomjs,
-            desired_capabilities: {
-              javascript_enabled: !settings.pjs_ignore_js_errors
-            },
-            args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}" ]
+                 desired_capabilities: {
+                   javascript_enabled: !settings.pjs_ignore_js_errors
+                 },
+                 args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
           )
         end
       end
@@ -157,7 +156,7 @@ module Capybara
         options = {
           url: settings.sl_url,
           desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap { |c| c.timeout = settings.timeout_medium },
           browser: :remote
         }
 
@@ -185,13 +184,13 @@ module Capybara
           'avoid-proxy' => settings.tb_avoid_proxy
         }
 
-        unless (settings.tb_browser_version.to_s || "").empty?
+        unless (settings.tb_browser_version.to_s || '').empty?
           caps_opts['version'] = settings.tb_browser_version.to_s
         end
         options = {
           url: settings.tb_url,
           desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap{|c| c.timeout = settings.timeout_medium},
+          http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap { |c| c.timeout = settings.timeout_medium },
           browser: :remote
         }
         Capybara.register_driver :testingbot do |app|
@@ -208,12 +207,12 @@ module Capybara
     def define_browserstack_driver
       task_name = rake_task_name
       caps_opts = {
-          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
-          maxduration: settings.bs_max_duration.to_i,
-          idletimeout: settings.bs_idle_timeout.to_i,
-          project: settings.bs_project,
-          build: settings.bs_build,
-          resolution: settings.bs_resolution
+        name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
+        maxduration: settings.bs_max_duration.to_i,
+        idletimeout: settings.bs_idle_timeout.to_i,
+        project: settings.bs_project,
+        build: settings.bs_build,
+        resolution: settings.bs_resolution
       }
 
       if settings.bs_local
@@ -233,9 +232,9 @@ module Capybara
       end
 
       options = {
-          url: settings.bs_url,
-          desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
-          browser: :remote
+        url: settings.bs_url,
+        desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps_opts),
+        browser: :remote
       }
       Capybara.register_driver :browserstack do |app|
         driver = Capybara::Selenium::Driver.new(app, options)
@@ -272,7 +271,6 @@ module Capybara
     # *Parameters:*
     # * +json_data+ - test status as hash (for details see Saucelab documentation)
     #
-
 
     def update_sauce_job_status(json_data = {})
       host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
@@ -332,6 +330,5 @@ module Capybara
     Capybara.javascript_driver = settings.driver.to_s.to_sym
 
     define_driver
-
   end
 end

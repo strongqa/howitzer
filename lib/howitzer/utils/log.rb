@@ -28,7 +28,7 @@ module Howitzer
 
     def error(*args)
       object = if args.first.nil?
-        $!
+                 $ERROR_INFO
       else
         case args.size
           when 1
@@ -64,7 +64,7 @@ module Howitzer
     #
 
     def print_feature_name(text)
-      log_without_formatting{ info "*** Feature: #{text.upcase} ***" }
+      log_without_formatting { info "*** Feature: #{text.upcase} ***" }
     end
 
     ##
@@ -73,7 +73,7 @@ module Howitzer
     #
 
     def settings_as_formatted_text
-      log_without_formatting{ info settings.as_formatted_text }
+      log_without_formatting { info settings.as_formatted_text }
     end
 
     ##
@@ -84,18 +84,18 @@ module Howitzer
     # * +text+ - Scenario name
     #
     def print_scenario_name(text)
-      log_without_formatting{ info " => Scenario: #{text}" }
+      log_without_formatting { info " => Scenario: #{text}" }
     end
 
     private
 
     def initialize
-      @logger = Logger.new("ruby_log")
+      @logger = Logger.new('ruby_log')
       @logger.add(console_log)
       @logger.add(error_log)
       self.base_formatter = default_formatter
-      Logger["ruby_log"].level = settings.debug_mode ? ALL : INFO
-      Logger["ruby_log"].trace = true
+      Logger['ruby_log'].level = settings.debug_mode ? ALL : INFO
+      Logger['ruby_log'].trace = true
     end
 
     def log_without_formatting
@@ -105,7 +105,7 @@ module Howitzer
     end
 
     def console_log
-      StdoutOutputter.new(:console).tap{|o| o.only_at(INFO, DEBUG, WARN)}
+      StdoutOutputter.new(:console).tap { |o| o.only_at(INFO, DEBUG, WARN) }
     end
 
     def error_log
@@ -113,20 +113,20 @@ module Howitzer
     end
 
     def blank_formatter
-      PatternFormatter.new(:pattern => "%m")
+      PatternFormatter.new(pattern: '%m')
     end
 
     def default_formatter
       if settings.hide_datetime_from_log
-        params = {pattern: "[%l] %m"}
+        params = { pattern: '[%l] %m' }
       else
-        params = {pattern: "%d [%l] :: %m", date_pattern: "%Y/%m/%d %H:%M:%S"}
+        params = { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }
       end
       PatternFormatter.new(params)
     end
 
     def base_formatter=(formatter)
-      @logger.outputters.each {|outputter| outputter.formatter = formatter}
+      @logger.outputters.each { |outputter| outputter.formatter = formatter }
     end
   end
 end

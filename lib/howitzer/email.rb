@@ -22,8 +22,8 @@ class Email
   # Return mail adapter name
   #
 
-  def self.adapter_name
-    @adapter_name
+  class << self
+    attr_reader :adapter_name
   end
 
   ##
@@ -145,5 +145,4 @@ class Email
   def get_mime_part
     message.get_mime_part
   end
-
 end
