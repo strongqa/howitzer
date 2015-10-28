@@ -95,7 +95,12 @@ module Helpers
   #
 
   def app_url
-    prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+    prefix =
+        if settings.app_base_auth_login.blank?
+          ''
+        else
+          "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+        end
     app_base_url prefix
   end
 

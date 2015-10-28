@@ -87,7 +87,9 @@ module HowitzerCli
     end
 
     def load_generators
-      Dir[File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')].each { |f| require File.expand_path(f) }
+      Dir[
+          File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')
+      ].each { |f| require File.expand_path(f) }
     end
 
     def cucumber_integrated?

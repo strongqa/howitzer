@@ -72,7 +72,14 @@ RSpec.describe 'DataStorage' do
     context 'when custom argument' do
       let(:exception_list) { [:foo, :bar] }
       before { DataStorage.clear_all_ns(exception_list) }
-      it { expect(DataStorage.data).to eq('sauce' => {}, :foo => { 'foo' => 'some value1' }, :bar => { 'bar' => 'some value2' }, :baz => {}) }
+      it do
+        expect(DataStorage.data).to eq(
+                                        'sauce' => {},
+                                        :foo => { 'foo' => 'some value1'},
+                                        :bar => { 'bar' => 'some value2' },
+                                        :baz => {}
+                                    )
+      end
     end
   end
 end

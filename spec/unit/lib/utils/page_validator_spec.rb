@@ -23,7 +23,10 @@ RSpec.describe 'PageValidator' do
     subject { web_page.check_validations_are_defined! }
     context 'when no validation specified' do
       it do
-        expect(log).to receive(:error).with(Howitzer::NoValidationError, "No any page validation was found for 'TestWebPageClass' page").once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::NoValidationError,
+                           "No any page validation was found for 'TestWebPageClass' page"
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::NoValidationError)
       end
     end
@@ -31,7 +34,10 @@ RSpec.describe 'PageValidator' do
       before { web_page_class.const_set('URL_PATTERN', /Foo/) }
       after { web_page_class.send :remove_const, 'URL_PATTERN' }
       it do
-        expect(web_page_class).to receive(:validates).with(:url, pattern: /Foo/) { Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {} }
+        expect(web_page_class).to receive(:validates).with(
+                                      :url,
+                                      pattern: /Foo/
+                                  ) { Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {} }
         expect { subject }.to_not raise_error
       end
     end
@@ -83,14 +89,20 @@ RSpec.describe 'PageValidator' do
           context '(missing pattern)' do
             let(:options) { {} }
             it do
-              expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+              expect(log).to receive(:error).with(
+                                 Howitzer::WrongOptionError,
+                                 "Please specify ':pattern' option as Regexp object"
+                             ).once.and_call_original
               expect { subject }.to raise_error(Howitzer::WrongOptionError)
             end
           end
           context '(string pattern)' do
             let(:options) { { pattern: 'foo' } }
             it do
-              expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+              expect(log).to receive(:error).with(
+                                 Howitzer::WrongOptionError,
+                                 "Please specify ':pattern' option as Regexp object"
+                             ).once.and_call_original
               expect { subject }.to raise_error(Howitzer::WrongOptionError)
             end
           end
@@ -131,14 +143,20 @@ RSpec.describe 'PageValidator' do
         context '(missing locator)' do
           let(:options) { {} }
           it do
-            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names").once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::WrongOptionError,
+                               "Please specify ':locator' option as one of page locator names"
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
         end
         context '(blank locator name)' do
           let(:options) { { locator: '' } }
           it do
-            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names").once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::WrongOptionError,
+                               "Please specify ':locator' option as one of page locator names"
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
         end
@@ -166,14 +184,20 @@ RSpec.describe 'PageValidator' do
         context '(missing pattern)' do
           let(:options) { {} }
           it do
-            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::WrongOptionError,
+                               "Please specify ':pattern' option as Regexp object"
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
         end
         context '(string pattern)' do
           let(:options) { { pattern: 'foo' } }
           it do
-            expect(log).to receive(:error).with(Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object").once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::WrongOptionError,
+                               "Please specify ':pattern' option as Regexp object"
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
         end
@@ -183,7 +207,10 @@ RSpec.describe 'PageValidator' do
       let(:name) { :unknown }
       let(:options) { {} }
       it do
-        expect(log).to receive(:error).with(Howitzer::UnknownValidationError, "unknown 'unknown' validation name").once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::UnknownValidationError,
+                           "unknown 'unknown' validation name"
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::UnknownValidationError)
       end
     end
@@ -202,7 +229,10 @@ RSpec.describe 'PageValidator' do
     subject { web_page_class.opened? }
     context 'when no one validation is defined' do
       it do
-        expect(log).to receive(:error).with(Howitzer::NoValidationError, "No any page validation was found for 'TestWebPageClass' page").once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::NoValidationError,
+                           "No any page validation was found for 'TestWebPageClass' page"
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::NoValidationError)
       end
     end

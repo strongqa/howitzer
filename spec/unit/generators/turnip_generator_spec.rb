@@ -16,10 +16,18 @@ RSpec.describe 'Generators' do
       [
         { name: '/spec', is_directory: true },
         { name: '/spec/acceptance', is_directory: true },
-        { name: '/spec/acceptance/example.feature', is_directory: false, size: template_file_size('turnip', 'example.feature') },
+        {
+            name: '/spec/acceptance/example.feature',
+            is_directory: false,
+            size: template_file_size('turnip', 'example.feature')
+        },
         { name: '/spec/spec_helper.rb', is_directory: false, size: template_file_size('turnip', 'spec_helper.rb') },
         { name: '/spec/steps', is_directory: true },
-        { name: '/spec/steps/common_steps.rb', is_directory: false, size: template_file_size('turnip', 'common_steps.rb') },
+        {
+            name: '/spec/steps/common_steps.rb',
+            is_directory: false,
+            size: template_file_size('turnip', 'common_steps.rb')
+        },
         { name: '/spec/turnip_helper.rb', is_directory: false, size: template_file_size('turnip', 'turnip_helper.rb') }
       ]
     end

@@ -50,7 +50,8 @@ module Howitzer
       def old_url_validation_present?
         if self.class.const_defined?('URL_PATTERN')
           self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
-          warn "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
+          warn "[Deprecated] Old style page validation is using. Please use new style:\n" +
+               "\t validates :url, pattern: URL_PATTERN"
           true
         end
       end
@@ -60,11 +61,11 @@ module Howitzer
         #
         # Adds validation to validation list
         #
-        # @param [Symbol or String] name                                    Which validation type. Possible values [:url, :element_presence, :title]
-        # @option options [Hash]                                            Validation options
-        #    :pattern => [Regexp]                                             For :url and :title validation types
-        #    :locator => [String]                                             For :element_presence (Existing locator name)
-        # @raise  [Howitzer::UnknownValidationError]   If unknown validation type was passed
+        # @param [Symbol or String] name       Which validation type. Possible values [:url, :element_presence, :title]
+        # @option options [Hash]                      Validation options
+        #    :pattern => [Regexp]                     For :url and :title validation types
+        #    :locator => [String]                     For :element_presence (Existing locator name)
+        # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
         #
         def validates(name, options)
           log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
@@ -115,13 +116,17 @@ module Howitzer
 
         def validate_element(options)
           locator = options[:locator] || options['locator']
-          log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
+          if locator.nil? || locator.empty?
+            log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names"
+          end
           PageValidator.validations[name][:element_presence] = ->(web_page) { web_page.first_element(locator) }
         end
 
         def validate_by_pattern(name, options)
           pattern = options[:pattern] || options['pattern']
-          log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
+          if pattern.nil? || !pattern.is_a?(Regexp)
+            log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object"
+          end
           PageValidator.validations[self.name][name] = ->(web_page) { pattern === web_page.send(name) }
         end
       end

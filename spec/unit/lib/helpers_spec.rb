@@ -27,7 +27,10 @@ RSpec.describe 'Helpers' do
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
       it do
-        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::DriverNotSpecifiedError,
+                           'Please check your settings'
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
       end
     end
@@ -51,7 +54,10 @@ RSpec.describe 'Helpers' do
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
       it do
-        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::DriverNotSpecifiedError,
+                           'Please check your settings'
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
       end
     end
@@ -79,7 +85,10 @@ RSpec.describe 'Helpers' do
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
       it do
-        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::DriverNotSpecifiedError,
+                           'Please check your settings'
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
       end
     end
@@ -107,7 +116,10 @@ RSpec.describe 'Helpers' do
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
       it do
-        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::DriverNotSpecifiedError,
+                           'Please check your settings'
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
       end
     end
@@ -135,7 +147,10 @@ RSpec.describe 'Helpers' do
     context 'when driver is not specified' do
       let(:driver_setting) { nil }
       it do
-        expect(log).to receive(:error).with(Howitzer::DriverNotSpecifiedError, 'Please check your settings').once.and_call_original
+        expect(log).to receive(:error).with(
+                           Howitzer::DriverNotSpecifiedError,
+                           'Please check your settings'
+                       ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::DriverNotSpecifiedError)
       end
     end
@@ -163,7 +178,10 @@ RSpec.describe 'Helpers' do
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::SlBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
         end
       end
@@ -187,7 +205,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -212,7 +233,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -248,7 +272,10 @@ RSpec.describe 'Helpers' do
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::TbBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
         end
       end
@@ -272,7 +299,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SlBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
           end
         end
@@ -297,7 +327,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -332,7 +365,10 @@ RSpec.describe 'Helpers' do
         context 'settings.tb_browser_name is not specified' do
           before { allow(settings).to receive(:tb_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::TbBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
           end
         end
@@ -362,7 +398,10 @@ RSpec.describe 'Helpers' do
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::SlBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
         end
       end
@@ -386,7 +425,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -422,7 +464,10 @@ RSpec.describe 'Helpers' do
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::TbBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
         end
       end
@@ -446,7 +491,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SlBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
           end
         end
@@ -471,7 +519,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -506,7 +557,10 @@ RSpec.describe 'Helpers' do
         context 'settings.tb_browser_name is not specified' do
           before { allow(settings).to receive(:tb_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::TbBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
           end
         end
@@ -530,7 +584,10 @@ RSpec.describe 'Helpers' do
           context 'settings.sel_browser is not specified' do
             before { allow(settings).to receive(:sel_browser) { nil } }
             it do
-              expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+              expect(log).to receive(:error).with(
+                                 Howitzer::SelBrowserNotSpecifiedError,
+                                 'Please check your settings'
+                             ).once.and_call_original
               expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
             end
           end
@@ -565,7 +622,10 @@ RSpec.describe 'Helpers' do
           context 'settings.tb_browser_name is not specified' do
             before { allow(settings).to receive(:tb_browser_name) { nil } }
             it do
-              expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+              expect(log).to receive(:error).with(
+                                 Howitzer::TbBrowserNotSpecifiedError,
+                                 'Please check your settings'
+                             ).once.and_call_original
               expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
             end
           end
@@ -593,7 +653,10 @@ RSpec.describe 'Helpers' do
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::SlBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
         end
       end
@@ -613,7 +676,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -642,7 +708,10 @@ RSpec.describe 'Helpers' do
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::TbBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
         end
       end
@@ -662,7 +731,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SlBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
           end
         end
@@ -683,7 +755,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -704,7 +779,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -734,7 +812,10 @@ RSpec.describe 'Helpers' do
       context 'settings.sl_browser_name is not specified' do
         before { allow(settings).to receive(:sl_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::SlBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
         end
       end
@@ -754,7 +835,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -783,7 +867,10 @@ RSpec.describe 'Helpers' do
       context 'settings.tb_browser_name is not specified' do
         before { allow(settings).to receive(:tb_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(Howitzer::TbBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+          expect(log).to receive(:error).with(
+                             Howitzer::TbBrowserNotSpecifiedError,
+                             'Please check your settings'
+                         ).once.and_call_original
           expect { subject }.to raise_error(Howitzer::TbBrowserNotSpecifiedError)
         end
       end
@@ -803,7 +890,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sl_browser_name is not specified' do
           before { allow(settings).to receive(:sl_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SlBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SlBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SlBrowserNotSpecifiedError)
           end
         end
@@ -824,7 +914,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end
@@ -845,7 +938,10 @@ RSpec.describe 'Helpers' do
         context 'settings.sel_browser is not specified' do
           before { allow(settings).to receive(:sel_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(Howitzer::SelBrowserNotSpecifiedError, 'Please check your settings').once.and_call_original
+            expect(log).to receive(:error).with(
+                               Howitzer::SelBrowserNotSpecifiedError,
+                               'Please check your settings'
+                           ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::SelBrowserNotSpecifiedError)
           end
         end

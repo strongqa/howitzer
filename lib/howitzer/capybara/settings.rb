@@ -51,11 +51,16 @@ module Capybara
           when :selenium_grid
             define_selenium_grid_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium," +
+                      " selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]"
         end
       end
 
       private
+
+      def prefix_name
+        ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'
+      end
 
       def define_selenium_grid_driver
         Capybara.register_driver :selenium_grid do |app|
@@ -68,7 +73,8 @@ module Capybara
                  elsif safari_browser?
                    ::Selenium::WebDriver::Remote::Capabilities.safari
                  else
-                   log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
+                   log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of" +
+                             " [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
           end
 
           Capybara::Selenium::Driver.new(app, browser: :remote, url: settings.sel_hub_url, desired_capabilities: caps)
@@ -141,7 +147,7 @@ module Capybara
         caps_opts = {
           platform: settings.sl_platform,
           browser_name: settings.sl_browser_name,
-          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.sl_browser_name.upcase}",
+          name: "#{prefix_name} #{settings.sl_browser_name.upcase}",
           'max-duration' => settings.sl_max_duration,
           'idle-timeout' => settings.sl_idle_timeout,
           'selenium-version' => settings.sl_selenium_version,
@@ -176,7 +182,7 @@ module Capybara
         caps_opts = {
           platform: settings.tb_platform,
           browser_name: settings.tb_browser_name,
-          name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.tb_browser_name.upcase}",
+          name: "#{prefix_name} #{settings.tb_browser_name.upcase}",
           maxduration: settings.tb_max_duration.to_i,
           idletimeout: settings.tb_idle_timeout.to_i,
           'selenium-version' => settings.tb_selenium_version,
@@ -207,7 +213,7 @@ module Capybara
     def define_browserstack_driver
       task_name = rake_task_name
       caps_opts = {
-        name: "#{ENV['RAKE_TASK'] ? (task_name.empty? ? 'ALL' : task_name) : 'CUSTOM'} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
+        name: "#{prefix_name} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
         maxduration: settings.bs_max_duration.to_i,
         idletimeout: settings.bs_idle_timeout.to_i,
         project: settings.bs_project,

@@ -122,7 +122,11 @@ RSpec.describe Howitzer::BaseGenerator do
     context 'when destination file exists' do
       before { allow(File).to receive(:exists?).with(destination_path) { true } }
       it { expect(generator).to receive(:puts_info).with("Conflict with '#{list.first[:destination]}' template").once }
-      it { expect(generator).to receive(:print_info).with("  Overwrite '#{list.first[:destination]}' template? [Yn]:").once }
+      it do
+        expect(generator).to receive(:print_info).with(
+                                 "  Overwrite '#{list.first[:destination]}' template? [Yn]:"
+                             ).once
+      end
       context 'and answer is yes' do
         before { allow(generator).to receive(:gets) { 'y' } }
         it { expect(generator).to receive(:write_template).with(destination_path, source_path).once }

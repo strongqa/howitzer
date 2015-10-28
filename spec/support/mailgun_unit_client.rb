@@ -44,9 +44,26 @@ module Mailgun
         id = "<#{t.to_i}.#{rand(99_999_999)}.5817@example.com>"
         @body = JSON.generate('message' => 'Queued. Thank you.', 'id' => id)
       when 'bounces'
-        @body = JSON.generate('total_count' => 1, 'items' => { 'created_at' => 'Fri, 21 Oct 2011 11:02:55 GMT', 'code' => 550, 'address' => 'baz@example.com', 'error' => 'Message was not accepted -- invalid mailbox. Local mailbox baz@example.com is unavailable: user not found' })
+        @body = JSON.generate(
+            'total_count' => 1,
+            'items' => {
+                'created_at' => 'Fri, 21 Oct 2011 11:02:55 GMT',
+                'code' => 550,
+                'address' => 'baz@example.com',
+                'error' => 'Message was not accepted -- invalid mailbox. Local mailbox baz@example.com is" +
+                           " unavailable: user not found'
+            }
+        )
       when 'lists'
-        @body = JSON.generate('member' => { 'vars' => { 'age' => 26 }, 'name' => 'Foo Bar', 'subscribed' => false, 'address' => 'bar@example.com' }, 'message' => 'Mailing list member has been updated')
+        @body = JSON.generate(
+            'member' => {
+                'vars' => { 'age' => 26 },
+                'name' => 'Foo Bar',
+                'subscribed' => false,
+                'address' => 'bar@example.com'
+            },
+            'message' => 'Mailing list member has been updated'
+        )
       when 'campaigns'
         @body = JSON.generate('message' => 'Campaign has been deleted', 'id' => 'ABC123')
       end

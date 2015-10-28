@@ -105,7 +105,9 @@ RSpec.describe 'Capybara::Settings' do
       it do
         expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
         expect(subject.call.options[:browser]).to eq(:phantomjs)
-        expect(subject.call.options[:desired_capabilities][:javascript_enabled]).not_to eq(settings.pjs_ignore_js_errors)
+        expect(
+            subject.call.options[:desired_capabilities][:javascript_enabled]
+        ).not_to eq(settings.pjs_ignore_js_errors)
         expect(subject.call.options[:args]).to eq(['--ignore-ssl-errors=no'])
       end
     end
@@ -187,7 +189,11 @@ RSpec.describe 'Capybara::Settings' do
           allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
           allow(Capybara::Settings).to receive(:safari_browser?).and_return(false)
           it do
-            expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]")
+            expect { subject }.to raise_error(
+                                      RuntimeError,
+                                      "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it" +
+                                       " should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
+                                  )
           end
         end
       end
@@ -209,7 +215,12 @@ RSpec.describe 'Capybara::Settings' do
         allow(settings).to receive(:driver).and_return('caramba')
       end
       it do
-        expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]")
+        expect { subject }.to raise_error(
+                                  RuntimeError,
+                                  "Unknown '#{settings.driver}' driver. Check your settings, it should be one of" +
+                                  " [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce," +
+                                  " testingbot, browserstack]"
+                              )
       end
     end
   end
@@ -246,7 +257,12 @@ RSpec.describe 'Capybara::Settings' do
     end
 
     it do
-      expect(RestClient).to receive(:put).with('http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234', '{}', content_type: :json, accept: :json).once
+      expect(RestClient).to receive(:put).with(
+                                'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+                                '{}',
+                                content_type: :json,
+                                accept: :json
+                            ).once
       subject
     end
   end
@@ -261,7 +277,12 @@ RSpec.describe 'Capybara::Settings' do
     end
 
     it do
-      expect(RestClient).to receive(:put).with('http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234', '{}', content_type: :json, accept: :json).once
+      expect(RestClient).to receive(:put).with(
+                                'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+                                '{}',
+                                content_type: :json,
+                                accept: :json
+                            ).once
       subject
     end
   end

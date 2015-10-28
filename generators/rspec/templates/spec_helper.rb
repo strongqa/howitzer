@@ -25,7 +25,13 @@ RSpec.configure do |config|
   end
 
   config.before(:each) do
-    log.print_scenario_name(RSpec.current_example.description.empty? ? RSpec.current_example.metadata[:full_description] : RSpec.current_example.description)
+    scenario_name =
+      if RSpec.current_example.description.empty?
+        RSpec.current_example.metadata[:full_description]
+      else
+        RSpec.current_example.description
+      end
+    log.print_scenario_name(scenario_name)
     @session_start = duration(Time.now.utc - DataStorage.extract('sauce', :start_time))
   end
 

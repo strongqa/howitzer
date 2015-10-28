@@ -15,7 +15,11 @@ RSpec.describe 'Generators' do
     let(:expected_result) do
       [
         { name: '/emails', is_directory: true },
-        { name: '/emails/example_email.rb', is_directory: false, size: template_file_size('emails', 'example_email.rb') }
+        {
+            name: '/emails/example_email.rb',
+            is_directory: false,
+            size: template_file_size('emails', 'example_email.rb')
+        }
       ]
     end
     it { is_expected.to eql(expected_result) }

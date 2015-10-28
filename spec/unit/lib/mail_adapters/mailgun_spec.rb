@@ -32,10 +32,25 @@ RSpec.describe 'Mailgun Email Adapter' do
     subject { Email.find(recipient, message_subject) }
 
     context 'when message is found' do
-      let(:event) { { 'message' => { 'recipients' => [recipient], 'headers' => { 'subject' => message_subject } }, 'storage' => { 'key' => '1234567890' } } }
+      let(:event) do
+        {
+            'message' => {
+                'recipients' => [recipient],
+                'headers' => {
+                    'subject' => message_subject
+                }
+            },
+            'storage' => { 'key' => '1234567890' }
+        }
+      end
       before do
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').ordered.once { events }
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with('domains/mailgun@test.domain/messages/1234567890').ordered.once { mailgun_message }
+        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+                                                           'mailgun@test.domain/events',
+                                                           event: 'stored'
+                                                       ).ordered.once { events }
+        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+                                                           'domains/mailgun@test.domain/messages/1234567890'
+                                                       ).ordered.once { mailgun_message }
       end
       it do
         expect(Email.adapter).to receive(:new).with(message).once
@@ -44,14 +59,29 @@ RSpec.describe 'Mailgun Email Adapter' do
     end
 
     context 'when message is not found' do
-      let(:event) { { 'message' => { 'recipients' => ['other@test.com'], 'headers' => { 'subject' => message_subject } }, 'storage' => { 'key' => '1234567890' } } }
+      let(:event) do
+        {
+            'message' => {
+                'recipients' => ['other@test.com'],
+                'headers' => {
+                    'subject' => message_subject
+                }
+            }, 'storage' => { 'key' => '1234567890' }
+        }
+      end
       before do
         allow(settings).to receive(:timeout_small) { 0.5 }
         allow(settings).to receive(:timeout_short) { 0.05 }
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').at_least(:twice).ordered { events }
+        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+                                                           'mailgun@test.domain/events',
+                                                           event: 'stored'
+                                                       ).at_least(:twice).ordered { events }
       end
       it do
-        expect(log).to receive(:error).with(Howitzer::EmailNotFoundError, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.")
+        expect(log).to receive(:error).with(
+                           Howitzer::EmailNotFoundError,
+                           "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found."
+                       )
         subject
       end
     end
