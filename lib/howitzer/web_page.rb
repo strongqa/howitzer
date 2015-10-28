@@ -91,7 +91,7 @@ class WebPage
       UnknownPage
     elsif page_list.count > 1
       log.error Howitzer::AmbiguousPageMatchingError,
-                "Current page matches more that one page class (#{page_list.join(', ')}).\n" +
+                "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
                 "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
     elsif page_list.count == 1
       page_list.first
@@ -109,7 +109,7 @@ class WebPage
   def self.wait_for_opened(timeout = settings.timeout_small)
     end_time = ::Time.now + timeout
     self.opened? ? return : sleep(0.5) until ::Time.now > end_time
-    log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" +
+    log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
               "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
 

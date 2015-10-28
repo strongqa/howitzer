@@ -175,7 +175,7 @@ module LocatorStore
     # looks up locator in current and all super classes
     def parent_locator(type, name)
       if @locators && @locators.key?(self.name) &&
-          @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
+         @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
         @locators[self.name][type][name]
       else
         superclass.parent_locator(type, name) unless superclass == Object

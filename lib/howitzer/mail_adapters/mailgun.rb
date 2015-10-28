@@ -7,30 +7,30 @@ module MailAdapters
     def self.find(recipient, subject)
       message = {}
       retryable(
-          timeout: settings.timeout_small,
-          sleep: settings.timeout_short,
-          silent: true,
-          logger: log,
-          on: ::Howitzer::EmailNotFoundError
+        timeout: settings.timeout_small,
+        sleep: settings.timeout_short,
+        silent: true,
+        logger: log,
+        on: ::Howitzer::EmailNotFoundError
       ) do
         events = ::Mailgun::Connector.instance.client.get(
-            "#{::Mailgun::Connector.instance.domain}/events",
-            event: 'stored'
+          "#{::Mailgun::Connector.instance.domain}/events",
+          event: 'stored'
         )
         event = events.to_h['items'].find do |hash|
           hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
         end
         if event
           message = ::Mailgun::Connector.instance.client.get(
-              "domains/#{::Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}"
+            "domains/#{::Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}"
           ).to_h
         else
           fail ::Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
         end
       end
       log.error(
-          ::Howitzer::EmailNotFoundError,
-          "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
+        ::Howitzer::EmailNotFoundError,
+        "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
       ) if message.empty?
       new(message)
     end

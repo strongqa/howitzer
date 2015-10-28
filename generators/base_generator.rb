@@ -60,7 +60,7 @@ module Howitzer
             when 'y'
               write_template(destination_path, source_path)
               puts_info("    Forced '#{data[:destination]}' template")
-            when 'n' then nil
+            when 'n'
               puts_info("    Skipped '#{data[:destination]}' template")
             else nil
           end
@@ -110,7 +110,7 @@ module Howitzer
             when 'y'
               FileUtils.cp(src, dst)
               puts_info("    Forced '#{data[:destination]}' file")
-            when 'n' then nil
+            when 'n' then
               puts_info("    Skipped '#{data[:destination]}' file")
             else nil
           end

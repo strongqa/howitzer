@@ -21,8 +21,8 @@ RSpec.describe Mailgun::Response do
     context 'when impossible parse body' do
       let(:body) { '123' }
       it do
-        expect(log).to receive(:error).with(Howitzer::ParseError, "757: unexpected token at '123'").
-                           once.and_call_original
+        expect(log).to receive(:error).with(Howitzer::ParseError, "757: unexpected token at '123'")
+          .once.and_call_original
         expect { subject }.to raise_error(Howitzer::ParseError)
       end
     end

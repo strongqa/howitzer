@@ -124,8 +124,8 @@ RSpec.describe Howitzer::BaseGenerator do
       it { expect(generator).to receive(:puts_info).with("Conflict with '#{list.first[:destination]}' template").once }
       it do
         expect(generator).to receive(:print_info).with(
-                                 "  Overwrite '#{list.first[:destination]}' template? [Yn]:"
-                             ).once
+          "  Overwrite '#{list.first[:destination]}' template? [Yn]:"
+        ).once
       end
       context 'and answer is yes' do
         before { allow(generator).to receive(:gets) { 'y' } }

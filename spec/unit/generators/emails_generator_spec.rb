@@ -16,9 +16,9 @@ RSpec.describe 'Generators' do
       [
         { name: '/emails', is_directory: true },
         {
-            name: '/emails/example_email.rb',
-            is_directory: false,
-            size: template_file_size('emails', 'example_email.rb')
+          name: '/emails/example_email.rb',
+          is_directory: false,
+          size: template_file_size('emails', 'example_email.rb')
         }
       ]
     end

@@ -18,22 +18,22 @@ RSpec.describe 'Generators' do
         { name: '/config/cucumber.yml', is_directory: false, size: template_file_size('cucumber', 'cucumber.yml') },
         { name: '/features', is_directory: true },
         {
-            name: '/features/example.feature',
-            is_directory: false,
-            size: template_file_size('cucumber', 'example.feature')
+          name: '/features/example.feature',
+          is_directory: false,
+          size: template_file_size('cucumber', 'example.feature')
         },
         { name: '/features/step_definitions', is_directory: true },
         {
-            name: '/features/step_definitions/common_steps.rb',
-            is_directory: false,
-            size: template_file_size('cucumber', 'common_steps.rb')
+          name: '/features/step_definitions/common_steps.rb',
+          is_directory: false,
+          size: template_file_size('cucumber', 'common_steps.rb')
         },
         { name: '/features/support', is_directory: true },
         { name: '/features/support/env.rb', is_directory: false, size: template_file_size('cucumber', 'env.rb') },
         {
-            name: '/features/support/transformers.rb',
-            is_directory: false,
-            size: template_file_size('cucumber', 'transformers.rb')
+          name: '/features/support/transformers.rb',
+          is_directory: false,
+          size: template_file_size('cucumber', 'transformers.rb')
         },
         { name: '/tasks', is_directory: true },
         { name: '/tasks/cucumber.rake', is_directory: false, size: template_file_size('cucumber', 'cucumber.rake') }

@@ -50,7 +50,7 @@ module Howitzer
       def old_url_validation_present?
         if self.class.const_defined?('URL_PATTERN')
           self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
-          warn "[Deprecated] Old style page validation is using. Please use new style:\n" +
+          warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
                "\t validates :url, pattern: URL_PATTERN"
           true
         end

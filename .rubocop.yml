@@ -3,3 +3,9 @@
 
 LineLength:
   Max: 120
+
+Style/CaseIndentation:
+  Enabled: false
+
+Style/EmptyElse:
+  Enabled: false

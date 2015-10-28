@@ -138,8 +138,10 @@ RSpec.describe 'Locator store' do
         it { expect { subject }.to raise_error(NoMethodError) }
       end
       context 'when correct locator given' do
-        before { web_page.add_locator :test_locator,
-                                      ->(location_name) { { xpath: ".//a[contains(.,'#{location_name}')]" } } }
+        before do
+          web_page.add_locator :test_locator,
+                               ->(location_name) { { xpath: ".//a[contains(.,'#{location_name}')]" } }
+        end
         let(:locator) { ->(location_name) { { xpath: ".//a[contains(.,'#{location_name}')]" } } }
         subject { web_page.apply(locator, 'Kiev') }
         it { is_expected.to eq([:xpath, ".//a[contains(.,'Kiev')]"]) }

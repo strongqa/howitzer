@@ -13,8 +13,8 @@ RSpec.describe Mailgun::Client do
     subject { mg_obj.get('test.com/bounces', query_string) }
     context 'when simulation of client' do
       before do
-        expect(RestClient::Resource).to receive(:new).
-                                            once { Mailgun::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
+        expect(RestClient::Resource).to receive(:new)
+          .once { Mailgun::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
       end
       it do
         expect(subject.body).to include('total_count')
@@ -29,8 +29,8 @@ RSpec.describe Mailgun::Client do
         allow(RestClient::Resource).to receive(:new) { resource }
       end
       it do
-        expect(log).to receive(:error).with(Howitzer::CommunicationError, '401 Unauthorized: Forbidden').
-                           once.and_call_original
+        expect(log).to receive(:error).with(Howitzer::CommunicationError, '401 Unauthorized: Forbidden')
+          .once.and_call_original
         expect { subject }.to raise_error(Howitzer::CommunicationError)
       end
     end

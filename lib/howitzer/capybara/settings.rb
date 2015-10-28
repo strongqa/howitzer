@@ -51,8 +51,8 @@ module Capybara
           when :selenium_grid
             define_selenium_grid_driver
           else
-            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium," +
-                      " selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]"
+            log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium," \
+                      ' selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]'
         end
       end
 
@@ -73,8 +73,8 @@ module Capybara
                  elsif safari_browser?
                    ::Selenium::WebDriver::Remote::Capabilities.safari
                  else
-                   log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of" +
-                             " [:ie, :iexplore, :ff, :firefox, :chrome, safari]"
+                   log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of" \
+                             ' [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
           end
 
           Capybara::Selenium::Driver.new(app, browser: :remote, url: settings.sel_hub_url, desired_capabilities: caps)

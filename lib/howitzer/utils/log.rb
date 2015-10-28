@@ -29,26 +29,26 @@ module Howitzer
     def error(*args)
       object = if args.first.nil?
                  $ERROR_INFO
-      else
-        case args.size
-          when 1
-           args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
-          when 2
-            if args.first.is_a?(Class) && args.first < Exception
-              args.first.new(args.last)
-            else
-              exception = RuntimeError.new(args.first)
-              exception.set_backtrace(args.last)
-              exception
-            end
-          when 3
-           exception = args.first.new(args[1])
-           exception.set_backtrace(args.last)
-           exception
-          #:nocov:
-          else nil
-          #:nocov:
-        end
+               else
+                 case args.size
+                   when 1
+                     args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
+                   when 2
+                     if args.first.is_a?(Class) && args.first < Exception
+                       args.first.new(args.last)
+                     else
+                       exception = RuntimeError.new(args.first)
+                       exception.set_backtrace(args.last)
+                       exception
+                     end
+                   when 3
+                     exception = args.first.new(args[1])
+                     exception.set_backtrace(args.last)
+                     exception
+                   #:nocov:
+                   else nil
+                   #:nocov:
+                 end
       end
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
       @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")

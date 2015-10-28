@@ -74,11 +74,11 @@ RSpec.describe 'DataStorage' do
       before { DataStorage.clear_all_ns(exception_list) }
       it do
         expect(DataStorage.data).to eq(
-                                        'sauce' => {},
-                                        :foo => { 'foo' => 'some value1'},
-                                        :bar => { 'bar' => 'some value2' },
-                                        :baz => {}
-                                    )
+          'sauce' => {},
+          :foo => { 'foo' => 'some value1' },
+          :bar => { 'bar' => 'some value2' },
+          :baz => {}
+        )
       end
     end
   end

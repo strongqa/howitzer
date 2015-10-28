@@ -26,8 +26,8 @@ unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gem
       end
 
       Cucumber::Rake::Task.new(
-          { rerun: 'db:test:prepare' },
-          'Record failing features and run only them if any exist'
+        { rerun: 'db:test:prepare' },
+        'Record failing features and run only them if any exist'
       ) do |t|
         t.fork = false # You may get faster startup if you set this to false
         t.profile = 'rerun'
