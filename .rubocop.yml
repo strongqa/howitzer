@@ -29,8 +29,5 @@ Documentation:
 Metrics/ClassLength:
   Max: 120
 
-Metrics/ModuleLength:
-  Max: 252
-
 Metrics/AbcSize:
   Enabled: false
