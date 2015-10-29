@@ -10,11 +10,11 @@ RSpec.describe Mailgun::Response do
     it { is_expected.to eq("{\"foo\":\"bar\"}") }
   end
   describe '#code' do
-    subject { Mailgun::Response.new(response).code }
+    subject { described_class.new(response).code }
     it { is_expected.to eq(201) }
   end
   describe '#to_h' do
-    subject { Mailgun::Response.new(response).to_h }
+    subject { described_class.new(response).to_h }
     context 'when possible parse body' do
       it { is_expected.to eq('foo' => 'bar') }
     end

@@ -210,6 +210,8 @@ module Capybara
       end
     end
 
+    module_function
+
     def define_browserstack_driver
       caps_opts = {
         name: "#{prefix_name} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
@@ -251,7 +253,6 @@ module Capybara
         driver
       end
     end
-    module_function :define_browserstack_driver
 
     ##
     #
@@ -269,7 +270,6 @@ module Capybara
       path = "/rest/#{settings.sl_user}/jobs/#{session_id}/results/#{name}"
       "#{host}#{path}"
     end
-    module_funtion :sauce_resource_path
 
     ##
     #
@@ -285,7 +285,6 @@ module Capybara
       url = "#{host}#{path}"
       ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
     end
-    module_function :update_sauce_job_status
 
     ##
     #
@@ -304,7 +303,6 @@ module Capybara
             end
       "#{res} #{settings.sl_browser_name.upcase}"
     end
-    module_function :suite_name
 
     ##
     #
@@ -327,7 +325,6 @@ module Capybara
     def rake_task_name
       ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
     end
-    module_function :rake_task_name
 
     Capybara.run_server = false
     Capybara.app_host = ''

@@ -96,11 +96,11 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when source_file exists' do
-      before { allow(File).to receive(:exists?).with(source_path) { true } }
+      before { allow(File).to receive(:exist?).with(source_path) { true } }
       it { expect(generator).to receive(:copy_with_path).with(list.first).once }
     end
     context 'when source_file missing' do
-      before { allow(File).to receive(:exists?).with(source_path) { false } }
+      before { allow(File).to receive(:exist?).with(source_path) { false } }
       it { expect(generator).to receive(:puts_error).with("File '/example_path/example.txt' was not found.").once }
     end
   end
@@ -120,7 +120,7 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when destination file exists' do
-      before { allow(File).to receive(:exists?).with(destination_path) { true } }
+      before { allow(File).to receive(:exist?).with(destination_path) { true } }
       it { expect(generator).to receive(:puts_info).with("Conflict with '#{list.first[:destination]}' template").once }
       it do
         expect(generator).to receive(:print_info).with(
@@ -138,7 +138,7 @@ RSpec.describe Howitzer::BaseGenerator do
       end
     end
     context 'when source file exists' do
-      before { allow(File).to receive(:exists?).with(destination_path) { false } }
+      before { allow(File).to receive(:exist?).with(destination_path) { false } }
       it { expect(generator).to receive(:write_template).with(destination_path, source_path).once }
     end
   end
@@ -211,7 +211,7 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when destination file present' do
-      before { allow(File).to receive(:exists?).with(dst) { true } }
+      before { allow(File).to receive(:exist?).with(dst) { true } }
       context 'when identical with source file' do
         before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
         it { expect(generator).to receive(:puts_info).with("Identical 'd.txt' file").once }
@@ -260,7 +260,7 @@ RSpec.describe Howitzer::BaseGenerator do
       end
     end
     context 'when destination file missing' do
-      before { allow(File).to receive(:exists?).with(dst) { false } }
+      before { allow(File).to receive(:exist?).with(dst) { false } }
       it do
         expect(generator).to receive(:puts_info).with("Added 'd.txt' file")
         expect(FileUtils).to receive(:cp).with(src, dst).once

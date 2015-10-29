@@ -10,8 +10,8 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe 'CucumberGenerator' do
-    let(:generator_name) { Howitzer::CucumberGenerator }
+  describe Howitzer::CucumberGenerator do
+    let(:generator_name) { described_class }
     let(:expected_result) do
       [
         { name: '/config', is_directory: true },

@@ -10,11 +10,11 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe 'RootGenerator' do
-    let(:generator_name) { Howitzer::RootGenerator }
+  describe Howitzer::RootGenerator do
+    let(:generator_name) { described_class }
     let(:expected_result) do
       [
-        { name: '/Gemfile', is_directory: false, size: 609 },
+        { name: '/Gemfile', is_directory: false, size: 613 },
         { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') },
         { name: '/boot.rb', is_directory: false, size: template_file_size('root', 'boot.rb') }
       ]

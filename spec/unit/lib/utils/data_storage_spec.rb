@@ -1,10 +1,10 @@
 require 'spec_helper'
 require 'howitzer/utils/data_storage'
 
-RSpec.describe 'DataStorage' do
-  before { DataStorage.data.clear }
+RSpec.describe DataStorage do
+  before { described_class.data.clear }
   describe '.store' do
-    subject { DataStorage.store(ns, 7, :halt) }
+    subject { described_class.store(ns, 7, :halt) }
     context 'when namespace specified' do
       let(:ns) { :user }
       it 'should return value' do
@@ -12,7 +12,7 @@ RSpec.describe 'DataStorage' do
       end
       it 'should store namespace value' do
         subject
-        expect(DataStorage.data[:user]).to eql(7 => :halt)
+        expect(described_class.data[:user]).to eql(7 => :halt)
       end
     end
     context 'when namespace empty' do
@@ -21,8 +21,8 @@ RSpec.describe 'DataStorage' do
     end
   end
   describe '.extract' do
-    subject { DataStorage.extract(ns, key) }
-    before { DataStorage.data[:user] = { 7 => :exit } }
+    subject { described_class.extract(ns, key) }
+    before { described_class.data[:user] = { 7 => :exit } }
     describe 'when namespace specified' do
       let(:ns) { :user }
       context 'and namespace key found' do
@@ -50,30 +50,30 @@ RSpec.describe 'DataStorage' do
     end
   end
   describe '.clear_ns' do
-    subject { DataStorage.clear_ns(:user) }
-    before { DataStorage.data[:user] = { 7 => :exit } }
+    subject { described_class.clear_ns(:user) }
+    before { described_class.data[:user] = { 7 => :exit } }
     it 'should return empty hash' do
       subject
-      data = DataStorage.instance_variable_get(:@data)
+      data = described_class.instance_variable_get(:@data)
       expect(data[:user]).to eql({})
     end
   end
   describe '.clear_all_ns' do
     before do
-      DataStorage.store('sauce', :status, false)
-      DataStorage.store(:foo, 'foo', 'some value1')
-      DataStorage.store(:bar, 'bar', 'some value2')
-      DataStorage.store(:baz, 'baz', 'some value3')
+      described_class.store('sauce', :status, false)
+      described_class.store(:foo, 'foo', 'some value1')
+      described_class.store(:bar, 'bar', 'some value2')
+      described_class.store(:baz, 'baz', 'some value3')
     end
     context 'when default argument' do
-      before { DataStorage.clear_all_ns }
-      it { expect(DataStorage.data).to eq('sauce' => { status: false }, :foo => {}, :bar => {}, :baz => {}) }
+      before { described_class.clear_all_ns }
+      it { expect(described_class.data).to eq('sauce' => { status: false }, :foo => {}, :bar => {}, :baz => {}) }
     end
     context 'when custom argument' do
       let(:exception_list) { [:foo, :bar] }
-      before { DataStorage.clear_all_ns(exception_list) }
+      before { described_class.clear_all_ns(exception_list) }
       it do
-        expect(DataStorage.data).to eq(
+        expect(described_class.data).to eq(
           'sauce' => {},
           :foo => { 'foo' => 'some value1' },
           :bar => { 'bar' => 'some value2' },

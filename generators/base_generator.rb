@@ -26,7 +26,6 @@ module Howitzer
     def manifest; end
 
     protected
-
     def banner; end
 
     def logger

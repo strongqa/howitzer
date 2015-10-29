@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/mailgun/connector'
 
 RSpec.describe Mailgun::Connector do
-  let(:connector) { Mailgun::Connector.instance }
+  let(:connector) { described_class.instance }
   let(:domain_name) { 'test@domain.com' }
   describe '#client' do
     subject { connector.client }

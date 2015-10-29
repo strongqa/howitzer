@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/mailgun/client'
 
 RSpec.describe Mailgun::Client do
-  let(:mg_obj) { Mailgun::Client.new('Fake-API-Key') }
+  let(:mg_obj) { described_class.new('Fake-API-Key') }
   describe '.new' do
     subject { mg_obj }
     it { expect { subject }.not_to raise_error }

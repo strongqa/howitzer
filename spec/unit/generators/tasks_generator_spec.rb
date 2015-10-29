@@ -10,8 +10,8 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe 'TasksGenerator' do
-    let(:generator_name) { Howitzer::TasksGenerator }
+  describe Howitzer::TasksGenerator do
+    let(:generator_name) { described_class }
     let(:expected_result) do
       [
         { name: '/tasks', is_directory: true },

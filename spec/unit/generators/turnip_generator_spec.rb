@@ -10,8 +10,8 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe 'TurnipGenerator' do
-    let(:generator_name) { Howitzer::TurnipGenerator }
+  describe Howitzer::TurnipGenerator do
+    let(:generator_name) { described_class }
     let(:expected_result) do
       [
         { name: '/spec', is_directory: true },

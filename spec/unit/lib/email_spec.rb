@@ -3,11 +3,11 @@ require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-RSpec.describe 'Email' do
+RSpec.describe Email do
   let(:recipient) { 'first_tester@gmail.com' }
   let(:message_subject) { 'test subject' }
   let(:message) { double(:message) }
-  let(:email_object) { Email.new(message) }
+  let(:email_object) { described_class.new(message) }
 
   before do
     stub_const('Email::SUBJECT', message_subject)
@@ -37,18 +37,18 @@ RSpec.describe 'Email' do
 
   describe '.find_by_recipient' do
     let(:recipient) { 'test@user.com' }
-    subject { Email.find_by_recipient(recipient) }
+    subject { described_class.find_by_recipient(recipient) }
     it do
-      expect(Email).to receive(:find).with(recipient, message_subject).once
+      expect(described_class).to receive(:find).with(recipient, message_subject).once
       subject
     end
   end
 
   describe '.find' do
     let(:recipient) { 'test@user.com' }
-    subject { Email.find(recipient, message_subject) }
+    subject { described_class.find(recipient, message_subject) }
     it do
-      expect(Email.adapter).to receive(:find).with(recipient, message_subject).once
+      expect(described_class.adapter).to receive(:find).with(recipient, message_subject).once
       subject
     end
   end

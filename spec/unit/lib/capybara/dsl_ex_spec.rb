@@ -3,9 +3,10 @@ require 'howitzer/capybara/dsl_ex'
 
 RSpec.describe Howitzer::Capybara::DslEx do
   let(:test_page_klass) do
+    klass = described_class
     Class.new do
-      include Howitzer::Capybara::DslEx
-      extend Howitzer::Capybara::DslEx
+      include klass
+      extend klass
     end
   end
   let(:test_page) { test_page_klass.new }
