@@ -124,10 +124,9 @@ module Capybara
         require 'capybara/poltergeist'
         Capybara.register_driver :poltergeist do |app|
           Capybara::Poltergeist::Driver.new(
-            app, {
-              js_errors: !settings.pjs_ignore_js_errors,
-              phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
-            }
+            app,
+            js_errors: !settings.pjs_ignore_js_errors,
+            phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
           )
         end
       end

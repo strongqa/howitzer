@@ -73,9 +73,9 @@ module HowitzerCli
     private
 
     def validate_options(options)
-      unless [options[:cucumber], options[:rspec], options[:turnip]].count { |el| el } == 1
-        exit_now!('Provide --cucumber, --rspec or --turnip option', 64)
-      end
+      return if [options[:cucumber], options[:rspec], options[:turnip]].count { |el| el } == 1
+
+      exit_now!('Provide --cucumber, --rspec or --turnip option', 64)
     end
 
     def check_project_presence

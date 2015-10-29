@@ -36,9 +36,9 @@ module Howitzer
       #
 
       def check_validations_are_defined!
-        if validations.nil? && !old_url_validation_present?
-          log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
-        end
+        return unless validations.nil? && !old_url_validation_present?
+
+        log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
       end
 
       private
@@ -48,12 +48,12 @@ module Howitzer
       end
 
       def old_url_validation_present?
-        if self.class.const_defined?('URL_PATTERN')
-          self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
-          warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
-               "\t validates :url, pattern: URL_PATTERN"
-          true
-        end
+        return unless self.class.const_defined?('URL_PATTERN')
+
+        self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
+        warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
+             "\t validates :url, pattern: URL_PATTERN"
+        true
       end
 
       module ClassMethods

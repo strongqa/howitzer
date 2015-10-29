@@ -1,6 +1,10 @@
 # See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
+AllCops:
+  Exclude:
+    - lib/howitzer/capybara/settings.rb
+
 LineLength:
   Max: 120
 
@@ -14,4 +18,19 @@ Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
 Style/CaseEquality:
+  Enabled: false
+
+MethodLength:
+  Max: 30
+
+Documentation:
+  Enabled: false
+
+Metrics/ClassLength:
+  Max: 120
+
+Metrics/ModuleLength:
+  Max: 252
+
+Metrics/AbcSize:
   Enabled: false

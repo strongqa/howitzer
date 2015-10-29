@@ -153,15 +153,27 @@ module Helpers
 
   def browser?(*browser_aliases)
     if sauce_driver?
-      log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-      browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
+      sauce_browser?(*browser_aliases)
     elsif testingbot_driver?
-      log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-      browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
+      testingbot_browser?(*browser_aliases)
     elsif selenium_driver? || selenium_grid_driver?
-      log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-      browser_aliases.include?(settings.sel_browser.to_s.to_sym)
+      selenium_browser?(*browser_aliases)
     end
+  end
+
+  def sauce_browser?(*browser_aliases)
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
+    browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
+  end
+
+  def testingbot_browser?(*browser_aliases)
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
+    browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
+  end
+
+  def selenium_browser?(*browser_aliases)
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
+    browser_aliases.include?(settings.sel_browser.to_s.to_sym)
   end
 end
 

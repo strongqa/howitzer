@@ -124,11 +124,11 @@ module Howitzer
     end
 
     def write_template(dest_path, source_path)
-      File.open(dest_path, 'w+'){|f|
+      File.open(dest_path, 'w+') do |f|
         f.write(
           ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding })
         )
-      }
+      end
     end
   end
 end

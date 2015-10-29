@@ -1,5 +1,7 @@
-module Turnip::Steps
-  # PUT GLOBAL STEPS HERE
+module Turnip
+  module Steps
+    # PUT GLOBAL STEPS HERE
+  end
 end
 
 module MonsterSteps

@@ -25,7 +25,7 @@ module MailAdapters
             "domains/#{::Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}"
           ).to_h
         else
-          fail ::Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
+          fail ::Howitzer::EmailNotFoundError, 'Message not received yet, retry...'
         end
       end
       log.error(
