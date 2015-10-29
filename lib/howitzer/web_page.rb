@@ -159,7 +159,7 @@ class WebPage
         page.evaluate_script('window.confirm = function() { return false; }')
       end
     end
- end
+  end
 
   ##
   #

@@ -90,7 +90,8 @@ RSpec.describe 'WebPage' do
       it do
         expect(log).to receive(:error).with(
           Howitzer::AmbiguousPageMatchingError,
-          "Current page matches more that one page class (FooPage, BarPage).\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
+          "Current page matches more that one page class (FooPage, BarPage).\n" \
+          "\tCurrent url: http://test.com\n\tCurrent title: Test site"
         ).once
         subject
       end

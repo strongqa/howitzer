@@ -86,7 +86,7 @@ module MailAdapters
     # Allows to get email MIME attachment
     #
 
-    def get_mime_part
+    def mime_part
       fail NotImplementedError
     end
   end

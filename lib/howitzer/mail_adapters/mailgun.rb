@@ -63,7 +63,7 @@ module MailAdapters
       message['sender']
     end
 
-    def get_mime_part
+    def mime_part
       files = message['attachments']
       if files.empty?
         log.error ::Howitzer::NoAttachmentsError, 'No attachments where found.'

@@ -227,7 +227,7 @@ RSpec.describe 'Capybara::Settings' do
 
   describe '#sauce_resource_path' do
     subject { test_object.sauce_resource_path(name) }
-    let (:name) { 'test_name' }
+    let(:name) { 'test_name' }
     before do
       allow(settings).to receive(:sl_user) { 'vlad' }
       allow(settings).to receive(:sl_api_key) { '11111' }
@@ -237,7 +237,7 @@ RSpec.describe 'Capybara::Settings' do
   end
   describe '.sauce_resource_path' do
     subject { Capybara::Settings.sauce_resource_path(name) }
-    let (:name) { 'test_name' }
+    let(:name) { 'test_name' }
     before do
       allow(settings).to receive(:sl_user) { 'vlad' }
       allow(settings).to receive(:sl_api_key) { '11111' }

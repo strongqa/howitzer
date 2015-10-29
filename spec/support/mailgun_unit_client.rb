@@ -23,15 +23,9 @@ module Mailgun
       end
     end
 
-    def get(_options, query_string = nil)
-      if query_string
-
-        response = response_generator('bounces')
-      else
-        response = response_generator('bounces')
-      end
-      Response.new(response)
-    rescue Exception => e
+    def get(_options, _query_string = nil)
+      Response.new(response_generator('bounces'))
+    rescue StandardError => e
       log.error Howitzer::CommunicationError.new(e), e.response
     end
 

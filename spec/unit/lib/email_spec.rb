@@ -115,10 +115,10 @@ RSpec.describe 'Email' do
     end
   end
 
-  describe '#get_mime_part' do
-    subject { email_object.get_mime_part }
+  describe '#mime_part' do
+    subject { email_object.mime_part }
     it do
-      expect(message).to receive(:get_mime_part).once
+      expect(message).to receive(:mime_part).once
       subject
     end
   end

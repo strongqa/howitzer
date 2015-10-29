@@ -20,7 +20,7 @@ module Mailgun
 
     def to_h
       JSON.parse(@body)
-    rescue Exception => e
+    rescue StandardError => e
       log.error Howitzer::ParseError, e.message
     end
   end

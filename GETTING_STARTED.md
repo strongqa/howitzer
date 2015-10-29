@@ -469,7 +469,7 @@ _**Email**_ Class corresponds to one letter. Used to test the notifications.
 * **\#recipients** - returns the array of recipients who received the current email.
 * **\#received_time** - returns the time when an email was received.
 * **\#sender_email** - returns an email of a sender.
-* **\#get_mime_part** - allows you receiving an email attachment.
+* **\#mime_part** - allows you receiving an email attachment.
 
 **Example:**
 

@@ -142,7 +142,7 @@ class Email
   # Allows to get email MIME attachment
   #
 
-  def get_mime_part
-    message.get_mime_part
+  def mime_part
+    message.mime_part
   end
 end

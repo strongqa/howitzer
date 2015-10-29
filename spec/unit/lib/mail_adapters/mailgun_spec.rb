@@ -127,8 +127,8 @@ RSpec.describe 'Mailgun Email Adapter' do
     it { expect(email_object.sender_email).to eql message['sender'] }
   end
 
-  describe '#get_mime_part' do
-    subject { email_object.get_mime_part }
+  describe '#mime_part' do
+    subject { email_object.mime_part }
 
     context 'when has attachments' do
       let(:files) { [double] }

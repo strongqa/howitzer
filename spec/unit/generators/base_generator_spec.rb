@@ -109,7 +109,7 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:list) { [{ source: 'example.txt.erb', destination: 'example.txt' }] }
     let(:source_path) { '/example_path/example.txt.erb' }
     let(:destination_path) { '/example_path/example.txt' }
-    let(:generator) { described_class.new({ 'rspec' => true }) }
+    let(:generator) { described_class.new('rspec' => true) }
     subject { generator.send(:copy_templates, list) }
     before do
       allow_any_instance_of(described_class).to receive(:initialize) { nil }

@@ -9,3 +9,9 @@ Style/CaseIndentation:
 
 Style/EmptyElse:
   Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false

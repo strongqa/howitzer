@@ -49,7 +49,7 @@ module Howitzer
                    else nil
                    #:nocov:
                  end
-      end
+               end
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
       @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
       fail(object)

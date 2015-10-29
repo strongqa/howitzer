@@ -56,13 +56,13 @@ module HowitzerCli
       load_generators
       Howitzer::ConfigGenerator.new({})
       if cucumber_integrated?
-        Howitzer::RootGenerator.new({ cucumber: true })
+        Howitzer::RootGenerator.new(cucumber: true)
         Howitzer::CucumberGenerator.new({})
       elsif rspec_integrated?
-        Howitzer::RootGenerator.new({ rspec: true })
+        Howitzer::RootGenerator.new(rspec: true)
         Howitzer::RspecGenerator.new({})
       elsif turnip_integrated?
-        Howitzer::RootGenerator.new({ turnip: true })
+        Howitzer::RootGenerator.new(turnip: true)
         Howitzer::TurnipGenerator.new({})
       end
     end

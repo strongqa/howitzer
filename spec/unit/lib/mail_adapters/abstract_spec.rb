@@ -54,8 +54,8 @@ RSpec.describe MailAdapters::Abstract do
     it { expect { subject }.to raise_error(NotImplementedError) }
   end
 
-  describe '#get_mime_part' do
-    subject { abstract_adapter.get_mime_part }
+  describe '#mime_part' do
+    subject { abstract_adapter.mime_part }
     it { expect { subject }.to raise_error(NotImplementedError) }
   end
 end
