@@ -209,7 +209,7 @@ RSpec.describe 'PageValidator' do
       it do
         expect(log).to receive(:error).with(
           Howitzer::UnknownValidationError,
-          "unknown 'unknown' validation name"
+          "unknown 'unknown' validation type"
         ).once.and_call_original
         expect { subject }.to raise_error(Howitzer::UnknownValidationError)
       end

@@ -5,20 +5,46 @@ require 'howitzer/mail_adapters/abstract'
 module MailAdapters
   class Mailgun < Abstract
     def self.find(recipient, subject)
-      @message = {}
-      message_event(recipient, subject)
-      retryable(
+      message = {}
+      retryable(find_retry_params) { message = retrieve_message(recipient, subject) }
+      log.error(
+        ::Howitzer::EmailNotFoundError,
+        "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
+      ) if message.empty?
+      new(message)
+    end
+
+    def self.events
+      ::Mailgun::Connector.instance.client.get("#{::Mailgun::Connector.instance.domain}/events", event: 'stored')
+    end
+    private_class_method :events
+
+    def self.event_by(recipient, subject)
+      events.to_h['items'].find do |hash|
+        hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
+      end
+    end
+    private_class_method :event_by
+
+    def self.find_retry_params
+      {
         timeout: settings.timeout_small,
         sleep: settings.timeout_short,
         silent: true,
         logger: log,
         on: ::Howitzer::EmailNotFoundError
-      ) do
-        init_message(recipient, subject)
-      end
-      log_error if @message.empty?
-      new(@message)
+      }
     end
+    private_class_method :find_retry_params
+
+    def self.retrieve_message(recipient, subject)
+      event = event_by(recipient, subject)
+      fail ::Howitzer::EmailNotFoundError, 'Message not received yet, retry...' unless event
+
+      message_url = "domains/#{::Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}"
+      ::Mailgun::Connector.instance.client.get(message_url).to_h
+    end
+    private_class_method :retrieve_message
 
     def plain_text_body
       message['body-plain']
@@ -55,33 +81,6 @@ module MailAdapters
         return
       end
       files
-    end
-
-    private
-
-    def init_message(recipient, subject)
-      event_obj = event(recipient, subject)
-      if event_ojb
-        @message = ::Mailgun::Connector.instance.client.get(
-          "domains/#{::Mailgun::Connector.instance.domain}/messages/#{event_obj['storage']['key']}").to_h
-      else
-        fail ::Howitzer::EmailNotFoundError, 'Message not received yet, retry...'
-      end
-    end
-
-    def event(recipient, subject)
-      stored_events.to_h['items'].find do |hash|
-        hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
-      end
-    end
-
-    def stored_events
-      ::Mailgun::Connector.instance.client.get("#{::Mailgun::Connector.instance.domain}/events", event: 'stored')
-    end
-
-    def log_error
-      log.error(::Howitzer::EmailNotFoundError,
-                "Message with subject '#{subject}' for recipient '#{recipient}' was not found.")
     end
   end
 end
