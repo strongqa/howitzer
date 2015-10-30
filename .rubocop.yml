@@ -25,9 +25,3 @@ MethodLength:
 
 Documentation:
   Enabled: false
-
-Metrics/ClassLength:
-  Max: 120
-
-#Metrics/AbcSize:
-#  Enabled: false

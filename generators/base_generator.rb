@@ -4,61 +4,27 @@ require 'ostruct'
 require 'active_support/core_ext/hash'
 
 module Howitzer
-  class BaseGenerator
-    class << self
-      attr_accessor :logger, :destination
-    end
-
-    def initialize(options)
-      @options = options.symbolize_keys
-      print_banner
-      manifest.each do |type, list|
-        case type
-          when :files
-            copy_files(list)
-          when :templates
-            copy_templates(list)
-          else nil
-        end
+  module Outputable
+    def self.included(base)
+      class << base
+        attr_accessor :logger
       end
     end
 
-    def manifest; end
+    def initialize
+      print_banner
+    end
 
     protected
 
     def banner; end
 
     def logger
-      BaseGenerator.logger || $stdout
+      self.class.logger || $stdout
     end
 
     def destination
-      BaseGenerator.destination || Dir.pwd
-    end
-
-    def copy_files(list)
-      list.each do |data|
-        source_file = source_path(data[:source])
-        if File.exist?(source_file)
-          copy_with_path(data)
-        else
-          puts_error("File '#{source_file}' was not found.")
-        end
-      end
-    end
-
-    def copy_templates(list)
-      list.each do |data|
-        destination_path = dest_path(data[:destination])
-        source_path = source_path(data[:source])
-        if File.exist?(destination_path)
-          copy_templates_file_exist(destination_path, source_path)
-        else
-          write_template(destination_path, source_path)
-          puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
-        end
-      end
+      self.class.destination || Dir.pwd
     end
 
     def print_banner
@@ -76,6 +42,52 @@ module Howitzer
     def puts_error(data)
       logger.puts "      ERROR: #{data}"
     end
+  end
+
+  module Copyable
+    def self.included(base)
+      class << base
+        attr_accessor :destination
+      end
+    end
+
+    def initialize(_options)
+      super()
+
+      manifest.each do |type, list|
+        case type
+          when :files
+            copy_files(list)
+          when :templates
+            copy_templates(list)
+          else nil
+        end
+      end
+    end
+
+    def manifest; end
+
+    protected
+
+    def copy_files(list)
+      list.each do |data|
+        source_file = source_path(data[:source])
+        File.exist?(source_file) ? copy_with_path(data) : puts_error("File '#{source_file}' was not found.")
+      end
+    end
+
+    def copy_templates(list)
+      list.each do |data|
+        destination_path = dest_path(data[:destination])
+        source_path = source_path(data[:source])
+        if File.exist?(destination_path)
+          copy_templates_file_exist(data, destination_path, source_path)
+        else
+          write_template(destination_path, source_path)
+          puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
+        end
+      end
+    end
 
     def source_path(file_name)
       base_name = self.class.name.sub('Generator', '').sub('Howitzer::', '').downcase
@@ -91,7 +103,7 @@ module Howitzer
       dst = dest_path(data[:destination])
       FileUtils.mkdir_p(File.dirname(dst))
       if File.exist?(dst)
-        copy_with_path_file_exist(src, dst)
+        copy_with_path_file_exist(data, src, dst)
       else
         FileUtils.cp(src, dst)
         puts_info("Added '#{data[:destination]}' file")
@@ -102,32 +114,30 @@ module Howitzer
 
     def write_template(dest_path, source_path)
       File.open(dest_path, 'w+') do |f|
-        f.write(
-          ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding })
-        )
+        f.write(ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding }))
       end
     end
 
     private
 
-    def copy_templates_file_exist(destination_path, source_path)
+    def copy_templates_file_exist(data, destination_path, source_path)
       puts_info("Conflict with '#{data[:destination]}' template")
       print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
-      copy_templates_overwrite(gets.strip.downcase, destination_path, source_path)
+      copy_templates_overwrite(gets.strip.downcase, data, destination_path, source_path)
     end
 
-    def copy_with_path_file_exist(src, dst)
-      if FileUtils.identical?(src, dst)
+    def copy_with_path_file_exist(data, source, destination)
+      if FileUtils.identical?(source, destination)
         puts_info("Identical '#{data[:destination]}' file")
       else
         puts_info("Conflict with '#{data[:destination]}' file")
         print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
-        copy_with_path_overwrite(gets.strip.downcase, src, dst)
+        copy_with_path_overwrite(gets.strip.downcase, data, source, destination)
       end
     end
 
-    def copy_templates_overwrite(ans, destination_path, source_path)
-      case ans
+    def copy_templates_overwrite(answer, data, destination_path, source_path)
+      case answer
         when 'y'
           write_template(destination_path, source_path)
           puts_info("    Forced '#{data[:destination]}' template")
@@ -137,10 +147,10 @@ module Howitzer
       end
     end
 
-    def copy_with_path_overwrite(ans, src, dst)
-      case ans
+    def copy_with_path_overwrite(answer, data, source, destination)
+      case answer
         when 'y'
-          FileUtils.cp(src, dst)
+          FileUtils.cp(source, destination)
           puts_info("    Forced '#{data[:destination]}' file")
         when 'n' then
           puts_info("    Skipped '#{data[:destination]}' file")
@@ -148,4 +158,22 @@ module Howitzer
       end
     end
   end
+
+  class BaseGenerator
+    attr_reader :options
+
+    include Outputable
+    include Copyable
+
+    def initialize(options)
+      @options = options.symbolize_keys
+      super
+    end
+  end
 end
+
+class << ::Howitzer::BaseGenerator
+  attr_accessor :logger
+end
+
+::Howitzer::BaseGenerator.logger = 1
