@@ -50,9 +50,9 @@ module Howitzer
       def old_url_validation_present?
         return unless self.class.const_defined?('URL_PATTERN')
 
-        self.class.validates :url, pattern: self.class.const_get('URL_PATTERN')
+        self.class.validate :url, pattern: self.class.const_get('URL_PATTERN')
         warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
-             "\t validates :url, pattern: URL_PATTERN"
+             "\t validate :url, pattern: URL_PATTERN"
         true
       end
 
@@ -67,10 +67,10 @@ module Howitzer
         #    :locator => [String]                     For :element_presence (Existing locator name)
         # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
         #
-        def validates(name, options)
+        def validate(name, options)
           log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
-          validates_name(name, options)
+          validate_by_type(name, options)
         end
 
         ##
@@ -123,8 +123,8 @@ module Howitzer
 
         private
 
-        def validates_name(name, options)
-          case name.to_s.to_sym
+        def validate_by_type(type, options)
+          case type.to_s.to_sym
             when :url
               validate_by_pattern(:url, options)
             when :element_presence
@@ -132,7 +132,7 @@ module Howitzer
             when :title
               validate_by_pattern(:title, options)
             else
-              log.error Howitzer::UnknownValidationError, "unknown '#{name}' validation name"
+              log.error Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
           end
         end
       end

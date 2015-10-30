@@ -34,7 +34,7 @@ RSpec.describe 'PageValidator' do
       before { web_page_class.const_set('URL_PATTERN', /Foo/) }
       after { web_page_class.send :remove_const, 'URL_PATTERN' }
       it do
-        expect(web_page_class).to receive(:validates).with(
+        expect(web_page_class).to receive(:validate).with(
           :url,
           pattern: /Foo/
         ) { Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {} }
@@ -43,29 +43,29 @@ RSpec.describe 'PageValidator' do
     end
     context 'when title validation is specified' do
       before do
-        web_page.class.validates :title, pattern: /Foo/
+        web_page.class.validate :title, pattern: /Foo/
       end
       it { expect { subject }.to_not raise_error }
     end
     context 'when url validation is specified' do
       before do
-        web_page.class.validates :url, pattern: /Foo/
+        web_page.class.validate :url, pattern: /Foo/
       end
       it { expect { subject }.to_not raise_error }
     end
     context 'when element_presence validation is specified' do
       before do
-        web_page.class.validates :element_presence, locator: :test_locator
+        web_page.class.validate :element_presence, locator: :test_locator
       end
       it { expect { subject }.to_not raise_error }
     end
   end
 
-  describe '.validates' do
+  describe '.validate' do
     before do
       Howitzer::Utils::PageValidator.validations[web_page.class.name] = nil
     end
-    subject { web_page.class.validates(name, options) }
+    subject { web_page.class.validate(name, options) }
     context 'when name = :url' do
       context 'as string' do
         let(:name) { 'url' }
@@ -240,9 +240,9 @@ RSpec.describe 'PageValidator' do
       before do
         web_page_class.class_eval do
           add_locator :login, '#id'
-          validates :url, pattern: /foo/
-          validates :title, pattern: /Foo page/
-          validates :element_presence, locator: :login
+          validate :url, pattern: /foo/
+          validate :title, pattern: /Foo page/
+          validate :element_presence, locator: :login
         end
       end
       context 'when all matches' do
