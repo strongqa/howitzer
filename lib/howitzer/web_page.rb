@@ -145,13 +145,10 @@ class WebPage
 
   def click_alert_box(flag)
     if %w(selenium selenium_dev sauce).include? settings.driver
-      click_alert_box_include(flag)
+      alert = page.driver.browser.switch_to.alert
+      flag ? alert.accept : alert.dismiss
     else
-      if flag
-        page.evaluate_script('window.confirm = function() { return true; }')
-      else
-        page.evaluate_script('window.confirm = function() { return false; }')
-      end
+      page.evaluate_script("window.confirm = function() { return #{flag}; }")
     end
   end
 
@@ -191,13 +188,5 @@ class WebPage
     page.driver.browser.switch_to.frame("#{name}_ifr")
     page.find(:css, '#tinymce').native.send_keys(options[:with])
     page.driver.browser.switch_to.default_content
-  end
-
-  def click_alert_box_include(flag)
-    if flag
-      page.driver.browser.switch_to.alert.accept
-    else
-      page.driver.browser.switch_to.alert.dismiss
-    end
   end
 end
