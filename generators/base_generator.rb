@@ -20,11 +20,11 @@ module Howitzer
     def banner; end
 
     def logger
-      self.class.logger || $stdout
+      BaseGenerator.logger || $stdout
     end
 
     def destination
-      self.class.destination || Dir.pwd
+      BaseGenerator.destination || Dir.pwd
     end
 
     def print_banner
