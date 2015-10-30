@@ -193,8 +193,24 @@ module LocatorStore
       @locators ||= {}
       @locators[self.name] ||= {}
       @locators[self.name][type] ||= {}
+      @locators[self.name][type][name] = build_locator_by_type(params)
+    end
+
+    def build_locator_by_type(params)
+      validate_locator_params(params)
+
+      case params.class.name
+        when 'Hash'
+          [params.keys.first.to_s.to_sym, params.values.first.to_s]
+        when 'Proc'
+          params
+        else
+          params.to_s
+      end
+    end
+
+    def validate_locator_params(params)
       log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
-      add_locator_by_type_name(type, name, params)
     end
   end
 
@@ -203,19 +219,5 @@ module LocatorStore
     define_method(name) do |*args|
       self.class.send(name, *args)
     end
-  end
-
-  private
-
-  def add_locator_by_type_name(type, name, params)
-    @locators[self.name][type][name] =
-        case params.class.name
-          when 'Hash'
-            [params.keys.first.to_s.to_sym, params.values.first.to_s]
-          when 'Proc'
-            params
-          else
-            params.to_s
-        end
   end
 end
