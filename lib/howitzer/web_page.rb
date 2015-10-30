@@ -129,9 +129,7 @@ class WebPage
 
   def tinymce_fill_in(name, options = {})
     if %w(selenium selenium_dev sauce).include? settings.driver
-      page.driver.browser.switch_to.frame("#{name}_ifr")
-      page.find(:css, '#tinymce').native.send_keys(options[:with])
-      page.driver.browser.switch_to.default_content
+      tinymce_fill_in_include(name, options)
     else
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
@@ -147,11 +145,7 @@ class WebPage
 
   def click_alert_box(flag)
     if %w(selenium selenium_dev sauce).include? settings.driver
-      if flag
-        page.driver.browser.switch_to.alert.accept
-      else
-        page.driver.browser.switch_to.alert.dismiss
-      end
+      click_alert_box_include(flag)
     else
       if flag
         page.evaluate_script('window.confirm = function() { return true; }')
@@ -189,5 +183,21 @@ class WebPage
 
   def title
     page.title
+  end
+
+  private
+
+  def tinymce_fill_in_include(name, options = {})
+    page.driver.browser.switch_to.frame("#{name}_ifr")
+    page.find(:css, '#tinymce').native.send_keys(options[:with])
+    page.driver.browser.switch_to.default_content
+  end
+
+  def click_alert_box_include(flag)
+    if flag
+      page.driver.browser.switch_to.alert.accept
+    else
+      page.driver.browser.switch_to.alert.dismiss
+    end
   end
 end

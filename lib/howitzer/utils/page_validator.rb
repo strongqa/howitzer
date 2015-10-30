@@ -70,16 +70,7 @@ module Howitzer
         def validates(name, options)
           log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
-          case name.to_s.to_sym
-            when :url
-              validate_by_pattern(:url, options)
-            when :element_presence
-              validate_element options
-            when :title
-              validate_by_pattern(:title, options)
-            else
-              log.error Howitzer::UnknownValidationError, "unknown '#{name}' validation name"
-          end
+          validates_name(name, options)
         end
 
         ##
@@ -128,6 +119,21 @@ module Howitzer
             log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object"
           end
           PageValidator.validations[self.name][name] = ->(web_page) { pattern === web_page.send(name) }
+        end
+
+        private
+
+        def validates_name(name, options)
+          case name.to_s.to_sym
+            when :url
+              validate_by_pattern(:url, options)
+            when :element_presence
+              validate_element options
+            when :title
+              validate_by_pattern(:title, options)
+            else
+              log.error Howitzer::UnknownValidationError, "unknown '#{name}' validation name"
+          end
         end
       end
     end

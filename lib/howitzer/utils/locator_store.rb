@@ -174,8 +174,7 @@ module LocatorStore
 
     # looks up locator in current and all super classes
     def parent_locator(type, name)
-      if @locators && @locators.key?(self.name) &&
-         @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
+      if Hash(@locators).fetch(self.name, {}).fetch(type, {}).key?(name)
         @locators[self.name][type][name]
       else
         superclass.parent_locator(type, name) unless superclass == Object
@@ -195,14 +194,7 @@ module LocatorStore
       @locators[self.name] ||= {}
       @locators[self.name][type] ||= {}
       log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
-      case params.class.name
-        when 'Hash'
-          @locators[self.name][type][name] = [params.keys.first.to_s.to_sym, params.values.first.to_s]
-        when 'Proc'
-          @locators[self.name][type][name] = params
-        else
-          @locators[self.name][type][name] = params.to_s
-      end
+      add_locator_by_type_name(type, name, params)
     end
   end
 
@@ -211,5 +203,19 @@ module LocatorStore
     define_method(name) do |*args|
       self.class.send(name, *args)
     end
+  end
+
+  private
+
+  def add_locator_by_type_name(type, name, params)
+    @locators[self.name][type][name] =
+        case params.class.name
+          when 'Hash'
+            [params.keys.first.to_s.to_sym, params.values.first.to_s]
+          when 'Proc'
+            params
+          else
+            params.to_s
+        end
   end
 end

@@ -40,7 +40,6 @@ module Howitzer
     def copy_files(list)
       list.each do |data|
         source_file = source_path(data[:source])
-
         if File.exist?(source_file)
           copy_with_path(data)
         else
@@ -54,16 +53,7 @@ module Howitzer
         destination_path = dest_path(data[:destination])
         source_path = source_path(data[:source])
         if File.exist?(destination_path)
-          puts_info("Conflict with '#{data[:destination]}' template")
-          print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
-          case gets.strip.downcase
-            when 'y'
-              write_template(destination_path, source_path)
-              puts_info("    Forced '#{data[:destination]}' template")
-            when 'n'
-              puts_info("    Skipped '#{data[:destination]}' template")
-            else nil
-          end
+          copy_templates_file_exist(destination_path, source_path)
         else
           write_template(destination_path, source_path)
           puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
@@ -101,20 +91,7 @@ module Howitzer
       dst = dest_path(data[:destination])
       FileUtils.mkdir_p(File.dirname(dst))
       if File.exist?(dst)
-        if FileUtils.identical?(src, dst)
-          puts_info("Identical '#{data[:destination]}' file")
-        else
-          puts_info("Conflict with '#{data[:destination]}' file")
-          print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
-          case gets.strip.downcase
-            when 'y'
-              FileUtils.cp(src, dst)
-              puts_info("    Forced '#{data[:destination]}' file")
-            when 'n' then
-              puts_info("    Skipped '#{data[:destination]}' file")
-            else nil
-          end
-        end
+        copy_with_path_file_exist(src, dst)
       else
         FileUtils.cp(src, dst)
         puts_info("Added '#{data[:destination]}' file")
@@ -128,6 +105,46 @@ module Howitzer
         f.write(
           ERB.new(File.open(source_path, 'r').read).result(OpenStruct.new(@options).instance_eval { binding })
         )
+      end
+    end
+
+    private
+
+    def copy_templates_file_exist(destination_path, source_path)
+      puts_info("Conflict with '#{data[:destination]}' template")
+      print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
+      copy_templates_overwrite(gets.strip.downcase, destination_path, source_path)
+    end
+
+    def copy_with_path_file_exist(src, dst)
+      if FileUtils.identical?(src, dst)
+        puts_info("Identical '#{data[:destination]}' file")
+      else
+        puts_info("Conflict with '#{data[:destination]}' file")
+        print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
+        copy_with_path_overwrite(gets.strip.downcase, src, dst)
+      end
+    end
+
+    def copy_templates_overwrite(ans, destination_path, source_path)
+      case ans
+        when 'y'
+          write_template(destination_path, source_path)
+          puts_info("    Forced '#{data[:destination]}' template")
+        when 'n'
+          puts_info("    Skipped '#{data[:destination]}' template")
+        else nil
+      end
+    end
+
+    def copy_with_path_overwrite(ans, src, dst)
+      case ans
+        when 'y'
+          FileUtils.cp(src, dst)
+          puts_info("    Forced '#{data[:destination]}' file")
+        when 'n' then
+          puts_info("    Skipped '#{data[:destination]}' file")
+        else nil
       end
     end
   end
