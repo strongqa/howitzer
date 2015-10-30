@@ -128,8 +128,8 @@ class WebPage
   #
 
   def tinymce_fill_in(name, options = {})
-    if %w(selenium selenium_dev sauce).include? settings.driver
-      tinymce_fill_in_include(name, options)
+    if %w(selenium selenium_dev sauce).include?(settings.driver)
+      browser_tinymce_fill_in(name, options)
     else
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
@@ -184,9 +184,10 @@ class WebPage
 
   private
 
-  def tinymce_fill_in_include(name, options = {})
+  def browser_tinymce_fill_in(name, options = {})
     page.driver.browser.switch_to.frame("#{name}_ifr")
     page.find(:css, '#tinymce').native.send_keys(options[:with])
+  ensure
     page.driver.browser.switch_to.default_content
   end
 end
