@@ -2,15 +2,15 @@ require 'spec_helper'
 
 require 'howitzer/capybara/settings'
 
-RSpec.describe 'Capybara::Settings' do
+RSpec.describe Capybara::Settings do
   let(:log) { double('log') }
-  let(:test_object) { double('test_object').extend(Capybara::Settings) }
+  let(:test_object) { described_class }
   before do
-    allow(log).to receive(:error).and_return( true )
+    allow(log).to receive(:error).and_return(true)
   end
 
   describe '.base_ff_profile_settings' do
-    subject { Capybara::Settings.base_ff_profile_settings }
+    subject { described_class.base_ff_profile_settings }
     before do
       allow(::Selenium::WebDriver::Firefox::Profile).to receive(:new) { Hash.new }
       allow(settings).to receive(:app_host) { 'localhost' }
@@ -18,22 +18,22 @@ RSpec.describe 'Capybara::Settings' do
 
     it do
       is_expected.to eq(
-                         'network.http.phishy-userpass-length' => 255,
-                         'browser.safebrowsing.malware.enabled' => false,
-                         'network.automatic-ntlm-auth.allow-non-fqdn' => true,
-                         'network.ntlm.send-lm-response' => true,
-                         'network.automatic-ntlm-auth.trusted-uris' => 'localhost'
-                     )
+        'network.http.phishy-userpass-length' => 255,
+        'browser.safebrowsing.malware.enabled' => false,
+        'network.automatic-ntlm-auth.allow-non-fqdn' => true,
+        'network.ntlm.send-lm-response' => true,
+        'network.automatic-ntlm-auth.trusted-uris' => 'localhost'
+      )
     end
   end
 
   describe '.define_driver' do
-    subject { Capybara::Settings.define_driver }
+    subject { described_class.define_driver }
     context 'when selenium driver' do
       before do
         allow(settings).to receive(:driver).and_return('selenium')
         allow(settings).to receive(:sel_browser).and_return('chrome')
-        allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
+        allow(described_class).to receive(:ff_browser?).and_return(false)
       end
       it do
         expect(Capybara.default_driver).to be(:selenium)
@@ -58,19 +58,19 @@ RSpec.describe 'Capybara::Settings' do
         end
         it do
           expect(subject.call.options[:profile]).to eq(
-                                                        'network.http.phishy-userpass-length' => 255,
-                                                        'browser.safebrowsing.malware.enabled' => false,
-                                                        'network.automatic-ntlm-auth.allow-non-fqdn' => true,
-                                                        'network.ntlm.send-lm-response' => true,
-                                                        'network.automatic-ntlm-auth.trusted-uris' => 'localhost',
-                                                        'extensions.firebug.currentVersion' => 'Last',
-                                                        'extensions.firebug.previousPlacement' => 1,
-                                                        'extensions.firebug.onByDefault' => true,
-                                                        'extensions.firebug.defaultPanelName' => 'firepath',
-                                                        'extensions.firebug.script.enableSites' => true,
-                                                        'extensions.firebug.net.enableSites' => true,
-                                                        'extensions.firebug.console.enableSites' => true
-                                                    )
+            'network.http.phishy-userpass-length' => 255,
+            'browser.safebrowsing.malware.enabled' => false,
+            'network.automatic-ntlm-auth.allow-non-fqdn' => true,
+            'network.ntlm.send-lm-response' => true,
+            'network.automatic-ntlm-auth.trusted-uris' => 'localhost',
+            'extensions.firebug.currentVersion' => 'Last',
+            'extensions.firebug.previousPlacement' => 1,
+            'extensions.firebug.onByDefault' => true,
+            'extensions.firebug.defaultPanelName' => 'firepath',
+            'extensions.firebug.script.enableSites' => true,
+            'extensions.firebug.net.enableSites' => true,
+            'extensions.firebug.console.enableSites' => true
+          )
         end
       end
     end
@@ -78,7 +78,7 @@ RSpec.describe 'Capybara::Settings' do
     context 'when webkit driver' do
       before do
         allow(settings).to receive(:driver).and_return('webkit')
-        allow(Capybara::Settings).to receive(:require).with('capybara-webkit').and_return(true)
+        allow(described_class).to receive(:require).with('capybara-webkit').and_return(true)
       end
       it { is_expected.to be true }
     end
@@ -91,9 +91,9 @@ RSpec.describe 'Capybara::Settings' do
       it do
         expect(subject.call).to be_an_instance_of(Capybara::Poltergeist::Driver)
         expect(subject.call.options).to eq(
-                                            js_errors: !settings.pjs_ignore_js_errors,
-                                            phantomjs_options: ['--ignore-ssl-errors=no']
-                                        )
+          js_errors: !settings.pjs_ignore_js_errors,
+          phantomjs_options: ['--ignore-ssl-errors=no']
+        )
       end
     end
 
@@ -105,8 +105,10 @@ RSpec.describe 'Capybara::Settings' do
       it do
         expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
         expect(subject.call.options[:browser]).to eq(:phantomjs)
-        expect(subject.call.options[:desired_capabilities][:javascript_enabled]).not_to eq(settings.pjs_ignore_js_errors)
-        expect(subject.call.options[:args]).to eq(["--ignore-ssl-errors=no"])
+        expect(
+          subject.call.options[:desired_capabilities][:javascript_enabled]
+        ).not_to eq(settings.pjs_ignore_js_errors)
+        expect(subject.call.options[:args]).to eq(['--ignore-ssl-errors=no'])
       end
     end
 
@@ -135,8 +137,8 @@ RSpec.describe 'Capybara::Settings' do
     context 'when selenium_grid driver' do
       before { allow(settings).to receive(:driver).and_return('selenium_grid') }
 
-      context "and ie browser" do
-        before { allow(Capybara::Settings).to receive(:ie_browser?).and_return(true) }
+      context 'and ie browser' do
+        before { allow(described_class).to receive(:ie_browser?).and_return(true) }
         it do
           expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
           expect(subject.call.options[:desired_capabilities][:browser_name]).to eq('internet explorer')
@@ -144,10 +146,10 @@ RSpec.describe 'Capybara::Settings' do
         end
       end
 
-      context "and firefox browser" do
+      context 'and firefox browser' do
         before do
-          allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:ff_browser?).and_return(true)
+          allow(described_class).to receive(:ie_browser?).and_return(false)
+          allow(described_class).to receive(:ff_browser?).and_return(true)
         end
         it do
           expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
@@ -155,11 +157,11 @@ RSpec.describe 'Capybara::Settings' do
         end
       end
 
-      context "and chrome browser" do
+      context 'and chrome browser' do
         before do
-          allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:chrome_browser?).and_return(true)
+          allow(described_class).to receive(:ie_browser?).and_return(false)
+          allow(described_class).to receive(:ff_browser?).and_return(false)
+          allow(described_class).to receive(:chrome_browser?).and_return(true)
         end
         it do
           expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
@@ -167,12 +169,12 @@ RSpec.describe 'Capybara::Settings' do
         end
       end
 
-      context "and safari browser" do
+      context 'and safari browser' do
         before do
-          allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:safari_browser?).and_return(true)
+          allow(described_class).to receive(:ie_browser?).and_return(false)
+          allow(described_class).to receive(:ff_browser?).and_return(false)
+          allow(described_class).to receive(:chrome_browser?).and_return(false)
+          allow(described_class).to receive(:safari_browser?).and_return(true)
         end
         it do
           expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
@@ -180,14 +182,18 @@ RSpec.describe 'Capybara::Settings' do
         end
       end
 
-      context "and incorrect browser" do
+      context 'and incorrect browser' do
         before do
-          allow(Capybara::Settings).to receive(:ie_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:ff_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:chrome_browser?).and_return(false)
-          allow(Capybara::Settings).to receive(:safari_browser?).and_return(false)
+          allow(described_class).to receive(:ie_browser?).and_return(false)
+          allow(described_class).to receive(:ff_browser?).and_return(false)
+          allow(described_class).to receive(:chrome_browser?).and_return(false)
+          allow(described_class).to receive(:safari_browser?).and_return(false)
           it do
-            expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]")
+            expect { subject }.to raise_error(
+              RuntimeError,
+              "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it" \
+               ' should be one of [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
+            )
           end
         end
       end
@@ -209,14 +215,19 @@ RSpec.describe 'Capybara::Settings' do
         allow(settings).to receive(:driver).and_return('caramba')
       end
       it do
-        expect { subject }.to raise_error(RuntimeError, "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]")
+        expect { subject }.to raise_error(
+          RuntimeError,
+          "Unknown '#{settings.driver}' driver. Check your settings, it should be one of" \
+          ' [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce,' \
+          ' testingbot, browserstack]'
+        )
       end
     end
   end
 
   describe '#sauce_resource_path' do
     subject { test_object.sauce_resource_path(name) }
-    let (:name) { 'test_name' }
+    let(:name) { 'test_name' }
     before do
       allow(settings).to receive(:sl_user) { 'vlad' }
       allow(settings).to receive(:sl_api_key) { '11111' }
@@ -225,12 +236,12 @@ RSpec.describe 'Capybara::Settings' do
     it { is_expected.to eql('https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name') }
   end
   describe '.sauce_resource_path' do
-    subject { Capybara::Settings.sauce_resource_path(name) }
-    let (:name) { 'test_name' }
-    before  do
+    subject { described_class.sauce_resource_path(name) }
+    let(:name) { 'test_name' }
+    before do
       allow(settings).to receive(:sl_user) { 'vlad' }
       allow(settings).to receive(:sl_api_key) { '11111' }
-      allow(Capybara::Settings).to receive(:session_id) { '12341234' }
+      allow(described_class).to receive(:session_id) { '12341234' }
     end
 
     it { is_expected.to eql('https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name') }
@@ -246,22 +257,32 @@ RSpec.describe 'Capybara::Settings' do
     end
 
     it do
-      expect(RestClient).to receive(:put).with('http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234', '{}', {content_type: :json, accept: :json}).once
+      expect(RestClient).to receive(:put).with(
+        'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+        '{}',
+        content_type: :json,
+        accept: :json
+      ).once
       subject
     end
   end
 
   describe '.update_sauce_resource_path' do
-    subject { Capybara::Settings.update_sauce_job_status }
+    subject { described_class.update_sauce_job_status }
     before  do
       allow(settings).to receive(:sl_user) { 'vlad1' }
       allow(settings).to receive(:sl_api_key) { '22222' }
-      allow(Capybara::Settings).to receive(:session_id) { '12341234' }
+      allow(described_class).to receive(:session_id) { '12341234' }
       stub_const('RestClient', double)
     end
 
     it do
-      expect(RestClient).to receive(:put).with('http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234', '{}', {content_type: :json, accept: :json}).once
+      expect(RestClient).to receive(:put).with(
+        'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+        '{}',
+        content_type: :json,
+        accept: :json
+      ).once
       subject
     end
   end
@@ -276,34 +297,34 @@ RSpec.describe 'Capybara::Settings' do
       before { ENV['RAKE_TASK'] = rake_task }
       context 'when includes rspec' do
         let(:rake_task) { 'rspec:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
       context 'when includes spec' do
         let(:rake_task) { 'spec:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
 
       context 'when includes cucumber' do
         let(:rake_task) { 'cucumber:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
       context 'when not includes rpsec and cucumber' do
         let(:rake_task) { 'unknown' }
-        it { is_expected.to eql('UNKNOWN IE')}
+        it { is_expected.to eql('UNKNOWN IE') }
       end
       context 'when includes only cucumber' do
         let(:rake_task) { 'cucumber' }
-        it { is_expected.to eql('ALL IE')}
+        it { is_expected.to eql('ALL IE') }
       end
     end
     context 'when environment empty' do
       before { ENV['RAKE_TASK'] = nil }
-      it { is_expected.to eql('CUSTOM IE')}
+      it { is_expected.to eql('CUSTOM IE') }
     end
   end
 
   describe '.suite_name' do
-    subject { Capybara::Settings.suite_name }
+    subject { described_class.suite_name }
     before do
       allow(settings).to receive(:sl_browser_name) { 'ie' }
     end
@@ -312,29 +333,29 @@ RSpec.describe 'Capybara::Settings' do
       before { ENV['RAKE_TASK'] = rake_task }
       context 'when includes rspec' do
         let(:rake_task) { 'rspec:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
       context 'when includes spec' do
         let(:rake_task) { 'spec:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
 
       context 'when includes cucumber' do
         let(:rake_task) { 'cucumber:bvt' }
-        it { is_expected.to eql('BVT IE')}
+        it { is_expected.to eql('BVT IE') }
       end
       context 'when not includes rpsec and cucumber' do
         let(:rake_task) { 'unknown' }
-        it { is_expected.to eql('UNKNOWN IE')}
+        it { is_expected.to eql('UNKNOWN IE') }
       end
       context 'when includes only cucumber' do
         let(:rake_task) { 'cucumber' }
-        it { is_expected.to eql('ALL IE')}
+        it { is_expected.to eql('ALL IE') }
       end
     end
     context 'when environment empty' do
       before { ENV['RAKE_TASK'] = nil }
-      it { is_expected.to eql('CUSTOM IE')}
+      it { is_expected.to eql('CUSTOM IE') }
     end
   end
 
@@ -345,28 +366,28 @@ RSpec.describe 'Capybara::Settings' do
       current_session = double
       driver = double
       instance_variable = double
-      allow(Capybara).to receive(:current_session){current_session}
-      allow(current_session).to receive(:driver){driver}
-      allow(driver).to receive(:browser){browser}
-      allow(browser).to receive(:instance_variable_get).with(:@bridge){ instance_variable }
-      allow(instance_variable).to receive(:session_id){ 'test'}
+      allow(Capybara).to receive(:current_session) { current_session }
+      allow(current_session).to receive(:driver) { driver }
+      allow(driver).to receive(:browser) { browser }
+      allow(browser).to receive(:instance_variable_get).with(:@bridge) { instance_variable }
+      allow(instance_variable).to receive(:session_id) { 'test' }
     end
 
     it { is_expected.to eql('test') }
   end
 
   describe '.session_id' do
-    subject { Capybara::Settings.session_id }
+    subject { described_class.session_id }
     before do
       browser = double
       current_session = double
       driver = double
       instance_variable = double
-      allow(Capybara).to receive(:current_session){current_session}
-      allow(current_session).to receive(:driver){driver}
-      allow(driver).to receive(:browser){browser}
-      allow(browser).to receive(:instance_variable_get).with(:@bridge){ instance_variable }
-      allow(instance_variable).to receive(:session_id){ 'test'}
+      allow(Capybara).to receive(:current_session) { current_session }
+      allow(current_session).to receive(:driver) { driver }
+      allow(driver).to receive(:browser) { browser }
+      allow(browser).to receive(:instance_variable_get).with(:@bridge) { instance_variable }
+      allow(instance_variable).to receive(:session_id) { 'test' }
     end
 
     it { is_expected.to eql('test') }
@@ -402,7 +423,7 @@ RSpec.describe 'Capybara::Settings' do
   end
 
   describe '.rake_task_name' do
-    subject { Capybara::Settings.rake_task_name }
+    subject { described_class.rake_task_name }
     before { ENV['RAKE_TASK'] = rake_task }
     context 'when includes rspec' do
       let(:rake_task) { 'rspec:bvt' }

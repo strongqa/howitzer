@@ -3,59 +3,59 @@ require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-RSpec.describe 'Email' do
-  let(:recipient){ 'first_tester@gmail.com' }
-  let(:message_subject){ 'test subject' }
+RSpec.describe Email do
+  let(:recipient) { 'first_tester@gmail.com' }
+  let(:message_subject) { 'test subject' }
   let(:message) { double(:message) }
-  let(:email_object){ Email.new(message) }
+  let(:email_object) { described_class.new(message) }
 
   before do
     stub_const('Email::SUBJECT', message_subject)
   end
 
   describe '.adapter' do
-    it { expect(Email.adapter).to eql ::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize)}
+    it { expect(Email.adapter).to eql ::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize) }
   end
 
   describe '.adapter_name' do
-    it { expect(Email.adapter_name).to eql settings.mail_adapter.to_sym}
+    it { expect(Email.adapter_name).to eql settings.mail_adapter.to_sym }
   end
 
   describe '.adapter=' do
-    subject {Email.adapter = name}
+    subject { Email.adapter = name }
 
     context 'when adapter_name is Symbol or String' do
-      let(:name) {settings.mail_adapter}
-      it { expect(Email.adapter).to eql ::MailAdapters.const_get(name.to_s.capitalize)}
+      let(:name) { settings.mail_adapter }
+      it { expect(Email.adapter).to eql ::MailAdapters.const_get(name.to_s.capitalize) }
     end
 
     context 'when adapter_name is not Symbol or String' do
-      let(:name) {nil}
-      it { expect { subject }.to raise_error(Howitzer::NoMailAdapterError)}
+      let(:name) { nil }
+      it { expect { subject }.to raise_error(Howitzer::NoMailAdapterError) }
     end
   end
 
   describe '.find_by_recipient' do
     let(:recipient) { 'test@user.com' }
-    subject { Email.find_by_recipient(recipient) }
+    subject { described_class.find_by_recipient(recipient) }
     it do
-      expect(Email).to receive(:find).with(recipient, message_subject).once
+      expect(described_class).to receive(:find).with(recipient, message_subject).once
       subject
     end
   end
 
   describe '.find' do
     let(:recipient) { 'test@user.com' }
-    subject { Email.find(recipient, message_subject) }
+    subject { described_class.find(recipient, message_subject) }
     it do
-      expect(Email.adapter).to receive(:find).with(recipient, message_subject).once
+      expect(described_class.adapter).to receive(:find).with(recipient, message_subject).once
       subject
     end
   end
 
   describe '#new' do
     context 'when Email instance receive message and add create @message variable that' do
-      it { expect(email_object.instance_variable_get(:@message)).to eql message}
+      it { expect(email_object.instance_variable_get(:@message)).to eql message }
     end
   end
 
@@ -76,7 +76,7 @@ RSpec.describe 'Email' do
   end
 
   describe '#text' do
-    subject {email_object.text }
+    subject { email_object.text }
     it do
       expect(message).to receive(:text).once
       subject
@@ -115,12 +115,11 @@ RSpec.describe 'Email' do
     end
   end
 
-  describe '#get_mime_part' do
-    subject { email_object.get_mime_part }
+  describe '#mime_part' do
+    subject { email_object.mime_part }
     it do
-      expect(message).to receive(:get_mime_part).once
+      expect(message).to receive(:mime_part).once
       subject
     end
   end
-
 end

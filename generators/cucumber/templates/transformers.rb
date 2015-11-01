@@ -16,9 +16,7 @@ Transform /^table:.*$/ do |table|
       data = /FACTORY_(?<factory>\w+)(?<num>\d*)(?:\[\:(?<property>.+)\])?/.match(el)
       if data
         res = FactoryGirl.given_factory_by_number(data[:factory].downcase, data[:num])
-        if data[:property]
-          res = res.send(data[:property])
-        end
+        res = res.send(data[:property]) if data[:property]
       end
 
       res

@@ -6,7 +6,6 @@ module Mailgun
   # the JSON result.
 
   class Response
-
     attr_accessor :body
     attr_accessor :code
 
@@ -21,7 +20,7 @@ module Mailgun
 
     def to_h
       JSON.parse(@body)
-    rescue Exception => e
+    rescue StandardError => e
       log.error Howitzer::ParseError, e.message
     end
   end

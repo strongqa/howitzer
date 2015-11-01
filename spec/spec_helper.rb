@@ -46,7 +46,7 @@ def log_path
   File.join(project_path, 'spec/log')
 end
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each{ |f| require f }
+Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include GeneratorHelper

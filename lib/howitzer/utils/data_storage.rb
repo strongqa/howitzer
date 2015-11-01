@@ -19,7 +19,6 @@ module DataStorage
     # * +value+ - Data value
     #
 
-
     def store(ns, key, value)
       check_ns(ns)
       @data[ns][key] = value
@@ -34,7 +33,7 @@ module DataStorage
     # * +key+ - Key that isn't necessary required (default to: nil)
     #
 
-    def extract(ns, key=nil)
+    def extract(ns, key = nil)
       check_ns(ns)
       key ? @data[ns][key] : @data[ns]
     end
@@ -59,8 +58,8 @@ module DataStorage
     # * +exception_list+ - Array of special namespaces for excluding
     #
 
-    def clear_all_ns(exception_list=SPECIAL_NS_LIST)
-      (@data.keys - exception_list).each {|ns| clear_ns(ns) }
+    def clear_all_ns(exception_list = SPECIAL_NS_LIST)
+      (@data.keys - exception_list).each { |ns| clear_ns(ns) }
     end
 
     private
@@ -80,6 +79,5 @@ module DataStorage
     def init_ns(ns)
       @data[ns] = {}
     end
-
   end
 end

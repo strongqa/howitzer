@@ -8,3 +8,7 @@ group :test do
   gem 'repeater', require: false
 end
 gemspec
+
+group :development do
+  gem 'rubocop'
+end

@@ -1,26 +1,24 @@
 require 'howitzer/exceptions'
 
-#The following are locator aliases:
+# The following are locator aliases:
 #
-#1) locator
-#Type: :css(by default), :xpath
-#Method example: find, all, first
+# 1) locator
+# Type: :css(by default), :xpath
+# Method example: find, all, first
 #
-#2) link_locator
-#Type: id, text
-#Method example: click_link, find_link
+# 2) link_locator
+# Type: id, text
+# Method example: click_link, find_link
 #
-#3) button_locator
-#Type: id, name, value
-#Method example: click_button, find_button
+# 3) button_locator
+# Type: id, name, value
+# Method example: click_button, find_button
 #
-#4) field_locator
-#Type: name, id, text
-#Method example: find_field, fill_in
-
+# 4) field_locator
+# Type: name, id, text
+# Method example: find_field, fill_in
 
 module LocatorStore
-
   def self.included(base)
     base.extend(ClassMethods)
   end
@@ -176,10 +174,10 @@ module LocatorStore
 
     # looks up locator in current and all super classes
     def parent_locator(type, name)
-      if !@locators.nil? && @locators.key?(self.name) && @locators[self.name].key?(type) && @locators[self.name][type].key?(name)
+      if (@locators || {}).fetch(self.name, {}).fetch(type, {}).key?(name)
         @locators[self.name][type][name]
       else
-        self.superclass.parent_locator(type, name) unless self.superclass == Object
+        superclass.parent_locator(type, name) unless superclass == Object
       end
     end
 
@@ -195,23 +193,31 @@ module LocatorStore
       @locators ||= {}
       @locators[self.name] ||= {}
       @locators[self.name][type] ||= {}
-      log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
+      @locators[self.name][type][name] = build_locator_by_type(params)
+    end
+
+    def build_locator_by_type(params)
+      validate_locator_params(params)
+
       case params.class.name
         when 'Hash'
-          @locators[self.name][type][name] = [params.keys.first.to_s.to_sym, params.values.first.to_s]
+          [params.keys.first.to_s.to_sym, params.values.first.to_s]
         when 'Proc'
-          @locators[self.name][type][name] = params
+          params
         else
-          @locators[self.name][type][name] = params.to_s
+          params.to_s
       end
+    end
+
+    def validate_locator_params(params)
+      log.error Howitzer::BadLocatorParamsError, args.inspect if params.nil? || (!params.is_a?(Proc) && params.empty?)
     end
   end
 
-  #delegate class methods to instance
+  # delegate class methods to instance
   ClassMethods.public_instance_methods.each do |name|
     define_method(name) do |*args|
       self.class.send(name, *args)
     end
   end
-
 end

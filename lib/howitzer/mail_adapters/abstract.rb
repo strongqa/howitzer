@@ -1,10 +1,9 @@
 module MailAdapters
   class Abstract
-
     attr_reader :message
 
-    def self.find(recipient, subject)
-      raise NotImplementedError
+    def self.find(_recipient, _subject)
+      fail NotImplementedError
     end
 
     ##
@@ -25,7 +24,7 @@ module MailAdapters
     #
 
     def plain_text_body
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -34,7 +33,7 @@ module MailAdapters
     #
 
     def html_body
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -43,7 +42,7 @@ module MailAdapters
     #
 
     def text
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -52,7 +51,7 @@ module MailAdapters
     #
 
     def mail_from
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -61,7 +60,7 @@ module MailAdapters
     #
 
     def recipients
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -70,7 +69,7 @@ module MailAdapters
     #
 
     def received_time
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -79,7 +78,7 @@ module MailAdapters
     #
 
     def sender_email
-      raise NotImplementedError
+      fail NotImplementedError
     end
 
     ##
@@ -87,8 +86,8 @@ module MailAdapters
     # Allows to get email MIME attachment
     #
 
-    def get_mime_part
-      raise NotImplementedError
+    def mime_part
+      fail NotImplementedError
     end
   end
 end

@@ -22,8 +22,8 @@ class Email
   # Return mail adapter name
   #
 
-  def self.adapter_name
-    @adapter_name
+  class << self
+    attr_reader :adapter_name
   end
 
   ##
@@ -41,7 +41,7 @@ class Email
         require "howitzer/mail_adapters/#{adapter_name}"
         @adapter = ::MailAdapters.const_get("#{adapter_name.to_s.capitalize}")
       else
-        raise Howitzer::NoMailAdapterError
+        fail Howitzer::NoMailAdapterError
     end
   end
 
@@ -142,8 +142,7 @@ class Email
   # Allows to get email MIME attachment
   #
 
-  def get_mime_part
-    message.get_mime_part
+  def mime_part
+    message.mime_part
   end
-
 end

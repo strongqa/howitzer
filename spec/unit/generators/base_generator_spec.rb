@@ -31,7 +31,7 @@ RSpec.describe Howitzer::BaseGenerator do
   describe 'constructor' do
     let(:list1) { double(:list1) }
     let(:list2) { double(:list2) }
-    let(:options) { {r: true, rspec: true} }
+    let(:options) { { r: true, rspec: true } }
     subject { described_class.new(options) }
     before do
       expect_any_instance_of(described_class).to receive(:print_banner).with(no_args).once
@@ -86,7 +86,7 @@ RSpec.describe Howitzer::BaseGenerator do
   end
 
   describe '#copy_files' do
-    let(:list) { [ {source: 'example.txt'} ] }
+    let(:list) { [{ source: 'example.txt' }] }
     let(:source_path) { '/example_path/example.txt' }
     let(:generator) { described_class.new({}) }
     subject { generator.send(:copy_files, list) }
@@ -96,20 +96,20 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when source_file exists' do
-      before { allow(File).to receive(:exists?).with(source_path) { true } }
+      before { allow(File).to receive(:exist?).with(source_path) { true } }
       it { expect(generator).to receive(:copy_with_path).with(list.first).once }
     end
     context 'when source_file missing' do
-      before { allow(File).to receive(:exists?).with(source_path) { false } }
+      before { allow(File).to receive(:exist?).with(source_path) { false } }
       it { expect(generator).to receive(:puts_error).with("File '/example_path/example.txt' was not found.").once }
     end
   end
 
   describe '#copy_templates' do
-    let(:list) { [ {source: 'example.txt.erb', destination: 'example.txt'} ] }
+    let(:list) { [{ source: 'example.txt.erb', destination: 'example.txt' }] }
     let(:source_path) { '/example_path/example.txt.erb' }
     let(:destination_path) { '/example_path/example.txt' }
-    let(:generator) { described_class.new({'rspec' => true}) }
+    let(:generator) { described_class.new('rspec' => true) }
     subject { generator.send(:copy_templates, list) }
     before do
       allow_any_instance_of(described_class).to receive(:initialize) { nil }
@@ -120,9 +120,13 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when destination file exists' do
-      before { allow(File).to receive(:exists?).with(destination_path) { true } }
+      before { allow(File).to receive(:exist?).with(destination_path) { true } }
       it { expect(generator).to receive(:puts_info).with("Conflict with '#{list.first[:destination]}' template").once }
-      it { expect(generator).to receive(:print_info).with("  Overwrite '#{list.first[:destination]}' template? [Yn]:").once }
+      it do
+        expect(generator).to receive(:print_info).with(
+          "  Overwrite '#{list.first[:destination]}' template? [Yn]:"
+        ).once
+      end
       context 'and answer is yes' do
         before { allow(generator).to receive(:gets) { 'y' } }
         it { expect(generator).to receive(:write_template).with(destination_path, source_path).once }
@@ -134,7 +138,7 @@ RSpec.describe Howitzer::BaseGenerator do
       end
     end
     context 'when source file exists' do
-      before { allow(File).to receive(:exists?).with(destination_path) { false } }
+      before { allow(File).to receive(:exist?).with(destination_path) { false } }
       it { expect(generator).to receive(:write_template).with(destination_path, source_path).once }
     end
   end
@@ -161,21 +165,21 @@ RSpec.describe Howitzer::BaseGenerator do
     subject { described_class.new({}).send(:print_info, 'data') }
     before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
     after { subject }
-    it { expect(described_class.logger).to receive(:print).with('      data')}
+    it { expect(described_class.logger).to receive(:print).with('      data') }
   end
 
   describe '#puts_info' do
     subject { described_class.new({}).send(:puts_info, 'data') }
     before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
     after { subject }
-    it { expect(described_class.logger).to receive(:puts).with('      data')}
+    it { expect(described_class.logger).to receive(:puts).with('      data') }
   end
 
   describe '#puts_error' do
     subject { described_class.new({}).send(:puts_error, 'data') }
     before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
     after { subject }
-    it { expect(described_class.logger).to receive(:puts).with('      ERROR: data')}
+    it { expect(described_class.logger).to receive(:puts).with('      ERROR: data') }
   end
 
   describe '#source_path' do
@@ -195,7 +199,7 @@ RSpec.describe Howitzer::BaseGenerator do
 
   describe '#copy_with_path' do
     let(:generator) { described_class.new({}) }
-    let(:data) { {source: 's.txt', destination: 'd.txt'} }
+    let(:data) { { source: 's.txt', destination: 'd.txt' } }
     let(:src) { '/path/to/s.txt' }
     let(:dst) { '/path/to/d.txt' }
     subject { generator.send(:copy_with_path, data) }
@@ -207,7 +211,7 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     after { subject }
     context 'when destination file present' do
-      before { allow(File).to receive(:exists?).with(dst) { true } }
+      before { allow(File).to receive(:exist?).with(dst) { true } }
       context 'when identical with source file' do
         before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
         it { expect(generator).to receive(:puts_info).with("Identical 'd.txt' file").once }
@@ -221,14 +225,14 @@ RSpec.describe Howitzer::BaseGenerator do
         context 'when user typed Y' do
           before { allow(generator).to receive(:gets) { 'Y' } }
           it do
-            expect(FileUtils).to receive(:cp).with(src, dst) {nil}.once
+            expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
             expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
           end
         end
         context 'when user typed y' do
           before { allow(generator).to receive(:gets) { 'y' } }
           it do
-            expect(FileUtils).to receive(:cp).with(src, dst) {nil}.once
+            expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
             expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
           end
         end
@@ -256,7 +260,7 @@ RSpec.describe Howitzer::BaseGenerator do
       end
     end
     context 'when destination file missing' do
-      before { allow(File).to receive(:exists?).with(dst) { false } }
+      before { allow(File).to receive(:exist?).with(dst) { false } }
       it do
         expect(generator).to receive(:puts_info).with("Added 'd.txt' file")
         expect(FileUtils).to receive(:cp).with(src, dst).once
@@ -264,8 +268,7 @@ RSpec.describe Howitzer::BaseGenerator do
     end
     context 'when exception happened' do
       before { allow(FileUtils).to receive(:mkdir_p).and_raise(StandardError.new('Some error')) }
-      it { expect(generator).to receive(:puts_error).with("Impossible to create 'd.txt' file. Reason: Some error")}
+      it { expect(generator).to receive(:puts_error).with("Impossible to create 'd.txt' file. Reason: Some error") }
     end
   end
-
 end

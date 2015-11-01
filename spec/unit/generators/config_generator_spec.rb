@@ -10,13 +10,13 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe 'ConfigGenerator' do
-    let(:generator_name) { Howitzer::ConfigGenerator }
+  describe Howitzer::ConfigGenerator do
+    let(:generator_name) { described_class }
     let(:expected_result) do
       [
-          {:name=> '/config', :is_directory=>true},
-          {:name=> '/config/custom.yml', :is_directory=>false, :size=>template_file_size('config', 'custom.yml')},
-          {:name=> '/config/default.yml', :is_directory=>false, :size=>template_file_size('config', 'default.yml')}
+        { name: '/config', is_directory: true },
+        { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
+        { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') }
       ]
     end
 

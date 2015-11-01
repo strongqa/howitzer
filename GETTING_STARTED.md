@@ -158,7 +158,7 @@ end
 The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
-validates <type>, options
+validate <type>, options
 ```
 
 Howitzer provides 3 different validation types:
@@ -199,7 +199,7 @@ Howitzer provides 3 different validation types:
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -208,7 +208,7 @@ end
 ```ruby
 class LoginPage < WebPage
   URL = '/users/sign_in'
-  validates :title, pattern: /Sign In\z/
+  validate :title, pattern: /Sign In\z/
 end
 ```
 
@@ -218,7 +218,7 @@ end
 class LoginPage < WebPage
   URL = '/users/sign_in'
 
-  validates :element_presence, locator: :sign_in_btn
+  validate :element_presence, locator: :sign_in_btn
 
   add_locator :sign_in_btn, '#sign_in'
 end
@@ -277,7 +277,7 @@ Each page contains a description of all elements by adding the appropriate locat
 ```ruby
 class HomePage < WebPage
   URL = '/'
-  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
   add_locator :test_locator_name2,  css: '.foo'                    #css locator
@@ -469,7 +469,7 @@ _**Email**_ Class corresponds to one letter. Used to test the notifications.
 * **\#recipients** - returns the array of recipients who received the current email.
 * **\#received_time** - returns the time when an email was received.
 * **\#sender_email** - returns an email of a sender.
-* **\#get_mime_part** - allows you receiving an email attachment.
+* **\#mime_part** - allows you receiving an email attachment.
 
 **Example:**
 

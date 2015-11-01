@@ -8,7 +8,7 @@ module Mailgun
 
     attr_reader :api_key
 
-    def client(api_key=settings.mailgun_key)
+    def client(api_key = settings.mailgun_key)
       check_api_key(api_key)
       if @api_key == api_key && @api_key
         @client
@@ -22,13 +22,14 @@ module Mailgun
       @domain || change_domain
     end
 
-    def change_domain(domain_name=settings.mailgun_domain)
+    def change_domain(domain_name = settings.mailgun_domain)
       @domain = domain_name
     end
 
     private
+
     def check_api_key(api_key)
-      log.error Howitzer::InvalidApiKeyError, "Api key can not be blank" if api_key.blank?
+      log.error Howitzer::InvalidApiKeyError, 'Api key can not be blank' if api_key.blank?
     end
   end
 end

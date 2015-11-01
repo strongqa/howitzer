@@ -1,5 +1,5 @@
-require "howitzer/version"
-require "howitzer/settings"
+require 'howitzer/version'
+require 'howitzer/settings'
 require 'howitzer/capybara/settings'
 require 'howitzer/utils'
 require 'howitzer/helpers'

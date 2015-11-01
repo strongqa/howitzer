@@ -1,8 +1,7 @@
 require 'howitzer/exceptions'
 
 module Helpers
-
-  CHECK_YOUR_SETTINGS_MSG = "Please check your settings"
+  CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'
 
   ##
   #
@@ -96,7 +95,12 @@ module Helpers
   #
 
   def app_url
-    prefix = settings.app_base_auth_login.blank? ? '' : "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+    prefix =
+        if settings.app_base_auth_login.blank?
+          ''
+        else
+          "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+        end
     app_base_url prefix
   end
 
@@ -108,7 +112,7 @@ module Helpers
   # * +prefix+ - Sets base authentication prefix (defaults to: nil)
   #
 
-  def app_base_url(prefix=nil)
+  def app_base_url(prefix = nil)
     "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
   end
 
@@ -142,30 +146,40 @@ module Helpers
   #
 
   def ri(value)
-    raise value.inspect
+    fail value.inspect
   end
 
   private
 
   def browser?(*browser_aliases)
     if sauce_driver?
-      log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-      browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
+      sauce_browser?(*browser_aliases)
     elsif testingbot_driver?
-      log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-      browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
+      testingbot_browser?(*browser_aliases)
     elsif selenium_driver? || selenium_grid_driver?
-      log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-      browser_aliases.include?(settings.sel_browser.to_s.to_sym)
+      selenium_browser?(*browser_aliases)
     end
   end
 
+  def sauce_browser?(*browser_aliases)
+    log.error Howitzer::SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
+    browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
+  end
+
+  def testingbot_browser?(*browser_aliases)
+    log.error Howitzer::TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
+    browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
+  end
+
+  def selenium_browser?(*browser_aliases)
+    log.error Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
+    browser_aliases.include?(settings.sel_browser.to_s.to_sym)
+  end
 end
 
 include Helpers
 
 class String
-
   ##
   #
   # Delegates WebPage.open method. Useful in cucumber step definitions
@@ -215,7 +229,8 @@ class String
   end
 
   private
+
   def as_class(type)
-    "#{self.gsub(/\s/, '_').camelize}#{type}".constantize
+    "#{gsub(/\s/, '_').camelize}#{type}".constantize
   end
 end
