@@ -171,9 +171,3 @@ module Howitzer
     end
   end
 end
-
-class << ::Howitzer::BaseGenerator
-  attr_accessor :logger
-end
-
-::Howitzer::BaseGenerator.logger = 1
