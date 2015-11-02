@@ -1,5 +1,5 @@
 require_relative 'example_menu'
-
+# Description for example page
 class ExamplePage < WebPage
   URL = '/'
   validate :url, pattern: %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}

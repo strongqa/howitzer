@@ -1,3 +1,4 @@
+# Description of Email example
 class TestEmail < Email
   SUBJECT = 'Test email'
 

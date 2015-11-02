@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # Description for howitzer pages generator
   class PagesGenerator < BaseGenerator
     def manifest
       { files:

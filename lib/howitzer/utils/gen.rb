@@ -1,3 +1,4 @@
+# Description of data generator
 module Gen
   def serial
     a = [('a'..'z').to_a, (0..9).to_a].flatten.shuffle

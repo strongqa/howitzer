@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # Description of application root files generator
   class RootGenerator < BaseGenerator
     def manifest
       { files:

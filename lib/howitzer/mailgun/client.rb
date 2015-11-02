@@ -7,7 +7,6 @@ module Mailgun
   # A Mailgun::Client object is used to communicate with the Mailgun API. It is a
   # wrapper around RestClient so you don't have to worry about the HTTP aspect
   # of communicating with our API.
-
   class Client
     def initialize(api_key, api_host = 'api.mailgun.net', api_version = 'v2', ssl = true)
       endpoint = endpoint_generator(api_host, api_version, ssl)

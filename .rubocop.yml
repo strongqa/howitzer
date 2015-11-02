@@ -22,6 +22,3 @@ Style/CaseEquality:
 
 MethodLength:
   Max: 30
-
-Documentation:
-  Enabled: false

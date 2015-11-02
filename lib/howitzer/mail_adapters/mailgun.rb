@@ -3,6 +3,7 @@ require 'howitzer/exceptions'
 require 'howitzer/mail_adapters/abstract'
 
 module MailAdapters
+  # Description of Mailgun mail adapter methods
   class Mailgun < Abstract
     def self.find(recipient, subject)
       message = {}

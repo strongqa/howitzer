@@ -4,7 +4,6 @@ module Mailgun
   # A Mailgun::Response object is instantiated for each response generated
   # by the Client request. The Response object supports deserialization of
   # the JSON result.
-
   class Response
     attr_accessor :body
     attr_accessor :code

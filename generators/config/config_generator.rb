@@ -1,5 +1,6 @@
 require_relative '../base_generator'
 module Howitzer
+  # Description of application config files generator
   class ConfigGenerator < BaseGenerator
     def manifest
       { files:

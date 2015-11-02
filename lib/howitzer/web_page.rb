@@ -5,6 +5,7 @@ require 'howitzer/utils/page_validator'
 require 'howitzer/capybara/dsl_ex'
 require 'howitzer/exceptions'
 
+# Description of web page methods
 class WebPage
   UnknownPage = Class.new
 

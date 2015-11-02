@@ -1,5 +1,6 @@
 require 'howitzer/exceptions'
 
+# Description of helpers methods
 module Helpers
   CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'
 
@@ -179,6 +180,7 @@ end
 
 include Helpers
 
+# Description of some page methods
 class String
   ##
   #

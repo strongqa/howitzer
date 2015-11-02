@@ -3,6 +3,7 @@ require 'howitzer/mailgun/client'
 require 'howitzer/exceptions'
 
 module Mailgun
+  # A Mailgun::Connector object is used for connection with Client
   class Connector
     include Singleton
 

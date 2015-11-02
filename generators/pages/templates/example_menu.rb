@@ -1,3 +1,4 @@
+# Description for example menu
 module ExampleMenu
   def self.included(base)
     base.class_eval do

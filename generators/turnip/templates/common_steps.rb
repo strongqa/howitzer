@@ -1,9 +1,11 @@
 module Turnip
+  # Description of common turnip steps
   module Steps
     # PUT GLOBAL STEPS HERE
   end
 end
 
+# Description of example turnip steps
 module MonsterSteps
   attr_accessor :monster
 

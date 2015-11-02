@@ -4,6 +4,7 @@ require 'ostruct'
 require 'active_support/core_ext/hash'
 
 module Howitzer
+  # Description for methods which output information
   module Outputable
     def self.included(base)
       class << base
@@ -44,6 +45,7 @@ module Howitzer
     end
   end
 
+  # Description for methods which copy information
   module Copyable
     def self.included(base)
       class << base
@@ -159,6 +161,7 @@ module Howitzer
     end
   end
 
+  # Description for howitzer base generator
   class BaseGenerator
     attr_reader :options
 

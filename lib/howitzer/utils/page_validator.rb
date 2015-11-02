@@ -2,6 +2,7 @@ require 'howitzer/exceptions'
 
 module Howitzer
   module Utils
+    # Description of page validation methods
     module PageValidator
       @validations = {}
 
@@ -56,6 +57,7 @@ module Howitzer
         true
       end
 
+      # Description of class methods
       module ClassMethods
         ##
         #

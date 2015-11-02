@@ -1,4 +1,5 @@
 module MailAdapters
+  # Description of abstract mail adapter methods
   class Abstract
     attr_reader :message
 
