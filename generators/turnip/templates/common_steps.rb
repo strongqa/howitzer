@@ -1,11 +1,11 @@
 module Turnip
-  # Description of common turnip steps
+  # In this module should be combined common turnip steps
   module Steps
     # PUT GLOBAL STEPS HERE
   end
 end
 
-# Description of example turnip steps
+# This module combines turnip steps for example.feature
 module MonsterSteps
   attr_accessor :monster
 

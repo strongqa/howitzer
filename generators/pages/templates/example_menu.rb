@@ -1,4 +1,4 @@
-# Description for example menu
+# This class describes example menu and combines methods for it
 module ExampleMenu
   def self.included(base)
     base.class_eval do

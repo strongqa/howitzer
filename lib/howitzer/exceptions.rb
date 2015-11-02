@@ -1,4 +1,4 @@
-# Description of howitzer exceptions
+# This module describes howitzer exceptions
 module Howitzer
   CommunicationError = Class.new(StandardError)
   ParseError = Class.new(StandardError)
