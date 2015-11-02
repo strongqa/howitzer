@@ -1,7 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
-  # This class combines methods for Pre-requisites integration generator
+  # This class describes methods for Pre-requisites integration generator
   class PrerequisitesGenerator < BaseGenerator
     def manifest
       { files:

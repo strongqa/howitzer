@@ -1,4 +1,4 @@
-# This class combines methods for Email example
+# This class describes methods for Email example
 class TestEmail < Email
   SUBJECT = 'Test email'
 

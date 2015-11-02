@@ -5,7 +5,7 @@ require 'howitzer/utils/page_validator'
 require 'howitzer/capybara/dsl_ex'
 require 'howitzer/exceptions'
 
-# This class describes web page and combines methods for it
+# This class describes methods for web page. Parent class for all pages
 class WebPage
   UnknownPage = Class.new
 

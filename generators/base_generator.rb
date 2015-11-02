@@ -161,7 +161,7 @@ module Howitzer
     end
   end
 
-  # This class combines base generator
+  # Parent class for all generators
   class BaseGenerator
     attr_reader :options
 

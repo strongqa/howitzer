@@ -1,7 +1,7 @@
 require 'rspec/matchers'
 require 'howitzer/exceptions'
 
-# This class combines Email methods
+# This class describes Email methods
 class Email
   include RSpec::Matchers
 

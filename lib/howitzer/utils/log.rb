@@ -2,7 +2,7 @@ require 'log4r'
 require 'fileutils'
 
 module Howitzer
-  # This class combines log methods
+  # This class describes log methods
   class Log
     include Singleton
     include Log4r

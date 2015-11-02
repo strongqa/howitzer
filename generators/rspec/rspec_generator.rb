@@ -1,7 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
-  # This class combines methods for application generator based on RSpec
+  # This class describes methods for application generator based on RSpec
   class RspecGenerator < BaseGenerator
     def manifest
       { files:

@@ -1,7 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
-  # This class combines methods for application generator based on Cucumber
+  # This class describes methods for application generator based on Cucumber
   class CucumberGenerator < BaseGenerator
     def manifest
       { files:
