@@ -1,4 +1,4 @@
-# This module holds methods for example menu
+# This module is example of block element
 module ExampleMenu
   def self.included(base)
     base.class_eval do

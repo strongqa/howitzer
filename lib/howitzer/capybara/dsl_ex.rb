@@ -1,7 +1,7 @@
 require 'capybara'
 module Howitzer
   module Capybara
-    # This module describes DSL
+    # This module extends standard Capybara DSL
     module DslEx
       include ::Capybara::DSL
 

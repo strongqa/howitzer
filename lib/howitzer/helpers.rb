@@ -180,7 +180,7 @@ end
 
 include Helpers
 
-# This class holds page methods
+# This class extends standard String class with useful methods for Cucumber step definitions
 class String
   ##
   #

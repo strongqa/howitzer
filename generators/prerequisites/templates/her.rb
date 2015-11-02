@@ -1,7 +1,7 @@
 # For more information about configuration please refer to https://github.com/remiprev/her
 require 'her'
 
-# This class describe token authentication
+# This class describes token authentication
 class TestTokenAuthentication < Faraday::Middleware
   def call(env)
     if settings.test_api_token.present?
