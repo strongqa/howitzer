@@ -4,6 +4,7 @@ require 'ostruct'
 require 'active_support/core_ext/hash'
 
 module Howitzer
+  # This module combines all methods related with information printing to stdout
   module Outputable
     def self.included(base)
       class << base
@@ -44,6 +45,7 @@ module Howitzer
     end
   end
 
+  # This module combines methods for copying files and templates
   module Copyable
     def self.included(base)
       class << base
@@ -159,6 +161,7 @@ module Howitzer
     end
   end
 
+  # Parent class for all generators
   class BaseGenerator
     attr_reader :options
 

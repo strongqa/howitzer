@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # This class responsible for Cucumber based files generation
   class CucumberGenerator < BaseGenerator
     def manifest
       { files:

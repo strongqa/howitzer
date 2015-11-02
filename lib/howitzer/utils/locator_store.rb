@@ -18,11 +18,13 @@ require 'howitzer/exceptions'
 # Type: name, id, text
 # Method example: find_field, fill_in
 
+# This module holds LocatorStore methods
 module LocatorStore
   def self.included(base)
     base.extend(ClassMethods)
   end
 
+  # This module holds LocatorStore class methods
   module ClassMethods
     LOCATOR_TYPES = [:base, :link, :field, :button]
 

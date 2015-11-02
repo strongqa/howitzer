@@ -1,3 +1,4 @@
+# This module is example of block element
 module ExampleMenu
   def self.included(base)
     base.class_eval do

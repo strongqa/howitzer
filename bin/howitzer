@@ -2,6 +2,7 @@
 require 'gli'
 require_relative '../lib/howitzer/version'
 
+# Howitzer Command line interface
 module HowitzerCli
   extend GLI::App
   synopsis_format :compact

@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # This class responsible for rspec based files generation
   class RspecGenerator < BaseGenerator
     def manifest
       { files:

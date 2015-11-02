@@ -1,4 +1,5 @@
 module MailAdapters
+  # This class holds abstract mail adapter methods
   class Abstract
     attr_reader :message
 

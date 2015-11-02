@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # This class responsible for page object pattern generation
   class PagesGenerator < BaseGenerator
     def manifest
       { files:

@@ -1,6 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
+  # This class responsible for prerequisites files generation
   class PrerequisitesGenerator < BaseGenerator
     def manifest
       { files:

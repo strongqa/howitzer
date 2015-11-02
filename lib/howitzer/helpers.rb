@@ -1,5 +1,6 @@
 require 'howitzer/exceptions'
 
+# This module holds helpers methods
 module Helpers
   CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'
 
@@ -179,6 +180,7 @@ end
 
 include Helpers
 
+# This class extends standard String class with useful methods for Cucumber step definitions
 class String
   ##
   #

@@ -1,3 +1,4 @@
+# This class is example of test email
 class TestEmail < Email
   SUBJECT = 'Test email'
 
