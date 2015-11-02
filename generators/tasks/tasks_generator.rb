@@ -1,7 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
-  # This class describes methods for application task generator
+  # This class responsible for rake tasks generation
   class TasksGenerator < BaseGenerator
     def manifest
       { files: [source: 'common.rake', destination: 'tasks/common.rake'] }

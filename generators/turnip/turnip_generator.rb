@@ -1,7 +1,7 @@
 require_relative '../base_generator'
 
 module Howitzer
-  # This class describes methods for application generator based on Turnip
+  # This class responsible for turnip based files generation
   class TurnipGenerator < BaseGenerator
     def manifest
       { files:
