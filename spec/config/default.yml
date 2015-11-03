@@ -2,9 +2,7 @@
 # LOGGER SETTINGS #
 ###########################################################
 log_dir: "spec/log"
-txt_log: log.txt
 html_log: log.html
-rawler_log: rawler_log.txt
 selenium_server_log: selenium-server.log
 required_clean_logs: true
 hide_datetime_from_log: true
@@ -12,8 +10,9 @@ hide_datetime_from_log: true
 driver: selenium
 
 ###########################################################
-# MAILGUN SETTINGS                                        #
+# MAIL SETTINGS                                           #
 ###########################################################
+mail_adapter: mailgun
 mailgun_key: mailgun_account_private_key
 mailgun_domain: mailgun@test.domain
 

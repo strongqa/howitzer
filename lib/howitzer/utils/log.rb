@@ -2,6 +2,7 @@ require 'log4r'
 require 'fileutils'
 
 module Howitzer
+  # This class represents logger
   class Log
     include Singleton
     include Log4r
@@ -27,29 +28,7 @@ module Howitzer
     #
 
     def error(*args)
-      object = if args.first.nil?
-        $!
-      else
-        case args.size
-          when 1
-           args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
-          when 2
-            if args.first.is_a?(Class) && args.first < Exception
-              args.first.new(args.last)
-            else
-              exception = RuntimeError.new(args.first)
-              exception.set_backtrace(args.last)
-              exception
-            end
-          when 3
-           exception = args.first.new(args[1])
-           exception.set_backtrace(args.last)
-           exception
-          #:nocov:
-          else nil
-          #:nocov:
-        end
-      end
+      object = error_object(*args)
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
       @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
       fail(object)
@@ -64,7 +43,7 @@ module Howitzer
     #
 
     def print_feature_name(text)
-      log_without_formatting{ info "*** Feature: #{text.upcase} ***" }
+      log_without_formatting { info "*** Feature: #{text.upcase} ***" }
     end
 
     ##
@@ -73,7 +52,7 @@ module Howitzer
     #
 
     def settings_as_formatted_text
-      log_without_formatting{ info settings.as_formatted_text }
+      log_without_formatting { info settings.as_formatted_text }
     end
 
     ##
@@ -84,19 +63,18 @@ module Howitzer
     # * +text+ - Scenario name
     #
     def print_scenario_name(text)
-      log_without_formatting{ info " => Scenario: #{text}" }
+      log_without_formatting { info " => Scenario: #{text}" }
     end
 
     private
 
     def initialize
-      @logger = Logger.new("ruby_log")
+      @logger = Logger.new('ruby_log')
       @logger.add(console_log)
       @logger.add(error_log)
-      @logger.add(txt_log) if !settings.log_dir.to_s.empty? && !settings.txt_log.to_s.empty?
       self.base_formatter = default_formatter
-      Logger["ruby_log"].level = settings.debug_mode ? ALL : INFO
-      Logger["ruby_log"].trace = true
+      Logger['ruby_log'].level = settings.debug_mode ? ALL : INFO
+      Logger['ruby_log'].trace = true
     end
 
     def log_without_formatting
@@ -106,34 +84,56 @@ module Howitzer
     end
 
     def console_log
-      StdoutOutputter.new(:console).tap{|o| o.only_at(INFO, DEBUG, WARN)}
+      StdoutOutputter.new(:console).tap { |o| o.only_at(INFO, DEBUG, WARN) }
     end
 
     def error_log
       StderrOutputter.new(:error, 'level' => ERROR)
     end
 
-    def txt_log
-      FileUtils.mkdir_p(settings.log_dir) unless File.exists?(settings.log_dir)
-      filename = File.join(settings.log_dir, settings.txt_log)
-      FileOutputter.new(:txt_log, :filename => filename, :trunc => true)
-    end
-
     def blank_formatter
-      PatternFormatter.new(:pattern => "%m")
+      PatternFormatter.new(pattern: '%m')
     end
 
     def default_formatter
       if settings.hide_datetime_from_log
-        params = {pattern: "[%l] %m"}
+        params = { pattern: '[%l] %m' }
       else
-        params = {pattern: "%d [%l] :: %m", date_pattern: "%Y/%m/%d %H:%M:%S"}
+        params = { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }
       end
       PatternFormatter.new(params)
     end
 
     def base_formatter=(formatter)
-      @logger.outputters.each {|outputter| outputter.formatter = formatter}
+      @logger.outputters.each { |outputter| outputter.formatter = formatter }
+    end
+
+    def error_object(*args)
+      case args.size
+        when 0
+          $ERROR_INFO
+        when 1
+          args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
+        when 2
+          error_object_for_two_args(args.first, args.last)
+        when 3
+          exception = args.first.new(args[1])
+          exception.set_backtrace(args.last)
+          exception
+        #:nocov:
+        else nil
+        #:nocov:
+      end
+    end
+
+    def error_object_for_two_args(arg1, arg2)
+      if arg1.is_a?(Class) && arg1 < Exception
+        arg1.new(arg2)
+      else
+        exception = RuntimeError.new(arg1)
+        exception.set_backtrace(arg2)
+        exception
+      end
     end
   end
 end

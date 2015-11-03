@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/mailgun/connector'
 
 RSpec.describe Mailgun::Connector do
-  let(:connector) { Mailgun::Connector.instance }
+  let(:connector) { described_class.instance }
   let(:domain_name) { 'test@domain.com' }
   describe '#client' do
     subject { connector.client }
@@ -26,7 +26,8 @@ RSpec.describe Mailgun::Connector do
       let(:key) { nil }
       subject { connector.client(key) }
       it do
-        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank').once.and_call_original
+        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
+          .once.and_call_original
         expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
       end
     end
@@ -34,7 +35,8 @@ RSpec.describe Mailgun::Connector do
       let(:key) { '' }
       subject { connector.client(key) }
       it do
-        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank').once.and_call_original
+        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
+          .once.and_call_original
         expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
       end
     end
@@ -42,9 +44,9 @@ RSpec.describe Mailgun::Connector do
   describe '#domain' do
     subject { connector.domain }
     context 'when domain is not set' do
-      before { connector.instance_variable_set(:@domain, nil)}
+      before { connector.instance_variable_set(:@domain, nil) }
       it do
-        expect(connector).to receive(:change_domain).once{ domain_name }
+        expect(connector).to receive(:change_domain).once { domain_name }
         is_expected.to eq(domain_name)
       end
     end
@@ -60,7 +62,7 @@ RSpec.describe Mailgun::Connector do
   describe '#change_domain' do
     context 'when default' do
       before { connector.change_domain }
-      it { expect(connector.instance_variable_get(:@domain)).to eq(settings.mailgun_domain)}
+      it { expect(connector.instance_variable_get(:@domain)).to eq(settings.mailgun_domain) }
     end
     context 'when custom' do
       before { connector.change_domain(domain_name) }

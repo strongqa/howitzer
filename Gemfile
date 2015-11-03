@@ -3,5 +3,12 @@ source 'https://rubygems.org'
 group :test do
   gem 'coveralls', require: false
   gem 'simplecov', require: false
+  gem 'poltergeist', require: false
+  gem 'testingbot', require: false
+  gem 'repeater', require: false
 end
 gemspec
+
+group :development do
+  gem 'rubocop'
+end

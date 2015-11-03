@@ -1,8 +1,9 @@
 #############################################################
 #                      TRANSFORMERS                         #
 #############################################################
-Transform /UNIQ_USER(\d*)(?:\[\:(.+)\])?/ do |num, property|
-  res = Gen::given_user_by_number(num)
+
+Transform /FACTORY_(\w+)(\d*)(?:\[\:(.+)\])?/ do |factory, num, property|
+  res = FactoryGirl.given_factory_by_number(factory.downcase, num)
   res = res.send(property) if property
   res
 end
@@ -12,13 +13,10 @@ Transform /^table:.*$/ do |table|
     array.map do |el|
       res = el
 
-      # UNIQ_USER
-      data = /UNIQ_USER(?<num>\d*)(?:\[\:(?<property>.+)\])?/.match(el)
+      data = /FACTORY_(?<factory>\w+)(?<num>\d*)(?:\[\:(?<property>.+)\])?/.match(el)
       if data
-        res = Gen::given_user_by_number(data[:num])
-        if data[:property]
-          res = res.send(data[:property])
-        end
+        res = FactoryGirl.given_factory_by_number(data[:factory].downcase, data[:num])
+        res = res.send(data[:property]) if data[:property]
       end
 
       res

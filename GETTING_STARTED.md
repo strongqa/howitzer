@@ -59,14 +59,14 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">Real</td>
     <td align="center"><strong>sel_browser</strong></td>
     <td align="center">String</td>
-    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+    <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
   </tr>
   <tr>
       <td><a href="http://docs.seleniumhq.org/docs/07_selenium_grid.jsp">selenium_grid</a></td>
       <td align="center">Real</td>
       <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
       <td align="center">String<br/>String<br/><br/><br/></td>
-      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, opera, safari.</td>
+      <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
     </tr>
   <tr>
     <td>selenium_dev</td>
@@ -141,24 +141,59 @@ end
 
 It means that each page is inherited from a parent class 'Web Page' which contains common methods for all pages.
 
-Every page contains a required constant URL (the relative URL of the page):
+### Url specifying
 
-**Example:**
+Every page can contain `url` dsl to specify page url:
+
+**Example1:**
 
 ```ruby
 # put the class to ./pages/home_page.rb file
 
 class HomePage < WebPage
-  URL = '/'
+  url '/'
 end
 ```
+
+**Example2:**
+
+```ruby
+# put the class to ./pages/product_page.rb file
+
+class ProductPage < WebPage
+  url '/products{/id}'
+end
+```
+
+**Example3:**
+
+```ruby
+# put the class to ./pages/product_page.rb file
+
+class SearchPage < WebPage
+  url '/search{?query*}'
+end
+```
+
+It allows you to navigate to a page without url duplication each time:
+
+**Example:**
+
+```ruby
+HomePage.open #=> visits / 
+ProductPage.open(id: 1) #=> visits /products/1
+SearchPage.open #=> visits /search
+SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
+```
+
+For more information about url patterns please refers to https://github.com/sporkmonger/addressable 
 
 ### Validations
 
 The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
-validates <type>, options
+validate <type>, options
 ```
 
 Howitzer provides 3 different validation types:
@@ -198,8 +233,8 @@ Howitzer provides 3 different validation types:
 
 ```ruby
 class HomePage < WebPage
-  URL = '/'
-  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  url '/'
+  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -207,8 +242,8 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  URL = '/users/sign_in'
-  validates :title, pattern: /Sign In\z/
+  url '/users/sign_in'
+  validate :title, pattern: /Sign In\z/
 end
 ```
 
@@ -216,9 +251,9 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  URL = '/users/sign_in'
+  url '/users/sign_in'
 
-  validates :element_presence, locator: :sign_in_btn
+  validate :element_presence, locator: :sign_in_btn
 
   add_locator :sign_in_btn, '#sign_in'
 end
@@ -276,8 +311,8 @@ Each page contains a description of all elements by adding the appropriate locat
 
 ```ruby
 class HomePage < WebPage
-  URL = '/'
-  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  url '/'
+  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
   add_locator :test_locator_name2,  css: '.foo'                    #css locator
@@ -322,20 +357,6 @@ module TopMenu
   def open_menu
     log.info "Open menu"
     click_link locator(:test_link_locator1)
-  end
-end
-```
-
-### Redefining of the *open* method #####
-
-It is used when you need to open a page with additional parameters.
-
-**Example:**
-
-```ruby
-class MyPage < WebPage
-  def self.open(url="#{app_url}#{self::URL}+'?no_popup=true'")
-    super
   end
 end
 ```
@@ -469,7 +490,7 @@ _**Email**_ Class corresponds to one letter. Used to test the notifications.
 * **\#recipients** - returns the array of recipients who received the current email.
 * **\#received_time** - returns the time when an email was received.
 * **\#sender_email** - returns an email of a sender.
-* **\#get_mime_part** - allows you receiving an email attachment.
+* **\#mime_part** - allows you receiving an email attachment.
 
 **Example:**
 
@@ -496,7 +517,7 @@ This is how a custom class might look like:
 Logging
 -------
 
-*Howitzer* allows logging to the text file, HTML and output to the console.
+*Howitzer* allows logging to HTML and output to the console.
 
 ### BUILT-IN logging ###
 
@@ -550,7 +571,7 @@ cucumber -format html -out =./log/log.html
 
 ### Extended Logging ###
 
-The Extended logging in a text file and in the console is also available.
+The Extended logging in the console is also available.
 It uses the _log manager_ provided by the **_log_** method.
 
 _Howitzer_ supports 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
@@ -578,7 +599,6 @@ Logs are generated and saved in the **log** _directory_.
 
 ```bash
  / log
-     log.txt
      log.html
      TEST-(your-feature-name). Xml
 ```
@@ -616,6 +636,11 @@ class TestEmail < Email
   end
 end
 ```
+
++### Text logging ###
++If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
++    ls -l 2>&1 | tee file.txt
++It will log BOTH stdout and stderr from ls to file.txt.
 
 ## Data Generators ##
 
@@ -677,21 +702,11 @@ In memory it looks like:
 }
 ```
 
-### Generator ####
+### Pre-Requisites ####
 
 This module uses standard methods for generating test data. 
-It has one standard data object for generation, because it is applicable to almost all tests:
 
-_DataGenerator::Gen::User._
-
-_DataGenerator::Gen::User_ has the params:
-
-:login, :domain, :email, :password, :mailbox, :first_name, :last_name, :full_name
-
-Use _Gen::user(params={})_ method to generate this object.
-
-Also you can reopen _Gen_ module to add your own objects for generation. You can use this module to generate some other data specific for your tests.
-When using Cucumber, create a Gen.rb file in the **/features/support** directory. When using Rspec, create a _Gen.rb_ file in the **/spec/support** directory.
+//TODO
 
 ### Cucumber Transformers ###
 
@@ -708,18 +723,15 @@ As unregistered user
 I want to register to the system
 
 Scenario: correct credentials
-Given Register page
-And new UNIQ_USER user      # it’s generate User object with generated test data that are transformed in hash in _transformers.rb_ file.
+Given there is FACTORY_USER entity # it builds :user factory in _transformers.rb_ file.
+And I am on Register page
 When I put next register data and apply it
 
-|username            |email              |password            |
-|UNIQ_USER[:username]|UNIQ_USER[:email]  |UNIQ_USER[:password]|
+|username               |email                 |password               |
+|FACTORY_USER[:username]|FACTORY_USER[:email]  |FACTORY_USER[:password]|
 ```
 
-The last line will automatically replace `UNIQ_USER[:username]` for generated data which you can use.
-
-You can write your own transformers for other generated objects (that you will create in the DataGenerator::Gen module).
-
+The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
 ## Structure of RSpec Folder ##
 

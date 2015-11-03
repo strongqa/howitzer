@@ -1,6 +1,6 @@
+# This class is example of test email
 class TestEmail < Email
-  SUBJECT = "Test email"
-
+  SUBJECT = 'Test email'
 
   def addressed_to?(new_user)
     /Hi #{new_user}/ === plain_text_body

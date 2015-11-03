@@ -1,20 +1,49 @@
 require 'rspec/matchers'
-require 'howitzer/mailgun/connector'
 require 'howitzer/exceptions'
 
+# This class describes single email
 class Email
   include RSpec::Matchers
 
+  attr_reader :message
+
   ##
   #
-  # Creates new email with message
-  #
-  # *Parameters:*
-  # * +message+ - email message
+  # Return mail adapter class
   #
 
-  def initialize(message)
-    @message = message
+  def self.adapter
+    return @adapter if @adapter
+    self.adapter = settings.mail_adapter.to_sym
+    @adapter
+  end
+
+  ##
+  #
+  # Return mail adapter name
+  #
+
+  class << self
+    attr_reader :adapter_name
+  end
+
+  ##
+  #
+  # Specify mail adapter
+  #
+  # *Parameters:*
+  # * +adapter_name+ - adapter name as string or symbol
+  #
+
+  def self.adapter=(adapter_name)
+    @adapter_name = adapter_name
+    case adapter_name
+      when Symbol, String
+        require "howitzer/mail_adapters/#{adapter_name}"
+        @adapter = ::MailAdapters.const_get("#{adapter_name.to_s.capitalize}")
+      else
+        fail Howitzer::NoMailAdapterError
+    end
   end
 
   ##
@@ -39,20 +68,11 @@ class Email
   #
 
   def self.find(recipient, subject)
-    message = {}
-    retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Howitzer::EmailNotFoundError) do
-      events = Mailgun::Connector.instance.client.get("#{Mailgun::Connector.instance.domain}/events", event: 'stored')
-      event = events.to_h['items'].find do |hash|
-        hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
-      end
-      if event
-        message = Mailgun::Connector.instance.client.get("domains/#{Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
-      else
-        raise Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
-      end
-    end
-    log.error Howitzer::EmailNotFoundError, "Message with subject '#{subject}' for recipient '#{recipient}' was not found." if message.empty?
-    new(message)
+    new(adapter.find(recipient, subject))
+  end
+
+  def initialize(message)
+    @message = message
   end
 
   ##
@@ -61,7 +81,7 @@ class Email
   #
 
   def plain_text_body
-    @message['body-plain']
+    message.plain_text_body
   end
 
   ##
@@ -70,7 +90,7 @@ class Email
   #
 
   def html_body
-    @message['stripped-html']
+    message.html_body
   end
 
   ##
@@ -79,7 +99,7 @@ class Email
   #
 
   def text
-    @message['stripped-text']
+    message.text
   end
 
   ##
@@ -88,7 +108,7 @@ class Email
   #
 
   def mail_from
-    @message['From']
+    message.mail_from
   end
 
   ##
@@ -97,7 +117,7 @@ class Email
   #
 
   def recipients
-    @message['To'].split ', '
+    message.recipients
   end
 
   ##
@@ -106,7 +126,7 @@ class Email
   #
 
   def received_time
-    @message['Received'][/\w+, \d+ \w+ \d+ \d+:\d+:\d+ -\d+ \(\w+\)$/]
+    message.received_time
   end
 
   ##
@@ -115,7 +135,7 @@ class Email
   #
 
   def sender_email
-    @message['sender']
+    message.sender_email
   end
 
   ##
@@ -123,12 +143,7 @@ class Email
   # Allows to get email MIME attachment
   #
 
-  def get_mime_part
-    files = @message['attachments']
-    if files.empty?
-      log.error Howitzer::NoAttachmentsError, 'No attachments where found.'
-      return
-    end
-    files
+  def mime_part
+    message.mime_part
   end
 end

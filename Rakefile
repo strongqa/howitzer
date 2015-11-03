@@ -1,22 +1,22 @@
 require 'rubygems'
-require "bundler"
+require 'bundler'
 Bundler.setup
 
 require 'rake'
 require 'yard'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
+require 'rubocop/rake_task'
+
 Bundler::GemHelper.install_tasks
-RSpec::Core::RakeTask.new(:spec) { |spec| }
+RSpec::Core::RakeTask.new(:spec) { |_spec| }
 
 Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber features') do |t|
   t.fork = false
 end
 
-desc "All tests"
-task(all_tests: [:spec, :cucumber]) {}
+YARD::Rake::YardocTask.new { |_t| }
 
-YARD::Rake::YardocTask.new do |t|
-end
+RuboCop::RakeTask.new
 
-task :default => :all_tests
+task default: [:rubocop, :spec, :cucumber]

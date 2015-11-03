@@ -29,7 +29,7 @@ RSpec.describe 'Locator store' do
     describe "#{prefix}link_locator" do
       context 'when bad locator given' do
         subject { web_page.link_locator(bad_name) }
-        it { expect {subject}. to raise_error(error) }
+        it { expect { subject }. to raise_error(error) }
       end
       context 'when correct locator given' do
         before { web_page.add_link_locator :link_locator, 'link_locator' }
@@ -41,7 +41,7 @@ RSpec.describe 'Locator store' do
     describe "#{prefix}field_locator" do
       context 'when bad locator given' do
         subject { web_page.field_locator(bad_name) }
-        it { expect {subject}. to raise_error(error) }
+        it { expect { subject }. to raise_error(error) }
       end
       context 'when correct locator given' do
         before { web_page.add_field_locator :field_locator, 'field_locator' }
@@ -53,7 +53,7 @@ RSpec.describe 'Locator store' do
     describe "#{prefix}button_locator" do
       context 'when bad locator given' do
         subject { web_page.button_locator(bad_name) }
-        it { expect {subject}. to raise_error(error) }
+        it { expect { subject }. to raise_error(error) }
       end
       context 'when correct locator given' do
         before { web_page.add_button_locator :button_locator, 'button_locator' }
@@ -93,7 +93,7 @@ RSpec.describe 'Locator store' do
       end
       context 'when not existing locator name' do
         subject { web_page.find_element(:unknown_locator) }
-        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, 'unknown_locator') }
+        it { expect { subject }.to raise_error(Howitzer::LocatorNotDefinedError, 'unknown_locator') }
       end
     end
     describe "#{prefix}first_element" do
@@ -127,19 +127,22 @@ RSpec.describe 'Locator store' do
       end
       context 'when not existing locator name' do
         subject { web_page.first_element(:unknown_locator) }
-        it { expect{ subject }.to raise_error(Howitzer::LocatorNotDefinedError, 'unknown_locator') }
+        it { expect { subject }.to raise_error(Howitzer::LocatorNotDefinedError, 'unknown_locator') }
       end
     end
     describe "#{prefix}apply" do
       context 'when bad locator given' do
-        before { web_page.add_locator :test_locator,  lambda{|test| test} }
-        let(:locator)  { lambda{|test| test}  }
+        before { web_page.add_locator :test_locator, ->(test) { test } }
+        let(:locator) { ->(test) { test } }
         subject { web_page.apply(locator, 'test') }
-        it { expect {subject}.to raise_error(NoMethodError) }
+        it { expect { subject }.to raise_error(NoMethodError) }
       end
       context 'when correct locator given' do
-        before { web_page.add_locator :test_locator,  lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }
-        let(:locator) { lambda{|location_name| {xpath: ".//a[contains(.,'#{location_name}')]"}} }
+        before do
+          web_page.add_locator :test_locator,
+                               ->(location_name) { { xpath: ".//a[contains(.,'#{location_name}')]" } }
+        end
+        let(:locator) { ->(location_name) { { xpath: ".//a[contains(.,'#{location_name}')]" } } }
         subject { web_page.apply(locator, 'Kiev') }
         it { is_expected.to eq([:xpath, ".//a[contains(.,'Kiev')]"]) }
       end
@@ -147,11 +150,10 @@ RSpec.describe 'Locator store' do
   end
 
   context 'Class methods' do
-    it_behaves_like 'locator methods', '.', Class.new{ include LocatorStore }
+    it_behaves_like 'locator methods', '.', Class.new { include LocatorStore }
   end
 
   context 'Instance methods' do
-    it_behaves_like 'locator methods', '#', Class.new{ include LocatorStore }.new
+    it_behaves_like 'locator methods', '#', Class.new { include LocatorStore }.new
   end
-
 end

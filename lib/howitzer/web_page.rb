@@ -1,20 +1,20 @@
 require 'singleton'
 require 'rspec/expectations'
+require 'addressable/template'
 require 'howitzer/utils/locator_store'
 require 'howitzer/utils/page_validator'
 require 'howitzer/capybara/dsl_ex'
 require 'howitzer/exceptions'
 
+# This class represents single web page. This is parent class for all web pages
 class WebPage
-
-  BLANK_PAGE = 'about:blank' # @deprecated , use BlankPage instead
   UnknownPage = Class.new
 
   include LocatorStore
   include Howitzer::Utils::PageValidator
   include RSpec::Matchers
   include Howitzer::Capybara::DslEx
-  extend  Howitzer::Capybara::DslEx
+  extend Howitzer::Capybara::DslEx
   include Singleton
 
   def self.inherited(subclass)
@@ -24,17 +24,18 @@ class WebPage
 
   ##
   #
-  # Opens web-site by given url
+  # Opens web page
   #
   # *Parameters:*
-  # * +url+ - Url string that will be opened
+  # * +params+ - Params for url expansion.
   #
   # *Returns:*
   # * +WebPage+ - New instance of current class
   #
 
-  def self.open(url = "#{app_url unless self == BlankPage}#{self::URL}")
-    log.info "Open #{self.name} page by '#{url}' url"
+  def self.open(params = {})
+    url = expanded_url(params)
+    log.info "Open #{name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info 'Retry...' unless retries.zero?
       visit url
@@ -52,7 +53,7 @@ class WebPage
 
   def self.given
     wait_for_opened
-    self.instance
+    instance
   end
 
   ##
@@ -63,8 +64,8 @@ class WebPage
   # * +string+ - Current url
   #
 
-  def self.url
-    self.current_url
+  def self.current_url
+    page.current_url
   end
 
   ##
@@ -93,7 +94,8 @@ class WebPage
       UnknownPage
     elsif page_list.count > 1
       log.error Howitzer::AmbiguousPageMatchingError,
-                "Current page matches more that one page class (#{page_list.join(', ')}).\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+                "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
+                "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
     elsif page_list.count == 1
       page_list.first
     end
@@ -107,12 +109,45 @@ class WebPage
   # * +time_out+ - Seconds that will be waiting for web page to be loaded
   #
 
-  def self.wait_for_opened(timeout=settings.timeout_small)
+  def self.wait_for_opened(timeout = settings.timeout_small)
     end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      self.opened? ? return : sleep(0.5)
+    self.opened? ? return : sleep(0.5) until ::Time.now > end_time
+    log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
+              "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+  end
+
+  ##
+  # Returns expanded page url
+  #
+  # *Parameters:*
+  # * +params+ - Params for url expansion.
+  #
+
+  def self.expanded_url(params = {})
+    if page_url.nil?
+      fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
     end
-    log.error Howitzer::IncorrectPageError, "Current page: #{self.current_page}, expected: #{self}.\n\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+    "#{app_url unless self == BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
+  end
+
+  class << self
+    protected
+
+    ##
+    #
+    # DSL to specify page url
+    #
+    # *Parameters:*
+    # * +value+ - url pattern, for details please see Addressable gem
+    #
+
+    def url(value)
+      @page_url = value.to_s
+    end
+
+    private
+
+    attr_reader :page_url
   end
 
   def initialize
@@ -130,10 +165,8 @@ class WebPage
   #
 
   def tinymce_fill_in(name, options = {})
-    if %w[selenium selenium_dev sauce].include? settings.driver
-      page.driver.browser.switch_to.frame("#{name}_ifr")
-      page.find(:css, '#tinymce').native.send_keys(options[:with])
-      page.driver.browser.switch_to.default_content
+    if %w(selenium selenium_dev sauce).include?(settings.driver)
+      browser_tinymce_fill_in(name, options)
     else
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
     end
@@ -147,19 +180,12 @@ class WebPage
   # * +flag+ [TrueClass,FalseClass] - Determines accept or decline alert box
   #
 
-   def click_alert_box(flag)
-    if %w[selenium selenium_dev sauce].include? settings.driver
-      if flag
-        page.driver.browser.switch_to.alert.accept
-      else
-        page.driver.browser.switch_to.alert.dismiss
-      end
+  def click_alert_box(flag)
+    if %w(selenium selenium_dev sauce).include? settings.driver
+      alert = page.driver.browser.switch_to.alert
+      flag ? alert.accept : alert.dismiss
     else
-      if flag
-        page.evaluate_script('window.confirm = function() { return true; }')
-      else
-        page.evaluate_script('window.confirm = function() { return false; }')
-      end
+      page.evaluate_script("window.confirm = function() { return #{flag}; }")
     end
   end
 
@@ -176,64 +202,6 @@ class WebPage
     sleep settings.timeout_tiny
   end
 
-  # @deprecated
-  # With Capybara 2.x it is extra
-  #:nocov:
-  def wait_for_ajax(timeout=settings.timeout_small, message=nil)
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      return true if page.evaluate_script('$.active') == 0
-      sleep 0.25
-    end
-    log.error message || 'Timed out waiting for ajax requests to complete'
-  end
-  #:nocov:
-
-  ##
-  # @deprecated
-  #
-  # Waits until web page is loaded
-  #
-  # *Parameters:*
-  # * +expected_url+ - Url that will be waiting for
-  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
-  #
-
-  def wait_for_url(expected_url, timeout=settings.timeout_small)
-    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      operator = expected_url.is_a?(Regexp) ? :=~ : :==
-      return true if current_url.send(operator, expected_url).tap{|res| sleep 1 unless res}
-    end
-    log.error Howitzer::IncorrectPageError, "Current url: #{current_url}, expected:  #{expected_url}"
-  end
-
-  ##
-  # @deprecated
-  #
-  # Waits until web is loaded with expected title
-  #
-  # *Parameters:*
-  # * +expected_title+ - Page title that will be waited for
-  # * +time_out+ - Seconds that will be waiting for web-site to be loaded until raise error
-  #
-
-  def wait_for_title(expected_title, timeout=settings.timeout_small)
-    warn '[Deprecated] This method is deprecated, and will be removed in next version of Howitzer'
-    end_time = ::Time.now + timeout
-    until ::Time.now > end_time
-      operator = expected_title.is_a?(Regexp) ? :=~ : :==
-      return true if title.send(operator, expected_title).tap{|res| sleep 1 unless res}
-    end
-    log.error Howitzer::IncorrectPageError, "Current title: #{title}, expected:  #{expected_title}"
-  end
-
-  ##
-  #
-  # Reloads current page
-  #
-
   def reload
     log.info "Reload '#{current_url}'"
     visit current_url
@@ -249,5 +217,14 @@ class WebPage
 
   def title
     page.title
+  end
+
+  private
+
+  def browser_tinymce_fill_in(name, options = {})
+    page.driver.browser.switch_to.frame("#{name}_ifr")
+    page.find(:css, '#tinymce').native.send_keys(options[:with])
+  ensure
+    page.driver.browser.switch_to.default_content
   end
 end

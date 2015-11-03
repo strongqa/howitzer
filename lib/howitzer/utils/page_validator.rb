@@ -2,10 +2,11 @@ require 'howitzer/exceptions'
 
 module Howitzer
   module Utils
+    # This module combines page validation methods
     module PageValidator
       @validations = {}
 
-      def self.included(base)  #:nodoc:
+      def self.included(base) #:nodoc:
         base.extend(ClassMethods)
       end
 
@@ -36,9 +37,9 @@ module Howitzer
       #
 
       def check_validations_are_defined!
-        if validations.nil? && !old_url_validation_present?
-          log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
-        end
+        return unless validations.nil? && !old_url_validation_present?
+
+        log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
       end
 
       private
@@ -48,38 +49,30 @@ module Howitzer
       end
 
       def old_url_validation_present?
-        if self.class.const_defined?("URL_PATTERN")
-          self.class.validates :url, pattern: self.class.const_get("URL_PATTERN")
-          warn "[Deprecated] Old style page validation is using. Please use new style:\n\t validates :url, pattern: URL_PATTERN"
-          true
-        end
+        return unless self.class.const_defined?('URL_PATTERN')
+
+        self.class.validate :url, pattern: self.class.const_get('URL_PATTERN')
+        warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
+             "\t validate :url, pattern: URL_PATTERN"
+        true
       end
 
+      # This module holds page validation class methods
       module ClassMethods
-
         ##
         #
         # Adds validation to validation list
         #
-        # @param [Symbol or String] name                                    Which validation type. Possible values [:url, :element_presence, :title]
-        # @option options [Hash]                                            Validation options
-        #    :pattern => [Regexp]                                             For :url and :title validation types
-        #    :locator => [String]                                             For :element_presence (Existing locator name)
-        # @raise  [Howitzer::UnknownValidationError]   If unknown validation type was passed
+        # @param [Symbol or String] name       Which validation type. Possible values [:url, :element_presence, :title]
+        # @option options [Hash]                      Validation options
+        #    :pattern => [Regexp]                     For :url and :title validation types
+        #    :locator => [String]                     For :element_presence (Existing locator name)
+        # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
         #
-        def validates(name, options)
+        def validate(name, options)
           log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
           PageValidator.validations[self.name] ||= {}
-          case name.to_s.to_sym
-            when :url
-              validate_by_pattern(:url, options)
-            when :element_presence
-              validate_element options
-            when :title
-              validate_by_pattern(:title, options)
-            else
-              log.error Howitzer::UnknownValidationError, "unknown '#{name}' validation name"
-          end
+          validate_by_type(name, options)
         end
 
         ##
@@ -92,11 +85,11 @@ module Howitzer
         #
 
         def opened?
-          validation_list = PageValidator.validations[self.name]
+          validation_list = PageValidator.validations[name]
           if validation_list.blank?
-            log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.name}' page"
+            log.error Howitzer::NoValidationError, "No any page validation was found for '#{name}' page"
           else
-            !validation_list.any? {|(_, validation)| !validation.call(self)}
+            !validation_list.any? { |(_, validation)| !validation.call(self) }
           end
         end
 
@@ -109,25 +102,42 @@ module Howitzer
         #
 
         def matched_pages
-          PageValidator.pages.select{|klass| klass.opened? }
+          PageValidator.pages.select(&:opened?)
         end
 
         private
 
         def validate_element(options)
-          locator = options[:locator] || options["locator"]
-          log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names" if locator.nil? || locator.empty?
-          PageValidator.validations[self.name][:element_presence] = lambda { |web_page| web_page.first_element(locator) }
+          locator = options[:locator] || options['locator']
+          if locator.nil? || locator.empty?
+            log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names"
+          end
+          PageValidator.validations[name][:element_presence] = ->(web_page) { web_page.first_element(locator) }
         end
 
         def validate_by_pattern(name, options)
-          pattern = options[:pattern] || options["pattern"]
-          log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object" if pattern.nil? || !pattern.is_a?(Regexp)
-          PageValidator.validations[self.name][name] = lambda { |web_page| pattern === web_page.send(name) }
+          pattern = options[:pattern] || options['pattern']
+          if pattern.nil? || !pattern.is_a?(Regexp)
+            log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object"
+          end
+          PageValidator.validations[self.name][name] = ->(web_page) { pattern === web_page.send(name) }
         end
 
+        private
+
+        def validate_by_type(type, options)
+          case type.to_s.to_sym
+            when :url
+              validate_by_pattern(:url, options)
+            when :element_presence
+              validate_element options
+            when :title
+              validate_by_pattern(:title, options)
+            else
+              log.error Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
+          end
+        end
       end
     end
-
   end
 end

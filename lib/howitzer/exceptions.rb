@@ -1,3 +1,4 @@
+# This module holds all custom howitzer exceptions
 module Howitzer
   CommunicationError = Class.new(StandardError)
   ParseError = Class.new(StandardError)
@@ -15,4 +16,6 @@ module Howitzer
   SelBrowserNotSpecifiedError = Class.new(StandardError)
   IncorrectPageError = Class.new(StandardError)
   AmbiguousPageMatchingError = Class.new(StandardError)
+  NoMailAdapterError = Class.new(StandardError)
+  PageUrlNotSpecifiedError = Class.new(StandardError)
 end

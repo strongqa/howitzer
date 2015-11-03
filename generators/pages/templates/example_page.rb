@@ -1,8 +1,8 @@
 require_relative 'example_menu'
-
+# This class is example of web page
 class ExamplePage < WebPage
   URL = '/'
-  validates :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, pattern: %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}
 
   add_field_locator :search_input, 'lst-ib'
   add_button_locator :search_btn, 'btnK'
