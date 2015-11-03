@@ -19,19 +19,20 @@ Gem::Specification.new do |gem|
   gem.version       = Howitzer::VERSION
   gem.required_ruby_version = '>= 1.9.3'
 
+  gem.add_runtime_dependency 'activesupport', '~>4.2'
+  gem.add_runtime_dependency 'addressable', ['>=2.3.3', '< 3.0']
+  gem.add_runtime_dependency 'capybara', ['>= 2.1', '< 3.0']
+  gem.add_runtime_dependency 'gli'
+  gem.add_runtime_dependency 'launchy'
+  gem.add_runtime_dependency 'log4r', '~>1.1.10'
   gem.add_runtime_dependency 'nokogiri', '~> 1.6' if gem.platform.to_s =~ /mswin|mingw/
   gem.add_runtime_dependency 'rake'
   gem.add_runtime_dependency 'rspec', '~>3.2'
-  gem.add_runtime_dependency 'sexy_settings'
-  gem.add_runtime_dependency 'launchy'
-  gem.add_runtime_dependency 'log4r', '~>1.1.10'
-  gem.add_runtime_dependency 'capybara', ['>= 2.1', '< 3.0']
   gem.add_runtime_dependency 'selenium-webdriver'
-  gem.add_runtime_dependency 'activesupport', '~>4.2'
-  gem.add_runtime_dependency 'gli'
+  gem.add_runtime_dependency 'sexy_settings'
 
   gem.add_development_dependency('aruba')
-  gem.add_development_dependency('fuubar')
   gem.add_development_dependency('ffaker')
+  gem.add_development_dependency('fuubar')
   gem.add_development_dependency('yard')
 end

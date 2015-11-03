@@ -17,4 +17,5 @@ module Howitzer
   IncorrectPageError = Class.new(StandardError)
   AmbiguousPageMatchingError = Class.new(StandardError)
   NoMailAdapterError = Class.new(StandardError)
+  PageUrlNotSpecifiedError = Class.new(StandardError)
 end

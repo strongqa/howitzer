@@ -1,5 +1,6 @@
 require 'singleton'
 require 'rspec/expectations'
+require 'addressable/template'
 require 'howitzer/utils/locator_store'
 require 'howitzer/utils/page_validator'
 require 'howitzer/capybara/dsl_ex'
@@ -23,20 +24,22 @@ class WebPage
 
   ##
   #
-  # Opens web-site by given url
+  # Opens web page
   #
   # *Parameters:*
-  # * +url+ - Url string that will be opened
+  # * +params+ - Params for url expansion.
   #
   # *Returns:*
   # * +WebPage+ - New instance of current class
   #
 
-  def self.open(url = "#{app_url unless self == BlankPage}#{self::URL}")
-    log.info "Open #{name} page by '#{url}' url"
+  def self.open(params={})
+    fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'" if page_url.nil?
+    full_url = "#{app_url unless self == BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
+    log.info "Open #{name} page by '#{full_url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info 'Retry...' unless retries.zero?
-      visit url
+      visit full_url
     end
     given
   end
@@ -62,7 +65,7 @@ class WebPage
   # * +string+ - Current url
   #
 
-  def self.url
+  def self.current_url
     current_url
   end
 
@@ -112,6 +115,24 @@ class WebPage
     self.opened? ? return : sleep(0.5) until ::Time.now > end_time
     log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
               "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+  end
+
+  class << self
+    protected
+    ##
+    #
+    # DSL to specify page url
+    #
+    # *Parameters:*
+    # * +value+ - url pattern, for details please see Addressable gem
+    #
+
+    def url(value)
+      @page_url = value.to_s
+    end
+
+    private
+    attr_reader :page_url
   end
 
   def initialize

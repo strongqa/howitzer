@@ -41,9 +41,9 @@ RSpec.describe WebPage do
     end
   end
 
-  describe '.url' do
+  describe '.current_url' do
     let(:page) { double }
-    subject { described_class.url }
+    subject { described_class.current_url }
     it do
       expect(described_class).to receive(:page) { page }
       expect(page).to receive(:current_url) { 'google.com' }
