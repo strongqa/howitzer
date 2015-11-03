@@ -141,17 +141,52 @@ end
 
 It means that each page is inherited from a parent class 'Web Page' which contains common methods for all pages.
 
-Every page contains a required constant URL (the relative URL of the page):
+### Url specifying
 
-**Example:**
+Every page can contain `url` dsl to specify page url:
+
+**Example1:**
 
 ```ruby
 # put the class to ./pages/home_page.rb file
 
 class HomePage < WebPage
-  URL = '/'
+  url '/'
 end
 ```
+
+**Example2:**
+
+```ruby
+# put the class to ./pages/product_page.rb file
+
+class ProductPage < WebPage
+  url '/products{/id}'
+end
+```
+
+**Example3:**
+
+```ruby
+# put the class to ./pages/product_page.rb file
+
+class SearchPage < WebPage
+  url '/search{?query*}'
+end
+```
+
+It allows you to navigate to a page without url duplication each time:
+
+**Example:**
+
+```ruby
+HomePage.open #=> visits / 
+ProductPage.open(id: 1) #=> visits /products/1
+SearchPage.open #=> visits /search
+SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
+```
+
+For more information about url patterns please refers to https://github.com/sporkmonger/addressable 
 
 ### Validations
 
@@ -198,7 +233,7 @@ Howitzer provides 3 different validation types:
 
 ```ruby
 class HomePage < WebPage
-  URL = '/'
+  url '/'
   validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
@@ -207,7 +242,7 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  URL = '/users/sign_in'
+  url '/users/sign_in'
   validate :title, pattern: /Sign In\z/
 end
 ```
@@ -216,7 +251,7 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  URL = '/users/sign_in'
+  url '/users/sign_in'
 
   validate :element_presence, locator: :sign_in_btn
 
@@ -276,7 +311,7 @@ Each page contains a description of all elements by adding the appropriate locat
 
 ```ruby
 class HomePage < WebPage
-  URL = '/'
+  url '/'
   validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   add_locator :test_locator_name1,  '.foo'                         #css locator, default
@@ -322,20 +357,6 @@ module TopMenu
   def open_menu
     log.info "Open menu"
     click_link locator(:test_link_locator1)
-  end
-end
-```
-
-### Redefining of the *open* method #####
-
-It is used when you need to open a page with additional parameters.
-
-**Example:**
-
-```ruby
-class MyPage < WebPage
-  def self.open(url="#{app_url}#{self::URL}+'?no_popup=true'")
-    super
   end
 end
 ```

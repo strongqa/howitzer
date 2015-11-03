@@ -4,17 +4,33 @@ require 'howitzer/capybara/settings'
 
 RSpec.describe WebPage do
   describe '.open' do
-    let(:url_value) { 'google.com' }
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
     let(:other_instance) { described_class.instance }
-    subject { described_class.open(url_value) }
-    it do
-      expect(log).to receive(:info).with("Open WebPage page by 'google.com' url").once.ordered
-      expect(described_class).to receive(:retryable).ordered.once.and_call_original
-      expect(described_class).to receive(:visit).with(url_value).once.ordered
-      expect(described_class).to receive(:given).once.ordered
-      subject
+    context 'when argument present' do
+      let(:params) { { id: 1 } }
+      let(:url_value) { 'http://example.com/users/1' }
+      subject { described_class.open(params) }
+      it do
+        expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
+        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(described_class).to receive(:retryable).ordered.once.and_call_original
+        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(described_class).to receive(:given).once.ordered
+        subject
+      end
+    end
+    context 'when argument missing' do
+      let(:url_value) { 'http://example.com/users' }
+      subject { described_class.open }
+      it do
+        expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
+        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(described_class).to receive(:retryable).ordered.once.and_call_original
+        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(described_class).to receive(:given).once.ordered
+        subject
+      end
     end
   end
 
@@ -41,9 +57,9 @@ RSpec.describe WebPage do
     end
   end
 
-  describe '.url' do
+  describe '.current_url' do
     let(:page) { double }
-    subject { described_class.url }
+    subject { described_class.current_url }
     it do
       expect(described_class).to receive(:page) { page }
       expect(page).to receive(:current_url) { 'google.com' }
@@ -124,6 +140,61 @@ RSpec.describe WebPage do
         )
         subject
       end
+    end
+  end
+
+  describe '.expanded_url' do
+    context 'when params present' do
+      subject { web_page.expanded_url(id: 1) }
+      context 'when page url specified' do
+        context 'when BlankPage' do
+          let(:web_page) { ::BlankPage }
+          before do
+            stub_const('::BlankPage', described_class)
+            allow(web_page).to receive(:page_url) { 'about:blank' }
+          end
+          it { is_expected.to eq('about:blank') }
+        end
+        context 'when other page' do
+          let(:web_page) { described_class }
+          before do
+            stub_const('::BlankPage', double)
+            allow(web_page).to receive(:page_url) { '/users{/id}' }
+          end
+          it { is_expected.to eq('http://my.website.com/users/1') }
+        end
+      end
+      context 'when page url missing' do
+        subject { described_class.expanded_url }
+        before { stub_const('::BlankPage', double) }
+        it do
+          expect { subject }.to raise_error(
+            ::Howitzer::PageUrlNotSpecifiedError,
+            "Please specify url for '#{described_class}' page. Example: url '/home'"
+          )
+        end
+      end
+    end
+    context 'when params missing' do
+      subject { described_class.expanded_url }
+      before do
+        allow(described_class).to receive(:page_url) { '/users' }
+        stub_const('::BlankPage', double)
+      end
+      it { is_expected.to eq('http://my.website.com/users') }
+    end
+  end
+
+  describe '.url' do
+    subject { described_class.send(:url, value) }
+    before { subject }
+    context 'when value is number' do
+      let(:value) { 1 }
+      it { expect(described_class.instance_variable_get(:@page_url)).to eq('1') }
+    end
+    context 'when value is string' do
+      let(:value) { '/users' }
+      it { expect(described_class.instance_variable_get(:@page_url)).to eq('/users') }
     end
   end
 
