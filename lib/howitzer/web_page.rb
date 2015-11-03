@@ -127,7 +127,7 @@ class WebPage
     if page_url.nil?
       fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
     end
-    "#{app_url unless self == BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
+    "#{app_url unless self == ::BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
   end
 
   class << self

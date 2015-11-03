@@ -143,6 +143,61 @@ RSpec.describe WebPage do
     end
   end
 
+  describe '.expanded_url' do
+    context 'when params present' do
+      subject { web_page.expanded_url(id: 1) }
+      context 'when page url specified' do
+        context 'when BlankPage' do
+          let(:web_page) { ::BlankPage }
+          before do
+            stub_const('::BlankPage', described_class)
+            allow(web_page).to receive(:page_url) { 'about:blank' }
+          end
+          it { is_expected.to eq('about:blank') }
+        end
+        context 'when other page' do
+          let(:web_page) { described_class }
+          before do
+            stub_const('::BlankPage', double)
+            allow(web_page).to receive(:page_url) { '/users{/id}' }
+          end
+          it { is_expected.to eq('http://my.website.com/users/1') }
+        end
+      end
+      context 'when page url missing' do
+        subject { described_class.expanded_url }
+        before { stub_const('::BlankPage', double) }
+        it do
+          expect { subject }.to raise_error(
+            ::Howitzer::PageUrlNotSpecifiedError,
+            "Please specify url for '#{described_class}' page. Example: url '/home'"
+          )
+        end
+      end
+    end
+    context 'when params missing' do
+      subject { described_class.expanded_url }
+      before do
+        allow(described_class).to receive(:page_url) { '/users' }
+        stub_const('::BlankPage', double)
+      end
+      it { is_expected.to eq('http://my.website.com/users') }
+    end
+  end
+
+  describe '.url' do
+    subject { described_class.send(:url, value) }
+    before { subject }
+    context 'when value is number' do
+      let(:value) { 1 }
+      it { expect(described_class.instance_variable_get(:@page_url)).to eq('1') }
+    end
+    context 'when value is string' do
+      let(:value) { '/users' }
+      it { expect(described_class.instance_variable_get(:@page_url)).to eq('/users') }
+    end
+  end
+
   describe '#initialize' do
     subject { described_class.send(:new) }
     before do
