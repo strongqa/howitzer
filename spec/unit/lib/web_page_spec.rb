@@ -4,17 +4,33 @@ require 'howitzer/capybara/settings'
 
 RSpec.describe WebPage do
   describe '.open' do
-    let(:url_value) { 'google.com' }
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
     let(:other_instance) { described_class.instance }
-    subject { described_class.open(url_value) }
-    it do
-      expect(log).to receive(:info).with("Open WebPage page by 'google.com' url").once.ordered
-      expect(described_class).to receive(:retryable).ordered.once.and_call_original
-      expect(described_class).to receive(:visit).with(url_value).once.ordered
-      expect(described_class).to receive(:given).once.ordered
-      subject
+    context 'when argument present' do
+      let(:params) { {id: 1} }
+      let(:url_value) { 'http://example.com/users/1' }
+      subject { described_class.open(params) }
+      it do
+        expect(described_class).to receive(:expanded_url).with(id: 1){ url_value }.once.ordered
+        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(described_class).to receive(:retryable).ordered.once.and_call_original
+        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(described_class).to receive(:given).once.ordered
+        subject
+      end
+    end
+    context 'when argument missing' do
+      let(:url_value) { 'http://example.com/users' }
+      subject { described_class.open }
+      it do
+        expect(described_class).to receive(:expanded_url).with({}){ url_value }.once.ordered
+        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(described_class).to receive(:retryable).ordered.once.and_call_original
+        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(described_class).to receive(:given).once.ordered
+        subject
+      end
     end
   end
 

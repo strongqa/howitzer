@@ -33,13 +33,12 @@ class WebPage
   # * +WebPage+ - New instance of current class
   #
 
-  def self.open(params={})
-    fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'" if page_url.nil?
-    full_url = "#{app_url unless self == BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
-    log.info "Open #{name} page by '#{full_url}' url"
+  def self.open(params = {})
+    url = expanded_url(params)
+    log.info "Open #{name} page by '#{url}' url"
     retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
       log.info 'Retry...' unless retries.zero?
-      visit full_url
+      visit url
     end
     given
   end
@@ -66,7 +65,7 @@ class WebPage
   #
 
   def self.current_url
-    current_url
+    page.current_url
   end
 
   ##
@@ -117,8 +116,23 @@ class WebPage
               "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
 
+  ##
+  # Returns expanded page url
+  #
+  # *Parameters:*
+  # * +params+ - Params for url expansion.
+  #
+
+  def self.expanded_url(params = {})
+    if page_url.nil?
+      fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+    end
+    "#{app_url unless self == BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
+  end
+
   class << self
     protected
+
     ##
     #
     # DSL to specify page url
@@ -132,6 +146,7 @@ class WebPage
     end
 
     private
+
     attr_reader :page_url
   end
 
