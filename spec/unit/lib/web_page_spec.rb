@@ -151,7 +151,7 @@ RSpec.describe WebPage do
           let(:web_page) { ::BlankPage }
           before do
             stub_const('::BlankPage', described_class)
-            allow(web_page).to receive(:page_url) { 'about:blank' }
+            allow(web_page).to receive(:url_template) { 'about:blank' }
           end
           it { is_expected.to eq('about:blank') }
         end
@@ -159,7 +159,7 @@ RSpec.describe WebPage do
           let(:web_page) { described_class }
           before do
             stub_const('::BlankPage', double)
-            allow(web_page).to receive(:page_url) { '/users{/id}' }
+            allow(web_page).to receive(:url_template) { '/users{/id}' }
           end
           it { is_expected.to eq('http://my.website.com/users/1') }
         end
@@ -178,7 +178,7 @@ RSpec.describe WebPage do
     context 'when params missing' do
       subject { described_class.expanded_url }
       before do
-        allow(described_class).to receive(:page_url) { '/users' }
+        allow(described_class).to receive(:url_template) { '/users' }
         stub_const('::BlankPage', double)
       end
       it { is_expected.to eq('http://my.website.com/users') }
@@ -190,11 +190,11 @@ RSpec.describe WebPage do
     before { subject }
     context 'when value is number' do
       let(:value) { 1 }
-      it { expect(described_class.instance_variable_get(:@page_url)).to eq('1') }
+      it { expect(described_class.instance_variable_get(:@url_template)).to eq('1') }
     end
     context 'when value is string' do
       let(:value) { '/users' }
-      it { expect(described_class.instance_variable_get(:@page_url)).to eq('/users') }
+      it { expect(described_class.instance_variable_get(:@url_template)).to eq('/users') }
     end
   end
 

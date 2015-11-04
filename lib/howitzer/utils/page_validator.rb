@@ -37,7 +37,7 @@ module Howitzer
       #
 
       def check_validations_are_defined!
-        return unless validations.nil? && !old_url_validation_present?
+        return unless validations.nil?
 
         log.error Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
       end
@@ -46,15 +46,6 @@ module Howitzer
 
       def validations
         PageValidator.validations[self.class.name]
-      end
-
-      def old_url_validation_present?
-        return unless self.class.const_defined?('URL_PATTERN')
-
-        self.class.validate :url, pattern: self.class.const_get('URL_PATTERN')
-        warn "[Deprecated] Old style page validation is using. Please use new style:\n" \
-             "\t validate :url, pattern: URL_PATTERN"
-        true
       end
 
       # This module holds page validation class methods
@@ -115,22 +106,28 @@ module Howitzer
           PageValidator.validations[name][:element_presence] = ->(web_page) { web_page.first_element(locator) }
         end
 
-        def validate_by_pattern(name, options)
+        def pattern_from_options(options)
           pattern = options[:pattern] || options['pattern']
           if pattern.nil? || !pattern.is_a?(Regexp)
             log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object"
           end
-          PageValidator.validations[self.name][name] = ->(web_page) { pattern === web_page.send(name) }
+          pattern
         end
 
-        private
+        def validate_by_pattern(name, options)
+          pattern = pattern_from_options(options)
+          PageValidator.validations[self.name][name] = lambda do |web_page|
+            method_name = name == :url ? :current_url : name
+            pattern === web_page.send(method_name)
+          end
+        end
 
         def validate_by_type(type, options)
           case type.to_s.to_sym
             when :url
               validate_by_pattern(:url, options)
             when :element_presence
-              validate_element options
+              validate_element(options)
             when :title
               validate_by_pattern(:title, options)
             else

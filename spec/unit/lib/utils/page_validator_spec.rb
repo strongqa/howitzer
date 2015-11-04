@@ -30,17 +30,6 @@ RSpec.describe 'PageValidator' do
         expect { subject }.to raise_error(Howitzer::NoValidationError)
       end
     end
-    context 'when old validation style is using' do
-      before { web_page_class.const_set('URL_PATTERN', /Foo/) }
-      after { web_page_class.send :remove_const, 'URL_PATTERN' }
-      it do
-        expect(web_page_class).to receive(:validate).with(
-          :url,
-          pattern: /Foo/
-        ) { Howitzer::Utils::PageValidator.validations['TestWebPageClass'] = {} }
-        expect { subject }.to_not raise_error
-      end
-    end
     context 'when title validation is specified' do
       before do
         web_page.class.validate :title, pattern: /Foo/
@@ -247,7 +236,7 @@ RSpec.describe 'PageValidator' do
       end
       context 'when all matches' do
         before do
-          allow(web_page_class).to receive(:url) { 'http://test.com/foo' }
+          allow(web_page_class).to receive(:current_url) { 'http://test.com/foo' }
           allow(web_page_class).to receive(:title) { 'Foo page' }
           allow(web_page_class).to receive(:first_element).with(:login) { true }
         end
@@ -255,7 +244,7 @@ RSpec.describe 'PageValidator' do
       end
       context 'when first does not match' do
         before do
-          expect(web_page_class).to receive(:url).once { 'http://test.com/bar' }
+          expect(web_page_class).to receive(:current_url).once { 'http://test.com/bar' }
           expect(web_page_class).to receive(:title).never
           expect(web_page_class).to receive(:first_element).never
         end

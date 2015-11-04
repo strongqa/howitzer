@@ -124,10 +124,10 @@ class WebPage
   #
 
   def self.expanded_url(params = {})
-    if page_url.nil?
+    if url_template.nil?
       fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
     end
-    "#{app_url unless self == ::BlankPage}#{Addressable::Template.new(page_url).expand(params)}"
+    "#{app_url unless self == ::BlankPage}#{Addressable::Template.new(url_template).expand(params)}"
   end
 
   class << self
@@ -142,12 +142,12 @@ class WebPage
     #
 
     def url(value)
-      @page_url = value.to_s
+      @url_template = value.to_s
     end
 
     private
 
-    attr_reader :page_url
+    attr_reader :url_template
   end
 
   def initialize
@@ -201,6 +201,11 @@ class WebPage
     page.execute_script("$('#{css_locator}').trigger('click')")
     sleep settings.timeout_tiny
   end
+
+  ##
+  #
+  # Reloads current page
+  #
 
   def reload
     log.info "Reload '#{current_url}'"
