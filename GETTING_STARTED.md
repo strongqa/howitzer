@@ -263,7 +263,7 @@ Howitzer allows using all 3 validations, but only 1 is really required. If any v
 
 **CAUTION:** Page validation is triggered in 2 cases only:
 
-1. < Web Page Class >.open(url)
+1. < Web Page Class >.open
 2. < Web Page Class >.given
 
 
@@ -783,4 +783,3 @@ You can run all tests from this folder using the command:
 ```bash
 rake rspec:bvt:accounts
 ```
-
