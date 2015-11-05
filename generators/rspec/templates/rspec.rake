@@ -1,33 +1,42 @@
-require 'rspec'
 require 'rspec/core/rake_task'
-include RSpec::Core
 
-# Specify here your group tests
-TEST_TYPES = [:all, :health, :bvt, :p1]
+RSpec::Core::RakeTask.new(:features) { |features| }
 
-# Specify here your business areas, ex. [:accounts, :blog, :news]
-TEST_AREAS = []
+unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gems:* tasks
+  begin
 
-namespace :rspec do
-  std_opts = "--format html --out=./#{settings.log_dir}/#{settings.html_log} --format documentation --color"
-  TEST_TYPES.each do |type|
-    RakeTask.new(type) do |s|
-      s.send :desc, "Run all #{"'#{s.name}' " unless type == :all}tests"
-      s.pattern = "./spec/#{type == :all ? '**' : s.name}/**/*_spec.rb"
-      s.rspec_opts = std_opts
-      s.verbose = true
-    end
-    TEST_AREAS.each do |group|
-      type_text = type == :all ? '**' : type
-      pattern = "./spec/#{type_text}/#{group}/**/*_spec.rb"
-      RakeTask.new("#{"#{type}:" unless type == :all}#{group}") do |s|
-        s.send :desc, "Run all '#{s.name}' tests"
-        s.pattern = pattern
-        s.rspec_opts = std_opts
-        s.verbose = true
+    namespace :features do
+      RSpec::Core::RakeTask.new(:wip, 'Run features that are being worked on') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag wip'
+      end
+
+      RSpec::Core::RakeTask.new(:bug, 'Run features with known bugs') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag bug'
+      end
+
+      RSpec::Core::RakeTask.new(:smoke, 'Run smoke features') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag smoke'
+      end
+
+      RSpec::Core::RakeTask.new(:bvt, 'Run bvt features') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag bvt'
+      end
+
+      RSpec::Core::RakeTask.new(:p1, 'Run p1 features') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag p1'
+      end
+
+      RSpec::Core::RakeTask.new(:p2, 'Run p2 features') do |t|
+        t.pattern = './spec{,/*/**}/*_spec.rb'
+        t.rspec_opts = '--tag p2'
       end
     end
   end
 end
 
-task default: 'rspec:all'
+task default: :features

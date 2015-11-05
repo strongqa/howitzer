@@ -742,44 +742,28 @@ The **/spec/support** file contains a help code, e.g. the code that generates te
 It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
 and every **_page.rb** file.
 
-It is important to keep all **_spec.rb** files in the folder that contains tests priority meaning in its name.
-You must create folders in the **/spec** in order to add the tests with the required priority level, then edit the constant **TEST_TYPES** in the **/tasks/rspec.rake** file to add a name of the  folder you created as a symbol in the list.
-
-To run tests by a priority level, use the **Rake** tasks in the **/tasks/rspec.rake** file.
-The **TEST_TYPES = [:all, :health, :bvt, :p1]** constant has a list of all available test priorities as standard settings.
-To run all tests in the **/spec** folder, type in:
+To run tests by a priority level, use the **Rake** tasks in the **/tasks/*.rake** file.
+There are some test priorities as standard settings.
+To run all tests type in:
 
 ```bash
-   rake rspec:all
+   rake
 ```
 
-(:all will run all tests in the **/spec** folder). For example, to run :bvt tests you need to create a **/spec/bvt** folder and add some **_spec.rb** files there, then run a Rake task by:
+(it will run all tests in the **/spec** folder). For example, to run :bvt tests you need to run a Rake task by:
 
 ```bash
-rake rspec:bvt
+rake features:bvt
 ```
 
-To run tests with less priority level, use _:p1_:
+To run tests with less priority level, use _:p1_ or _:p2_:
 
 ```bash
-rake rspec:p1
+rake features:p1
 ```
 
 Also there is a standard option to run _Smoke_ tests:
 
 ```bash
-rake rspec:health
-```
-
-In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
-you can create subfolders that represents the business areas of tests. There is a constant in the **/tasks/rspec.rake**:
-
-**TEST_AREAS  = []**
-
-Here you can add business areas of the created tests that are in subfolders. The names should be equal, e.g.:
-If *TEST_AREAS = [:accounts]*. There is a folder with the specs: **/spec/bvt/accounts.**
-You can run all tests from this folder using the command:
-
-```bash
-rake rspec:bvt:accounts
+rake features:smoke
 ```

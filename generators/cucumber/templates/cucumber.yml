@@ -1,12 +1,6 @@
-<%
-rerun = File.file?('rerun.txt') ? IO.read('rerun.txt') : ""
-rerun_opts = rerun.to_s.strip.empty? ? "--format progress features" : "--format pretty #{rerun}"
-std_opts = "--verbose --expand --format html --out=./log/log.html --format junit --out=./log --format pretty" +
-  " features --tags ~@wip --tags ~@bug"
-%>
-default: -r features <%= std_opts %>  --tags ~@demo
-wip: -r features --tags @wip --wip
-demo: -r features <%= std_opts %> --tags @demo
-bug: -r features --tags @bug --wip
-smoke: -r features <%= std_opts %>  --tags ~@demo @smoke
-rerun: <%= rerun_opts %> --format rerun --out rerun.txt --strict --tags ~@wip
+wip: --tags @wip --wip
+bug: --tags @bug --wip
+smoke: --tags @smoke
+bvt: --tags ~@smoke ~@p1 ~@p2 @bvt
+p1: --tags @p1
+p2: --tags @p2
