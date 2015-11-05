@@ -25,6 +25,11 @@ unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gem
         t.profile = 'demo'
       end
 
+      Cucumber::Rake::Task.new({ smoke: 'db:test:prepare' }, 'Run smoke feature') do |t|
+        t.fork = false # You may get faster startup if you set this to false
+        t.profile = 'smoke'
+      end
+
       Cucumber::Rake::Task.new(
         { rerun: 'db:test:prepare' },
         'Record failing features and run only them if any exist'
@@ -54,6 +59,39 @@ unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gem
     task :cucumber do
       abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
     end
+  end
+
+end
+
+begin
+  require 'rspec/core/rake_task'
+
+  task :smoke do
+    RSpec::Core::RakeTask.new(:spec) do |t|
+      t.rspec_opts = '--tag smoke'
+    end
+    Rake::Task['spec'].execute
+  end
+
+  task :bvt do
+    RSpec::Core::RakeTask.new(:spec) do |t|
+      t.rspec_opts = '--tag bvt'
+    end
+    Rake::Task['spec'].execute
+  end
+
+  task p1: ['cucumber:ok'] do
+    RSpec::Core::RakeTask.new(:spec) do |t|
+      t.rspec_opts = '--tag p1'
+    end
+    Rake::Task['spec'].execute
+  end
+
+  task p2: [:default] do
+    RSpec::Core::RakeTask.new(:spec) do |t|
+      t.rspec_opts = '--tag p2'
+    end
+    Rake::Task['spec'].execute
   end
 
 end

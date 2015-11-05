@@ -10,7 +10,8 @@ module Howitzer
               { source: 'spec_helper.rb', destination: 'spec/spec_helper.rb' },
               { source: 'turnip_helper.rb', destination: 'spec/turnip_helper.rb' },
               { source: 'example.feature', destination: 'spec/acceptance/example.feature' },
-              { source: 'common_steps.rb', destination: 'spec/steps/common_steps.rb' }
+              { source: 'common_steps.rb', destination: 'spec/steps/common_steps.rb' },
+              { source: 'turnip.rake', destination: 'tasks/turnip.rake' }
             ]
       }
     end

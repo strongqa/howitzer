@@ -28,7 +28,9 @@ RSpec.describe 'Generators' do
           is_directory: false,
           size: template_file_size('turnip', 'common_steps.rb')
         },
-        { name: '/spec/turnip_helper.rb', is_directory: false, size: template_file_size('turnip', 'turnip_helper.rb') }
+        { name: '/spec/turnip_helper.rb', is_directory: false, size: template_file_size('turnip', 'turnip_helper.rb') },
+        { name: '/tasks', is_directory: true },
+        { name: '/tasks/turnip.rake', is_directory: false, size: template_file_size('turnip', 'turnip.rake') }
       ]
     end
     it { is_expected.to eql(expected_result) }
@@ -39,7 +41,8 @@ RSpec.describe 'Generators' do
       Added 'spec/spec_helper.rb' file
       Added 'spec/turnip_helper.rb' file
       Added 'spec/acceptance/example.feature' file
-      Added 'spec/steps/common_steps.rb' file\n"
+      Added 'spec/steps/common_steps.rb' file
+      Added 'tasks/turnip.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

@@ -201,6 +201,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'spec/turnip_helper.rb' file
           Added 'spec/acceptance/example.feature' file
           Added 'spec/steps/common_steps.rb' file
+          Added 'tasks/turnip.rake' file
 
     """
     Then a directory named "test_automation" should exist
@@ -211,6 +212,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/pages/example_menu.rb                     |
       | test_automation/pages/example_page.rb                     |
       | test_automation/tasks/common.rake                         |
+      | test_automation/tasks/turnip.rake                         |
       | test_automation/spec/spec_helper.rb                       |
       | test_automation/spec/turnip_helper.rb                     |
       | test_automation/spec/acceptance/example.feature           |
