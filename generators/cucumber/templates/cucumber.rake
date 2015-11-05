@@ -1,7 +1,7 @@
 require 'cucumber'
 require 'cucumber/rake/task'
 
-Cucumber::Rake::Task.new(:features) { |features| }
+Cucumber::Rake::Task.new(:features) {}
 
 unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gems:* tasks
   begin

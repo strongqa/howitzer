@@ -1,6 +1,6 @@
 require 'rspec/core/rake_task'
 
-RSpec::Core::RakeTask.new(:features) { |features| }
+RSpec::Core::RakeTask.new(:features) {}
 
 unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gems:* tasks
   begin
