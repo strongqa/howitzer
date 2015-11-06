@@ -25,17 +25,17 @@ begin
       t.profile = 'smoke'
     end
 
-    Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios (with @bvt tag)') do |t|
+    Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
       t.fork = false
       t.profile = 'bvt'
     end
 
-    Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with priority 1 (with @p1 tag)') do |t|
+    Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
       t.fork = false
       t.profile = 'p1'
     end
 
-    Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with priority 2 (with @p2 tag)') do |t|
+    Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with low priority (with @p2 tag)') do |t|
       t.fork = false
       t.profile = 'p2'
     end
