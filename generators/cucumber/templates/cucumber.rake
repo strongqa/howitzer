@@ -1,41 +1,43 @@
 require 'cucumber'
 require 'cucumber/rake/task'
 
-Cucumber::Rake::Task.new(:features) {}
+Cucumber::Rake::Task.new(:cucumber, 'Run all tests')
 
-unless ARGV.any? { |a| a =~ /^gems/ } # Don't load anything when running the gems:* tasks
-  begin
+Cucumber::Rake::Task.new(:features, 'Run default rake task') do |t|
+  t.cucumber_opts = '--tag ~wip --tag ~bug'
+end
 
-    namespace :features do
-      Cucumber::Rake::Task.new({ wip: 'db:test:prepare' }, 'Run features that are being worked on') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'wip'
-      end
+begin
 
-      Cucumber::Rake::Task.new({ bug: 'db:test:prepare' }, 'Run features with known bugs') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'bug'
-      end
+  namespace :features do
+    Cucumber::Rake::Task.new(:wip, 'Run features that are being worked on') do |t|
+      t.fork = false
+      t.profile = 'wip'
+    end
 
-      Cucumber::Rake::Task.new({ smoke: 'db:test:prepare' }, 'Run smoke features') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'smoke'
-      end
+    Cucumber::Rake::Task.new(:bug, 'Run features with known bugs') do |t|
+      t.fork = false
+      t.profile = 'bug'
+    end
 
-      Cucumber::Rake::Task.new({ bvt: 'db:test:prepare' }, 'Run bvt features') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'bvt'
-      end
+    Cucumber::Rake::Task.new(:smoke, 'Run smoke features') do |t|
+      t.fork = false
+      t.profile = 'smoke'
+    end
 
-      Cucumber::Rake::Task.new({ p1: 'db:test:prepare' }, 'Run p1 features') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'p1'
-      end
+    Cucumber::Rake::Task.new(:bvt, 'Run bvt features') do |t|
+      t.fork = false
+      t.profile = 'bvt'
+    end
 
-      Cucumber::Rake::Task.new({ p2: 'db:test:prepare' }, 'Run p2 features') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'p2'
-      end
+    Cucumber::Rake::Task.new(:p1, 'Run p1 features') do |t|
+      t.fork = false
+      t.profile = 'p1'
+    end
+
+    Cucumber::Rake::Task.new(:p2, 'Run p2 features') do |t|
+      t.fork = false
+      t.profile = 'p2'
     end
   end
 end

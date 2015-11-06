@@ -525,49 +525,8 @@ Logging
 
 Running of built-in HTML generators for RSpec and Cucumber logging is available if you run the tests using the `rake` tasks.
 
-**Example:**
-
-Running **_RSpec_** tests with the `rake` tasks.
-
-```bash
-rake rspec: all
-```
-
-**Example:**
-
-Running **_Cucumber_** tests with the `rake` tasks.
-
-```bash
-rake cucumber: all
-```
-
 It is also possible to manually run the tests with automatic logging.
 
-**Example:**
-
-To manually start a specific RSpec test:
-
-```bash
-rspec spec/my_spec.rb -format html -out =./log/log.html
-```
-
-To manually run an RSpec test:
-
-```bash
-rspec -format html -out =./log/log.html
-```
-
-To manually start a certain _feature_:
-
-```bash
-cucumber features/first.feature -format html -out =./log/log.html
-```
-
-To manually start all _features_:
-
-```bash
-cucumber -format html -out =./log/log.html
-```
 
 ### Extended Logging ###
 
@@ -637,10 +596,12 @@ class TestEmail < Email
 end
 ```
 
-+### Text logging ###
-+If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
-+    ls -l 2>&1 | tee file.txt
-+It will log BOTH stdout and stderr from ls to file.txt.
+### Text logging ###
+If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
+```bash
+ls -l 2>&1 | tee file.txt
+```
+It will log BOTH stdout and stderr from ls to file.txt.
 
 ## Data Generators ##
 
@@ -733,37 +694,30 @@ When I put next register data and apply it
 
 The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
-## Structure of RSpec Folder ##
-
-The **/spec** folder contains all supporting .rspec code and tests. 
-All .rspec settings are located in the **spec_helper.rb** file. You can edit the .rspec settings as you want.
-
-The **/spec/support** file contains a help code, e.g. the code that generates test data.
-It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
-and every **_page.rb** file.
+## Running a subset of scenarios ##
 
 To run tests by a priority level, use the **Rake** tasks in the **/tasks/*.rake** file.
-There are some test priorities as standard settings.
+There are some test priorities as standard settings:
+@wip - tag for features that are being worked on
+@bug - tag for features with known bugs
+@smoke - tag for smoke test features, excludes @wip and @bug
+@bvt - tag for features which exercises the mainstream functionality, excludes @wip, @bug, @smoke, @p1 and @p2
+@p1 and @p2 - tags for features with less priority level, excludes @wip and @bug
+
 To run all tests type in:
 
 ```bash
    rake
 ```
 
-(it will run all tests in the **/spec** folder). For example, to run :bvt tests you need to run a Rake task by:
+To run _:bvt_ tests you need to run a Rake task by:
 
 ```bash
 rake features:bvt
 ```
 
-To run tests with less priority level, use _:p1_ or _:p2_:
+To run _:p1_ tests type in:
 
 ```bash
 rake features:p1
-```
-
-Also there is a standard option to run _Smoke_ tests:
-
-```bash
-rake features:smoke
 ```
