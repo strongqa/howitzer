@@ -698,11 +698,11 @@ The last line will automatically replace `FACTORY_USER[:username]` with factory 
 
 To run tests by a priority level, use the **Rake** tasks in the **/tasks/*.rake** file.
 There are some test priorities as standard settings:
-* **@wip - tag for features that are being worked on
-* **@bug - tag for features with known bugs
-* **@smoke - tag for smoke test features, excludes @wip and @bug
-* **@bvt - tag for features which exercises the mainstream functionality, excludes @wip, @bug, @smoke, @p1 and @p2
-* **@p1 and @p2 - tags for features with less priority level, excludes @wip and @bug
+* **@wip** - tag for features that are being worked on
+* **@bug** - tag for features with known bugs
+* **@smoke** - tag for smoke test features, excludes @wip and @bug
+* **@bvt** - tag for features which exercises the mainstream functionality, excludes @wip, @bug, @smoke, @p1 and @p2
+* **@p1** and **@p2** - tags for features with less priority level, excludes @wip and @bug
 
 To run all tests type in:
 
