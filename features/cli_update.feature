@@ -68,7 +68,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/support/transformers.rb' file
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
-          Identical 'config/cucumber.yml' file
     """
     And the exit status should be 0
     When I run `howitzer update` interactively
@@ -90,7 +89,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'features/support/transformers.rb' file
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
-          Identical 'config/cucumber.yml' file
     """
     And the exit status should be 0
 

@@ -138,12 +138,10 @@ Feature: Howitzer CLI New Project Creation
           Added 'features/support/transformers.rb' file
           Added 'features/example.feature' file
           Added 'tasks/cucumber.rake' file
-          Added 'config/cucumber.yml' file
 
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
-      | test_automation/config/cucumber.yml                       |
       | test_automation/config/custom.yml                         |
       | test_automation/config/default.yml                        |
       | test_automation/emails/example_email.rb                   |

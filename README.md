@@ -68,7 +68,6 @@ howitzer new <PROJECT NAME> --cucumber
 The following folders and files will be generated:
 ```
 config/
-  cucumber.yml
   default.yml
   custom.yml
 tasks/

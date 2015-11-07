@@ -696,28 +696,31 @@ The last line will automatically replace `FACTORY_USER[:username]` with factory 
 
 ## Running a subset of scenarios ##
 
-To run tests by a priority level, use the **Rake** tasks in the **/tasks/*.rake** file.
-There are some test priorities as standard settings:
-* **@wip** - tag for features that are being worked on
-* **@bug** - tag for features with known bugs
-* **@smoke** - tag for smoke test features, excludes @wip and @bug
-* **@bvt** - tag for features which exercises the mainstream functionality, excludes @wip, @bug, @smoke, @p1 and @p2
-* **@p1** and **@p2** - tags for features with less priority level, excludes @wip and @bug
+### Tagging ###
 
-To run all tests type in:
+BDD tools allow to filter a subset of scenarios by tags. For this purpose you have to mark a scenario with one or
+more tags. If feature is marked with a tag then all scenarios of feature inherit the one.
+
+It is good idea to mark all scenarios with priority tags. Critical scenarios execution with high priority helps you
+to discover critical bugs as soon as possible and do not spend time for minor scenarios execution in this case.
+
+You can find most used priority tags bellow:
+* **@smoke** - smoke test (critical functionality)
+* **<no tag>** - build verification test (major functionality)
+* **@p1** - priority 1 (normal functionality)
+* **@p2** - priority 2 (minor functionality)
+
+In additional you have ability to exclude some scenarios with following tags:
+* **@wip** - work in progress (started implementation but has not been finished yet)
+* **@bug** - known bug (a bug is posted to bug tracker but has not been fixed yet)
+
+### Rake tasks ###
+
+Howitzer provides unified rake tasks for each BDD tool to execute scenario subsets based on tagging concept described
+above.
+
+You can find full list of rake tasks with description with following command:
 
 ```bash
-   rake
-```
-
-To run _:bvt_ tests you need to run a Rake task by:
-
-```bash
-rake features:bvt
-```
-
-To run _:p1_ tests type in:
-
-```bash
-rake features:p1
+   rake -T
 ```
