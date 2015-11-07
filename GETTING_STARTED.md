@@ -525,49 +525,8 @@ Logging
 
 Running of built-in HTML generators for RSpec and Cucumber logging is available if you run the tests using the `rake` tasks.
 
-**Example:**
-
-Running **_RSpec_** tests with the `rake` tasks.
-
-```bash
-rake rspec: all
-```
-
-**Example:**
-
-Running **_Cucumber_** tests with the `rake` tasks.
-
-```bash
-rake cucumber: all
-```
-
 It is also possible to manually run the tests with automatic logging.
 
-**Example:**
-
-To manually start a specific RSpec test:
-
-```bash
-rspec spec/my_spec.rb -format html -out =./log/log.html
-```
-
-To manually run an RSpec test:
-
-```bash
-rspec -format html -out =./log/log.html
-```
-
-To manually start a certain _feature_:
-
-```bash
-cucumber features/first.feature -format html -out =./log/log.html
-```
-
-To manually start all _features_:
-
-```bash
-cucumber -format html -out =./log/log.html
-```
 
 ### Extended Logging ###
 
@@ -637,10 +596,12 @@ class TestEmail < Email
 end
 ```
 
-+### Text logging ###
-+If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
-+    ls -l 2>&1 | tee file.txt
-+It will log BOTH stdout and stderr from ls to file.txt.
+### Text logging ###
+If you want to capture error output (stderr) along with normal output (stdout) in the text file you can use:
+```bash
+ls -l 2>&1 | tee file.txt
+```
+It will log BOTH stdout and stderr from ls to file.txt.
 
 ## Data Generators ##
 
@@ -733,53 +694,33 @@ When I put next register data and apply it
 
 The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
-## Structure of RSpec Folder ##
+## Running a subset of scenarios ##
 
-The **/spec** folder contains all supporting .rspec code and tests. 
-All .rspec settings are located in the **spec_helper.rb** file. You can edit the .rspec settings as you want.
+### Tagging ###
 
-The **/spec/support** file contains a help code, e.g. the code that generates test data.
-It’s better to you modules here in every created files. Methods from this folder will be accessible in every **_spec.rb** file
-and every **_page.rb** file.
+BDD tools allow to filter a subset of scenarios by tags. For this purpose you have to mark a scenario with one or
+more tags. If feature is marked with a tag then all scenarios of feature inherit the one.
 
-It is important to keep all **_spec.rb** files in the folder that contains tests priority meaning in its name.
-You must create folders in the **/spec** in order to add the tests with the required priority level, then edit the constant **TEST_TYPES** in the **/tasks/rspec.rake** file to add a name of the  folder you created as a symbol in the list.
+It is good idea to mark all scenarios with priority tags. Critical scenarios execution with high priority helps you
+to discover critical bugs as soon as possible and do not spend time for minor scenarios execution in this case.
 
-To run tests by a priority level, use the **Rake** tasks in the **/tasks/rspec.rake** file.
-The **TEST_TYPES = [:all, :health, :bvt, :p1]** constant has a list of all available test priorities as standard settings.
-To run all tests in the **/spec** folder, type in:
+You can find most used priority tags bellow:
+* **@smoke** - smoke test (critical functionality)
+* **<no tag>** - build verification test (major functionality)
+* **@p1** - priority 1 (normal functionality)
+* **@p2** - priority 2 (minor functionality)
 
-```bash
-   rake rspec:all
-```
+In additional you have ability to exclude some scenarios with following tags:
+* **@wip** - work in progress (started implementation but has not been finished yet)
+* **@bug** - known bug (a bug is posted to bug tracker but has not been fixed yet)
 
-(:all will run all tests in the **/spec** folder). For example, to run :bvt tests you need to create a **/spec/bvt** folder and add some **_spec.rb** files there, then run a Rake task by:
+### Rake tasks ###
 
-```bash
-rake rspec:bvt
-```
+Howitzer provides unified rake tasks for each BDD tool to execute scenario subsets based on tagging concept described
+above.
 
-To run tests with less priority level, use _:p1_:
-
-```bash
-rake rspec:p1
-```
-
-Also there is a standard option to run _Smoke_ tests:
+You can find full list of rake tasks with description with following command:
 
 ```bash
-rake rspec:health
-```
-
-In every directory that is in **/spec** folder, the name of is represents priority of tests that are in it,
-you can create subfolders that represents the business areas of tests. There is a constant in the **/tasks/rspec.rake**:
-
-**TEST_AREAS  = []**
-
-Here you can add business areas of the created tests that are in subfolders. The names should be equal, e.g.:
-If *TEST_AREAS = [:accounts]*. There is a folder with the specs: **/spec/bvt/accounts.**
-You can run all tests from this folder using the command:
-
-```bash
-rake rspec:bvt:accounts
+   rake -T
 ```

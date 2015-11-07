@@ -14,8 +14,6 @@ RSpec.describe 'Generators' do
     let(:generator_name) { described_class }
     let(:expected_result) do
       [
-        { name: '/config', is_directory: true },
-        { name: '/config/cucumber.yml', is_directory: false, size: template_file_size('cucumber', 'cucumber.yml') },
         { name: '/features', is_directory: true },
         {
           name: '/features/example.feature',
@@ -47,8 +45,7 @@ RSpec.describe 'Generators' do
       Added 'features/support/env.rb' file
       Added 'features/support/transformers.rb' file
       Added 'features/example.feature' file
-      Added 'tasks/cucumber.rake' file
-      Added 'config/cucumber.yml' file\n"
+      Added 'tasks/cucumber.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

@@ -13,4 +13,4 @@ if settings.required_clean_logs
 end
 
 Dir['tasks/**/*.rake'].each { |rake| load rake }
-ENV['RAKE_TASK'] = ARGV[0] if /^(?:r?spec|cucumber)/ === ARGV[0]
+ENV['RAKE_TASK'] = ARGV[0] if /^features/ === ARGV[0]
