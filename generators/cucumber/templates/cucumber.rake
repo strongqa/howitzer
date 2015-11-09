@@ -10,7 +10,7 @@ end
 
 Cucumber::Rake::Task.new(:features, 'Run all workable scenarios (without @wip and @bug tags)') do |t|
   t.fork = false
-  t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip ~@bug"
+  t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug"
 end
 
 namespace :features do
@@ -26,22 +26,22 @@ namespace :features do
 
   Cucumber::Rake::Task.new(:smoke, 'Run workable smoke scenarios (with @smoke tag)') do |t|
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @smoke ~@wip ~@bug"
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @smoke --tags ~@wip --tags ~@bug"
   end
 
   Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip ~@bug ~@smoke ~@p1 ~@p2"
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
   end
 
   Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip ~@bug @p1"
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p1"
   end
 
   Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with low priority (with @p2 tag)') do |t|
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip ~@bug @p2"
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p2"
   end
 end
 
