@@ -38,7 +38,9 @@ Refer to the [GETTING STARTED](http://rubydoc.info/gems/howitzer/file/GETTING_ST
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
 ## Related Products
-* [Howitzer Example](https://github.com/strongqa/howitzer_example) – an example of Howitzer based project for demo web application.
+* [Howitzer Example RSpec](https://github.com/strongqa/howitzer_example_rspec) – an example of Howitzer based project for demo web application based on RSpec.
+* [Howitzer Example Cucumber](https://github.com/strongqa/howitzer_example_cucumber) – an example of Howitzer based project for demo web application based on Cucumber.
+* [Howitzer Example Turnip](https://github.com/strongqa/howitzer_example_turnip) – an example of Howitzer based project for demo web application based on Turnip.
 * [Howitzer Stat](https://github.com/strongqa/howitzer_stat) – is the extension to Howitzer product. It is used for automated tests coverage visualization of web pages.
 
 ## Requirements
