@@ -57,7 +57,7 @@ module Howitzer
         # @param [Symbol or String] name       Which validation type. Possible values [:url, :element_presence, :title]
         # @option options [Hash]                      Validation options
         #    :pattern => [Regexp]                     For :url and :title validation types
-        #    :locator => [String]                     For :element_presence (Existing locator name)
+        #    :name => [String]                        For :element_presence (Existing element name)
         # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
         #
         def validate(name, options)
@@ -99,11 +99,12 @@ module Howitzer
         private
 
         def validate_element(options)
-          locator = options[:locator] || options['locator']
-          if locator.nil? || locator.empty?
-            log.error Howitzer::WrongOptionError, "Please specify ':locator' option as one of page locator names"
+          element_name = options[:name] || options['name']
+          if element_name.nil? || element_name.empty?
+            log.error Howitzer::WrongOptionError, "Please specify ':name' option as one of page element names"
           end
-          PageValidator.validations[name][:element_presence] = ->(web_page) { web_page.first_element(locator) }
+          PageValidator.validations[name][:element_presence] =
+            ->(web_page) { web_page.send("has_#{element_name}_element?") }
         end
 
         def pattern_from_options(options)

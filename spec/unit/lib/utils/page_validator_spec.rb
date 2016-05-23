@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'howitzer/utils/page_validator'
-require 'howitzer/utils/locator_store'
+require 'howitzer/utils/element'
 
 RSpec.describe Howitzer::Utils::PageValidator do
   describe '.validations' do
@@ -11,7 +11,7 @@ end
 RSpec.describe 'PageValidator' do
   let(:web_page_class) do
     Class.new do
-      include LocatorStore
+      include Howitzer::Utils::Element
       include Howitzer::Utils::PageValidator
       def self.name
         'TestWebPageClass'
@@ -44,7 +44,7 @@ RSpec.describe 'PageValidator' do
     end
     context 'when element_presence validation is specified' do
       before do
-        web_page.class.validate :element_presence, locator: :test_locator
+        web_page.class.validate :element_presence, name: :test_locator
       end
       it { expect { subject }.to_not raise_error }
     end
@@ -114,14 +114,14 @@ RSpec.describe 'PageValidator' do
       let(:name) { :element_presence }
       context 'when options is correct' do
         context '(as string)' do
-          let(:options) { { 'locator' => 'test_locator' } }
+          let(:options) { { 'name' => 'test_locator' } }
           it do
             is_expected.to be_a(Proc)
             expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
           end
         end
         context '(as symbol)' do
-          let(:options) { { locator: :test_locator } }
+          let(:options) { { name: :test_locator } }
           it do
             is_expected.to be_a(Proc)
             expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
@@ -129,22 +129,22 @@ RSpec.describe 'PageValidator' do
         end
       end
       context 'when options is incorrect' do
-        context '(missing locator)' do
+        context '(missing element name)' do
           let(:options) { {} }
           it do
             expect(log).to receive(:error).with(
               Howitzer::WrongOptionError,
-              "Please specify ':locator' option as one of page locator names"
+              "Please specify ':name' option as one of page element names"
             ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
         end
-        context '(blank locator name)' do
-          let(:options) { { locator: '' } }
+        context '(blank element name)' do
+          let(:options) { { element: '' } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::WrongOptionError,
-              "Please specify ':locator' option as one of page locator names"
+              "Please specify ':name' option as one of page element names"
             ).once.and_call_original
             expect { subject }.to raise_error(Howitzer::WrongOptionError)
           end
@@ -228,25 +228,25 @@ RSpec.describe 'PageValidator' do
     context 'when all validations are defined' do
       before do
         web_page_class.class_eval do
-          add_locator :login, '#id'
+          element :login, '#id'
           validate :url, pattern: /foo/
           validate :title, pattern: /Foo page/
-          validate :element_presence, locator: :login
+          validate :element_presence, name: :login
         end
       end
       context 'when all matches' do
         before do
           allow(web_page_class).to receive(:current_url) { 'http://test.com/foo' }
           allow(web_page_class).to receive(:title) { 'Foo page' }
-          allow(web_page_class).to receive(:first_element).with(:login) { true }
+          allow(web_page_class).to receive(:has_login_element?).with(no_args) { true }
         end
         it { is_expected.to be_truthy }
       end
-      context 'when first does not match' do
+      context 'when first validation fails' do
         before do
           expect(web_page_class).to receive(:current_url).once { 'http://test.com/bar' }
           expect(web_page_class).to receive(:title).never
-          expect(web_page_class).to receive(:first_element).never
+          allow(web_page_class).to receive(:has_login_element?).with(no_args).never
         end
         it { is_expected.to be_falsey }
       end

@@ -1,20 +1,19 @@
 require 'singleton'
+require 'capybara'
 require 'rspec/expectations'
 require 'addressable/template'
-require 'howitzer/utils/locator_store'
 require 'howitzer/utils/page_validator'
-require 'howitzer/capybara/dsl_ex'
+require 'howitzer/utils/element'
 require 'howitzer/exceptions'
 
 # This class represents single web page. This is parent class for all web pages
 class WebPage
   UnknownPage = Class.new
-
-  include LocatorStore
+  include Howitzer::Utils::Element
   include Howitzer::Utils::PageValidator
   include RSpec::Matchers
-  include Howitzer::Capybara::DslEx
-  extend Howitzer::Capybara::DslEx
+  include ::Capybara::DSL
+  extend ::Capybara::DSL
   include Singleton
 
   def self.inherited(subclass)

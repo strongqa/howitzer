@@ -1,4 +1,4 @@
-Getting Started 
+Getting Started
 ===============
 
 Available Drivers
@@ -46,7 +46,7 @@ The table below gives an important information on the driver settings in Howitze
       if false, then ignores ssl warnings<br/>
     </td>
   </tr>
-  
+
   <tr>
     <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
     <td align="center">Headless</td>
@@ -180,13 +180,13 @@ It allows you to navigate to a page without url duplication each time:
 **Example:**
 
 ```ruby
-HomePage.open #=> visits / 
+HomePage.open #=> visits /
 ProductPage.open(id: 1) #=> visits /products/1
 SearchPage.open #=> visits /search
 SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
 ```
 
-For more information about url patterns please refers to https://github.com/sporkmonger/addressable 
+For more information about url patterns please refers to https://github.com/sporkmonger/addressable
 
 ### Validations
 
@@ -222,9 +222,9 @@ Howitzer provides 3 different validation types:
   </tr>
   <tr>
     <td>:element_presence</td>
-    <td>locator</td>
+    <td>name</td>
     <td>String/Symbol</td>
-    <td>find element by locator on current page</td>
+    <td>find element by name on current page</td>
   </tr>
 </tbody>
 </table>
@@ -253,9 +253,9 @@ end
 class LoginPage < WebPage
   url '/users/sign_in'
 
-  validate :element_presence, locator: :sign_in_btn
+  validate :element_presence, name: :sign_in_btn
 
-  add_locator :sign_in_btn, '#sign_in'
+  element :sign_in_btn, '#sign_in'
 end
 ```
 
@@ -269,43 +269,7 @@ Howitzer allows using all 3 validations, but only 1 is really required. If any v
 
 ### Locators ###
 
-Locator is a search item (selector) of one or more elements on a 'Web page'.
-
-The table below lists the types of locators, the possible methods of searching and Capybara methods, which may be called.
-
-<table>
-<thead>
-  <tr>
-    <th align="center">Locator Type</th>
-    <th align="center">Search Methods</th>
-    <th align="center">Capybara Methods</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>:locator</td>
-    <td>css(by default), xpath</td>
-    <td>find, all, first</td>
-  </tr>
-  <tr>
-    <td>:link_locator</td>
-    <td>id, text </td>
-    <td>click_link, find_link</td>
-  </tr>
-  <tr>
-    <td>:field_locator</td>
-    <td>id, name, text</td>
-    <td>find_field, fill_in</td>
-  </tr>
-  <tr>
-    <td>:button_locator</td>
-    <td>id, name, text</td>
-    <td>click_button, find_button</td>
-  </tr>
-</tbody>
-</table>
-
-Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add\_**
+Each page contains a description of all elements on page
 
 **Example:**
 
@@ -314,29 +278,29 @@ class HomePage < WebPage
   url '/'
   validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
-  add_locator :test_locator_name1,  '.foo'                         #css locator, default
-  add_locator :test_locator_name2,  css: '.foo'                    #css locator
-  add_locator :test_locator_name3,  xpath: '//div[@value="bar"]'   #css locator
+  element :test_name1, '.foo'                         #css locator, default
+  element :test_name2, :css, '.foo'                   #css locator
+  element :test_name3, :xpath, '//div[@value="bar"]'  #xpath locator
 
-  add_link_locator :test_link_locator1, 'Foo'                      #link locator by 'Foo' text
-  add_link_locator :test_link_locator1, 'bar'                      #link locator by 'bar' id
+  element :test_link1, :link, 'Foo'                   #link locator by 'Foo' text
+  element :test_link2, :link, 'bar'                   #link locator by 'bar' id
 
-  add_field_locator :test_field_locator1, 'Foo'                    #field locator by 'Foo' text
-  add_field_locator :test_field_locator2, 'bar'                    #field locator by 'bar' id
-  add_field_locator :test_field_locator3, 'bas'                    #field locator by 'baz' name
+  element :test_field1, :fillable_field, 'Foo'        #field locator by 'Foo' text
+  element :test_field2, :fillable_field, 'bar'        #field locator by 'bar' id
+  element :test_field3, :fillable_field, 'bas'        #field locator by 'baz' name
 end
 ```
 
-Sometimes it needs to have universal locators, for instance for many items from menu. Another case, when it's unknown text in locator in advance. For such cases, Howitzer suggests to use _lambda_ locators.
+Sometimes it needs to have universal selectors, for instance for many items from menu. Another case, when it's unknown text in selector in advance. For such cases, Howitzer suggests to use _lambda_ selectors.
 
 **Example:**
 
 ```ruby
- add_locator   :menu_item, ->(name) { { xpath: ".//*[@id='main_menu']//li[.='#{ name }']/a" } }
+ element  :menu_item, :xpath, ->(name) { ".//*[@id='main_menu']//li[.='#{ name }']/a" }
 
  #and then usage
  def choose_menu(text)
-    find(apply(locator(:menu_item), text)).click
+   menu_item_element(text).click
  end
 ```
 
@@ -350,13 +314,13 @@ If static information is repeated on several different pages, it can be a good i
 module TopMenu
   def self.included(base)
     base.class_eval do
-      add_link_locator :test_link_locator1, 'Foo'
+      element :test_link1_element, :link, 'Foo'
     end
   end
 
   def open_menu
     log.info "Open menu"
-    click_link locator(:test_link_locator1)
+    test_link1_element.click
   end
 end
 ```
@@ -665,14 +629,14 @@ In memory it looks like:
 
 ### Pre-Requisites ####
 
-This module uses standard methods for generating test data. 
+This module uses standard methods for generating test data.
 
 //TODO
 
 ### Cucumber Transformers ###
 
 In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
-You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site: 
+You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site:
 [https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
 We use transformers for generating data objects in tests. Let’s imagine, for example, that you need to write a _sign_up.feature:_
 
