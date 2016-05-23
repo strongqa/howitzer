@@ -6,7 +6,6 @@ group :test do
   gem 'poltergeist', require: false
   gem 'testingbot', require: false
   gem 'repeater', require: false
-  gem 'byebug'
 end
 gemspec
 
