@@ -1,18 +1,18 @@
 require 'spec_helper'
-require 'howitzer/utils/page_validator'
-require 'howitzer/utils/element'
+require 'howitzer/web_page_validator'
+require 'howitzer/web_page_element'
 
-RSpec.describe Howitzer::Utils::PageValidator do
+RSpec.describe Howitzer::WebPageValidator do
   describe '.validations' do
     it { expect(subject.validations).to eql({}) }
   end
 end
 
-RSpec.describe 'PageValidator' do
+RSpec.describe 'WebPageValidator' do
   let(:web_page_class) do
     Class.new do
-      include Howitzer::Utils::Element
-      include Howitzer::Utils::PageValidator
+      include Howitzer::WebPageElement
+      include Howitzer::WebPageValidator
       def self.name
         'TestWebPageClass'
       end
@@ -52,7 +52,7 @@ RSpec.describe 'PageValidator' do
 
   describe '.validate' do
     before do
-      Howitzer::Utils::PageValidator.validations[web_page.class.name] = nil
+      Howitzer::WebPageValidator.validations[web_page.class.name] = nil
     end
     subject { web_page.class.validate(name, options) }
     context 'when name = :url' do
@@ -63,14 +63,14 @@ RSpec.describe 'PageValidator' do
             let(:options) { { 'pattern' => /foo/ } }
             it do
               is_expected.to be_a(Proc)
-              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+              expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
           context '(as symbol)' do
             let(:options) { { pattern: /foo/ } }
             it do
               is_expected.to be_a(Proc)
-              expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+              expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
             end
           end
         end
@@ -106,7 +106,7 @@ RSpec.describe 'PageValidator' do
         let(:options) { { pattern: /foo/ } }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:url]).to be_a Proc
+          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
         end
       end
     end
@@ -117,14 +117,14 @@ RSpec.describe 'PageValidator' do
           let(:options) { { 'name' => 'test_locator' } }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
           end
         end
         context '(as symbol)' do
           let(:options) { { name: :test_locator } }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
           end
         end
       end
@@ -158,14 +158,14 @@ RSpec.describe 'PageValidator' do
           let(:options) { { 'pattern' => /foo/ } }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
         context '(as symbol)' do
           let(:options) { { pattern: /foo/ } }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::Utils::PageValidator.validations[web_page.class.name][:title]).to be_a Proc
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
           end
         end
       end
@@ -206,7 +206,7 @@ RSpec.describe 'PageValidator' do
   end
 
   describe '.pages' do
-    subject { Howitzer::Utils::PageValidator.pages }
+    subject { Howitzer::WebPageValidator.pages }
     it { is_expected.to eq([]) }
     it do
       subject << Class
@@ -256,7 +256,7 @@ RSpec.describe 'PageValidator' do
   describe '#matched_pages' do
     let!(:web_page1_class) do
       Class.new do
-        include Howitzer::Utils::PageValidator
+        include Howitzer::WebPageValidator
         def self.name
           'TestWebPage1Class'
         end
@@ -269,7 +269,7 @@ RSpec.describe 'PageValidator' do
 
     let!(:web_page2_class) do
       Class.new do
-        include Howitzer::Utils::PageValidator
+        include Howitzer::WebPageValidator
         def self.name
           'TestWebPage2Class'
         end
@@ -280,7 +280,7 @@ RSpec.describe 'PageValidator' do
       end
     end
     subject { web_page2_class.matched_pages }
-    before { Howitzer::Utils::PageValidator.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
+    before { Howitzer::WebPageValidator.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
     it { is_expected.to eq([web_page1_class]) }
   end
 end

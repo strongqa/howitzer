@@ -221,10 +221,10 @@ RSpec.describe WebPage do
 
   describe 'inherited callback' do
     let!(:page_class) do
-      Howitzer::Utils::PageValidator.instance_variable_set(:@pages, [])
+      Howitzer::WebPageValidator.instance_variable_set(:@pages, [])
       Class.new(described_class)
     end
-    it { expect(Howitzer::Utils::PageValidator.pages).to eq([page_class]) }
+    it { expect(Howitzer::WebPageValidator.pages).to eq([page_class]) }
     it 'can not be instantiated with new' do
       expect { page_class.new }.to raise_error(NoMethodError, "private method `new' called for #{page_class}")
     end
