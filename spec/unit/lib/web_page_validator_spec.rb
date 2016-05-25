@@ -207,10 +207,10 @@ RSpec.describe 'WebPageValidator' do
 
   describe '.pages' do
     subject { Howitzer::WebPageValidator.pages }
-    it { is_expected.to eq([]) }
     it do
-      subject << Class
-      is_expected.to eql([Class])
+      expect(subject).not_to include(Symbol)
+      subject << Symbol
+      expect(subject).to include(Symbol)
     end
   end
 
