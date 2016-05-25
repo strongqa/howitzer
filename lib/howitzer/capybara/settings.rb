@@ -32,8 +32,6 @@ module Capybara
         case settings.driver.to_s.to_sym
           when :selenium
             define_selenium_driver
-          when :selenium_dev
-            define_selenium_dev_driver
           when :webkit
             define_webkit_driver
           when :poltergeist
@@ -50,7 +48,7 @@ module Capybara
             define_selenium_grid_driver
           else
             log.error "Unknown '#{settings.driver}' driver. Check your settings, it should be one of [selenium," \
-                      ' selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]'
+                      ' selenium_grid, webkit, poltergeist, phantomjs, sauce, testingbot, browserstack]'
         end
       end
 
@@ -88,31 +86,6 @@ module Capybara
           params = { browser: settings.sel_browser.to_s.to_sym }
           params[:profile] = base_ff_profile_settings if ff_browser?
           Capybara::Selenium::Driver.new app, params
-        end
-      end
-
-      def define_selenium_dev_driver
-        Capybara.register_driver :selenium_dev do |app|
-          profile = base_ff_profile_settings
-          vendor_dir = settings.custom_vendor_dir || File.join(File.dirname(__FILE__), '..', 'vendor')
-          log.error "Vendor directory was not found('#{vendor_dir}')." unless Dir.exist?(vendor_dir)
-          %w(firebug*.xpi firepath*.xpi).each do |file_name|
-            full_path_pattern = File.join(File.expand_path(vendor_dir), file_name)
-            if (full_path = Dir[full_path_pattern].first)
-              profile.add_extension full_path
-            else
-              log.error "Extension was not found by '#{full_path_pattern}' pattern!"
-            end
-          end
-          profile['extensions.firebug.currentVersion']    = 'Last' # avoid 'first run' tab
-          profile['extensions.firebug.previousPlacement'] = 1
-          profile['extensions.firebug.onByDefault']       = true
-          profile['extensions.firebug.defaultPanelName']  = 'firepath'
-          profile['extensions.firebug.script.enableSites'] = true
-          profile['extensions.firebug.net.enableSites'] = true
-          profile['extensions.firebug.console.enableSites'] = true
-
-          Capybara::Selenium::Driver.new app, browser: :firefox, profile: profile
         end
       end
 

@@ -165,7 +165,7 @@ class WebPage
   #
 
   def tinymce_fill_in(name, options = {})
-    if %w(selenium selenium_dev sauce).include?(settings.driver)
+    if %w(selenium sauce).include?(settings.driver)
       browser_tinymce_fill_in(name, options)
     else
       page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
@@ -181,7 +181,7 @@ class WebPage
   #
 
   def click_alert_box(flag)
-    if %w(selenium selenium_dev sauce).include? settings.driver
+    if %w(selenium sauce).include? settings.driver
       alert = page.driver.browser.switch_to.alert
       flag ? alert.accept : alert.dismiss
     else
