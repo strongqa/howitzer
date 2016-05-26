@@ -3,7 +3,6 @@ module Howitzer
   CommunicationError = Class.new(StandardError)
   ParseError = Class.new(StandardError)
   InvalidApiKeyError = Class.new(StandardError)
-  ElementNotDefinedError = Class.new(StandardError)
   BadElementParamsError = Class.new(StandardError)
   WrongOptionError = Class.new(StandardError)
   NoValidationError = Class.new(StandardError)
