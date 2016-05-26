@@ -164,7 +164,7 @@ class WebPage
   #
 
   def click_alert_box(flag)
-    if %w(selenium selenium_dev sauce).include? settings.driver
+    if %w(selenium sauce).include? settings.driver
       alert = page.driver.browser.switch_to.alert
       flag ? alert.accept : alert.dismiss
     else

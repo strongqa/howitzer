@@ -1,4 +1,4 @@
-Getting Started 
+Getting Started
 ===============
 
 Available Drivers
@@ -46,7 +46,7 @@ The table below gives an important information on the driver settings in Howitze
       if false, then ignores ssl warnings<br/>
     </td>
   </tr>
-  
+
   <tr>
     <td><a href="https://github.com/thoughtbot/capybara-webkit">webkit</a></td>
     <td align="center">Headless</td>
@@ -67,13 +67,6 @@ The table below gives an important information on the driver settings in Howitze
       <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
       <td align="center">String<br/>String<br/><br/><br/></td>
       <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
-    </tr>
-  <tr>
-    <td>selenium_dev</td>
-    <td align="center">Real</td>
-    <td align="center"><strong>-</strong></td>
-    <td align="center">-</td>
-    <td align="center">Execute tests against FireFox (with Firebug and FirePath extensions).</td>
   </tr>
   <tr>
     <td><a href="https://saucelabs.com">sauce</a></td>
@@ -180,13 +173,13 @@ It allows you to navigate to a page without url duplication each time:
 **Example:**
 
 ```ruby
-HomePage.open #=> visits / 
+HomePage.open #=> visits /
 ProductPage.open(id: 1) #=> visits /products/1
 SearchPage.open #=> visits /search
 SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
 ```
 
-For more information about url patterns please refers to https://github.com/sporkmonger/addressable 
+For more information about url patterns please refers to https://github.com/sporkmonger/addressable
 
 ### Validations
 
@@ -665,14 +658,14 @@ In memory it looks like:
 
 ### Pre-Requisites ####
 
-This module uses standard methods for generating test data. 
+This module uses standard methods for generating test data.
 
 //TODO
 
 ### Cucumber Transformers ###
 
 In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
-You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site: 
+You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site:
 [https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms](https://github.com/cucumber/cucumber/wiki/Step-Argument-Transforms)).
 We use transformers for generating data objects in tests. Let’s imagine, for example, that you need to write a _sign_up.feature:_
 
