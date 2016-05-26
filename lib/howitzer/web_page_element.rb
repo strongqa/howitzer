@@ -5,6 +5,14 @@ module Howitzer
       base.extend(ClassMethods)
     end
 
+    private
+
+    def convert_arguments(args, params)
+      args.map do |arg|
+        arg.is_a?(Proc) ? arg.call(*params) : arg
+      end
+    end
+
     # This module holds page validation class methods
     module ClassMethods
       private
@@ -33,16 +41,10 @@ module Howitzer
         private "#{name}_element", "#{name}_elements"
       end
 
-      def convert_arguments(args, params)
-        args.map do |arg|
-          arg.is_a?(Proc) ? arg.call(*params) : arg
-        end
-      end
-
       def validate_arguments!(args)
         return unless args.map(&:class).count(Proc) > 1
 
-        fail BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
+        raise BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
       end
     end
   end

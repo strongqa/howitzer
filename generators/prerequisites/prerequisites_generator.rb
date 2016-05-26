@@ -10,8 +10,7 @@ module Howitzer
               { source: 'her.rb', destination: 'prerequisites/her.rb' },
               { source: 'users.rb', destination: 'prerequisites/factories/users.rb' },
               { source: 'user.rb', destination: 'prerequisites/models/user.rb' }
-            ]
-      }
+            ] }
     end
 
     protected

@@ -7,7 +7,7 @@ RSpec.describe Mailgun::Response do
   let(:response) { double(:response, body: body, code: 201) }
   describe '#body' do
     subject { Mailgun::Response.new(response).body }
-    it { is_expected.to eq("{\"foo\":\"bar\"}") }
+    it { is_expected.to eq('{"foo":"bar"}') }
   end
   describe '#code' do
     subject { described_class.new(response).code }

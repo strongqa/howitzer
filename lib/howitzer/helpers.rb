@@ -2,7 +2,7 @@ require 'howitzer/exceptions'
 
 # This module holds helpers methods
 module Helpers
-  CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'
+  CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
 
   ##
   #
@@ -97,11 +97,11 @@ module Helpers
 
   def app_url
     prefix =
-        if settings.app_base_auth_login.blank?
-          ''
-        else
-          "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
-        end
+      if settings.app_base_auth_login.blank?
+        ''
+      else
+        "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
+      end
     app_base_url prefix
   end
 
@@ -147,7 +147,7 @@ module Helpers
   #
 
   def ri(value)
-    fail value.inspect
+    raise value.inspect
   end
 
   private

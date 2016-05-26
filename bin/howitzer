@@ -22,7 +22,7 @@ module HowitzerCli
     c.switch [:t, :turnip], negatable: false
 
     c.action do |_global_options, options, args|
-      if args.size > 0
+      if !args.empty?
         validate_options(options)
         load_generators
         path_to_dir = File.join(Dir.pwd, args.first)

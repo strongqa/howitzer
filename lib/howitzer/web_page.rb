@@ -110,7 +110,7 @@ class WebPage
 
   def self.wait_for_opened(timeout = settings.timeout_small)
     end_time = ::Time.now + timeout
-    self.opened? ? return : sleep(0.5) until ::Time.now > end_time
+    opened? ? return : sleep(0.5) until ::Time.now > end_time
     log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
               "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
@@ -124,7 +124,7 @@ class WebPage
 
   def self.expanded_url(params = {})
     if url_template.nil?
-      fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+      raise ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
     end
     "#{app_url unless self == ::BlankPage}#{Addressable::Template.new(url_template).expand(params)}"
   end

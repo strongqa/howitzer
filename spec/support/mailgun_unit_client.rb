@@ -15,9 +15,8 @@ module Mailgun
     end
 
     def [](resource_path, &new_block)
-      case
-      when block_given? then self.class.new(resource_path, options, &new_block)
-      when block        then self.class.new(resource_path, options, &block)
+      if block_given? then self.class.new(resource_path, options, &new_block)
+      elsif block then self.class.new(resource_path, options, &block)
       else
         self.class.new(resource_path, options)
       end

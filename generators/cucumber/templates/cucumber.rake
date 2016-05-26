@@ -1,7 +1,7 @@
 require 'cucumber'
 require 'cucumber/rake/task'
 CUCUMBER_OPTS = "-r features -v -x -f html -o ./#{settings.log_dir}/#{settings.html_log}" \
-                " -f junit -o ./#{settings.log_dir} -f pretty"
+                " -f junit -o ./#{settings.log_dir} -f pretty".freeze
 
 Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber scenarios') do |t|
   t.fork = false

@@ -31,7 +31,7 @@ module Howitzer
       object = error_object(*args)
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
       @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
-      fail(object)
+      raise(object)
     end
 
     ##
@@ -96,11 +96,11 @@ module Howitzer
     end
 
     def default_formatter
-      if settings.hide_datetime_from_log
-        params = { pattern: '[%l] %m' }
-      else
-        params = { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }
-      end
+      params = if settings.hide_datetime_from_log
+                 { pattern: '[%l] %m' }
+               else
+                 { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }
+               end
       PatternFormatter.new(params)
     end
 

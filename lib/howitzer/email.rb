@@ -40,9 +40,9 @@ class Email
     case adapter_name
       when Symbol, String
         require "howitzer/mail_adapters/#{adapter_name}"
-        @adapter = ::MailAdapters.const_get("#{adapter_name.to_s.capitalize}")
+        @adapter = ::MailAdapters.const_get(adapter_name.to_s.capitalize.to_s)
       else
-        fail Howitzer::NoMailAdapterError
+        raise Howitzer::NoMailAdapterError
     end
   end
 

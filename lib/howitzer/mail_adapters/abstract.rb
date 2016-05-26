@@ -4,7 +4,7 @@ module MailAdapters
     attr_reader :message
 
     def self.find(_recipient, _subject)
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -25,7 +25,7 @@ module MailAdapters
     #
 
     def plain_text_body
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -34,7 +34,7 @@ module MailAdapters
     #
 
     def html_body
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -43,7 +43,7 @@ module MailAdapters
     #
 
     def text
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -52,7 +52,7 @@ module MailAdapters
     #
 
     def mail_from
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -61,7 +61,7 @@ module MailAdapters
     #
 
     def recipients
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -70,7 +70,7 @@ module MailAdapters
     #
 
     def received_time
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -79,7 +79,7 @@ module MailAdapters
     #
 
     def sender_email
-      fail NotImplementedError
+      raise NotImplementedError
     end
 
     ##
@@ -88,7 +88,7 @@ module MailAdapters
     #
 
     def mime_part
-      fail NotImplementedError
+      raise NotImplementedError
     end
   end
 end
