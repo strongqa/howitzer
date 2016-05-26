@@ -41,40 +41,6 @@ RSpec.describe Capybara::Settings do
       end
     end
 
-    context 'when selenium dev driver' do
-      let(:profile) { Hash.new }
-      before do
-        allow(::Selenium::WebDriver::Firefox::Profile).to receive(:new) { profile }
-        allow(settings).to receive(:app_host) { 'localhost' }
-        allow(settings).to receive(:driver).and_return('selenium_dev')
-        allow(settings).to receive(:sel_browser).and_return('firefox')
-      end
-
-      context 'when extension is found' do
-        before { allow(profile).to receive(:add_extension).and_return('') }
-        it do
-          expect(Capybara.default_driver).to be(:selenium)
-          expect(subject.call).to be_an_instance_of(Capybara::Selenium::Driver)
-        end
-        it do
-          expect(subject.call.options[:profile]).to eq(
-            'network.http.phishy-userpass-length' => 255,
-            'browser.safebrowsing.malware.enabled' => false,
-            'network.automatic-ntlm-auth.allow-non-fqdn' => true,
-            'network.ntlm.send-lm-response' => true,
-            'network.automatic-ntlm-auth.trusted-uris' => 'localhost',
-            'extensions.firebug.currentVersion' => 'Last',
-            'extensions.firebug.previousPlacement' => 1,
-            'extensions.firebug.onByDefault' => true,
-            'extensions.firebug.defaultPanelName' => 'firepath',
-            'extensions.firebug.script.enableSites' => true,
-            'extensions.firebug.net.enableSites' => true,
-            'extensions.firebug.console.enableSites' => true
-          )
-        end
-      end
-    end
-
     context 'when webkit driver' do
       before do
         allow(settings).to receive(:driver).and_return('webkit')
@@ -218,7 +184,7 @@ RSpec.describe Capybara::Settings do
         expect { subject }.to raise_error(
           RuntimeError,
           "Unknown '#{settings.driver}' driver. Check your settings, it should be one of" \
-          ' [selenium, selenium_grid, selenium_dev, webkit, poltergeist, phantomjs, sauce,' \
+          ' [selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,' \
           ' testingbot, browserstack]'
         )
       end

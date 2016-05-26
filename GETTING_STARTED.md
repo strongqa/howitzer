@@ -67,13 +67,6 @@ The table below gives an important information on the driver settings in Howitze
       <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
       <td align="center">String<br/>String<br/><br/><br/></td>
       <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
-    </tr>
-  <tr>
-    <td>selenium_dev</td>
-    <td align="center">Real</td>
-    <td align="center"><strong>-</strong></td>
-    <td align="center">-</td>
-    <td align="center">Execute tests against FireFox (with Firebug and FirePath extensions).</td>
   </tr>
   <tr>
     <td><a href="https://saucelabs.com">sauce</a></td>

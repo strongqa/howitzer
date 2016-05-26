@@ -230,51 +230,6 @@ RSpec.describe WebPage do
     end
   end
 
-  describe '#tinymce_fill_in' do
-    subject { described_class.instance.tinymce_fill_in(name, options) }
-    let(:name) { 'name' }
-    let(:options) { { with: 'some content' } }
-    before do
-      allow(described_class.instance).to receive(:current_url) { 'google.com' }
-      allow(settings).to receive(:driver) { driver_name }
-    end
-    context 'when correct driver specified' do
-      let(:driver_name) { 'selenium' }
-      let(:page) { double }
-      let(:driver) { double }
-      let(:browser) { double }
-      let(:switch_to) { double }
-      let(:find) { double }
-      let(:native) { double }
-      it do
-        expect(described_class.instance).to receive(:page).exactly(3).times { page }
-        expect(page).to receive(:driver).ordered { driver }
-        expect(driver).to receive(:browser).ordered { browser }
-        expect(browser).to receive(:switch_to).ordered { switch_to }
-        expect(switch_to).to receive(:frame).with('name_ifr').once
-
-        expect(page).to receive(:find).with(:css, '#tinymce').ordered { find }
-        expect(find).to receive(:native).ordered { native }
-        expect(native).to receive(:send_keys).with('some content').once
-
-        expect(page).to receive(:driver) { driver }
-        expect(driver).to receive(:browser) { browser }
-        expect(browser).to receive(:switch_to) { switch_to }
-        expect(switch_to).to receive(:default_content)
-
-        subject
-      end
-    end
-    context 'when incorrect driver specified' do
-      let(:driver_name) { 'ff' }
-      let(:page) { double }
-      it do
-        expect(described_class.instance).to receive(:page) { page }
-        expect(page).to receive(:execute_script).with("tinyMCE.get('name').setContent('some content')")
-        subject
-      end
-    end
-  end
   describe '#click_alert_box' do
     subject { described_class.instance.click_alert_box(flag_value) }
     before do
@@ -337,20 +292,6 @@ RSpec.describe WebPage do
         expect(page).to receive(:evaluate_script).with('window.confirm = function() { return false; }')
         subject
       end
-    end
-  end
-
-  describe '#js_click' do
-    subject { described_class.instance.js_click('.some_class') }
-    before do
-      allow(settings).to receive(:timeout_tiny) { 0.1 }
-      allow(described_class.instance).to receive(:current_url) { 'google.com' }
-    end
-    let(:page) { double }
-    it do
-      expect(described_class.instance).to receive(:page) { page }
-      expect(page).to receive(:execute_script).with("$('.some_class').trigger('click')")
-      subject
     end
   end
 
