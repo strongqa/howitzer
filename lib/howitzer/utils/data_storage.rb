@@ -3,7 +3,7 @@
 # Data can be stored in memory using DataStorage
 #
 module DataStorage
-  SPECIAL_NS_LIST = ['sauce']
+  SPECIAL_NS_LIST = ['sauce'].freeze
   @data ||= {}
 
   class << self

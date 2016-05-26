@@ -1,25 +1,24 @@
 require 'singleton'
+require 'capybara'
 require 'rspec/expectations'
 require 'addressable/template'
-require 'howitzer/utils/locator_store'
-require 'howitzer/utils/page_validator'
-require 'howitzer/capybara/dsl_ex'
+require 'howitzer/web_page_validator'
+require 'howitzer/web_page_element'
 require 'howitzer/exceptions'
 
 # This class represents single web page. This is parent class for all web pages
 class WebPage
   UnknownPage = Class.new
-
-  include LocatorStore
-  include Howitzer::Utils::PageValidator
+  include Howitzer::WebPageElement
+  include Howitzer::WebPageValidator
   include RSpec::Matchers
-  include Howitzer::Capybara::DslEx
-  extend Howitzer::Capybara::DslEx
+  include ::Capybara::DSL
+  extend ::Capybara::DSL
   include Singleton
 
   def self.inherited(subclass)
     subclass.class_eval { include Singleton }
-    Howitzer::Utils::PageValidator.pages << subclass
+    Howitzer::WebPageValidator.pages << subclass
   end
 
   ##
@@ -111,7 +110,7 @@ class WebPage
 
   def self.wait_for_opened(timeout = settings.timeout_small)
     end_time = ::Time.now + timeout
-    self.opened? ? return : sleep(0.5) until ::Time.now > end_time
+    opened? ? return : sleep(0.5) until ::Time.now > end_time
     log.error Howitzer::IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
               "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
   end
@@ -125,7 +124,7 @@ class WebPage
 
   def self.expanded_url(params = {})
     if url_template.nil?
-      fail ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+      raise ::Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
     end
     "#{app_url unless self == ::BlankPage}#{Addressable::Template.new(url_template).expand(params)}"
   end
@@ -157,23 +156,6 @@ class WebPage
 
   ##
   #
-  # Fills in field that using Tinymce API
-  #
-  # *Parameters:*
-  # * +name+ - Frame name that contains Tinymce field
-  # * +Hash+ - Not required options
-  #
-
-  def tinymce_fill_in(name, options = {})
-    if %w(selenium selenium_dev sauce).include?(settings.driver)
-      browser_tinymce_fill_in(name, options)
-    else
-      page.execute_script("tinyMCE.get('#{name}').setContent('#{options[:with]}')")
-    end
-  end
-
-  ##
-  #
   # Accepts or declines JS alert box by given flag
   #
   # *Parameters:*
@@ -181,25 +163,12 @@ class WebPage
   #
 
   def click_alert_box(flag)
-    if %w(selenium selenium_dev sauce).include? settings.driver
+    if %w(selenium sauce).include? settings.driver
       alert = page.driver.browser.switch_to.alert
       flag ? alert.accept : alert.dismiss
     else
       page.evaluate_script("window.confirm = function() { return #{flag}; }")
     end
-  end
-
-  ##
-  #
-  # Clicks on button or link using JS event call
-  #
-  # *Parameters:*
-  # * +css_locator+ - Css locator of link or button
-  #
-
-  def js_click(css_locator)
-    page.execute_script("$('#{css_locator}').trigger('click')")
-    sleep settings.timeout_tiny
   end
 
   ##
@@ -222,14 +191,5 @@ class WebPage
 
   def title
     page.title
-  end
-
-  private
-
-  def browser_tinymce_fill_in(name, options = {})
-    page.driver.browser.switch_to.frame("#{name}_ifr")
-    page.find(:css, '#tinymce').native.send_keys(options[:with])
-  ensure
-    page.driver.browser.switch_to.default_content
   end
 end

@@ -1,5 +1,5 @@
 require 'rspec/core/rake_task'
-RSPEC_OPTS = "--format html --out ./#{settings.log_dir}/#{settings.html_log} --format documentation --color"
+RSPEC_OPTS = "--format html --out ./#{settings.log_dir}/#{settings.html_log} --format documentation --color".freeze
 
 RSpec::Core::RakeTask.new(:rspec, 'Run all rspec scenarios') do |t|
   t.rspec_opts = RSPEC_OPTS

@@ -13,8 +13,7 @@ module Howitzer
         templates:
         [
           { source: 'Gemfile.erb', destination: 'Gemfile' }
-        ]
-      }
+        ] }
     end
 
     protected

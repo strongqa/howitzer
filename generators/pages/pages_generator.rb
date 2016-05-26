@@ -8,8 +8,7 @@ module Howitzer
         [
           { source: 'example_page.rb', destination: 'pages/example_page.rb' },
           { source: 'example_menu.rb', destination: 'pages/example_menu.rb' }
-        ]
-      }
+        ] }
     end
 
     protected
