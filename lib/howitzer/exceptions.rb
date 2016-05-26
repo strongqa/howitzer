@@ -4,7 +4,6 @@ module Howitzer
   ParseError = Class.new(StandardError)
   InvalidApiKeyError = Class.new(StandardError)
   BadElementParamsError = Class.new(StandardError)
-  WrongOptionError = Class.new(StandardError)
   NoValidationError = Class.new(StandardError)
   UnknownValidationError = Class.new(StandardError)
   EmailNotFoundError = Class.new(StandardError)

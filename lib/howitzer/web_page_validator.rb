@@ -59,10 +59,9 @@ module Howitzer
       #    :name => [String]                        For :element_presence (Existing element name)
       # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
       #
-      def validate(name, options)
-        log.error TypeError, "Expected options to be Hash, actual is '#{options.class}'" unless options.class == Hash
+      def validate(name, value, additional_value = nil)
         WebPageValidator.validations[self.name] ||= {}
-        validate_by_type(name, options)
+        validate_by_type(name, value, additional_value)
       end
 
       ##
@@ -97,39 +96,29 @@ module Howitzer
 
       private
 
-      def validate_element(options)
-        element_name = options[:name] || options['name']
-        if element_name.nil? || element_name.empty?
-          log.error Howitzer::WrongOptionError, "Please specify ':name' option as one of page element names"
-        end
+      def validate_element(element_name, value = nil)
         WebPageValidator.validations[name][:element_presence] =
-          ->(web_page) { web_page.send("has_#{element_name}_element?") }
+          ->(web_page) { web_page.public_send(*["has_#{element_name}_element?", value].compact) }
       end
 
-      def pattern_from_options(options)
-        pattern = options[:pattern] || options['pattern']
-        if pattern.nil? || !pattern.is_a?(Regexp)
-          log.error Howitzer::WrongOptionError, "Please specify ':pattern' option as Regexp object"
-        end
-        pattern
+      def validate_by_url(pattern)
+        WebPageValidator.validations[name][:url] =
+          -> (web_page) { pattern === web_page.current_url }
       end
 
-      def validate_by_pattern(name, options)
-        pattern = pattern_from_options(options)
-        WebPageValidator.validations[self.name][name] = lambda do |web_page|
-          method_name = name == :url ? :current_url : name
-          pattern === web_page.send(method_name)
-        end
+      def validate_by_title(pattern)
+        WebPageValidator.validations[name][:title] =
+          -> (web_page) { pattern === web_page.title }
       end
 
-      def validate_by_type(type, options)
+      def validate_by_type(type, value, additional_value)
         case type.to_s.to_sym
           when :url
-            validate_by_pattern(:url, options)
+            validate_by_url(value)
           when :element_presence
-            validate_element(options)
+            validate_element(value, additional_value)
           when :title
-            validate_by_pattern(:title, options)
+            validate_by_title(value)
           else
             log.error Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
         end

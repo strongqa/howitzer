@@ -32,21 +32,30 @@ RSpec.describe 'WebPageValidator' do
     end
     context 'when title validation is specified' do
       before do
-        web_page.class.validate :title, pattern: /Foo/
+        web_page.class.validate :title, /Foo/
       end
       it { expect { subject }.to_not raise_error }
     end
     context 'when url validation is specified' do
       before do
-        web_page.class.validate :url, pattern: /Foo/
+        web_page.class.validate :url, /Foo/
       end
       it { expect { subject }.to_not raise_error }
     end
     context 'when element_presence validation is specified' do
-      before do
-        web_page.class.validate :element_presence, name: :test_locator
+      context 'when simple selector' do
+        before do
+          web_page.class.validate :element_presence, :test_locator
+        end
+        it { expect { subject }.to_not raise_error }
       end
-      it { expect { subject }.to_not raise_error }
+
+      context 'when lambda selector' do
+        before do
+          web_page.class.validate :element_presence, :test_locator, 'some_text'
+        end
+        it { expect { subject }.to_not raise_error }
+      end
     end
   end
 
@@ -54,56 +63,29 @@ RSpec.describe 'WebPageValidator' do
     before do
       Howitzer::WebPageValidator.validations[web_page.class.name] = nil
     end
-    subject { web_page.class.validate(name, options) }
+    let(:additional_value) { nil }
+    subject { web_page.class.validate(name, *[value, additional_value].compact) }
     context 'when name = :url' do
       context 'as string' do
         let(:name) { 'url' }
-        context 'when options is correct' do
-          context '(as string)' do
-            let(:options) { { 'pattern' => /foo/ } }
-            it do
-              is_expected.to be_a(Proc)
-              expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
-            end
-          end
-          context '(as symbol)' do
-            let(:options) { { pattern: /foo/ } }
-            it do
-              is_expected.to be_a(Proc)
-              expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
-            end
+        context '(as string)' do
+          let(:value) { /foo/ }
+          it do
+            is_expected.to be_a(Proc)
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
           end
         end
-        context 'when options is incorrect' do
-          context '(missing pattern)' do
-            let(:options) { {} }
-            it do
-              expect(log).to receive(:error).with(
-                Howitzer::WrongOptionError,
-                "Please specify ':pattern' option as Regexp object"
-              ).once.and_call_original
-              expect { subject }.to raise_error(Howitzer::WrongOptionError)
-            end
-          end
-          context '(string pattern)' do
-            let(:options) { { pattern: 'foo' } }
-            it do
-              expect(log).to receive(:error).with(
-                Howitzer::WrongOptionError,
-                "Please specify ':pattern' option as Regexp object"
-              ).once.and_call_original
-              expect { subject }.to raise_error(Howitzer::WrongOptionError)
-            end
-          end
-          context '(not hash)' do
-            let(:options) { 'foo' }
-            it { expect { subject }.to raise_error(TypeError, "Expected options to be Hash, actual is 'String'") }
+        context '(as symbol)' do
+          let(:value) { /foo/ }
+          it do
+            is_expected.to be_a(Proc)
+            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
           end
         end
       end
       context 'as symbol' do
         let(:name) { :url }
-        let(:options) { { pattern: /foo/ } }
+        let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
           expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
@@ -112,89 +94,42 @@ RSpec.describe 'WebPageValidator' do
     end
     context 'when name = :element_presence' do
       let(:name) { :element_presence }
-      context 'when options is correct' do
-        context '(as string)' do
-          let(:options) { { 'name' => 'test_locator' } }
-          it do
-            is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
-          end
-        end
-        context '(as symbol)' do
-          let(:options) { { name: :test_locator } }
-          it do
-            is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
-          end
+      context '(as string)' do
+        let(:value) { 'test_locator' }
+        let(:additional_value) { 'some string' }
+        it do
+          is_expected.to be_a(Proc)
+          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
         end
       end
-      context 'when options is incorrect' do
-        context '(missing element name)' do
-          let(:options) { {} }
-          it do
-            expect(log).to receive(:error).with(
-              Howitzer::WrongOptionError,
-              "Please specify ':name' option as one of page element names"
-            ).once.and_call_original
-            expect { subject }.to raise_error(Howitzer::WrongOptionError)
-          end
-        end
-        context '(blank element name)' do
-          let(:options) { { element: '' } }
-          it do
-            expect(log).to receive(:error).with(
-              Howitzer::WrongOptionError,
-              "Please specify ':name' option as one of page element names"
-            ).once.and_call_original
-            expect { subject }.to raise_error(Howitzer::WrongOptionError)
-          end
+      context '(as symbol)' do
+        let(:value) { :test_locator }
+        it do
+          is_expected.to be_a(Proc)
+          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
         end
       end
     end
     context 'when name = :title' do
       let(:name) { :title }
-      context 'when options is correct' do
-        context '(as string)' do
-          let(:options) { { 'pattern' => /foo/ } }
-          it do
-            is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
-          end
-        end
-        context '(as symbol)' do
-          let(:options) { { pattern: /foo/ } }
-          it do
-            is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
-          end
+      context '(as string)' do
+        let(:value) { /foo/ }
+        it do
+          is_expected.to be_a(Proc)
+          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
         end
       end
-      context 'when options is incorrect' do
-        context '(missing pattern)' do
-          let(:options) { {} }
-          it do
-            expect(log).to receive(:error).with(
-              Howitzer::WrongOptionError,
-              "Please specify ':pattern' option as Regexp object"
-            ).once.and_call_original
-            expect { subject }.to raise_error(Howitzer::WrongOptionError)
-          end
-        end
-        context '(string pattern)' do
-          let(:options) { { pattern: 'foo' } }
-          it do
-            expect(log).to receive(:error).with(
-              Howitzer::WrongOptionError,
-              "Please specify ':pattern' option as Regexp object"
-            ).once.and_call_original
-            expect { subject }.to raise_error(Howitzer::WrongOptionError)
-          end
+      context '(as symbol)' do
+        let(:value) { /foo/ }
+        it do
+          is_expected.to be_a(Proc)
+          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
         end
       end
     end
     context 'when other name' do
       let(:name) { :unknown }
-      let(:options) { {} }
+      let(:value) { '' }
       it do
         expect(log).to receive(:error).with(
           Howitzer::UnknownValidationError,
@@ -229,9 +164,9 @@ RSpec.describe 'WebPageValidator' do
       before do
         web_page_class.class_eval do
           element :login, '#id'
-          validate :url, pattern: /foo/
-          validate :title, pattern: /Foo page/
-          validate :element_presence, name: :login
+          validate :url, /foo/
+          validate :title, /Foo page/
+          validate :element_presence, :login
         end
       end
       context 'when all matches' do

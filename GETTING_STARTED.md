@@ -186,7 +186,9 @@ For more information about url patterns please refers to https://github.com/spor
 The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
-validate <type>, options
+validate <type>, <value>
+# or
+validate <type>, <value>, <additional_value>
 ```
 
 Howitzer provides 3 different validation types:
@@ -195,27 +197,23 @@ Howitzer provides 3 different validation types:
 <thead>
   <tr>
     <th align="center">Validation Type</th>
-    <th align="center">Options</th>
-    <th align="center">Value Type</th>
     <th align="center">Description</th>
+    <th align="center">Example</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td>:url</td>
-    <td>pattern</td>
     <td>Regexp</td>
     <td>matches current url to pattern</td>
   </tr>
   <tr>
     <td>:title</td>
-    <td>pattern</td>
     <td>Regexp</td>
-    <td>matches current pate title to pattern</td>
+    <td>matches current page title to pattern</td>
   </tr>
   <tr>
     <td>:element_presence</td>
-    <td>name</td>
     <td>String/Symbol</td>
     <td>find element by name on current page</td>
   </tr>
@@ -227,7 +225,7 @@ Howitzer provides 3 different validation types:
 ```ruby
 class HomePage < WebPage
   url '/'
-  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -236,7 +234,7 @@ end
 ```ruby
 class LoginPage < WebPage
   url '/users/sign_in'
-  validate :title, pattern: /Sign In\z/
+  validate :title, /Sign In\z/
 end
 ```
 
@@ -245,11 +243,18 @@ end
 ```ruby
 class LoginPage < WebPage
   url '/users/sign_in'
-
-  validate :element_presence, name: :sign_in_btn
-
+  validate :element_presence, :sign_in_btn
   element :sign_in_btn, '#sign_in'
 end
+
+# OR
+
+class LoginPage < WebPage
+  url '/users/sign_in'
+  validate :element_presence, :menu_item, 'Profile'
+  element :menu_item, :xpath, ->(value) { "//a[text()='#{value}']" }
+end
+
 ```
 
 Howitzer allows using all 3 validations, but only 1 is really required. If any validation fails, the exception will appear.
@@ -269,7 +274,7 @@ Each page contains a description of all elements on page
 ```ruby
 class HomePage < WebPage
   url '/'
-  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   element :test_name1, '.foo'                         #css locator, default
   element :test_name2, :css, '.foo'                   #css locator
