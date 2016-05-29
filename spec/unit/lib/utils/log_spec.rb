@@ -2,11 +2,11 @@ require 'spec_helper'
 require 'howitzer/utils/log'
 include LoggerHelper
 
-RSpec.describe 'Logger' do
+RSpec.describe Howitzer::Utils::Log do
   context '#log' do
     subject { log }
-    let(:other_log) { Howitzer::Log.instance }
-    it { is_expected.to be_a_kind_of(Howitzer::Log) }
+    let(:other_log) { described_class.instance }
+    it { is_expected.to be_a_kind_of(described_class) }
     it { is_expected.to equal(other_log) }
   end
 

@@ -1,12 +1,12 @@
 require 'spec_helper'
-require 'howitzer/mailgun/client'
+require 'howitzer/mailgun_api/client'
 require 'howitzer/exceptions'
 
-RSpec.describe Mailgun::Response do
+RSpec.describe Howitzer::MailgunApi::Response do
   let(:body) { { foo: 'bar' }.to_json }
   let(:response) { double(:response, body: body, code: 201) }
   describe '#body' do
-    subject { Mailgun::Response.new(response).body }
+    subject { described_class.new(response).body }
     it { is_expected.to eq('{"foo":"bar"}') }
   end
   describe '#code' do

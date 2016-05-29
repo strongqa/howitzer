@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'howitzer/mailgun/client'
+require 'howitzer/mailgun_api/client'
 
-RSpec.describe Mailgun::Client do
+RSpec.describe Howitzer::MailgunApi::Client do
   let(:mg_obj) { described_class.new('Fake-API-Key') }
   describe '.new' do
     subject { mg_obj }
@@ -14,7 +14,7 @@ RSpec.describe Mailgun::Client do
     context 'when simulation of client' do
       before do
         expect(RestClient::Resource).to receive(:new)
-          .once { Mailgun::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
+          .once { Howitzer::MailgunApi::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
       end
       it do
         expect(subject.body).to include('total_count')

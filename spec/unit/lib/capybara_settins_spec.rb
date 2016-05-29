@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-require 'howitzer/capybara/settings'
+require 'howitzer/capybara_settings'
 
-RSpec.describe Capybara::Settings do
+RSpec.describe Howitzer::CapybaraSettings do
   let(:log) { double('log') }
   let(:test_object) { described_class }
   before do

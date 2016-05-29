@@ -11,17 +11,21 @@ end
 #
 # *Example:*
 #
-# +settings.app_host+
+# +Howitzer.settings.app_host+
 
-def settings
-  SexySettings::Base.instance
-end
+module Howitzer
+  def settings
+    ::SexySettings::Base.instance
+  end
+  module_function :settings
 
-##
-#
-# Returns logger as singleton object
-#
+  ##
+  #
+  # Returns logger as singleton object
+  #
 
-def log
-  Howitzer::Log.instance
+  def log
+    Log.instance
+  end
+  module_function :log
 end

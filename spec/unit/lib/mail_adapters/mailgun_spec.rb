@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
-require 'howitzer/mailgun/connector'
+require 'howitzer/mailgun_api/connector'
 
 RSpec.describe 'Mailgun Email Adapter' do
   let(:recipient) { 'first_tester@gmail.com' }
@@ -20,16 +20,16 @@ RSpec.describe 'Mailgun Email Adapter' do
   end
   let(:message_subject) { 'test subject' }
   let(:mail_address) { double }
-  let(:email_object) { Email.adapter.new(message) }
+  let(:email_object) { Howitzer::Email.adapter.new(message) }
 
   before do
-    stub_const('Email::SUBJECT', message_subject)
+    stub_const('Howitzer::Email::SUBJECT', message_subject)
   end
 
   describe '.find' do
     let(:mailgun_message) { double(to_h: message) }
     let(:events) { double(to_h: { 'items' => [event] }) }
-    subject { Email.find(recipient, message_subject) }
+    subject { Howitzer::Email.find(recipient, message_subject) }
 
     context 'when message is found' do
       let(:event) do
@@ -44,16 +44,16 @@ RSpec.describe 'Mailgun Email Adapter' do
         }
       end
       before do
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
           event: 'stored'
         ).ordered.once { events }
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'domains/mailgun@test.domain/messages/1234567890'
         ).ordered.once { mailgun_message }
       end
       it do
-        expect(Email.adapter).to receive(:new).with(message).once
+        expect(Howitzer::Email.adapter).to receive(:new).with(message).once
         subject
       end
     end
@@ -72,7 +72,7 @@ RSpec.describe 'Mailgun Email Adapter' do
       before do
         allow(settings).to receive(:timeout_small) { 0.5 }
         allow(settings).to receive(:timeout_short) { 0.05 }
-        allow(::Mailgun::Connector.instance.client).to receive(:get).with(
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
           event: 'stored'
         ).at_least(:twice).ordered { events }
@@ -114,7 +114,7 @@ RSpec.describe 'Mailgun Email Adapter' do
     context 'when more than one recipient' do
       let(:second_recipient) { 'second_tester@gmail.com' }
       let(:message_with_multiple_recipients) { message.merge('To' => "#{recipient}, #{second_recipient}") }
-      let(:email_object) { Email.adapter.new(message_with_multiple_recipients) }
+      let(:email_object) { Howitzer::Email.adapter.new(message_with_multiple_recipients) }
       it { is_expected.to eql [recipient, second_recipient] }
     end
   end

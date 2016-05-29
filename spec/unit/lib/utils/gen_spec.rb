@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/utils/gen'
 
-RSpec.describe Gen do
+RSpec.describe Howitzer::Utils::Gen do
   describe '.serial' do
     subject { described_class.serial }
     context 'received value should conform to template' do

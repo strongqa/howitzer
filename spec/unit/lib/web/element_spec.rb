@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'howitzer/web_page_element'
+require 'howitzer/web/element'
 
-RSpec.describe 'Howitzer::WebPageElement' do
+RSpec.describe Howitzer::Web::Element do
   let(:web_page_class) do
     Class.new do
-      include Howitzer::WebPageElement
+      include Howitzer::Web::Element
     end
   end
   describe '.element' do

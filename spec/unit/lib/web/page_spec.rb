@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'howitzer/web_page'
-require 'howitzer/capybara/settings'
+require 'howitzer/web/page'
+require 'howitzer/capybara_settings'
 
-RSpec.describe WebPage do
+RSpec.describe Howitzer::Web::Page do
   describe '.open' do
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
@@ -13,7 +13,7 @@ RSpec.describe WebPage do
       subject { described_class.open(params) }
       it do
         expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
-        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(described_class).to receive(:visit).with(url_value).once.ordered
         expect(described_class).to receive(:given).once.ordered
@@ -25,7 +25,7 @@ RSpec.describe WebPage do
       subject { described_class.open }
       it do
         expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
-        expect(log).to receive(:info).with("Open WebPage page by '#{url_value}' url").once.ordered
+        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(described_class).to receive(:visit).with(url_value).once.ordered
         expect(described_class).to receive(:given).once.ordered
@@ -136,7 +136,7 @@ RSpec.describe WebPage do
       it do
         expect(log).to receive(:error).with(
           Howitzer::IncorrectPageError,
-          "Current page: FooPage, expected: WebPage.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
+          "Current page: FooPage, expected: #{described_class}.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
         )
         subject
       end
@@ -221,10 +221,10 @@ RSpec.describe WebPage do
 
   describe 'inherited callback' do
     let!(:page_class) do
-      Howitzer::WebPageValidator.instance_variable_set(:@pages, [])
+      Howitzer::Web::PageValidator.instance_variable_set(:@pages, [])
       Class.new(described_class)
     end
-    it { expect(Howitzer::WebPageValidator.pages).to eq([page_class]) }
+    it { expect(Howitzer::Web::PageValidator.pages).to eq([page_class]) }
     it 'can not be instantiated with new' do
       expect { page_class.new }.to raise_error(NoMethodError, "private method `new' called for #{page_class}")
     end
