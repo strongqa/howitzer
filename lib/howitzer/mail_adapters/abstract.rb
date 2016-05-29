@@ -92,5 +92,5 @@ module Howitzer
         raise NotImplementedError
       end
     end
-  end  
+  end
 end

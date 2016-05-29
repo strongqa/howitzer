@@ -1,8 +1,8 @@
 require 'rspec/matchers'
 require 'howitzer/exceptions'
 
-# This class describes single email
 module Howitzer
+  # This class describes single email
   class Email
     include ::RSpec::Matchers
 

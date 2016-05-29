@@ -1,3 +1,4 @@
+# This is main namespace for the library
 module Howitzer
 end
 

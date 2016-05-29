@@ -1,4 +1,5 @@
 module Howitzer
+  # This class holds everything related with web GUI
   module Web
   end
 end

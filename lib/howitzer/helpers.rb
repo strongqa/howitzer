@@ -1,11 +1,12 @@
 require 'howitzer/exceptions'
 
-# This module holds helpers methods
 module Howitzer
+  # This module holds helpers methods
   module Helpers
     CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
+
     module_function
-    
+
     ##
     #
     # Returns whether or not the current driver is SauceLabs.

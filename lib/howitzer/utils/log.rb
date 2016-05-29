@@ -137,5 +137,5 @@ module Howitzer
         end
       end
     end
-  end  
+  end
 end

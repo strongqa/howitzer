@@ -18,7 +18,6 @@ module Howitzer
       include ::Capybara::DSL
       extend ::Capybara::DSL
 
-
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
         PageValidator.pages << subclass

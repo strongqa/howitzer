@@ -12,9 +12,9 @@ module Howitzer
       def initialize(api_key, api_host = 'api.mailgun.net', api_version = 'v2', ssl = true)
         endpoint = endpoint_generator(api_host, api_version, ssl)
         @http_client = ::RestClient::Resource.new(endpoint,
-                                                user: 'api',
-                                                password: api_key,
-                                                user_agent: 'mailgun-sdk-ruby/1.0.1')
+                                                  user: 'api',
+                                                  password: api_key,
+                                                  user_agent: 'mailgun-sdk-ruby/1.0.1')
       end
 
       # Generic Mailgun GET Handler

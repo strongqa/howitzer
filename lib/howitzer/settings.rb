@@ -12,7 +12,6 @@ end
 # *Example:*
 #
 # +Howitzer.settings.app_host+
-
 module Howitzer
   def settings
     ::SexySettings::Base.instance

@@ -14,7 +14,10 @@ RSpec.describe Howitzer::Email do
   end
 
   describe '.adapter' do
-    it { expect(described_class.adapter).to eql Howitzer::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize) }
+    it do
+      expect(described_class.adapter)
+        .to eql(Howitzer::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize))
+    end
   end
 
   describe '.adapter_name' do

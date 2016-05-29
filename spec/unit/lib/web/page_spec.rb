@@ -136,7 +136,8 @@ RSpec.describe Howitzer::Web::Page do
       it do
         expect(log).to receive(:error).with(
           Howitzer::IncorrectPageError,
-          "Current page: FooPage, expected: #{described_class}.\n\tCurrent url: http://test.com\n\tCurrent title: Test site"
+          "Current page: FooPage, expected: #{described_class}.\n" \
+          "\tCurrent url: http://test.com\n\tCurrent title: Test site"
         )
         subject
       end
