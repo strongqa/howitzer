@@ -17,4 +17,4 @@ require File.join(File.dirname(__FILE__), 'prerequisites/her')
 Dir[File.join(File.dirname(__FILE__), './prerequisites/models/**/*.rb')].each { |f| require f }
 require File.join(File.dirname(__FILE__), 'prerequisites/factory_girl')
 
-String.include Howitzer::Utils::StringExtensions
+String.send(:include, Howitzer::Utils::StringExtensions)

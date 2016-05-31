@@ -2,7 +2,7 @@ require 'spec_helper'
 require 'howitzer/utils/string_extensions'
 
 RSpec.describe Howitzer::Utils::StringExtensions do
-  String.include Howitzer::Utils::StringExtensions
+  String.send(:include, Howitzer::Utils::StringExtensions)
 
   let(:page_name) { 'my' }
   let(:page_object) { double }
