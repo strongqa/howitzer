@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'howitzer/utils/log'
-include LoggerHelper
+include Howitzer::LoggerHelper
 
 RSpec.describe Howitzer::Utils::Log do
   context '#log' do

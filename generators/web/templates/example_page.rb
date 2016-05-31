@@ -1,6 +1,6 @@
 require_relative 'example_menu'
 # This class is example of web page
-class ExamplePage < WebPage
+class ExamplePage < Howitzer::Web::Page
   url '/'
   validate :url, %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}
 

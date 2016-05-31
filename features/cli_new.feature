@@ -59,8 +59,8 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
-          Added 'pages/example_page.rb' file
-          Added 'pages/example_menu.rb' file
+          Added 'web/pages/example_page.rb' file
+          Added 'web/pages/example_menu.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -86,8 +86,8 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                |
       | test_automation/config/default.yml               |
       | test_automation/emails/example_email.rb          |
-      | test_automation/pages/example_menu.rb            |
-      | test_automation/pages/example_page.rb            |
+      | test_automation/web/pages/example_menu.rb        |
+      | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
       | test_automation/prerequisites/factories/users.rb |
@@ -116,8 +116,8 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
-          Added 'pages/example_page.rb' file
-          Added 'pages/example_menu.rb' file
+          Added 'web/pages/example_page.rb' file
+          Added 'web/pages/example_menu.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -149,8 +149,8 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/features/support/env.rb                   |
       | test_automation/features/support/transformers.rb          |
       | test_automation/features/example.feature                  |
-      | test_automation/pages/example_menu.rb                     |
-      | test_automation/pages/example_page.rb                     |
+      | test_automation/web/pages/example_menu.rb                 |
+      | test_automation/web/pages/example_page.rb                 |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
       | test_automation/prerequisites/factories/users.rb |
@@ -177,8 +177,8 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
-          Added 'pages/example_page.rb' file
-          Added 'pages/example_menu.rb' file
+          Added 'web/pages/example_page.rb' file
+          Added 'web/pages/example_menu.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -207,8 +207,8 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                         |
       | test_automation/config/default.yml                        |
       | test_automation/emails/example_email.rb                   |
-      | test_automation/pages/example_menu.rb                     |
-      | test_automation/pages/example_page.rb                     |
+      | test_automation/web/pages/example_menu.rb                 |
+      | test_automation/web/pages/example_page.rb                 |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/turnip.rake                         |
       | test_automation/spec/spec_helper.rb                       |
@@ -283,8 +283,8 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
-          Added 'pages/example_page.rb' file
-          Added 'pages/example_menu.rb' file
+          Added 'web/pages/example_page.rb' file
+          Added 'web/pages/example_menu.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -307,23 +307,23 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
-      | test_automation/config/custom.yml       |
-      | test_automation/config/default.yml      |
-      | test_automation/emails/example_email.rb |
-      | test_automation/pages/example_menu.rb   |
-      | test_automation/pages/example_page.rb   |
+      | test_automation/config/custom.yml                |
+      | test_automation/config/default.yml               |
+      | test_automation/emails/example_email.rb          |
+      | test_automation/web/pages/example_menu.rb        |
+      | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
       | test_automation/prerequisites/factories/users.rb |
       | test_automation/prerequisites/models/user.rb     |
-      | test_automation/spec/example_spec.rb    |
-      | test_automation/spec/spec_helper.rb     |
-      | test_automation/tasks/common.rake       |
-      | test_automation/tasks/rspec.rake        |
-      | test_automation/boot.rb                 |
-      | test_automation/Gemfile                 |
-      | test_automation/Rakefile                |
-      | test_automation/.gitignore              |
+      | test_automation/spec/example_spec.rb             |
+      | test_automation/spec/spec_helper.rb              |
+      | test_automation/tasks/common.rake                |
+      | test_automation/tasks/rspec.rake                 |
+      | test_automation/boot.rb                          |
+      | test_automation/Gemfile                          |
+      | test_automation/Rakefile                         |
+      | test_automation/.gitignore                       |
     And the exit status should be 0
   Examples:
     | option  |

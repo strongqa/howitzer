@@ -10,21 +10,22 @@ RSpec.describe 'Generators' do
   end
   after { FileUtils.rm_r(destination) }
 
-  describe Howitzer::PagesGenerator do
+  describe Howitzer::WebGenerator do
     let(:generator_name) { described_class }
     let(:expected_result) do
       [
-        { name: '/pages', is_directory: true },
-        { name: '/pages/example_menu.rb', is_directory: false, size: template_file_size('pages', 'example_menu.rb') },
-        { name: '/pages/example_page.rb', is_directory: false, size: template_file_size('pages', 'example_page.rb') }
+        { name: '/web', is_directory: true },
+        { name: '/web/pages', is_directory: true },
+        { name: '/web/pages/example_menu.rb', is_directory: false, size: template_file_size('web', 'example_menu.rb') },
+        { name: '/web/pages/example_page.rb', is_directory: false, size: template_file_size('web', 'example_page.rb') }
       ]
     end
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
         "  * PageOriented pattern structure generation ...
-      Added 'pages/example_page.rb' file
-      Added 'pages/example_menu.rb' file\n"
+      Added 'web/pages/example_page.rb' file
+      Added 'web/pages/example_menu.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }
