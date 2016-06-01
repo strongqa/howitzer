@@ -1,18 +1,16 @@
 require 'spec_helper'
-require 'howitzer/web_page_validator'
-require 'howitzer/web_page_element'
+require 'howitzer/web/page_validator'
+require 'howitzer/web/element'
 
-RSpec.describe Howitzer::WebPageValidator do
+RSpec.describe Howitzer::Web::PageValidator do
   describe '.validations' do
     it { expect(subject.validations).to eql({}) }
   end
-end
 
-RSpec.describe 'WebPageValidator' do
   let(:web_page_class) do
     Class.new do
-      include Howitzer::WebPageElement
-      include Howitzer::WebPageValidator
+      include Howitzer::Web::Element
+      include Howitzer::Web::PageValidator
       def self.name
         'TestWebPageClass'
       end
@@ -61,7 +59,7 @@ RSpec.describe 'WebPageValidator' do
 
   describe '.validate' do
     before do
-      Howitzer::WebPageValidator.validations[web_page.class.name] = nil
+      described_class.validations[web_page.class.name] = nil
     end
     let(:additional_value) { nil }
     subject { web_page.class.validate(name, *[value, additional_value].compact) }
@@ -72,14 +70,14 @@ RSpec.describe 'WebPageValidator' do
           let(:value) { /foo/ }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
+            expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
           end
         end
         context '(as symbol)' do
           let(:value) { /foo/ }
           it do
             is_expected.to be_a(Proc)
-            expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
+            expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
           end
         end
       end
@@ -88,7 +86,7 @@ RSpec.describe 'WebPageValidator' do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:url]).to be_a Proc
+          expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
         end
       end
     end
@@ -99,14 +97,14 @@ RSpec.describe 'WebPageValidator' do
         let(:additional_value) { 'some string' }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page.class.name][:element_presence]).to eql(subject)
         end
       end
       context '(as symbol)' do
         let(:value) { :test_locator }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page.class.name][:element_presence]).to eql(subject)
         end
       end
     end
@@ -116,14 +114,14 @@ RSpec.describe 'WebPageValidator' do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
+          expect(described_class.validations[web_page.class.name][:title]).to be_a Proc
         end
       end
       context '(as symbol)' do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(Howitzer::WebPageValidator.validations[web_page.class.name][:title]).to be_a Proc
+          expect(described_class.validations[web_page.class.name][:title]).to be_a Proc
         end
       end
     end
@@ -141,7 +139,7 @@ RSpec.describe 'WebPageValidator' do
   end
 
   describe '.pages' do
-    subject { Howitzer::WebPageValidator.pages }
+    subject { described_class.pages }
     it do
       expect(subject).not_to include(Symbol)
       subject << Symbol
@@ -191,7 +189,7 @@ RSpec.describe 'WebPageValidator' do
   describe '#matched_pages' do
     let!(:web_page1_class) do
       Class.new do
-        include Howitzer::WebPageValidator
+        include Howitzer::Web::PageValidator
         def self.name
           'TestWebPage1Class'
         end
@@ -204,7 +202,7 @@ RSpec.describe 'WebPageValidator' do
 
     let!(:web_page2_class) do
       Class.new do
-        include Howitzer::WebPageValidator
+        include Howitzer::Web::PageValidator
         def self.name
           'TestWebPage2Class'
         end
@@ -215,7 +213,7 @@ RSpec.describe 'WebPageValidator' do
       end
     end
     subject { web_page2_class.matched_pages }
-    before { Howitzer::WebPageValidator.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
+    before { described_class.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
     it { is_expected.to eq([web_page1_class]) }
   end
 end

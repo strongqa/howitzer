@@ -3,7 +3,7 @@
 
 AllCops:
   Exclude:
-    - lib/howitzer/capybara/settings.rb
+    - lib/howitzer/capybara_settings.rb
 
 LineLength:
   Max: 120

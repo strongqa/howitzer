@@ -1,12 +1,13 @@
 require 'spec_helper'
+require 'howitzer/email'
 require 'howitzer/mail_adapters/abstract'
 
-RSpec.describe MailAdapters::Abstract do
+RSpec.describe Howitzer::MailAdapters::Abstract do
   let(:recipient) { 'first_tester@gmail.com' }
   let(:message_subject) { 'test subject' }
   let(:message) { double(:message) }
   let(:abstract_adapter) { described_class.new(message) }
-  let(:email_object) { Email.adapter.new(message) }
+  let(:email_object) { Howitzer::Email.adapter.new(message) }
 
   describe '.find' do
     subject { described_class.find(recipient, message_subject) }

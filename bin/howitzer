@@ -31,7 +31,7 @@ module HowitzerCli
         puts "      Created new './#{args.first}' folder"
         Dir.chdir(path_to_dir)
         Howitzer::ConfigGenerator.new(options)
-        Howitzer::PagesGenerator.new(options)
+        Howitzer::WebGenerator.new(options)
         Howitzer::TasksGenerator.new(options)
         Howitzer::EmailsGenerator.new(options)
         Howitzer::RootGenerator.new(options)
@@ -84,7 +84,7 @@ module HowitzerCli
     end
 
     def howitzer_project?
-      Dir.exist?('pages') && Dir.exist?('config') && File.exist?('boot.rb')
+      Dir.exist?('web') && Dir.exist?('config') && File.exist?('boot.rb')
     end
 
     def load_generators

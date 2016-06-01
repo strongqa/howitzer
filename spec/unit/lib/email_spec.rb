@@ -3,30 +3,33 @@ require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-RSpec.describe Email do
+RSpec.describe Howitzer::Email do
   let(:recipient) { 'first_tester@gmail.com' }
   let(:message_subject) { 'test subject' }
   let(:message) { double(:message) }
   let(:email_object) { described_class.new(message) }
 
   before do
-    stub_const('Email::SUBJECT', message_subject)
+    stub_const('Howitzer::Email::SUBJECT', message_subject)
   end
 
   describe '.adapter' do
-    it { expect(Email.adapter).to eql ::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize) }
+    it do
+      expect(described_class.adapter)
+        .to eql(Howitzer::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize))
+    end
   end
 
   describe '.adapter_name' do
-    it { expect(Email.adapter_name).to eql settings.mail_adapter.to_sym }
+    it { expect(described_class.adapter_name).to eql settings.mail_adapter.to_sym }
   end
 
   describe '.adapter=' do
-    subject { Email.adapter = name }
+    subject { described_class.adapter = name }
 
     context 'when adapter_name is Symbol or String' do
       let(:name) { settings.mail_adapter }
-      it { expect(Email.adapter).to eql ::MailAdapters.const_get(name.to_s.capitalize) }
+      it { expect(described_class.adapter).to eql Howitzer::MailAdapters.const_get(name.to_s.capitalize) }
     end
 
     context 'when adapter_name is not Symbol or String' do

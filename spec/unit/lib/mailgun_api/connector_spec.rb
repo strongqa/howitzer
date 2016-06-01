@@ -1,14 +1,14 @@
 require 'spec_helper'
-require 'howitzer/mailgun/connector'
+require 'howitzer/mailgun_api/connector'
 
-RSpec.describe Mailgun::Connector do
+RSpec.describe Howitzer::MailgunApi::Connector do
   let(:connector) { described_class.instance }
   let(:domain_name) { 'test@domain.com' }
   describe '#client' do
     subject { connector.client }
     context 'when api_key is default' do
       context 'when client is not initialized' do
-        it { is_expected.to be_an_instance_of Mailgun::Client }
+        it { is_expected.to be_an_instance_of Howitzer::MailgunApi::Client }
       end
       context 'when client is already initialized' do
         it do
@@ -20,7 +20,7 @@ RSpec.describe Mailgun::Connector do
     context 'when api_key is custom' do
       let(:key) { 'some api key' }
       subject { connector.client(key) }
-      it { is_expected.to be_an_instance_of Mailgun::Client }
+      it { is_expected.to be_an_instance_of Howitzer::MailgunApi::Client }
     end
     context 'when api_key is nil' do
       let(:key) { nil }
