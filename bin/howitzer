@@ -84,7 +84,7 @@ module HowitzerCli
     end
 
     def howitzer_project?
-      Dir.exist?('web') && Dir.exist?('config') && File.exist?('boot.rb')
+      (Dir.exist?('web') || Dir.exist?('pages')) && Dir.exist?('config') && File.exist?('boot.rb')
     end
 
     def load_generators
