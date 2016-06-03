@@ -55,16 +55,20 @@ module HowitzerCli
     c.action do
       check_project_presence
       load_generators
-      Howitzer::ConfigGenerator.new({})
+      Howitzer::ConfigGenerator.new
+      Howitzer::WebGenerator.new
+      Howitzer::TasksGenerator.new
+      Howitzer::EmailsGenerator.new
+      Howitzer::PrerequisitesGenerator.new
       if cucumber_integrated?
         Howitzer::RootGenerator.new(cucumber: true)
-        Howitzer::CucumberGenerator.new({})
+        Howitzer::CucumberGenerator.new
       elsif rspec_integrated?
         Howitzer::RootGenerator.new(rspec: true)
-        Howitzer::RspecGenerator.new({})
+        Howitzer::RspecGenerator.new
       elsif turnip_integrated?
         Howitzer::RootGenerator.new(turnip: true)
-        Howitzer::TurnipGenerator.new({})
+        Howitzer::TurnipGenerator.new
       end
     end
   end

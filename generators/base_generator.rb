@@ -168,7 +168,7 @@ module Howitzer
     include Outputable
     include Copyable
 
-    def initialize(options)
+    def initialize(options = {})
       @options = options.symbolize_keys
       super
     end
