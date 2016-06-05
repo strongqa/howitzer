@@ -4,7 +4,7 @@ require 'howitzer/web/element'
 
 RSpec.describe Howitzer::Web::PageValidator do
   describe '.validations' do
-    it { expect(subject.validations).to eql({}) }
+    it { expect(subject.validations).to be_a(Hash) }
   end
 
   let(:web_page_class) do

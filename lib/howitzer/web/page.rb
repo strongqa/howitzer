@@ -129,7 +129,8 @@ module Howitzer
         if url_template.nil?
           raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
         end
-        "#{Helpers.app_url unless self == ::BlankPage}#{Addressable::Template.new(url_template).expand(params)}"
+        host = self == Howitzer::Web::BlankPage ? '' : Helpers.app_url
+        "#{host}#{Addressable::Template.new(url_template).expand(params)}"
       end
 
       class << self

@@ -11,7 +11,7 @@ class TestTokenAuthentication < Faraday::Middleware
   end
 end
 
-Her::API.setup url: "#{app_url}/#{settings.test_api_end_point}" do |c|
+Her::API.setup url: "#{Howitzer::Helpers.app_url}/#{settings.test_api_end_point}" do |c|
   c.use TestTokenAuthentication
   c.use Faraday::Request::UrlEncoded
   c.use Her::Middleware::DefaultParseJSON

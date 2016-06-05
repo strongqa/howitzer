@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'howitzer/web/page'
+require 'howitzer/web/blank_page'
 require 'howitzer/capybara_settings'
 
 RSpec.describe Howitzer::Web::Page do
@@ -149,9 +150,8 @@ RSpec.describe Howitzer::Web::Page do
       subject { web_page.expanded_url(id: 1) }
       context 'when page url specified' do
         context 'when BlankPage' do
-          let(:web_page) { ::BlankPage }
+          let(:web_page) { Howitzer::Web::BlankPage }
           before do
-            stub_const('::BlankPage', described_class)
             allow(web_page).to receive(:url_template) { 'about:blank' }
           end
           it { is_expected.to eq('about:blank') }
@@ -159,7 +159,6 @@ RSpec.describe Howitzer::Web::Page do
         context 'when other page' do
           let(:web_page) { described_class }
           before do
-            stub_const('::BlankPage', double)
             allow(web_page).to receive(:url_template) { '/users{/id}' }
           end
           it { is_expected.to eq('http://my.website.com/users/1') }
@@ -167,7 +166,6 @@ RSpec.describe Howitzer::Web::Page do
       end
       context 'when page url missing' do
         subject { described_class.expanded_url }
-        before { stub_const('::BlankPage', double) }
         it do
           expect { subject }.to raise_error(
             ::Howitzer::PageUrlNotSpecifiedError,
@@ -180,7 +178,6 @@ RSpec.describe Howitzer::Web::Page do
       subject { described_class.expanded_url }
       before do
         allow(described_class).to receive(:url_template) { '/users' }
-        stub_const('::BlankPage', double)
       end
       it { is_expected.to eq('http://my.website.com/users') }
     end
@@ -302,8 +299,6 @@ RSpec.describe Howitzer::Web::Page do
     let(:visit) { double }
     before do
       allow(described_class.instance).to receive(:current_url) { 'google.com' }
-      stub_const('WebPage::URL_PATTERN', 'pattern')
-      allow(wait_for_url).to receive('pattern') { true }
     end
     it do
       expect(log).to receive(:info) { "Reload 'google.com'" }
