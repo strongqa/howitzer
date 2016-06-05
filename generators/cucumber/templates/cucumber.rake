@@ -2,9 +2,9 @@ require 'cucumber'
 require 'cucumber/rake/task'
 CUCUMBER_OPTS = [
   '-r features',
-  '-v'
-  '-x'
-  '-f'
+  '-v',
+  '-x',
+  '-f',
   "html -o ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
   '-f junit',
   "-o ./#{Howitzer.settings.log_dir}",

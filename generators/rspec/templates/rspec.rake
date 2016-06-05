@@ -6,7 +6,6 @@ RSPEC_OPTS = [
   ' --color'
 ].join(' ').freeze
 
-
 RSpec::Core::RakeTask.new(:rspec, 'Run all rspec scenarios') do |t|
   t.rspec_opts = RSPEC_OPTS
 end
