@@ -1,5 +1,6 @@
 require 'singleton'
 require 'capybara'
+require 'capybara/dsl'
 require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/page_validator'
