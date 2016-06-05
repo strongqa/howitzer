@@ -7,8 +7,8 @@ load 'howitzer/tasks/framework.rake'
 
 Dir.chdir(File.join(File.dirname(__FILE__), '.'))
 
-if settings.required_clean_logs
-  CLEAN.include("#{settings.log_dir}/*")
+if Howitzer.settings.required_clean_logs
+  CLEAN.include("#{Howitzer.settings.log_dir}/*")
   Rake::Task[:clean].invoke
 end
 
