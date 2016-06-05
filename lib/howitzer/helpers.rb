@@ -5,7 +5,8 @@ module Howitzer
   module Helpers
     CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
 
-    module_function
+    # rubocop:disable Style/ModuleFunction
+    extend self
 
     ##
     #
