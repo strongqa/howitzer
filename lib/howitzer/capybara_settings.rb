@@ -4,6 +4,7 @@ require 'howitzer/utils/log'
 require 'howitzer/helpers'
 module Howitzer
   module CapybaraSettings
+    extend Howitzer::Helpers
     ##
     #
     # Predefined settings of Firefox browser
