@@ -1,5 +1,5 @@
 # This class is example of test email
-class TestEmail < Email
+class TestEmail < Howtzer::Email
   SUBJECT = 'Test email'.freeze
 
   def addressed_to?(new_user)

@@ -11,4 +11,4 @@ end
 require 'howitzer/utils/data_storage'
 require 'howitzer/utils/gen'
 require 'howitzer/utils/log'
-require 'howitzer/utils/string'
+require 'howitzer/utils/string_extensions'
