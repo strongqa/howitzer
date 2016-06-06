@@ -4,12 +4,13 @@ require_relative '../../boot'
 
 World(Howitzer::CapybaraSettings)
 World(FactoryGirl::Syntax::Methods)
+World(Howitzer::Helpers)
 
 log.settings_as_formatted_text
 Howitzer::Utils::DataStorage.store('sauce', :start_time, Time.now.utc)
 Howitzer::Utils::DataStorage.store('sauce', :status, true)
 
-if sauce_driver?
+if Howitzer::Helpers.sauce_driver?
   Capybara.drivers[:sauce][].options[:desired_capabilities][:name] = Howitzer::CapybaraSettings.suite_name
 end
 
@@ -32,7 +33,7 @@ After do |scenario|
 end
 
 at_exit do
-  if sauce_driver?
+  if Howitzer::Helpers.sauce_driver?
     log.info "SAUCE SERVER LOG URL: #{Howitzer::CapybaraSettings.sauce_resource_path('selenium-server.log')}"
     Howitzer::CapybaraSettings.update_sauce_job_status(passed: Howitzer::Utils::DataStorage.extract('sauce', :status))
   end
