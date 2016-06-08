@@ -22,3 +22,6 @@ Style/CaseEquality:
 
 MethodLength:
   Max: 30
+
+Style/TrivialAccessors:
+  AllowDSLWriters: true

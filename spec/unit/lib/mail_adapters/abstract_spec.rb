@@ -9,11 +9,6 @@ RSpec.describe Howitzer::MailAdapters::Abstract do
   let(:abstract_adapter) { described_class.new(message) }
   let(:email_object) { Howitzer::Email.adapter.new(message) }
 
-  describe '.find' do
-    subject { described_class.find(recipient, message_subject) }
-    it { expect { subject }.to raise_error(NotImplementedError) }
-  end
-
   describe '#new' do
     context 'when Email instance receive message and add create @message variable that' do
       it { expect(email_object.instance_variable_get(:@message)).to eql message }

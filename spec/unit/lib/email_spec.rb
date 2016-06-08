@@ -40,18 +40,9 @@ RSpec.describe Howitzer::Email do
 
   describe '.find_by_recipient' do
     let(:recipient) { 'test@user.com' }
-    subject { described_class.find_by_recipient(recipient) }
+    subject { described_class.find_by_recipient(recipient, message_subject) }
     it do
-      expect(described_class).to receive(:find).with(recipient, message_subject).once
-      subject
-    end
-  end
-
-  describe '.find' do
-    let(:recipient) { 'test@user.com' }
-    subject { described_class.find(recipient, message_subject) }
-    it do
-      expect(described_class.adapter).to receive(:find).with(recipient, message_subject).once
+      expect(described_class).to receive(:find_by_recipient).with(recipient, message_subject).once
       subject
     end
   end
