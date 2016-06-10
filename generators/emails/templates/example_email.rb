@@ -1,6 +1,6 @@
 # This class is example of test email
 class TestEmail < Howtzer::Email
-  subject 'Test email'.freeze
+  subject 'Test email'
 
   def addressed_to?(new_user)
     /Hi #{new_user}/ === plain_text_body

@@ -26,6 +26,67 @@ RSpec.describe 'Mailgun Email Adapter' do
     stub_const('Howitzer::Email::SUBJECT', message_subject)
   end
 
+  describe '.find' do
+    let(:mailgun_message) { double(to_h: message) }
+    let(:events) { double(to_h: { 'items' => [event] }) }
+    subject { Howitzer::MailAdapters::Mailgun.find(recipient, message_subject) }
+
+    context 'when message is found' do
+      let(:event) do
+        {
+          'message' => {
+            'recipients' => [recipient],
+            'headers' => {
+              'subject' => message_subject
+            }
+          },
+          'storage' => { 'key' => '1234567890' }
+        }
+      end
+      before do
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
+          'mailgun@test.domain/events',
+          event: 'stored'
+        ).ordered.once { events }
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
+          'domains/mailgun@test.domain/messages/1234567890'
+        ).ordered.once { mailgun_message }
+      end
+      it do
+        expect(Howitzer::Email.adapter).to receive(:new).with(message).once
+        subject
+      end
+    end
+
+    context 'when message is not found' do
+      let(:event) do
+        {
+          'message' => {
+            'recipients' => ['other@test.com'],
+            'headers' => {
+              'subject' => message_subject
+            }
+          }, 'storage' => { 'key' => '1234567890' }
+        }
+      end
+      before do
+        allow(settings).to receive(:timeout_small) { 0.5 }
+        allow(settings).to receive(:timeout_short) { 0.05 }
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
+          'mailgun@test.domain/events',
+          event: 'stored'
+        ).at_least(:twice).ordered { events }
+      end
+      it do
+        expect(log).to receive(:error).with(
+          Howitzer::EmailNotFoundError,
+          "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found."
+        )
+        subject
+      end
+    end
+  end
+
   describe '#plain_text_body' do
     it { expect(email_object.plain_text_body).to eql message['body-plain'] }
   end

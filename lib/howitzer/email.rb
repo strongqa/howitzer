@@ -26,12 +26,14 @@ module Howitzer
 
     class << self
       attr_reader :adapter_name
-      attr_writer :subject
+
+      protected
+
+      def subject(value)
+        @subject = value
+      end
     end
 
-    def self.expand_subject(*args)
-      args.each { |k, v| @subject.sub!(":#{k}", v) }
-    end
     ##
     #
     # Specify mail adapter
@@ -51,10 +53,6 @@ module Howitzer
       end
     end
 
-    def self.subject(value)
-      @subject = value
-    end
-
     ##
     #
     # Search mail by recepient
@@ -63,24 +61,18 @@ module Howitzer
     # * +recepient+ - recepient's email address
     #
 
-    def self.find_by_recipient(recipient, *args)
-      raise NoSubjectError, "Please specify email subject. For example:
-                             class SomeEmail < Howitzer::Email\n subject ‘some subject text’\nend" if args.nil?
-      new(adapter.find_by_recipient(recipient, expand_subject(args)))
+    def self.find_by_recipient(recipient, params = {})
+      raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
+                                  "class SomeEmail < Howitzer::Email\n" \
+                                  "  subject ‘some subject text’\nend" if @subject.nil?
+      new(adapter.find(recipient, expand_subject(params)))
     end
 
-    ##
-    #
-    # Search mail by recepient and subject.
-    #
-    # *Parameters:*
-    # * +recepient+ - recepient's email address
-    # * +subject+ - email subject
-    #
-
-    # def self.find(recipient, subject)
-    #   new(adapter.find(recipient, subject))
-    # end
+    def self.expand_subject(params)
+      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
+      @subject
+    end
+    private_class_method :expand_subject
 
     def initialize(message)
       @message = message
