@@ -26,6 +26,12 @@ module Howitzer
 
     class << self
       attr_reader :adapter_name
+
+      protected
+
+      def subject(value)
+        @subject = value
+      end
     end
 
     ##
@@ -55,22 +61,18 @@ module Howitzer
     # * +recepient+ - recepient's email address
     #
 
-    def self.find_by_recipient(recipient)
-      find(recipient, self::SUBJECT)
+    def self.find_by_recipient(recipient, params = {})
+      raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
+                                  "class SomeEmail < Howitzer::Email\n" \
+                                  "  subject ‘some subject text’\nend" if @subject.nil?
+      new(adapter.find(recipient, expand_subject(params)))
     end
 
-    ##
-    #
-    # Search mail by recepient and subject.
-    #
-    # *Parameters:*
-    # * +recepient+ - recepient's email address
-    # * +subject+ - email subject
-    #
-
-    def self.find(recipient, subject)
-      new(adapter.find(recipient, subject))
+    def self.expand_subject(params)
+      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
+      @subject
     end
+    private_class_method :expand_subject
 
     def initialize(message)
       @message = message

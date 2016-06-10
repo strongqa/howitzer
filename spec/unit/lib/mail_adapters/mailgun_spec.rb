@@ -29,7 +29,7 @@ RSpec.describe 'Mailgun Email Adapter' do
   describe '.find' do
     let(:mailgun_message) { double(to_h: message) }
     let(:events) { double(to_h: { 'items' => [event] }) }
-    subject { Howitzer::Email.find(recipient, message_subject) }
+    subject { Howitzer::MailAdapters::Mailgun.find(recipient, message_subject) }
 
     context 'when message is found' do
       let(:event) do
