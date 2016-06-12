@@ -22,10 +22,10 @@ It was originally developed for testing web applications, but you can also use i
 The framework was built with modern patterns, techniques, and tools in automated testing. For details, please see [Test Framework Design](https://github.com/strongqa/howitzer/wiki/Test-Framework-Design).
 
 ## Key Benefits
-- Independent of test web application, its technologies and lanquage.
+- Independent of test web application, its technologies and languages.
 - Fast installation of the complete testing infrastructure (takes less than 5 minutes).
 - Flexible configuration of the test framework.
-- Possibility to choose between Cucumber or RSpec BDD tool.
+- Possibility to choose between Cucumber, RSpec or Turnip BDD tool.
 - Integration with SauceLabs, Testingbot, BrowserStack and MailGun web services.
 - Easy tests support.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
@@ -38,7 +38,9 @@ Refer to the [GETTING STARTED](http://rubydoc.info/gems/howitzer/file/GETTING_ST
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
 ## Related Products
-* [Howitzer Example](https://github.com/strongqa/howitzer_example) – an example of Howitzer based project for demo web application.
+* [Howitzer Example RSpec](https://github.com/strongqa/howitzer_example_rspec) – an example of Howitzer based project for demo web application based on RSpec.
+* [Howitzer Example Cucumber](https://github.com/strongqa/howitzer_example_cucumber) – an example of Howitzer based project for demo web application based on Cucumber.
+* [Howitzer Example Turnip](https://github.com/strongqa/howitzer_example_turnip) – an example of Howitzer based project for demo web application based on Turnip.
 * [Howitzer Stat](https://github.com/strongqa/howitzer_stat) – is the extension to Howitzer product. It is used for automated tests coverage visualization of web pages.
 
 ## Requirements
@@ -59,7 +61,7 @@ gem install howitzer
 ## Usage
 Browse to a desired directory where a new project will be created.
 
-To deploy the framework with Cucumber, type:
+To deploy the framework with [Cucumber](https://cucumber.io/), type:
 
 ```bash
 howitzer new <PROJECT NAME> --cucumber
@@ -68,7 +70,6 @@ howitzer new <PROJECT NAME> --cucumber
 The following folders and files will be generated:
 ```
 config/
-  cucumber.yml
   default.yml
   custom.yml
 tasks/
@@ -90,16 +91,16 @@ Rakefile
 .gitignore
 ```
 
-With Rspec:
+With [Rspec](http://rspec.info/):
 
 ```bash
 howitzer new <PROJECT NAME> --rspec
 ```
 
-With both Cucumber and Rspec:
+With [Turnip](https://github.com/jnicklas/turnip):
 
 ```bash
-howitzer new <PROJECT NAME> --cucumber --rspec
+howitzer new <PROJECT NAME> --turnip
 ```
 
 **Configuration**

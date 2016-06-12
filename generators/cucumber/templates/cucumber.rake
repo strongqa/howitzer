@@ -1,57 +1,56 @@
+require 'cucumber'
+require 'cucumber/rake/task'
+CUCUMBER_OPTS = [
+  '-r features',
+  '-v',
+  '-x',
+  '-f',
+  "html -o ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
+  '-f junit',
+  "-o ./#{Howitzer.settings.log_dir}",
+  '-f pretty'
+].join(' ').freeze
 
-unless ARGV.any? {|a| a =~ /^gems/} # Don't load anything when running the gems:* tasks
-  begin
-    require 'cucumber'
-    require 'cucumber/rake/task'
+Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber scenarios') do |t|
+  t.fork = false
+  t.cucumber_opts = CUCUMBER_OPTS
+end
 
-    namespace :cucumber do
-      Cucumber::Rake::Task.new({ok: 'db:test:prepare'}, 'Run features that should pass') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'default'
-      end
+Cucumber::Rake::Task.new(:features, 'Run all workable scenarios (without @wip and @bug tags)') do |t|
+  t.fork = false
+  t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug"
+end
 
-      Cucumber::Rake::Task.new({wip: 'db:test:prepare'}, 'Run features that are being worked on') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'wip'
-      end
-
-      Cucumber::Rake::Task.new({bug: 'db:test:prepare'}, 'Run features with known bugs') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'bug'
-      end
-
-      Cucumber::Rake::Task.new({demo: 'db:test:prepare'}, 'Run demo feature') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'demo'
-      end
-
-      Cucumber::Rake::Task.new({rerun: 'db:test:prepare'}, 'Record failing features and run only them if any exist') do |t|
-        t.fork = false # You may get faster startup if you set this to false
-        t.profile = 'rerun'
-      end
-
-      desc 'Run all features'
-      task all: [:ok, :wip]
-
-    end
-    desc 'Alias for cucumber:ok'
-    task cucumber: 'cucumber:ok'
-
-    task default: :cucumber
-
-    task features: :cucumber do
-      STDERR.puts "*** The 'features' task is deprecated. See rake -T cucumber ***"
-    end
-
-    # In case we don't have ActiveRecord, append a no-op task that we can depend upon.
-    task 'db:test:prepare' do
-    end
-
-  rescue LoadError
-    desc 'cucumber rake task not available (cucumber not installed)'
-    task :cucumber do
-      abort 'Cucumber rake task is not available. Be sure to install cucumber as a gem or plugin'
-    end
+namespace :features do
+  Cucumber::Rake::Task.new(:wip, 'Run scenarios in progress (with @wip tag)') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @wip"
   end
 
+  Cucumber::Rake::Task.new(:bug, 'Run scenarios with known bugs (with @bug tag)') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @bug"
+  end
+
+  Cucumber::Rake::Task.new(:smoke, 'Run workable smoke scenarios (with @smoke tag)') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @smoke --tags ~@wip --tags ~@bug"
+  end
+
+  Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
+  end
+
+  Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p1"
+  end
+
+  Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with low priority (with @p2 tag)') do |t|
+    t.fork = false
+    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p2"
+  end
 end
+
+task default: :features

@@ -2,7 +2,7 @@
 #                      PREREQUISITES                        #
 #############################################################
 
-Given /^I have entered (.*) into the calculator$/ do |input_|
+Given /^I have entered (.*) into the calculator$/ do |_input_|
   pending
 end
 
@@ -10,7 +10,7 @@ end
 #              ACTIONS             #
 ####################################
 
-When /^I press (.*)$/ do |button|
+When /^I press (.*)$/ do |_button|
   pending
 end
 
@@ -18,6 +18,6 @@ end
 #              CHECKS              #
 ####################################
 
-Then /^the result should be (.*) on the screen$/ do |output|
+Then /^the result should be (.*) on the screen$/ do |_output|
   pending
 end

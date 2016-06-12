@@ -1,9 +1,11 @@
-require "howitzer/version"
-require "howitzer/settings"
-require 'howitzer/capybara/settings'
+# This is main namespace for the library
+module Howitzer
+end
+
+require 'howitzer/version'
+require 'howitzer/settings'
+require 'howitzer/capybara_settings'
 require 'howitzer/utils'
-require 'howitzer/init'
 require 'howitzer/helpers'
 require 'howitzer/email'
-require 'howitzer/web_page'
-require 'howitzer/blank_page'
+require 'howitzer/web'
