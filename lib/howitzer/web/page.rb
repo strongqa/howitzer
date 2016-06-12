@@ -129,7 +129,7 @@ module Howitzer
         if url_template.nil?
           raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
         end
-        "#{@root_url unless self == Howitzer::Web::BlankPage}#{Addressable::Template.new(url_template).expand(params)}"
+        "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}"
       end
 
       class << self
@@ -148,12 +148,16 @@ module Howitzer
         end
 
         def root_url(value)
-          @root_url = value.to_s
+          @root_url = value
         end
 
         private
 
         attr_reader :url_template
+
+        def parent_url
+          @root_url || Helpers.app_url
+        end
       end
 
       def initialize

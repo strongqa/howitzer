@@ -156,6 +156,25 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
+  describe '.parent_url' do
+    let(:url_value) { 'http://example.com' }
+    subject { described_class.class_eval { parent_url } }
+
+    it do
+      described_class.send(:root_url, url_value)
+      is_expected.to eql url_value
+    end
+
+    it 'root is not specified' do
+      described_class.send(:root_url, nil)
+      is_expected.to eql Howitzer::Helpers.app_url
+    end
+
+    it 'should be private' do
+      expect { described_class.parent_url }.to raise_error(NoMethodError)
+    end
+  end
+
   describe '.expanded_url' do
     context 'when params present' do
       subject { web_page.expanded_url(id: 1) }
@@ -164,6 +183,7 @@ RSpec.describe Howitzer::Web::Page do
           let(:web_page) { Howitzer::Web::BlankPage }
           before do
             allow(web_page).to receive(:url_template) { 'about:blank' }
+            web_page.class_eval { root_url '' }
           end
           it { is_expected.to eq('about:blank') }
         end
