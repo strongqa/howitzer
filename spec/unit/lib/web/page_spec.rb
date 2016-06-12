@@ -145,6 +145,17 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
+  describe '.root_url' do
+    let(:url_value) { 'http://example.com' }
+    it do
+      described_class.send(:root_url, url_value)
+      expect(described_class.instance_variable_get(:@root_url)).to eql url_value
+    end
+    it 'should be protected' do
+      expect { described_class.root_url(url_value) }.to raise_error(NoMethodError)
+    end
+  end
+
   describe '.expanded_url' do
     context 'when params present' do
       subject { web_page.expanded_url(id: 1) }
@@ -160,6 +171,7 @@ RSpec.describe Howitzer::Web::Page do
           let(:web_page) { described_class }
           before do
             allow(web_page).to receive(:url_template) { '/users{/id}' }
+            described_class.class_eval { root_url 'http://my.website.com' }
           end
           it { is_expected.to eq('http://my.website.com/users/1') }
         end
@@ -178,6 +190,7 @@ RSpec.describe Howitzer::Web::Page do
       subject { described_class.expanded_url }
       before do
         allow(described_class).to receive(:url_template) { '/users' }
+        described_class.class_eval { root_url 'http://my.website.com' }
       end
       it { is_expected.to eq('http://my.website.com/users') }
     end
