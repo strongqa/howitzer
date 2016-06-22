@@ -172,13 +172,14 @@ RSpec.describe Howitzer::Web::Page do
           let(:web_page) { described_class }
           before do
             allow(web_page).to receive(:url_template) { '/users{/id}' }
-            described_class.class_eval { root_url 'http://example.com' }
+            web_page.class_eval { root_url 'http://example.com' }
           end
           it { is_expected.to eq('http://example.com/users/1') }
-          it 'root is not specified' do
-            described_class.send(:root_url, nil)
-            is_expected.to eq(Howitzer::Helpers.app_url + '/users/1')
-          end
+        end
+        context 'when root not specified' do
+          let(:web_page) { Class.new(Howitzer::Web::Page) }
+          before { allow(web_page).to receive(:url_template) { '/users{/id}' } }
+          it { is_expected.to eq('http://my.website.com/users/1') }
         end
       end
       context 'when page url missing' do
@@ -195,9 +196,9 @@ RSpec.describe Howitzer::Web::Page do
       subject { described_class.expanded_url }
       before do
         allow(described_class).to receive(:url_template) { '/users' }
-        described_class.class_eval { root_url 'http://my.website.com' }
+        described_class.class_eval { root_url 'http://example.com' }
       end
-      it { is_expected.to eq('http://my.website.com/users') }
+      it { is_expected.to eq('http://example.com/users') }
     end
   end
 
