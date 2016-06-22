@@ -158,27 +158,27 @@ RSpec.describe Howitzer::Web::Page do
 
   describe '.expanded_url' do
     context 'when params present' do
-      subject { web_page.expanded_url(id: 1) }
+      subject { test_page.expanded_url(id: 1) }
       context 'when page url specified' do
         context 'when BlankPage' do
-          let(:web_page) { Howitzer::Web::BlankPage }
-          before do
-            allow(web_page).to receive(:url_template) { 'about:blank' }
-            web_page.class_eval { root_url '' }
-          end
+          let(:test_page) { Howitzer::Web::BlankPage }
           it { is_expected.to eq('about:blank') }
         end
         context 'when other page' do
-          let(:web_page) { described_class }
-          before do
-            allow(web_page).to receive(:url_template) { '/users{/id}' }
-            web_page.class_eval { root_url 'http://example.com' }
+          let(:test_page) do
+            Class.new(described_class) do
+              root_url 'http://example.com'
+              url '/users{/id}'
+            end
           end
           it { is_expected.to eq('http://example.com/users/1') }
         end
         context 'when root not specified' do
-          let(:web_page) { Class.new(Howitzer::Web::Page) }
-          before { allow(web_page).to receive(:url_template) { '/users{/id}' } }
+          let(:test_page) do
+            Class.new(described_class) do
+              url '/users{/id}'
+            end
+          end
           it { is_expected.to eq('http://my.website.com/users/1') }
         end
       end
@@ -193,11 +193,13 @@ RSpec.describe Howitzer::Web::Page do
       end
     end
     context 'when params missing' do
-      subject { described_class.expanded_url }
-      before do
-        allow(described_class).to receive(:url_template) { '/users' }
-        described_class.class_eval { root_url 'http://example.com' }
+      let(:test_page) do
+        Class.new(described_class) do
+          root_url 'http://example.com'
+          url '/users'
+        end
       end
+      subject { test_page.expanded_url }
       it { is_expected.to eq('http://example.com/users') }
     end
   end
