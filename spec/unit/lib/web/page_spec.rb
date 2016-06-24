@@ -4,6 +4,8 @@ require 'howitzer/web/blank_page'
 require 'howitzer/capybara_settings'
 
 RSpec.describe Howitzer::Web::Page do
+  let(:session) { double(:session) }
+  before { allow(Capybara).to receive(:current_session) { session } }
   describe '.open' do
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
@@ -16,7 +18,7 @@ RSpec.describe Howitzer::Web::Page do
         expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
         expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
-        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(session).to receive(:visit).with(url_value).once.ordered
         expect(described_class).to receive(:given).once.ordered
         subject
       end
@@ -28,7 +30,7 @@ RSpec.describe Howitzer::Web::Page do
         expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
         expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
-        expect(described_class).to receive(:visit).with(url_value).once.ordered
+        expect(session).to receive(:visit).with(url_value).once.ordered
         expect(described_class).to receive(:given).once.ordered
         subject
       end
@@ -49,44 +51,11 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.instance.title }
     before do
       allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
-      allow(described_class.instance).to receive(:current_url) { 'google.com' }
+      allow(session).to receive(:current_url) { 'google.com' }
     end
     it do
-      expect(described_class.instance).to receive(:page) { page }
-      expect(page).to receive(:title)
+      expect(session).to receive(:title)
       subject
-    end
-  end
-
-  describe '.current_url' do
-    let(:page) { double }
-    subject { described_class.current_url }
-    it do
-      expect(described_class).to receive(:page) { page }
-      expect(page).to receive(:current_url) { 'google.com' }
-      is_expected.to eq('google.com')
-    end
-  end
-
-  describe '.current_url' do
-    let(:page) { double }
-    subject { described_class.current_url }
-    it do
-      expect(described_class).to receive(:page) { page }
-      expect(page).to receive(:current_url) { 'google.com' }
-      is_expected.to eq('google.com')
-    end
-  end
-
-  describe '.text' do
-    let(:page) { double }
-    let(:find) { double }
-    subject { described_class.text }
-    it do
-      expect(described_class).to receive(:page) { page }
-      expect(page).to receive(:find).with('body') { find }
-      expect(find).to receive(:text) { 'some body text' }
-      is_expected.to eq('some body text')
     end
   end
 
@@ -100,8 +69,9 @@ RSpec.describe Howitzer::Web::Page do
       let(:foo_page) { double(inspect: 'FooPage') }
       let(:bar_page) { double(inspect: 'BarPage') }
       before do
-        allow(described_class).to receive(:current_url) { 'http://test.com' }
-        allow(described_class).to receive(:title) { 'Test site' }
+        allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
+        allow(session).to receive(:current_url) { 'http://test.com' }
+        allow(session).to receive(:title) { 'Test site' }
         allow(described_class).to receive(:matched_pages) { [foo_page, bar_page] }
       end
       it do
@@ -129,8 +99,8 @@ RSpec.describe Howitzer::Web::Page do
     context 'when page is not opened' do
       before do
         allow(described_class).to receive(:current_page) { 'FooPage' }
-        allow(described_class).to receive(:current_url) { 'http://test.com' }
-        allow(described_class).to receive(:title) { 'Test site' }
+        allow(session).to receive(:current_url) { 'http://test.com' }
+        allow(session).to receive(:title) { 'Test site' }
         allow(settings).to receive(:timeout_small) { 0.1 }
         allow(described_class).to receive(:opened?) { false }
       end
@@ -223,16 +193,17 @@ RSpec.describe Howitzer::Web::Page do
       expect_any_instance_of(described_class).to receive(:check_validations_are_defined!).once { true }
     end
     context 'when maximized_window is true' do
+      let(:driver) { double }
       before { allow(settings).to receive(:maximized_window) { true } }
       it do
-        expect_any_instance_of(described_class).to receive_message_chain('page.driver.browser.manage.window.maximize')
+        expect_any_instance_of(described_class).to receive_message_chain('driver.browser.manage.window.maximize')
         subject
       end
     end
     context 'when maximized_window is false' do
       before { allow(settings).to receive(:maximized_window) { false } }
       it do
-        expect_any_instance_of(described_class).not_to receive('page')
+        expect_any_instance_of(described_class).not_to receive(:driver)
         subject
       end
     end
@@ -254,7 +225,8 @@ RSpec.describe Howitzer::Web::Page do
     before do
       allow(settings).to receive(:driver) { driver_name }
       allow(settings).to receive(:timeout_tiny) { 0 }
-      allow(described_class.instance).to receive(:current_url) { 'google.com' }
+      allow(session).to receive(:current_url) { 'google.com' }
+      allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
     end
     context 'when flag true and correct driver specified' do
       let(:flag_value) { true }
@@ -265,8 +237,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:switch_to) { double }
       let(:driver_name) { 'selenium' }
       it do
-        expect(described_class.instance).to receive(:page) { page }
-        expect(page).to receive(:driver).ordered { driver }
+        expect(session).to receive(:driver).ordered { driver }
         expect(driver).to receive(:browser).ordered { browser }
         expect(browser).to receive(:switch_to).ordered { switch_to }
         expect(switch_to).to receive(:alert).ordered { alert }
@@ -283,8 +254,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:switch_to) { double }
       let(:driver_name) { 'selenium' }
       it do
-        expect(described_class.instance).to receive(:page) { page }
-        expect(page).to receive(:driver).ordered { driver }
+        expect(session).to receive(:driver).ordered { driver }
         expect(driver).to receive(:browser).ordered { browser }
         expect(browser).to receive(:switch_to).ordered { switch_to }
         expect(switch_to).to receive(:alert).ordered { alert }
@@ -297,8 +267,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:page) { double }
       let(:driver_name) { 'ff' }
       it do
-        expect(described_class.instance).to receive(:page) { page }
-        expect(page).to receive(:evaluate_script).with('window.confirm = function() { return true; }')
+        expect(session).to receive(:evaluate_script).with('window.confirm = function() { return true; }')
         subject
       end
     end
@@ -307,8 +276,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:flag_value) { false }
       let(:page) { double }
       it do
-        expect(described_class.instance).to receive(:page) { page }
-        expect(page).to receive(:evaluate_script).with('window.confirm = function() { return false; }')
+        expect(session).to receive(:evaluate_script).with('window.confirm = function() { return false; }')
         subject
       end
     end
@@ -319,11 +287,11 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.instance.reload }
     let(:visit) { double }
     before do
-      allow(described_class.instance).to receive(:current_url) { 'google.com' }
+      allow(session).to receive(:current_url) { 'google.com' }
     end
     it do
       expect(log).to receive(:info) { "Reload 'google.com'" }
-      expect(described_class.instance).to receive(:visit).with('google.com')
+      expect(session).to receive(:visit).with('google.com')
       subject
     end
   end

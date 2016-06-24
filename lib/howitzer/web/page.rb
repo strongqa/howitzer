@@ -1,6 +1,5 @@
 require 'singleton'
 require 'capybara'
-require 'capybara/dsl'
 require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/page_validator'
@@ -12,12 +11,20 @@ module Howitzer
     # This class represents single web page. This is parent class for all web pages
     class Page
       UnknownPage = Class.new
+      PROXY_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
+                               Capybara::Session::MODAL_METHODS +
+                               [:driver, :text]
+
       include Singleton
       include Element
       include PageValidator
       include ::RSpec::Matchers
-      include ::Capybara::DSL
-      extend ::Capybara::DSL
+
+      PROXY_CAPYBARA_METHODS.each do |method|
+        define_method method do |*args, &block|
+          Capybara.current_session.send method, *args, &block
+        end
+      end
 
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
@@ -40,7 +47,7 @@ module Howitzer
         log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
           log.info 'Retry...' unless retries.zero?
-          visit url
+          Capybara.current_session.visit(url)
         end
         given
       end
@@ -60,30 +67,6 @@ module Howitzer
 
       ##
       #
-      # Returns current url
-      #
-      # *Returns:*
-      # * +string+ - Current url
-      #
-
-      def self.current_url
-        page.current_url
-      end
-
-      ##
-      #
-      # Returns body text of html page
-      #
-      # *Returns:*
-      # * +string+ - Body text
-      #
-
-      def self.text
-        page.find('body').text
-      end
-
-      ##
-      #
       # Tries to identify current page name or raise error if ambiguous page matching
       #
       # *Returns:*
@@ -95,9 +78,7 @@ module Howitzer
         if page_list.count.zero?
           UnknownPage
         elsif page_list.count > 1
-          log.error AmbiguousPageMatchingError,
-                    "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
-                    "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+          log.error AmbiguousPageMatchingError, ambiguous_page_msg(page_list)
         elsif page_list.count == 1
           page_list.first
         end
@@ -114,8 +95,7 @@ module Howitzer
       def self.wait_for_opened(timeout = settings.timeout_small)
         end_time = ::Time.now + timeout
         opened? ? return : sleep(0.5) until ::Time.now > end_time
-        log.error IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
-                  "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+        log.error IncorrectPageError, incorrect_page_msg
       end
 
       ##
@@ -158,11 +138,21 @@ module Howitzer
         def parent_url
           @root_url || Helpers.app_url
         end
+
+        def incorrect_page_msg
+          "Current page: #{current_page}, expected: #{self}.\n" \
+                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+        end
+
+        def ambiguous_page_msg(page_list)
+          "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
+                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+        end
       end
 
       def initialize
         check_validations_are_defined!
-        page.driver.browser.manage.window.maximize if settings.maximized_window
+        driver.browser.manage.window.maximize if settings.maximized_window
       end
 
       ##
@@ -175,10 +165,10 @@ module Howitzer
 
       def click_alert_box(flag)
         if %w(selenium sauce).include? settings.driver
-          alert = page.driver.browser.switch_to.alert
+          alert = driver.browser.switch_to.alert
           flag ? alert.accept : alert.dismiss
         else
-          page.evaluate_script("window.confirm = function() { return #{flag}; }")
+          evaluate_script("window.confirm = function() { return #{flag}; }")
         end
       end
 
@@ -190,18 +180,6 @@ module Howitzer
       def reload
         log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      ##
-      #
-      # Returns Page title
-      #
-      # *Returns:*
-      # * +string+ - Page title
-      #
-
-      def title
-        page.title
       end
     end
   end
