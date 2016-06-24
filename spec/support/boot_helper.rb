@@ -1,7 +1,7 @@
 require 'sexy_settings'
 SexySettings.configure do |config|
-  config.path_to_default_settings = File.expand_path("default.yml", File.join(File.dirname(__FILE__), '..', 'config'))
-  config.path_to_custom_settings = File.expand_path("custom.yml", File.join(File.dirname(__FILE__), '..', 'config'))
+  config.path_to_default_settings = File.expand_path('default.yml', File.join(File.dirname(__FILE__), '..', 'config'))
+  config.path_to_custom_settings = File.expand_path('custom.yml', File.join(File.dirname(__FILE__), '..', 'config'))
 end
 
 def settings
@@ -9,7 +9,7 @@ def settings
 end
 
 def log
-  Howitzer::Log.instance
+  Howitzer::Utils::Log.instance
 end
 
-ENV['TEST_MODE'] = "TRUE"
+ENV['TEST_MODE'] = 'TRUE'
