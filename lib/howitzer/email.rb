@@ -1,134 +1,153 @@
 require 'rspec/matchers'
-require 'howitzer/mailgun/connector'
 require 'howitzer/exceptions'
 
-class Email
-  include RSpec::Matchers
+module Howitzer
+  # This class describes single email
+  class Email
+    include ::RSpec::Matchers
 
-  ##
-  #
-  # Creates new email with message
-  #
-  # *Parameters:*
-  # * +message+ - email message
-  #
+    attr_reader :message
 
-  def initialize(message)
-    @message = message
-  end
+    ##
+    #
+    # Return mail adapter class
+    #
 
-  ##
-  #
-  # Search mail by recepient
-  #
-  # *Parameters:*
-  # * +recepient+ - recepient's email address
-  #
+    def self.adapter
+      return @adapter if @adapter
+      self.adapter = settings.mail_adapter.to_sym
+      @adapter
+    end
 
-  def self.find_by_recipient(recipient)
-    find(recipient, self::SUBJECT)
-  end
+    ##
+    #
+    # Return mail adapter name
+    #
 
-  ##
-  #
-  # Search mail by recepient and subject.
-  #
-  # *Parameters:*
-  # * +recepient+ - recepient's email address
-  # * +subject+ - email subject
-  #
+    class << self
+      attr_reader :adapter_name
 
-  def self.find(recipient, subject)
-    message = {}
-    retryable(timeout: settings.timeout_small, sleep: settings.timeout_short, silent: true, logger: log, on: Howitzer::EmailNotFoundError) do
-      events = Mailgun::Connector.instance.client.get("#{Mailgun::Connector.instance.domain}/events", event: 'stored')
-      event = events.to_h['items'].find do |hash|
-        hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
-      end
-      if event
-        message = Mailgun::Connector.instance.client.get("domains/#{Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
-      else
-        raise Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
+      protected
+
+      def subject(value)
+        @subject = value
       end
     end
-    log.error Howitzer::EmailNotFoundError, "Message with subject '#{subject}' for recipient '#{recipient}' was not found." if message.empty?
-    new(message)
-  end
 
-  ##
-  #
-  # Returns plain text body of email message
-  #
+    ##
+    #
+    # Specify mail adapter
+    #
+    # *Parameters:*
+    # * +adapter_name+ - adapter name as string or symbol
+    #
 
-  def plain_text_body
-    @message['body-plain']
-  end
-
-  ##
-  #
-  # Returns html body of email message
-  #
-
-  def html_body
-    @message['stripped-html']
-  end
-
-  ##
-  #
-  # Returns mail text
-  #
-
-  def text
-    @message['stripped-text']
-  end
-
-  ##
-  #
-  # Returns who has send email data in format: User Name <user@email>
-  #
-
-  def mail_from
-    @message['From']
-  end
-
-  ##
-  #
-  # Returns array of recipients who has received current email
-  #
-
-  def recipients
-    @message['To'].split ', '
-  end
-
-  ##
-  #
-  # Returns email received time in format:
-  #
-
-  def received_time
-    @message['Received'][/\w+, \d+ \w+ \d+ \d+:\d+:\d+ -\d+ \(\w+\)$/]
-  end
-
-  ##
-  #
-  # Returns sender user email
-  #
-
-  def sender_email
-    @message['sender']
-  end
-
-  ##
-  #
-  # Allows to get email MIME attachment
-  #
-
-  def get_mime_part
-    files = @message['attachments']
-    if files.empty?
-      log.error Howitzer::NoAttachmentsError, 'No attachments where found.'
-      return
+    def self.adapter=(adapter_name)
+      @adapter_name = adapter_name
+      case adapter_name
+        when Symbol, String
+          require "howitzer/mail_adapters/#{adapter_name}"
+          @adapter = MailAdapters.const_get(adapter_name.to_s.capitalize.to_s)
+        else
+          raise NoMailAdapterError
+      end
     end
-    files
+
+    ##
+    #
+    # Search mail by recepient
+    #
+    # *Parameters:*
+    # * +recepient+ - recepient's email address
+    #
+
+    def self.find_by_recipient(recipient, params = {})
+      raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
+                                  "class SomeEmail < Howitzer::Email\n" \
+                                  "  subject ‘some subject text’\nend" if @subject.nil?
+      new(adapter.find(recipient, expand_subject(params)))
+    end
+
+    def self.expand_subject(params)
+      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
+      @subject
+    end
+    private_class_method :expand_subject
+
+    def initialize(message)
+      @message = message
+    end
+
+    ##
+    #
+    # Returns plain text body of email message
+    #
+
+    def plain_text_body
+      message.plain_text_body
+    end
+
+    ##
+    #
+    # Returns html body of email message
+    #
+
+    def html_body
+      message.html_body
+    end
+
+    ##
+    #
+    # Returns mail text
+    #
+
+    def text
+      message.text
+    end
+
+    ##
+    #
+    # Returns who has send email data in format: User Name <user@email>
+    #
+
+    def mail_from
+      message.mail_from
+    end
+
+    ##
+    #
+    # Returns array of recipients who has received current email
+    #
+
+    def recipients
+      message.recipients
+    end
+
+    ##
+    #
+    # Returns email received time in format:
+    #
+
+    def received_time
+      message.received_time
+    end
+
+    ##
+    #
+    # Returns sender user email
+    #
+
+    def sender_email
+      message.sender_email
+    end
+
+    ##
+    #
+    # Allows to get email MIME attachment
+    #
+
+    def mime_part
+      message.mime_part
+    end
   end
 end

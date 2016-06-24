@@ -1,0 +1,34 @@
+require 'spec_helper'
+
+RSpec.describe 'Generators' do
+  let(:destination) { Howitzer::BaseGenerator.destination }
+  let(:output) { StringIO.new }
+  subject { file_tree_info(destination) }
+  before do
+    Howitzer::BaseGenerator.logger = output
+    generator_name.new({})
+  end
+  after { FileUtils.rm_r(destination) }
+
+  describe Howitzer::WebGenerator do
+    let(:generator_name) { described_class }
+    let(:expected_result) do
+      [
+        { name: '/web', is_directory: true },
+        { name: '/web/pages', is_directory: true },
+        { name: '/web/pages/example_menu.rb', is_directory: false, size: template_file_size('web', 'example_menu.rb') },
+        { name: '/web/pages/example_page.rb', is_directory: false, size: template_file_size('web', 'example_page.rb') }
+      ]
+    end
+    it { is_expected.to eql(expected_result) }
+    describe 'output' do
+      let(:expected_output) do
+        "  * PageOriented pattern structure generation ...
+      Added 'web/pages/example_page.rb' file
+      Added 'web/pages/example_menu.rb' file\n"
+      end
+      subject { output.string }
+      it { is_expected.to eql(expected_output) }
+    end
+  end
+end
