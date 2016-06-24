@@ -104,12 +104,12 @@ module Howitzer
 
         def validate_by_url(pattern)
           PageValidator.validations[name][:url] =
-            -> (web_page) { pattern === web_page.current_url }
+            -> (web_page) { pattern === web_page.instance.current_url }
         end
 
         def validate_by_title(pattern)
           PageValidator.validations[name][:title] =
-            -> (web_page) { pattern === web_page.title }
+            -> (web_page) { pattern === web_page.instance.title }
         end
 
         def validate_by_type(type, value, additional_value)

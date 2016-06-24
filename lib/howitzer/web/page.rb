@@ -67,18 +67,6 @@ module Howitzer
 
       ##
       #
-      # Returns current url
-      #
-      # *Returns:*
-      # * +string+ - Current url
-      #
-
-      def self.current_url
-        Capybara.current_session.current_url
-      end
-
-      ##
-      #
       # Returns body text of html page
       #
       # *Returns:*
@@ -104,7 +92,7 @@ module Howitzer
         elsif page_list.count > 1
           log.error AmbiguousPageMatchingError,
                     "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
-                    "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
         elsif page_list.count == 1
           page_list.first
         end
@@ -122,7 +110,7 @@ module Howitzer
         end_time = ::Time.now + timeout
         opened? ? return : sleep(0.5) until ::Time.now > end_time
         log.error IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
-                  "\tCurrent url: #{current_url}\n\tCurrent title: #{title}"
+                  "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
       end
 
       ##
