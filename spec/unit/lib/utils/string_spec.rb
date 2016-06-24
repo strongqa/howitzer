@@ -22,11 +22,11 @@ RSpec.describe Howitzer::Utils::StringExtensions do
     end
     it { is_expected.to be_nil }
   end
-  describe '#wait_for_opened' do
-    subject { page_name.wait_for_opened }
+  describe '#displayed?' do
+    subject { page_name.displayed? }
     before do
       allow(page_name).to receive(:as_page_class) { page_object }
-      expect(page_object).to receive(:wait_for_opened).once
+      expect(page_object).to receive(:displayed?).once
     end
     it { is_expected.to be_nil }
   end

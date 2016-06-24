@@ -40,7 +40,7 @@ RSpec.describe Howitzer::Web::Page do
   describe '.given' do
     subject { described_class.given }
     before do
-      expect(described_class).to receive(:wait_for_opened).with(no_args).once
+      expect(described_class).to receive(:displayed?).with(no_args).once
       expect(described_class).to receive(:instance) { true }
     end
     it { is_expected.to be_truthy }
@@ -90,11 +90,11 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
-  describe '.wait_for_opened' do
-    subject { described_class.wait_for_opened }
+  describe '.displayed?' do
+    subject { described_class.displayed? }
     context 'when page is opened' do
       before { allow(described_class).to receive(:opened?) { true } }
-      it { is_expected.to be_nil }
+      it { is_expected.to eq(true) }
     end
     context 'when page is not opened' do
       before do

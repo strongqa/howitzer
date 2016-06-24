@@ -61,7 +61,7 @@ module Howitzer
       #
 
       def self.given
-        wait_for_opened
+        displayed?
         instance
       end
 
@@ -92,9 +92,12 @@ module Howitzer
       # * +time_out+ - Seconds that will be waiting for web page to be loaded
       #
 
-      def self.wait_for_opened(timeout = settings.timeout_small)
+      def self.displayed?(timeout = settings.timeout_small)
         end_time = ::Time.now + timeout
-        opened? ? return : sleep(0.5) until ::Time.now > end_time
+        until ::Time.now > end_time
+          return true if opened?
+          sleep(0.5)
+        end
         log.error IncorrectPageError, incorrect_page_msg
       end
 
