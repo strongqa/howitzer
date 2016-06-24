@@ -1,6 +1,5 @@
 require 'singleton'
 require 'capybara'
-require 'capybara/dsl'
 require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/page_validator'
@@ -12,12 +11,20 @@ module Howitzer
     # This class represents single web page. This is parent class for all web pages
     class Page
       UnknownPage = Class.new
+      PROXY_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
+                               Capybara::Session::MODAL_METHODS +
+                               [:driver]
+
       include Singleton
       include Element
       include PageValidator
       include ::RSpec::Matchers
-      include ::Capybara::DSL
-      extend ::Capybara::DSL
+
+      PROXY_CAPYBARA_METHODS.each do |method|
+        define_method method do |*args, &block|
+          Capybara.current_session.send method, *args, &block
+        end
+      end
 
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
@@ -40,7 +47,7 @@ module Howitzer
         log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
           log.info 'Retry...' unless retries.zero?
-          visit url
+          Capybara.current_session.visit(url)
         end
         given
       end
@@ -67,7 +74,7 @@ module Howitzer
       #
 
       def self.current_url
-        page.current_url
+        Capybara.current_session.current_url
       end
 
       ##
@@ -79,7 +86,7 @@ module Howitzer
       #
 
       def self.text
-        page.find('body').text
+        Capybara.current_session.find('body').text
       end
 
       ##
@@ -162,7 +169,7 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        page.driver.browser.manage.window.maximize if settings.maximized_window
+        driver.browser.manage.window.maximize if settings.maximized_window
       end
 
       ##
@@ -175,10 +182,10 @@ module Howitzer
 
       def click_alert_box(flag)
         if %w(selenium sauce).include? settings.driver
-          alert = page.driver.browser.switch_to.alert
+          alert = driver.browser.switch_to.alert
           flag ? alert.accept : alert.dismiss
         else
-          page.evaluate_script("window.confirm = function() { return #{flag}; }")
+          evaluate_script("window.confirm = function() { return #{flag}; }")
         end
       end
 
@@ -190,18 +197,6 @@ module Howitzer
       def reload
         log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      ##
-      #
-      # Returns Page title
-      #
-      # *Returns:*
-      # * +string+ - Page title
-      #
-
-      def title
-        page.title
       end
     end
   end
