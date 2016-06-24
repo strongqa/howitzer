@@ -13,7 +13,7 @@ module Howitzer
       UnknownPage = Class.new
       PROXY_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
                                Capybara::Session::MODAL_METHODS +
-                               [:driver]
+                               [:driver, :text]
 
       include Singleton
       include Element
@@ -67,18 +67,6 @@ module Howitzer
 
       ##
       #
-      # Returns body text of html page
-      #
-      # *Returns:*
-      # * +string+ - Body text
-      #
-
-      def self.text
-        Capybara.current_session.find('body').text
-      end
-
-      ##
-      #
       # Tries to identify current page name or raise error if ambiguous page matching
       #
       # *Returns:*
@@ -90,9 +78,7 @@ module Howitzer
         if page_list.count.zero?
           UnknownPage
         elsif page_list.count > 1
-          log.error AmbiguousPageMatchingError,
-                    "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
-                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+          log.error AmbiguousPageMatchingError, ambiguous_page_msg(page_list)
         elsif page_list.count == 1
           page_list.first
         end
@@ -109,8 +95,7 @@ module Howitzer
       def self.wait_for_opened(timeout = settings.timeout_small)
         end_time = ::Time.now + timeout
         opened? ? return : sleep(0.5) until ::Time.now > end_time
-        log.error IncorrectPageError, "Current page: #{current_page}, expected: #{self}.\n" \
-                  "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+        log.error IncorrectPageError, incorrect_page_msg
       end
 
       ##
@@ -152,6 +137,16 @@ module Howitzer
 
         def parent_url
           @root_url || Helpers.app_url
+        end
+
+        def incorrect_page_msg
+          "Current page: #{current_page}, expected: #{self}.\n" \
+                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+        end
+
+        def ambiguous_page_msg(page_list)
+          "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
+                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
         end
       end
 

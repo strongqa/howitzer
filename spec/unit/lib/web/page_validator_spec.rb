@@ -161,6 +161,7 @@ RSpec.describe Howitzer::Web::PageValidator do
     context 'when all validations are defined' do
       before do
         web_page_class.class_eval do
+          include Singleton
           element :login, '#id'
           validate :url, /foo/
           validate :title, /Foo page/
@@ -169,16 +170,16 @@ RSpec.describe Howitzer::Web::PageValidator do
       end
       context 'when all matches' do
         before do
-          allow(web_page_class).to receive(:current_url) { 'http://test.com/foo' }
-          allow(web_page_class).to receive(:title) { 'Foo page' }
+          allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
+          allow(web_page_class.instance).to receive(:title) { 'Foo page' }
           allow(web_page_class).to receive(:has_login_element?).with(no_args) { true }
         end
         it { is_expected.to be_truthy }
       end
       context 'when first validation fails' do
         before do
-          expect(web_page_class).to receive(:current_url).once { 'http://test.com/bar' }
-          expect(web_page_class).to receive(:title).never
+          expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+          expect(web_page_class.instance).to receive(:title).never
           allow(web_page_class).to receive(:has_login_element?).with(no_args).never
         end
         it { is_expected.to be_falsey }

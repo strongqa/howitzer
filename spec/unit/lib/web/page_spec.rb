@@ -59,35 +59,6 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
-  describe '.current_url' do
-    let(:page) { double }
-    subject { described_class.current_url }
-    it do
-      expect(session).to receive(:current_url) { 'google.com' }
-      is_expected.to eq('google.com')
-    end
-  end
-
-  describe '.current_url' do
-    let(:page) { double }
-    subject { described_class.current_url }
-    it do
-      expect(session).to receive(:current_url) { 'google.com' }
-      is_expected.to eq('google.com')
-    end
-  end
-
-  describe '.text' do
-    let(:page) { double }
-    let(:find) { double }
-    subject { described_class.text }
-    it do
-      expect(session).to receive(:find).with('body') { find }
-      expect(find).to receive(:text) { 'some body text' }
-      is_expected.to eq('some body text')
-    end
-  end
-
   describe '.current_page' do
     subject { described_class.current_page }
     context 'when matched_pages has no pages' do
@@ -98,8 +69,9 @@ RSpec.describe Howitzer::Web::Page do
       let(:foo_page) { double(inspect: 'FooPage') }
       let(:bar_page) { double(inspect: 'BarPage') }
       before do
-        allow(described_class).to receive(:current_url) { 'http://test.com' }
-        allow(described_class).to receive(:title) { 'Test site' }
+        allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
+        allow(session).to receive(:current_url) { 'http://test.com' }
+        allow(session).to receive(:title) { 'Test site' }
         allow(described_class).to receive(:matched_pages) { [foo_page, bar_page] }
       end
       it do
@@ -127,8 +99,8 @@ RSpec.describe Howitzer::Web::Page do
     context 'when page is not opened' do
       before do
         allow(described_class).to receive(:current_page) { 'FooPage' }
-        allow(described_class).to receive(:current_url) { 'http://test.com' }
-        allow(described_class).to receive(:title) { 'Test site' }
+        allow(session).to receive(:current_url) { 'http://test.com' }
+        allow(session).to receive(:title) { 'Test site' }
         allow(settings).to receive(:timeout_small) { 0.1 }
         allow(described_class).to receive(:opened?) { false }
       end
