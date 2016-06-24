@@ -28,8 +28,8 @@ module Howitzer
       # Waits until page is opened or raise error
       #
 
-      def wait_for_opened
-        as_page_class.wait_for_opened
+      def displayed?
+        as_page_class.displayed?
       end
 
       ##
