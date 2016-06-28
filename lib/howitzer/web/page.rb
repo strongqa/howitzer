@@ -110,7 +110,7 @@ module Howitzer
 
       def self.expanded_url(params = {})
         if url_template.nil?
-          fail PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+          raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
         end
         "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}"
       end

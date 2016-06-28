@@ -49,7 +49,7 @@ module Howitzer
           require "howitzer/mail_adapters/#{adapter_name}"
           @adapter = MailAdapters.const_get(adapter_name.to_s.capitalize.to_s)
         else
-          fail NoMailAdapterError
+          raise NoMailAdapterError
       end
     end
 
@@ -62,7 +62,7 @@ module Howitzer
     #
 
     def self.find_by_recipient(recipient, params = {})
-      fail NoEmailSubjectError, "Please specify email subject. For example:\n" \
+      raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
                                   "class SomeEmail < Howitzer::Email\n" \
                                   "  subject ‘some subject text’\nend" if @subject.nil?
       new(adapter.find(recipient, expand_subject(params)))
