@@ -151,7 +151,7 @@ module Howitzer
     #
 
     def ri(value)
-      raise value.inspect
+      fail value.inspect
     end
 
     private

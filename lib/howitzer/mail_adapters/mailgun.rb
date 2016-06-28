@@ -41,7 +41,7 @@ module Howitzer
 
       def self.retrieve_message(recipient, subject)
         event = event_by(recipient, subject)
-        raise EmailNotFoundError, 'Message not received yet, retry...' unless event
+        fail EmailNotFoundError, 'Message not received yet, retry...' unless event
 
         message_url = "domains/#{MailgunApi::Connector.instance.domain}/messages/#{event['storage']['key']}"
         MailgunApi::Connector.instance.client.get(message_url).to_h

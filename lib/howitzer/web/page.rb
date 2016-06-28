@@ -28,7 +28,7 @@ module Howitzer
 
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
-        PageValidator.pages << subclass
+        PageValidator.pages << subclass if subclass.validations.present?
       end
 
       ##
@@ -110,7 +110,7 @@ module Howitzer
 
       def self.expanded_url(params = {})
         if url_template.nil?
-          raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+          fail PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
         end
         "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}"
       end
