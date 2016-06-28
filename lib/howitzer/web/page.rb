@@ -42,14 +42,14 @@ module Howitzer
       # * +WebPage+ - New instance of current class
       #
 
-      def self.open(params = {})
+      def self.open(validate: true, **params)
         url = expanded_url(params)
         log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
           log.info 'Retry...' unless retries.zero?
           Capybara.current_session.visit(url)
         end
-        given
+        given if validate
       end
 
       ##
@@ -110,7 +110,7 @@ module Howitzer
 
       def self.expanded_url(params = {})
         if url_template.nil?
-          raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+          fail PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
         end
         "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}"
       end

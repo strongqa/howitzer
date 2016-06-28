@@ -30,7 +30,7 @@ module Howitzer
         def validate_arguments!(args)
           return unless args.map(&:class).count(Proc) > 1
 
-          raise BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
+          fail BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
         end
 
         def define_dynamic_methods(name, args)

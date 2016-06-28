@@ -32,7 +32,7 @@ module Howitzer
         object = error_object(*args)
         err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
         @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
-        raise(object)
+        fail(object)
       end
 
       ##

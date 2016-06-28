@@ -5,7 +5,7 @@ module Howitzer
       attr_reader :message
 
       def self.find(_recipient, _subject)
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -26,7 +26,7 @@ module Howitzer
       #
 
       def plain_text_body
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -35,7 +35,7 @@ module Howitzer
       #
 
       def html_body
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -44,7 +44,7 @@ module Howitzer
       #
 
       def text
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -53,7 +53,7 @@ module Howitzer
       #
 
       def mail_from
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -62,7 +62,7 @@ module Howitzer
       #
 
       def recipients
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -71,7 +71,7 @@ module Howitzer
       #
 
       def received_time
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -80,7 +80,7 @@ module Howitzer
       #
 
       def sender_email
-        raise NotImplementedError
+        fail NotImplementedError
       end
 
       ##
@@ -89,7 +89,7 @@ module Howitzer
       #
 
       def mime_part
-        raise NotImplementedError
+        fail NotImplementedError
       end
     end
   end
