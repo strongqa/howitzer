@@ -10,29 +10,54 @@ RSpec.describe Howitzer::Web::Page do
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
     let(:other_instance) { described_class.instance }
-    context 'when argument present' do
-      let(:params) { { id: 1 } }
-      let(:url_value) { 'http://example.com/users/1' }
-      subject { described_class.open(params) }
-      it do
-        expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
-        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
-        expect(described_class).to receive(:retryable).ordered.once.and_call_original
-        expect(session).to receive(:visit).with(url_value).once.ordered
-        expect(described_class).to receive(:given).once.ordered
-        subject
+    context 'when validate missing' do
+      context 'when params present' do
+        let(:url_value) { 'http://example.com/users/1' }
+        subject { described_class.open(id: 1) }
+        it do
+          expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
+          expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+          expect(described_class).to receive(:retryable).ordered.once.and_call_original
+          expect(session).to receive(:visit).with(url_value).once.ordered
+          expect(described_class).to receive(:given).once.ordered { true }
+          expect(subject).to eq(true)
+        end
+      end
+      context 'when params missing' do
+        let(:url_value) { 'http://example.com/users' }
+        subject { described_class.open }
+        it do
+          expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
+          expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+          expect(described_class).to receive(:retryable).ordered.once.and_call_original
+          expect(session).to receive(:visit).with(url_value).once.ordered
+          expect(described_class).to receive(:given).once.ordered { true }
+          expect(subject).to eq(true)
+        end
       end
     end
-    context 'when argument missing' do
+    context 'when validate: false' do
       let(:url_value) { 'http://example.com/users' }
-      subject { described_class.open }
+      subject { described_class.open(validate: false) }
       it do
         expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
         expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
-        expect(described_class).to receive(:given).once.ordered
-        subject
+        expect(described_class).not_to receive(:given)
+        expect(subject).to be_nil
+      end
+    end
+    context 'when validate: true with params' do
+      let(:url_value) { 'http://example.com/users/1' }
+      subject { described_class.open(validate: true, id: 1) }
+      it do
+        expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
+        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+        expect(described_class).to receive(:retryable).ordered.once.and_call_original
+        expect(session).to receive(:visit).with(url_value).once.ordered
+        expect(described_class).to receive(:given).once.ordered { true }
+        expect(subject).to eq(true)
       end
     end
   end

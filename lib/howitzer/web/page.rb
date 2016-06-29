@@ -42,14 +42,14 @@ module Howitzer
       # * +WebPage+ - New instance of current class
       #
 
-      def self.open(params = {})
+      def self.open(validate: true, **params)
         url = expanded_url(params)
         log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
           log.info 'Retry...' unless retries.zero?
           Capybara.current_session.visit(url)
         end
-        given
+        given if validate
       end
 
       ##
