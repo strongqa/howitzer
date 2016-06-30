@@ -17,10 +17,11 @@ Gem::Specification.new do |gem|
   gem.name          = 'howitzer'
   gem.require_paths = ['lib']
   gem.version       = Howitzer::VERSION
-  gem.required_ruby_version = '>= 1.9.3'
+  gem.required_ruby_version = '>= 2.0.0'
 
   gem.add_runtime_dependency 'activesupport', '~>4.2'
   gem.add_runtime_dependency 'addressable', ['>=2.3.3', '< 3.0']
+  gem.add_runtime_dependency 'rack', '~>1.6.4'
   gem.add_runtime_dependency 'capybara', ['>= 2.1', '< 3.0']
   gem.add_runtime_dependency 'gli'
   gem.add_runtime_dependency 'launchy'
