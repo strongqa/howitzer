@@ -28,7 +28,7 @@ module Howitzer
 
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
-        PageValidator.pages << subclass
+        PageValidator.pages << subclass if subclass.validations.present?
       end
 
       ##

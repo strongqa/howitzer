@@ -17,7 +17,7 @@ module Howitzer
       # @return [Hash]
       #
       def self.validations
-        @validations
+        @validations ||= {}
       end
 
       ##
@@ -37,15 +37,9 @@ module Howitzer
       #
 
       def check_validations_are_defined!
-        return unless validations.nil?
+        return if self.class.validations.present?
 
         log.error NoValidationError, "No any page validation was found for '#{self.class.name}' page"
-      end
-
-      private
-
-      def validations
-        PageValidator.validations[self.class.name]
       end
 
       # This module holds page validation class methods
@@ -61,7 +55,6 @@ module Howitzer
         # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
         #
         def validate(name, value, additional_value = nil)
-          PageValidator.validations[self.name] ||= {}
           validate_by_type(name, value, additional_value)
         end
 
@@ -75,11 +68,10 @@ module Howitzer
         #
 
         def opened?
-          validation_list = PageValidator.validations[name]
-          if validation_list.blank?
+          if validations.blank?
             log.error NoValidationError, "No any page validation was found for '#{name}' page"
           else
-            !validation_list.any? { |(_, validation)| !validation.call(self) }
+            !validations.any? { |(_, validation)| !validation.call(self) }
           end
         end
 
@@ -95,20 +87,26 @@ module Howitzer
           PageValidator.pages.select(&:opened?)
         end
 
+        # Describe me!
+
+        def validations
+          PageValidator.validations[name] ||= {}
+        end
+
         private
 
         def validate_element(element_name, value = nil)
-          PageValidator.validations[name][:element_presence] =
+          validations[:element_presence] =
             ->(web_page) { web_page.public_send(*["has_#{element_name}_element?", value].compact) }
         end
 
         def validate_by_url(pattern)
-          PageValidator.validations[name][:url] =
+          validations[:url] =
             -> (web_page) { pattern === web_page.instance.current_url }
         end
 
         def validate_by_title(pattern)
-          PageValidator.validations[name][:title] =
+          validations[:title] =
             -> (web_page) { pattern === web_page.instance.title }
         end
 

@@ -187,6 +187,10 @@ RSpec.describe Howitzer::Web::PageValidator do
     end
   end
 
+  describe 'web_page.validations' do
+    it { expect(web_page_class.validations).to be_a(Hash) }
+  end
+
   describe '#matched_pages' do
     let!(:web_page1_class) do
       Class.new do
