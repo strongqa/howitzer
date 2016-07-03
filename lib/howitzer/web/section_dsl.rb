@@ -14,7 +14,7 @@ module Howitzer
         #
         def section(name, *args)
           klass = section_class(name, with_block: block_given?)
-          define_dynamic_methods(klass, name, finder_args(args))
+          define_dynamic_methods(klass, name, finder_args(klass, args))
         end
 
         private
@@ -27,10 +27,10 @@ module Howitzer
           end
         end
 
-        def finder_args(args)
+        def finder_args(klass, args)
           @finder_args ||= begin
             return args if args.present?
-            self.class.default_finder_args || raise(ArgumentError, 'Missing finder arguments')
+            klass.default_finder_args || raise(ArgumentError, 'Missing finder arguments')
           end
         end
 

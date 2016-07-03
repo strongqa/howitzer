@@ -4,11 +4,14 @@ module Howitzer
   module Web
     # describe me later!
     class Section < BaseSection
-      def self.me(*args)
-        raise ArgumentError, 'Finder arguments are missing' if args.blank?
-        @default_finder_args = args
+      class << self
+        protected
+
+        def me(*args)
+          raise ArgumentError, 'Finder arguments are missing' if args.blank?
+          @default_finder_args = args
+        end
       end
-      private_class_method :me
     end
 
     # class MenuSection < Section
