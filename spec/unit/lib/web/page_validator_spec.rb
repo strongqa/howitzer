@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'howitzer/web/page_validator'
-require 'howitzer/web/element'
+require 'howitzer/web/element_dsl'
 
 RSpec.describe Howitzer::Web::PageValidator do
   describe '.validations' do
@@ -9,7 +9,7 @@ RSpec.describe Howitzer::Web::PageValidator do
 
   let(:web_page_class) do
     Class.new do
-      include Howitzer::Web::Element
+      include Howitzer::Web::ElementDsl
       include Howitzer::Web::PageValidator
       def self.name
         'TestWebPageClass'

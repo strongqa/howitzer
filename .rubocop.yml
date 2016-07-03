@@ -2,6 +2,7 @@
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
 AllCops:
+  TargetRubyVersion: 2.0
   Exclude:
     - lib/howitzer/capybara_settings.rb
 

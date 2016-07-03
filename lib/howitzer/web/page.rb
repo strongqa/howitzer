@@ -3,7 +3,8 @@ require 'capybara'
 require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/page_validator'
-require 'howitzer/web/element'
+require 'howitzer/web/element_dsl'
+require 'howitzer/web/section_dsl'
 require 'howitzer/exceptions'
 
 module Howitzer
@@ -16,7 +17,7 @@ module Howitzer
                                [:driver, :text]
 
       include Singleton
-      include Element
+      include ElementDsl
       include PageValidator
       include ::RSpec::Matchers
 
