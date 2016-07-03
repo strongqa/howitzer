@@ -1,3 +1,5 @@
+require_relative 'element_dsl'
+
 module Howitzer
   module Web
     # describe me!

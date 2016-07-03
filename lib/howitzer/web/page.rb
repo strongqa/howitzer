@@ -18,6 +18,7 @@ module Howitzer
 
       include Singleton
       include ElementDsl
+      include SectionDsl
       include PageValidator
       include ::RSpec::Matchers
 
