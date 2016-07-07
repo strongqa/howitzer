@@ -1,7 +1,18 @@
 require 'spec_helper'
 require 'howitzer/web/section'
-
+require 'howitzer/web/element_dsl'
 RSpec.describe Howitzer::Web::Section do
+  describe 'element dsl methods' do
+    let(:parent) { double }
+    let(:capybara_context) { double }
+
+    let(:klass) { Class.new(Howitzer::Web::Section) }
+    let(:klass_object) { klass.new(parent, capybara_context) }
+    before { allow(klass_object).to receive(:context) { kontext } }
+
+    include_examples :element_dsl
+  end
+
   describe 'DSL' do
     describe '.me' do
       let(:section_class) { Class.new(described_class) }
