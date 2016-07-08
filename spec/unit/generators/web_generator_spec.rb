@@ -14,10 +14,28 @@ RSpec.describe 'Generators' do
     let(:generator_name) { described_class }
     let(:expected_result) do
       [
-        { name: '/web', is_directory: true },
-        { name: '/web/pages', is_directory: true },
-        { name: '/web/pages/example_menu.rb', is_directory: false, size: template_file_size('web', 'example_menu.rb') },
-        { name: '/web/pages/example_page.rb', is_directory: false, size: template_file_size('web', 'example_page.rb') }
+        {
+          name: '/web',
+          is_directory: true
+        },
+        {
+          name: '/web/pages',
+          is_directory: true
+        },
+        {
+          name: '/web/pages/example_page.rb',
+          is_directory: false,
+          size: template_file_size('web', 'example_page.rb')
+        },
+        {
+          name: '/web/sections',
+          is_directory: true
+        },
+        {
+          name: '/web/sections/menu_section.rb',
+          is_directory: false,
+          size: template_file_size('web', 'menu_section.rb')
+        }
       ]
     end
     it { is_expected.to eql(expected_result) }
@@ -25,7 +43,7 @@ RSpec.describe 'Generators' do
       let(:expected_output) do
         "  * PageOriented pattern structure generation ...
       Added 'web/pages/example_page.rb' file
-      Added 'web/pages/example_menu.rb' file\n"
+      Added 'web/sections/menu_section.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

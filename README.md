@@ -82,9 +82,11 @@ features/
   support/env.rb
   step_definitions/common_steps.rb
   example.feature
-pages/
-  example_page.rb
-  example_menu.rb
+web/
+  pages/
+    example_page.rb
+  sections/  
+    menu_section.rb
 boot.rb
 Gemfile
 Rakefile
