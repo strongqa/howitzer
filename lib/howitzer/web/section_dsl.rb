@@ -8,38 +8,40 @@ module Howitzer
 
       # This module holds section dsl class methods
       module ClassMethods
+        class SectionScope
+          attr_accessor :section_class
+
+          def initialize(name, *args, &block)
+            @args = args
+            self.section_class = block ? Class.new(AnonymousSection) : "#{name}_section".classify.constantize
+            instance_eval(&block) if block_given?
+          end
+
+          def element(*args)
+            section_class.element(*args)
+          end
+
+          def finder_args
+            @finder_args ||= begin
+              return @args if @args.present?
+              section_class.default_finder_args || raise(ArgumentError, 'Missing finder arguments')
+            end
+          end
+        end
+
         protected
 
         # TODO: describe me
         #
-        def section(name, *args)
-          klass = section_class(name, with_block: block_given?)
-          define_dynamic_methods(klass, name, finder_args(klass, args))
+        def section(name, *args, &block)
+          scope = SectionScope.new(name, *args, &block)
+          define_dynamic_methods(scope.section_class, name, scope.finder_args)
         end
 
         private
 
-        def section_class(name, with_block: false)
-          if with_block
-            AnonymousSection
-          else
-            "#{name}_section".classify.constantize
-          end
-        end
-
-        def finder_args(klass, args)
-          @finder_args ||= begin
-            return args if args.present?
-            klass.default_finder_args || raise(ArgumentError, 'Missing finder arguments')
-          end
-        end
-
-        def context
-          Capybara.current_session
-        end
-
         def define_dynamic_methods(klass, name, args)
-          capybara_context = context
+          capybara_context = Capybara.current_session
           define_method("#{name}_section") do
             klass.new(self, capybara_context.find(*args))
           end
