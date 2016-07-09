@@ -60,7 +60,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
-          Added 'web/pages/example_menu.rb' file
+          Added 'web/sections/menu_section.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -86,7 +86,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                |
       | test_automation/config/default.yml               |
       | test_automation/emails/example_email.rb          |
-      | test_automation/web/pages/example_menu.rb        |
+      | test_automation/web/sections/menu_section.rb        |
       | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
@@ -117,7 +117,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
-          Added 'web/pages/example_menu.rb' file
+          Added 'web/sections/menu_section.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -149,7 +149,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/features/support/env.rb                   |
       | test_automation/features/support/transformers.rb          |
       | test_automation/features/example.feature                  |
-      | test_automation/web/pages/example_menu.rb                 |
+      | test_automation/web/sections/menu_section.rb                 |
       | test_automation/web/pages/example_page.rb                 |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
@@ -178,7 +178,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
-          Added 'web/pages/example_menu.rb' file
+          Added 'web/sections/menu_section.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -207,7 +207,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                         |
       | test_automation/config/default.yml                        |
       | test_automation/emails/example_email.rb                   |
-      | test_automation/web/pages/example_menu.rb                 |
+      | test_automation/web/sections/menu_section.rb                 |
       | test_automation/web/pages/example_page.rb                 |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/turnip.rake                         |
@@ -284,7 +284,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
-          Added 'web/pages/example_menu.rb' file
+          Added 'web/sections/menu_section.rb' file
       * Base rake task generation ...
           Added 'tasks/common.rake' file
       * Email example generation ...
@@ -310,7 +310,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                |
       | test_automation/config/default.yml               |
       | test_automation/emails/example_email.rb          |
-      | test_automation/web/pages/example_menu.rb        |
+      | test_automation/web/sections/menu_section.rb        |
       | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |

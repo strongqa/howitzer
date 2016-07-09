@@ -11,6 +11,7 @@ end
 require 'howitzer'
 
 Dir[File.join(File.dirname(__FILE__), './emails/**/*.rb')].each { |f| require f }
+Dir[File.join(File.dirname(__FILE__), './web/sections/**/*.rb')].each { |f| require f }
 Dir[File.join(File.dirname(__FILE__), './web/pages/**/*.rb')].each { |f| require f }
 
 require File.join(File.dirname(__FILE__), 'prerequisites/her')

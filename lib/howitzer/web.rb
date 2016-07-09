@@ -4,6 +4,8 @@ module Howitzer
   end
 end
 require 'howitzer/web/page_validator'
-require 'howitzer/web/element'
+require 'howitzer/web/element_dsl'
+require 'howitzer/web/section'
+require 'howitzer/web/section_dsl'
 require 'howitzer/web/page'
 require 'howitzer/web/blank_page'

@@ -7,7 +7,7 @@ module Howitzer
       { files:
         [
           { source: 'example_page.rb', destination: 'web/pages/example_page.rb' },
-          { source: 'example_menu.rb', destination: 'web/pages/example_menu.rb' }
+          { source: 'menu_section.rb', destination: 'web/sections/menu_section.rb' }
         ] }
     end
 
