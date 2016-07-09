@@ -22,7 +22,7 @@ module Howitzer
         #
         def element(name, *args)
           validate_arguments!(args)
-          define_dynamic_methods(name, args)
+          define_element_methods(name, args)
         end
 
         private
@@ -37,7 +37,7 @@ module Howitzer
           Capybara.current_session
         end
 
-        def define_dynamic_methods(name, args)
+        def define_element_methods(name, args)
           capybara_context = context
           define_method("#{name}_element") do |*block_args|
             capybara_context.find(*convert_arguments(args, block_args))
