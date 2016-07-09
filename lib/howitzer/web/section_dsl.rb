@@ -8,6 +8,7 @@ module Howitzer
 
       # This module holds section dsl class methods
       module ClassMethods
+        # This class is for private usage only
         class SectionScope
           attr_accessor :section_class
 
