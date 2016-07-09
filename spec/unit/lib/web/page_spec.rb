@@ -331,4 +331,10 @@ RSpec.describe Howitzer::Web::Page do
       subject
     end
   end
+
+  describe '#capybara_context' do
+    subject { described_class.instance.capybara_context }
+    before { expect(Capybara).to receive(:current_session) { :context } }
+    it { is_expected.to eq(:context) }
+  end
 end
