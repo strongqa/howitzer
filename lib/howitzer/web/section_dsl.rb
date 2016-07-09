@@ -19,7 +19,7 @@ module Howitzer
           end
 
           def element(*args)
-            section_class.element(*args)
+            section_class.send(:element, *args)
           end
 
           def finder_args

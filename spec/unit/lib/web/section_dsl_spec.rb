@@ -48,6 +48,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
     end
     context 'when section with single argument without block' do
       let(:finder_args) { [:xpath, './/div'] }
+      let(:section_name) { :foo }
       before do
         web_page_class.class_eval do
           section :foo
@@ -56,11 +57,39 @@ RSpec.describe Howitzer::Web::SectionDsl do
       include_examples :dynamic_section_methods
     end
 
+    context 'when section with single argument and block' do
+      subject do
+        web_page_class.class_eval do
+          section :unknown do
+            element :some, :id, 'do_do'
+          end
+        end
+      end
+      it 'should generate error' do
+        expect { subject }.to raise_error(ArgumentError, 'Missing finder arguments')
+      end
+    end
+
     context 'when section with 2 arguments without block' do
       let(:finder_args) { ['.some_class'] }
+      let(:section_name) { :foo }
       before do
         web_page_class.class_eval do
           section :foo, '.some_class'
+        end
+      end
+      include_examples :dynamic_section_methods
+    end
+
+    context 'when section with 2 arguments and block' do
+      let(:finder_args) { [:xpath, './/div'] }
+      let(:section_name) { :unknown }
+      let(:section_class) { Howitzer::Web::AnonymousSection }
+      before do
+        web_page_class.class_eval do
+          section :unknown, :xpath, './/div' do
+            element :some, :id, 'do_do'
+          end
         end
       end
       include_examples :dynamic_section_methods
