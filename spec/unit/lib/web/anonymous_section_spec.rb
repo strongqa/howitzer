@@ -2,6 +2,16 @@ require 'spec_helper'
 require 'howitzer/web/anonymous_section'
 
 RSpec.describe Howitzer::Web::AnonymousSection do
+  describe 'element dsl methods' do
+    let(:parent) { double }
+    let(:capybara_context) { double }
+
+    let(:klass) { Class.new(described_class) }
+    let(:klass_object) { klass.new(parent, capybara_context) }
+    before { allow(klass_object).to receive(:capybara_context) { kontext } }
+
+    include_examples :element_dsl
+  end
   describe 'DSL' do
     describe '.me' do
       it { expect { described_class.send(:me, '.foo') }.to raise_error(NoMethodError) }
@@ -18,8 +28,8 @@ RSpec.describe Howitzer::Web::AnonymousSection do
     it { is_expected.to eq(:test) }
   end
 
-  describe '#context' do
-    subject { described_class.new(1, :test).context }
+  describe '#capybara_context' do
+    subject { described_class.new(1, :test).capybara_context }
     it { is_expected.to eq(:test) }
   end
 end

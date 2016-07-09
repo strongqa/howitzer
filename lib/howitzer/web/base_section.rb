@@ -1,12 +1,14 @@
-require_relative 'element_dsl'
+require 'howitzer/web/element_dsl'
+require 'howitzer/web/section_dsl'
 
 module Howitzer
   module Web
     # describe me!
     class BaseSection
       include ElementDsl
+      include SectionDsl
 
-      attr_reader :parent, :context
+      attr_reader :parent, :capybara_context
 
       class << self
         attr_reader :default_finder_args
@@ -14,7 +16,7 @@ module Howitzer
 
       def initialize(parent, context)
         @parent = parent
-        @context = context
+        @capybara_context = context
       end
     end
   end

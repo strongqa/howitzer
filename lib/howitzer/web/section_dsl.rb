@@ -6,6 +6,11 @@ module Howitzer
         base.extend(ClassMethods)
       end
 
+      def capybara_context
+        super if defined?(super)
+        raise NotImplementedError, "Please define 'capybara_context' method for class holder"
+      end
+
       # This module holds section dsl class methods
       module ClassMethods
         # This class is for private usage only
@@ -22,6 +27,10 @@ module Howitzer
             section_class.send(:element, *args)
           end
 
+          def section(name, *args, &block)
+            section_class.send(:section, name, *args, &block)
+          end
+
           def finder_args
             @finder_args ||= begin
               return @args if @args.present?
@@ -36,25 +45,33 @@ module Howitzer
         #
         def section(name, *args, &block)
           scope = SectionScope.new(name, *args, &block)
-          define_dynamic_methods(scope.section_class, name, scope.finder_args)
+          define_section_method(scope.section_class, name, scope.finder_args)
+          define_sections_method(scope.section_class, name, scope.finder_args)
+          define_has_section_method(name, scope.finder_args)
+          define_has_no_section_method(name, scope.finder_args)
         end
 
         private
 
-        def define_dynamic_methods(klass, name, args)
-          capybara_context = Capybara.current_session
+        def define_section_method(klass, name, args)
           define_method("#{name}_section") do
             klass.new(self, capybara_context.find(*args))
           end
+        end
 
+        def define_sections_method(klass, name, args)
           define_method("#{name}_sections") do
             capybara_context.all(*args).map { |el| klass.new(self, el) }
           end
+        end
 
+        def define_has_section_method(name, args)
           define_method("has_#{name}_section?") do
             capybara_context.has_selector?(*args)
           end
+        end
 
+        def define_has_no_section_method(name, args)
           define_method("has_no_#{name}_section?") do
             capybara_context.has_no_selector?(*args)
           end

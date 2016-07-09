@@ -186,6 +186,15 @@ module Howitzer
         log.info "Reload '#{current_url}'"
         visit current_url
       end
+
+      ##
+      #
+      # Returns capybara context
+      #
+
+      def capybara_context
+        Capybara.current_session
+      end
     end
   end
 end
