@@ -1,5 +1,5 @@
 # This class is example of test email
-class TestEmail < Howtzer::Email
+class TestEmail < Howitzer::Email
   subject 'Test email'
 
   def addressed_to?(new_user)
