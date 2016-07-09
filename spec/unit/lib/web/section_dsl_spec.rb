@@ -42,86 +42,28 @@ RSpec.describe Howitzer::Web::SectionDsl do
   end
 
   describe 'dynamic_methods' do
+    let(:session) { double(:session) }
+    before do
+      allow(Capybara).to receive(:current_session) { session }
+    end
     context 'when section with single argument without block' do
-      let(:web_page_object) { web_page_class.new }
-      let(:session) { double(:session) }
+      let(:finder_args) { [:xpath, './/div'] }
       before do
-        allow(Capybara).to receive(:current_session) { session }
         web_page_class.class_eval do
           section :foo
         end
       end
-      describe '#name_section' do
-        let(:capybara_element) { double }
-        subject { web_page_object.send(:foo_section) }
-        before { expect(session).to receive(:find).with(:xpath, './/div').once { capybara_element } }
-        it { is_expected.to be_a(section_class) }
-      end
-      describe '#name_sections' do
-        subject { web_page_object.send(:foo_sections) }
-        let(:capybara_element1) { double }
-        let(:capybara_element2) { double }
-        before do
-          expect(session).to receive(:all).with(:xpath, './/div').once { [capybara_element1, capybara_element2] }
-        end
-        it 'should return collection of sections' do
-          res = subject
-          expect(res.size).to eq(2)
-          expect(res.first).to be_a(section_class)
-          expect(res.last).to be_a(section_class)
-        end
-      end
-      describe '#has_name_section?' do
-        subject { web_page_object.send(:has_foo_section?) }
-        before { expect(session).to receive(:has_selector?).with(:xpath, './/div').once { true } }
-        it { is_expected.to eq(true) }
-      end
-      describe '#has_no_name_element?' do
-        subject { web_page_object.send(:has_no_foo_section?) }
-        before { expect(session).to receive(:has_no_selector?).with(:xpath, './/div').once { true } }
-        it { is_expected.to eq(true) }
-      end
+      include_examples :dynamic_section_methods
     end
 
     context 'when section with 2 arguments without block' do
-      let(:web_page_object) { web_page_class.new }
-      let(:session) { double(:session) }
+      let(:finder_args) { ['.some_class'] }
       before do
-        allow(Capybara).to receive(:current_session) { session }
         web_page_class.class_eval do
           section :foo, '.some_class'
         end
       end
-      describe '#name_section' do
-        let(:capybara_element) { double }
-        subject { web_page_object.send(:foo_section) }
-        before { expect(session).to receive(:find).with('.some_class').once { capybara_element } }
-        it { is_expected.to be_a(section_class) }
-      end
-      describe '#name_sections' do
-        subject { web_page_object.send(:foo_sections) }
-        let(:capybara_element1) { double }
-        let(:capybara_element2) { double }
-        before do
-          expect(session).to receive(:all).with('.some_class').once { [capybara_element1, capybara_element2] }
-        end
-        it 'should return collection of sections' do
-          res = subject
-          expect(res.size).to eq(2)
-          expect(res.first).to be_a(section_class)
-          expect(res.last).to be_a(section_class)
-        end
-      end
-      describe '#has_name_section?' do
-        subject { web_page_object.send(:has_foo_section?) }
-        before { expect(session).to receive(:has_selector?).with('.some_class').once { true } }
-        it { is_expected.to eq(true) }
-      end
-      describe '#has_no_name_element?' do
-        subject { web_page_object.send(:has_no_foo_section?) }
-        before { expect(session).to receive(:has_no_selector?).with('.some_class').once { true } }
-        it { is_expected.to eq(true) }
-      end
+      include_examples :dynamic_section_methods
     end
   end
 end
