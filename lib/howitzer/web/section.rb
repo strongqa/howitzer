@@ -13,32 +13,5 @@ module Howitzer
         end
       end
     end
-
-    # class MenuSection < Section
-    #   me :xpath, '//div'
-    #
-    #   element :foo, '#id'
-    #
-    #   def bar
-    #     1
-    #   end
-    # end
-    #
-    # class SomePage
-    #   section :menu #from class
-    #
-    #   section :sidebar, :id, 'side_bar' do
-    #     element :link, :href, 'https://google.com'
-    #
-    #     def foo
-    #       2
-    #     end
-    #   end
-    #
-    #   def click_foo
-    #     menu_section.foo_element.click
-    #     sidebar_section.link_element.click
-    #   end
-    # end
   end
 end
