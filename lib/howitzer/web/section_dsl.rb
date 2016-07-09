@@ -58,8 +58,6 @@ module Howitzer
           define_method("has_no_#{name}_section?") do
             capybara_context.has_no_selector?(*args)
           end
-
-          private "#{name}_section", "#{name}_sections"
         end
       end
     end

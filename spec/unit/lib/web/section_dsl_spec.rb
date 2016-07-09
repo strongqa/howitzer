@@ -23,11 +23,11 @@ RSpec.describe Howitzer::Web::SectionDsl do
       web_page_class
     end
 
-    it 'should create private :foo_section instance method' do
-      expect(subject.new.private_methods(false)).to include(:foo_section)
+    it 'should create public :foo_section instance method' do
+      expect(subject.new.public_methods(false)).to include(:foo_section)
     end
-    it 'should create private :foo_sections instance method' do
-      expect(subject.new.private_methods(false)).to include(:foo_sections)
+    it 'should create public :foo_sections instance method' do
+      expect(subject.new.public_methods(false)).to include(:foo_sections)
     end
     it 'should create public :has_foo_section? instance method' do
       expect(subject.new.public_methods(false)).to include(:has_foo_section?)
