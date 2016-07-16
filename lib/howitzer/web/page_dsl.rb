@@ -4,16 +4,16 @@ module Howitzer
     module PageDsl
       # This class is for private usage only
       class PageScope
-        include RSpec::Matchers
-
         def initialize(page_klass, &block)
           self.page_klass = page_klass
           instance_eval(&block) if block_given?
         end
 
-        def expected?
+        # rubocop:disable Style/PredicateName
+        def is_expected
           expect(page_klass.given)
         end
+        # rubocop:enable Style/PredicateName
 
         def method_missing(name, *args, &block)
           return super if name =~ /^be_/ || name =~ /^have_/
@@ -24,15 +24,17 @@ module Howitzer
 
         attr_accessor :page_klass
       end
-      # This class is for self usage
-      class ParentPage
-        def self.open(&block)
-          PageScope.new(self, &block)
-          given
-        end
 
-        def self.on(&block)
+      def self.included(base)
+        class << base
+          prepend ClassMethods
+        end
+      end
+      # This module holds page dsl class methods
+      module ClassMethods
+        def on
           PageScope.new(self, &block)
+          nil
         end
       end
     end
