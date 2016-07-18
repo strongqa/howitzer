@@ -4,9 +4,11 @@ module Howitzer
     module PageDsl
       # This class is for private usage only
       class PageScope
+        include RSpec::Matchers
+
         def initialize(page_klass, &block)
           self.page_klass = page_klass
-          instance_eval(&block) if block_given?
+          instance_eval(&block)
         end
 
         # rubocop:disable Style/PredicateName
@@ -26,13 +28,11 @@ module Howitzer
       end
 
       def self.included(base)
-        class << base
-          prepend ClassMethods
-        end
+        base.extend(ClassMethods)
       end
       # This module holds page dsl class methods
       module ClassMethods
-        def on
+        def on(&block)
           PageScope.new(self, &block)
           nil
         end
