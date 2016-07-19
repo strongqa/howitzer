@@ -74,7 +74,7 @@ Feature: Howitzer CLI Update Existing Project
     And I type "y"
     And I type "n"
     And I type "i"
-    Then the output should contain exactly:
+    Then the output should contain:
     """
       * Config files generation ...
           Identical 'config/custom.yml' file
