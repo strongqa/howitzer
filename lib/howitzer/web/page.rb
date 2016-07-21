@@ -4,6 +4,7 @@ require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
+require 'howitzer/web/page_dsl'
 require 'howitzer/web/section_dsl'
 require 'howitzer/exceptions'
 
@@ -18,6 +19,7 @@ module Howitzer
 
       include Singleton
       include ElementDsl
+      include PageDsl
       include SectionDsl
       include PageValidator
       include ::RSpec::Matchers
