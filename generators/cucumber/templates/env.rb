@@ -6,6 +6,8 @@ World(Howitzer::CapybaraSettings)
 World(FactoryGirl::Syntax::Methods)
 World(Howitzer::Helpers)
 
+FileUtils.mkdir_p(Howitzer.settings.log_dir)
+
 log.settings_as_formatted_text
 Howitzer::Utils::DataStorage.store('sauce', :start_time, Time.now.utc)
 Howitzer::Utils::DataStorage.store('sauce', :status, true)
