@@ -12,23 +12,23 @@ RSpec.describe 'Iframe dsl for test class' do
     end
   end
 
-  let(:test_page_class) do
+  let(:web_page_class) do
     Class.new(Howitzer::Web::Page)
   end
 
   before do
     allow_any_instance_of(fb_page_class).to receive(:check_validations_are_defined!)
-    allow_any_instance_of(test_page_class).to receive(:check_validations_are_defined!)
+    allow_any_instance_of(web_page_class).to receive(:check_validations_are_defined!)
     stub_const('FbPage', fb_page_class)
   end
 
   describe '.iframe' do
     context 'when selector is integer' do
       subject do
-        test_page_class.class_eval do
+        web_page_class.class_eval do
           iframe :fb, 1
         end
-        test_page_class
+        web_page_class
       end
 
       it 'should create public :fb_iframe instance method' do
@@ -43,6 +43,49 @@ RSpec.describe 'Iframe dsl for test class' do
       it 'should be protected class method' do
         expect { subject.iframe :bar }.to raise_error(NoMethodError)
         expect(subject.protected_methods(true)).to include(:iframe)
+      end
+    end
+  end
+
+  describe 'dynamic_methods' do
+    let(:web_page_object) { web_page_class.instance }
+    let(:kontext) { double(:kontext) }
+    before do
+      allow(Capybara).to receive(:current_session) { kontext }
+    end
+    after { subject }
+
+    describe '#name_iframe' do
+      subject { web_page_object.send(:fb_iframe) }
+      context 'when integer selector' do
+        before { web_page_class.class_eval { iframe :fb, 1 } }
+        it { expect(kontext).to receive(:within_frame).with(1) }
+      end
+      context 'when string selector' do
+        before { web_page_class.class_eval { iframe :fb, 'loko' } }
+        it { expect(kontext).to receive(:within_frame).with('loko') }
+      end
+    end
+    describe '#has_name_iframe?' do
+      subject { web_page_object.has_fb_iframe? }
+      context 'when integer selector' do
+        before { web_page_class.class_eval { iframe :fb, 1 } }
+        it { expect(kontext).to receive(:has_selector?).with('iframe:nth-of-type(2)') }
+      end
+      context 'when string selector' do
+        before { web_page_class.class_eval { iframe :fb, 'loko' } }
+        it { expect(kontext).to receive(:has_selector?).with(:frame, 'loko') }
+      end
+    end
+    describe '#has_no_name_iframe?' do
+      subject { web_page_object.has_no_fb_iframe? }
+      context 'when integer selector' do
+        before { web_page_class.class_eval { iframe :fb, 1 } }
+        it { expect(kontext).to receive(:has_no_selector?).with('iframe:nth-of-type(2)') }
+      end
+      context 'when string selector' do
+        before { web_page_class.class_eval { iframe :fb, 'loko' } }
+        it { expect(kontext).to receive(:has_no_selector?).with(:frame, 'loko') }
       end
     end
   end
