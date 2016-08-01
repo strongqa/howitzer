@@ -11,9 +11,10 @@ module Howitzer
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
 
+      # This module holds frame dsl class methods
       module ClassMethods
         protected
-        
+
         def iframe(name, selector)
           klass = "#{name}_page".classify.constantize
           define_iframe(klass, name, selector)

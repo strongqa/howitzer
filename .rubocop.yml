@@ -26,3 +26,6 @@ MethodLength:
 
 Style/TrivialAccessors:
   AllowDSLWriters: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
