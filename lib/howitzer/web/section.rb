@@ -1,4 +1,4 @@
-require_relative 'base_section'
+require 'howitzer/web/base_section'
 
 module Howitzer
   module Web

@@ -1,3 +1,4 @@
+require 'howitzer/web/anonymous_section'
 module Howitzer
   module Web
     # This module combines section dsl methods

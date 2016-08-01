@@ -12,6 +12,8 @@ module Howitzer
       end
 
       module ClassMethods
+        protected
+        
         def iframe(name, selector)
           klass = "#{name}_page".classify.constantize
           define_iframe(klass, name, selector)
@@ -24,7 +26,7 @@ module Howitzer
         def define_iframe(klass, name, selector)
           define_method "#{name}_iframe" do |&block|
             within_frame iframe_selector(selector) do
-              block.call klass.new
+              block.call klass.instance
             end
           end
         end
