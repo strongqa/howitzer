@@ -1,4 +1,6 @@
 require 'spec_helper'
+
+require 'howitzer/web/anonymous_section'
 require 'howitzer/web/page'
 
 RSpec.describe 'Iframe dsl for test class' do
@@ -9,10 +11,17 @@ RSpec.describe 'Iframe dsl for test class' do
       end
     end
   end
+
   let(:test_page_class) do
     Class.new(Howitzer::Web::Page)
   end
-  before { stub_const('FbPage', fb_page_class) }
+
+  before do
+    allow_any_instance_of(fb_page_class).to receive(:check_validations_are_defined!)
+    allow_any_instance_of(test_page_class).to receive(:check_validations_are_defined!)
+    stub_const('FbPage', fb_page_class)
+  end
+
   describe '.iframe' do
     context 'when selector is integer' do
       subject do
@@ -23,7 +32,7 @@ RSpec.describe 'Iframe dsl for test class' do
       end
 
       it 'should create public :fb_iframe instance method' do
-        expect(subject.instance.public_methods(false)).to include(:fb_section)
+        expect(subject.instance.public_methods(false)).to include(:fb_iframe)
       end
       it 'should create public :has_fb_iframe? instance method' do
         expect(subject.instance.public_methods(false)).to include(:has_fb_iframe?)
