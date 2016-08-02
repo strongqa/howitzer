@@ -1,6 +1,6 @@
 require 'spec_helper'
-require 'howitzer/web/section'
 require 'howitzer/web/section_dsl'
+require 'howitzer/web/section'
 
 RSpec.describe Howitzer::Web::SectionDsl do
   let(:section_class) do
@@ -142,6 +142,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
       end
 
       include_examples :dynamic_section_methods
+      include_examples :capybara_context_holder
 
       context 'checking nested level' do
         let(:context2) { double }

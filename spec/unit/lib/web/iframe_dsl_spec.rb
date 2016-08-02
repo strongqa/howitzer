@@ -1,9 +1,7 @@
 require 'spec_helper'
-
-require 'howitzer/web/anonymous_section'
 require 'howitzer/web/page'
 
-RSpec.describe 'Iframe dsl for test class' do
+RSpec.describe Howitzer::Web::IframeDsl do
   let(:fb_page_class) do
     Class.new(Howitzer::Web::Page) do
       section :navbar, :xpath, './body' do
@@ -46,6 +44,8 @@ RSpec.describe 'Iframe dsl for test class' do
       end
     end
   end
+
+  include_examples :capybara_context_holder
 
   describe 'dynamic_methods' do
     let(:web_page_object) { web_page_class.instance }
