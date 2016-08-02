@@ -1,5 +1,4 @@
 require 'howitzer/web/base_section'
-require 'howitzer/web/section_dsl'
 
 module Howitzer
   module Web

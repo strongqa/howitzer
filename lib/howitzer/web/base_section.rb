@@ -1,5 +1,6 @@
 require 'howitzer/web/element_dsl'
 require 'howitzer/web/iframe_dsl'
+require 'howitzer/web/section_dsl'
 
 module Howitzer
   module Web
