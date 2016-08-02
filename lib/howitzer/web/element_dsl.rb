@@ -7,7 +7,6 @@ module Howitzer
       end
 
       def capybara_context
-        super if defined?(super)
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
 

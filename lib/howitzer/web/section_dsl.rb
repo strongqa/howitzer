@@ -7,7 +7,6 @@ module Howitzer
       end
 
       def capybara_context
-        super if defined?(super)
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
 
@@ -19,7 +18,12 @@ module Howitzer
 
           def initialize(name, *args, &block)
             @args = args
-            self.section_class = block ? Class.new(AnonymousSection) : "#{name}_section".classify.constantize
+            self.section_class =
+              if block
+                Class.new(Howitzer::Web::AnonymousSection)
+              else
+                "#{name}_section".classify.constantize
+              end
             instance_eval(&block) if block_given?
           end
 
@@ -80,3 +84,5 @@ module Howitzer
     end
   end
 end
+
+require 'howitzer/web/anonymous_section'

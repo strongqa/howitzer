@@ -18,8 +18,12 @@ module Howitzer
         # rubocop:enable Style/PredicateName
 
         def method_missing(name, *args, &block)
-          return super if name =~ /^be_/ || name =~ /^have_/
+          return super if name =~ /\A(?:be|have)_/
           page_klass.given.send(name, *args, &block)
+        end
+
+        def respond_to_missing?(name, include_private = false)
+          !(name =~ /\A(?:be|have)_/) || super
         end
 
         private

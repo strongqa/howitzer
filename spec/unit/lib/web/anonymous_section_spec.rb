@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'howitzer/web/section_dsl'
 require 'howitzer/web/anonymous_section'
 
 RSpec.describe Howitzer::Web::AnonymousSection do

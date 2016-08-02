@@ -1,4 +1,5 @@
 require 'spec_helper'
+require 'howitzer/web/section_dsl'
 require 'howitzer/web/section'
 require 'howitzer/web/element_dsl'
 RSpec.describe Howitzer::Web::Section do
