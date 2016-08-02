@@ -56,14 +56,21 @@ RSpec.describe Howitzer::Web::IframeDsl do
     after { subject }
 
     describe '#name_iframe' do
-      subject { web_page_object.send(:fb_iframe) }
+      let(:block) { proc {} }
+      subject { web_page_object.send(:fb_iframe, &block) }
       context 'when integer selector' do
         before { web_page_class.class_eval { iframe :fb, 1 } }
-        it { expect(kontext).to receive(:within_frame).with(1) }
+        it do
+          expect(kontext).to receive(:within_frame).with(1) { |&block| block.call }
+          expect(block).to receive(:call).with(fb_page_class.instance)
+        end
       end
       context 'when string selector' do
         before { web_page_class.class_eval { iframe :fb, 'loko' } }
-        it { expect(kontext).to receive(:within_frame).with('loko') }
+        it do
+          expect(kontext).to receive(:within_frame).with('loko') { |&block| block.call }
+          expect(block).to receive(:call).with(fb_page_class.instance)
+        end
       end
     end
     describe '#has_name_iframe?' do
