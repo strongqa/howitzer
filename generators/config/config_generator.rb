@@ -7,8 +7,7 @@ module Howitzer
         [
           { source: 'custom.yml', destination: 'config/custom.yml' },
           { source: 'default.yml', destination: 'config/default.yml' }
-        ]
-      }
+        ] }
     end
 
     protected

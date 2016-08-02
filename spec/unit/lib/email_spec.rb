@@ -3,30 +3,29 @@ require 'howitzer/email'
 require 'howitzer/utils/log'
 require 'howitzer/exceptions'
 
-RSpec.describe Email do
+RSpec.describe Howitzer::Email do
   let(:recipient) { 'first_tester@gmail.com' }
   let(:message_subject) { 'test subject' }
   let(:message) { double(:message) }
   let(:email_object) { described_class.new(message) }
 
-  before do
-    stub_const('Email::SUBJECT', message_subject)
-  end
-
   describe '.adapter' do
-    it { expect(Email.adapter).to eql ::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize) }
+    it do
+      expect(described_class.adapter)
+        .to eql(Howitzer::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize))
+    end
   end
 
   describe '.adapter_name' do
-    it { expect(Email.adapter_name).to eql settings.mail_adapter.to_sym }
+    it { expect(described_class.adapter_name).to eql settings.mail_adapter.to_sym }
   end
 
   describe '.adapter=' do
-    subject { Email.adapter = name }
+    subject { described_class.adapter = name }
 
     context 'when adapter_name is Symbol or String' do
       let(:name) { settings.mail_adapter }
-      it { expect(Email.adapter).to eql ::MailAdapters.const_get(name.to_s.capitalize) }
+      it { expect(described_class.adapter).to eql Howitzer::MailAdapters.const_get(name.to_s.capitalize) }
     end
 
     context 'when adapter_name is not Symbol or String' do
@@ -35,21 +34,52 @@ RSpec.describe Email do
     end
   end
 
-  describe '.find_by_recipient' do
-    let(:recipient) { 'test@user.com' }
-    subject { described_class.find_by_recipient(recipient) }
+  describe '.subject' do
     it do
-      expect(described_class).to receive(:find).with(recipient, message_subject).once
-      subject
+      described_class.send(:subject, message_subject)
+      expect(described_class.instance_variable_get(:@subject)).to eql message_subject
+    end
+    it 'should be protected' do
+      expect { described_class.subject(message_subject) }.to raise_error(NoMethodError)
     end
   end
 
-  describe '.find' do
+  describe '.find_by_recipient' do
     let(:recipient) { 'test@user.com' }
-    subject { described_class.find(recipient, message_subject) }
-    it do
-      expect(described_class.adapter).to receive(:find).with(recipient, message_subject).once
-      subject
+
+    context 'simple subject without parameters' do
+      subject { described_class.find_by_recipient(recipient) }
+      before { described_class.class_eval { subject 'Some title' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title').once
+        subject
+      end
+    end
+
+    context 'complex subject with 1 parameter' do
+      subject { described_class.find_by_recipient(recipient, name: 'Vasya') }
+      before { described_class.class_eval { subject 'Some title from :name' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title from Vasya').once
+        subject
+      end
+    end
+
+    context 'complex subject with 2 parameters' do
+      subject { described_class.find_by_recipient(recipient, foo: 1, bar: 2) }
+      before { described_class.class_eval { subject 'Some title with :foo and :bar' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title with 1 and 2').once
+        subject
+      end
+    end
+
+    context 'missing subject' do
+      subject { described_class.find_by_recipient(recipient) }
+      before { described_class.class_eval { subject nil } }
+      it do
+        expect { subject }.to raise_error(Howitzer::NoEmailSubjectError)
+      end
     end
   end
 

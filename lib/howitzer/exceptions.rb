@@ -3,9 +3,7 @@ module Howitzer
   CommunicationError = Class.new(StandardError)
   ParseError = Class.new(StandardError)
   InvalidApiKeyError = Class.new(StandardError)
-  LocatorNotDefinedError = Class.new(StandardError)
-  BadLocatorParamsError = Class.new(StandardError)
-  WrongOptionError = Class.new(StandardError)
+  BadElementParamsError = Class.new(StandardError)
   NoValidationError = Class.new(StandardError)
   UnknownValidationError = Class.new(StandardError)
   EmailNotFoundError = Class.new(StandardError)
@@ -18,4 +16,5 @@ module Howitzer
   AmbiguousPageMatchingError = Class.new(StandardError)
   NoMailAdapterError = Class.new(StandardError)
   PageUrlNotSpecifiedError = Class.new(StandardError)
+  NoEmailSubjectError = Class.new(StandardError)
 end

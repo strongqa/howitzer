@@ -2,8 +2,9 @@
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
 AllCops:
+  TargetRubyVersion: 2.0
   Exclude:
-    - lib/howitzer/capybara/settings.rb
+    - lib/howitzer/capybara_settings.rb
 
 LineLength:
   Max: 120
@@ -22,3 +23,9 @@ Style/CaseEquality:
 
 MethodLength:
   Max: 30
+
+Style/TrivialAccessors:
+  AllowDSLWriters: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false

@@ -12,8 +12,7 @@ module Howitzer
               { source: 'example.feature', destination: 'spec/acceptance/example.feature' },
               { source: 'common_steps.rb', destination: 'spec/steps/common_steps.rb' },
               { source: 'turnip.rake', destination: 'tasks/turnip.rake' }
-            ]
-      }
+            ] }
     end
 
     protected

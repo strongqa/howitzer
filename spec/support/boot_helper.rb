@@ -9,7 +9,7 @@ def settings
 end
 
 def log
-  Howitzer::Log.instance
+  Howitzer::Utils::Log.instance
 end
 
 ENV['TEST_MODE'] = 'TRUE'

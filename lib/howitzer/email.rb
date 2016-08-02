@@ -1,149 +1,153 @@
 require 'rspec/matchers'
 require 'howitzer/exceptions'
 
-# This class describes single email
-class Email
-  include RSpec::Matchers
+module Howitzer
+  # This class describes single email
+  class Email
+    include ::RSpec::Matchers
 
-  attr_reader :message
+    attr_reader :message
 
-  ##
-  #
-  # Return mail adapter class
-  #
+    ##
+    #
+    # Return mail adapter class
+    #
 
-  def self.adapter
-    return @adapter if @adapter
-    self.adapter = settings.mail_adapter.to_sym
-    @adapter
-  end
-
-  ##
-  #
-  # Return mail adapter name
-  #
-
-  class << self
-    attr_reader :adapter_name
-  end
-
-  ##
-  #
-  # Specify mail adapter
-  #
-  # *Parameters:*
-  # * +adapter_name+ - adapter name as string or symbol
-  #
-
-  def self.adapter=(adapter_name)
-    @adapter_name = adapter_name
-    case adapter_name
-      when Symbol, String
-        require "howitzer/mail_adapters/#{adapter_name}"
-        @adapter = ::MailAdapters.const_get("#{adapter_name.to_s.capitalize}")
-      else
-        fail Howitzer::NoMailAdapterError
+    def self.adapter
+      return @adapter if @adapter
+      self.adapter = settings.mail_adapter.to_sym
+      @adapter
     end
-  end
 
-  ##
-  #
-  # Search mail by recepient
-  #
-  # *Parameters:*
-  # * +recepient+ - recepient's email address
-  #
+    ##
+    #
+    # Return mail adapter name
+    #
 
-  def self.find_by_recipient(recipient)
-    find(recipient, self::SUBJECT)
-  end
+    class << self
+      attr_reader :adapter_name
 
-  ##
-  #
-  # Search mail by recepient and subject.
-  #
-  # *Parameters:*
-  # * +recepient+ - recepient's email address
-  # * +subject+ - email subject
-  #
+      protected
 
-  def self.find(recipient, subject)
-    new(adapter.find(recipient, subject))
-  end
+      def subject(value)
+        @subject = value
+      end
+    end
 
-  def initialize(message)
-    @message = message
-  end
+    ##
+    #
+    # Specify mail adapter
+    #
+    # *Parameters:*
+    # * +adapter_name+ - adapter name as string or symbol
+    #
 
-  ##
-  #
-  # Returns plain text body of email message
-  #
+    def self.adapter=(adapter_name)
+      @adapter_name = adapter_name
+      case adapter_name
+        when Symbol, String
+          require "howitzer/mail_adapters/#{adapter_name}"
+          @adapter = MailAdapters.const_get(adapter_name.to_s.capitalize.to_s)
+        else
+          raise NoMailAdapterError
+      end
+    end
 
-  def plain_text_body
-    message.plain_text_body
-  end
+    ##
+    #
+    # Search mail by recepient
+    #
+    # *Parameters:*
+    # * +recepient+ - recepient's email address
+    #
 
-  ##
-  #
-  # Returns html body of email message
-  #
+    def self.find_by_recipient(recipient, params = {})
+      raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
+                                  "class SomeEmail < Howitzer::Email\n" \
+                                  "  subject ‘some subject text’\nend" if @subject.nil?
+      new(adapter.find(recipient, expand_subject(params)))
+    end
 
-  def html_body
-    message.html_body
-  end
+    def self.expand_subject(params)
+      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
+      @subject
+    end
+    private_class_method :expand_subject
 
-  ##
-  #
-  # Returns mail text
-  #
+    def initialize(message)
+      @message = message
+    end
 
-  def text
-    message.text
-  end
+    ##
+    #
+    # Returns plain text body of email message
+    #
 
-  ##
-  #
-  # Returns who has send email data in format: User Name <user@email>
-  #
+    def plain_text_body
+      message.plain_text_body
+    end
 
-  def mail_from
-    message.mail_from
-  end
+    ##
+    #
+    # Returns html body of email message
+    #
 
-  ##
-  #
-  # Returns array of recipients who has received current email
-  #
+    def html_body
+      message.html_body
+    end
 
-  def recipients
-    message.recipients
-  end
+    ##
+    #
+    # Returns mail text
+    #
 
-  ##
-  #
-  # Returns email received time in format:
-  #
+    def text
+      message.text
+    end
 
-  def received_time
-    message.received_time
-  end
+    ##
+    #
+    # Returns who has send email data in format: User Name <user@email>
+    #
 
-  ##
-  #
-  # Returns sender user email
-  #
+    def mail_from
+      message.mail_from
+    end
 
-  def sender_email
-    message.sender_email
-  end
+    ##
+    #
+    # Returns array of recipients who has received current email
+    #
 
-  ##
-  #
-  # Allows to get email MIME attachment
-  #
+    def recipients
+      message.recipients
+    end
 
-  def mime_part
-    message.mime_part
+    ##
+    #
+    # Returns email received time in format:
+    #
+
+    def received_time
+      message.received_time
+    end
+
+    ##
+    #
+    # Returns sender user email
+    #
+
+    def sender_email
+      message.sender_email
+    end
+
+    ##
+    #
+    # Allows to get email MIME attachment
+    #
+
+    def mime_part
+      message.mime_part
+    end
   end
 end

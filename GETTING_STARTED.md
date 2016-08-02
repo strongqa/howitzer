@@ -186,7 +186,9 @@ For more information about url patterns please refers to https://github.com/spor
 The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
-validate <type>, options
+validate <type>, <value>
+# or
+validate <type>, <value>, <additional_value>
 ```
 
 Howitzer provides 3 different validation types:
@@ -195,29 +197,25 @@ Howitzer provides 3 different validation types:
 <thead>
   <tr>
     <th align="center">Validation Type</th>
-    <th align="center">Options</th>
-    <th align="center">Value Type</th>
     <th align="center">Description</th>
+    <th align="center">Example</th>
   </tr>
 </thead>
 <tbody>
   <tr>
     <td>:url</td>
-    <td>pattern</td>
     <td>Regexp</td>
     <td>matches current url to pattern</td>
   </tr>
   <tr>
     <td>:title</td>
-    <td>pattern</td>
     <td>Regexp</td>
-    <td>matches current pate title to pattern</td>
+    <td>matches current page title to pattern</td>
   </tr>
   <tr>
     <td>:element_presence</td>
-    <td>locator</td>
     <td>String/Symbol</td>
-    <td>find element by locator on current page</td>
+    <td>find element by name on current page</td>
   </tr>
 </tbody>
 </table>
@@ -227,7 +225,7 @@ Howitzer provides 3 different validation types:
 ```ruby
 class HomePage < WebPage
   url '/'
-  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
 
@@ -236,7 +234,7 @@ end
 ```ruby
 class LoginPage < WebPage
   url '/users/sign_in'
-  validate :title, pattern: /Sign In\z/
+  validate :title, /Sign In\z/
 end
 ```
 
@@ -245,11 +243,18 @@ end
 ```ruby
 class LoginPage < WebPage
   url '/users/sign_in'
-
-  validate :element_presence, locator: :sign_in_btn
-
-  add_locator :sign_in_btn, '#sign_in'
+  validate :element_presence, :sign_in_btn
+  element :sign_in_btn, '#sign_in'
 end
+
+# OR
+
+class LoginPage < WebPage
+  url '/users/sign_in'
+  validate :element_presence, :menu_item, 'Profile'
+  element :menu_item, :xpath, ->(value) { "//a[text()='#{value}']" }
+end
+
 ```
 
 Howitzer allows using all 3 validations, but only 1 is really required. If any validation fails, the exception will appear.
@@ -262,74 +267,38 @@ Howitzer allows using all 3 validations, but only 1 is really required. If any v
 
 ### Locators ###
 
-Locator is a search item (selector) of one or more elements on a 'Web page'.
-
-The table below lists the types of locators, the possible methods of searching and Capybara methods, which may be called.
-
-<table>
-<thead>
-  <tr>
-    <th align="center">Locator Type</th>
-    <th align="center">Search Methods</th>
-    <th align="center">Capybara Methods</th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td>:locator</td>
-    <td>css(by default), xpath</td>
-    <td>find, all, first</td>
-  </tr>
-  <tr>
-    <td>:link_locator</td>
-    <td>id, text </td>
-    <td>click_link, find_link</td>
-  </tr>
-  <tr>
-    <td>:field_locator</td>
-    <td>id, name, text</td>
-    <td>find_field, fill_in</td>
-  </tr>
-  <tr>
-    <td>:button_locator</td>
-    <td>id, name, text</td>
-    <td>click_button, find_button</td>
-  </tr>
-</tbody>
-</table>
-
-Each page contains a description of all elements by adding the appropriate locators that are preceded by the prefix **add\_**
+Each page contains a description of all elements on page
 
 **Example:**
 
 ```ruby
 class HomePage < WebPage
   url '/'
-  validate :url, pattern: /\A(?:.*?:\/\/)?[^\/]*\/?\z/
+  validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
-  add_locator :test_locator_name1,  '.foo'                         #css locator, default
-  add_locator :test_locator_name2,  css: '.foo'                    #css locator
-  add_locator :test_locator_name3,  xpath: '//div[@value="bar"]'   #css locator
+  element :test_name1, '.foo'                         #css locator, default
+  element :test_name2, :css, '.foo'                   #css locator
+  element :test_name3, :xpath, '//div[@value="bar"]'  #xpath locator
 
-  add_link_locator :test_link_locator1, 'Foo'                      #link locator by 'Foo' text
-  add_link_locator :test_link_locator1, 'bar'                      #link locator by 'bar' id
+  element :test_link1, :link, 'Foo'                   #link locator by 'Foo' text
+  element :test_link2, :link, 'bar'                   #link locator by 'bar' id
 
-  add_field_locator :test_field_locator1, 'Foo'                    #field locator by 'Foo' text
-  add_field_locator :test_field_locator2, 'bar'                    #field locator by 'bar' id
-  add_field_locator :test_field_locator3, 'bas'                    #field locator by 'baz' name
+  element :test_field1, :fillable_field, 'Foo'        #field locator by 'Foo' text
+  element :test_field2, :fillable_field, 'bar'        #field locator by 'bar' id
+  element :test_field3, :fillable_field, 'bas'        #field locator by 'baz' name
 end
 ```
 
-Sometimes it needs to have universal locators, for instance for many items from menu. Another case, when it's unknown text in locator in advance. For such cases, Howitzer suggests to use _lambda_ locators.
+Sometimes it needs to have universal selectors, for instance for many items from menu. Another case, when it's unknown text in selector in advance. For such cases, Howitzer suggests to use _lambda_ selectors.
 
 **Example:**
 
 ```ruby
- add_locator   :menu_item, ->(name) { { xpath: ".//*[@id='main_menu']//li[.='#{ name }']/a" } }
+ element  :menu_item, :xpath, ->(name) { ".//*[@id='main_menu']//li[.='#{ name }']/a" }
 
  #and then usage
  def choose_menu(text)
-    find(apply(locator(:menu_item), text)).click
+   menu_item_element(text).click
  end
 ```
 
@@ -343,13 +312,13 @@ If static information is repeated on several different pages, it can be a good i
 module TopMenu
   def self.included(base)
     base.class_eval do
-      add_link_locator :test_link_locator1, 'Foo'
+      element :test_link1_element, :link, 'Foo'
     end
   end
 
   def open_menu
     log.info "Open menu"
-    click_link locator(:test_link_locator1)
+    test_link1_element.click
   end
 end
 ```

@@ -1,94 +1,96 @@
-module MailAdapters
-  # This class holds abstract mail adapter methods
-  class Abstract
-    attr_reader :message
+module Howitzer
+  module MailAdapters
+    # This class holds abstract mail adapter methods
+    class Abstract
+      attr_reader :message
 
-    def self.find(_recipient, _subject)
-      fail NotImplementedError
-    end
+      def self.find(_recipient, _subject)
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Creates new email with message
-    #
-    # *Parameters:*
-    # * +message+ - email message
-    #
+      ##
+      #
+      # Creates new email with message
+      #
+      # *Parameters:*
+      # * +message+ - email message
+      #
 
-    def initialize(message)
-      @message = message
-    end
+      def initialize(message)
+        @message = message
+      end
 
-    ##
-    #
-    # Returns plain text body of email message
-    #
+      ##
+      #
+      # Returns plain text body of email message
+      #
 
-    def plain_text_body
-      fail NotImplementedError
-    end
+      def plain_text_body
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns html body of email message
-    #
+      ##
+      #
+      # Returns html body of email message
+      #
 
-    def html_body
-      fail NotImplementedError
-    end
+      def html_body
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns mail text
-    #
+      ##
+      #
+      # Returns mail text
+      #
 
-    def text
-      fail NotImplementedError
-    end
+      def text
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns who has send email data in format: User Name <user@email>
-    #
+      ##
+      #
+      # Returns who has send email data in format: User Name <user@email>
+      #
 
-    def mail_from
-      fail NotImplementedError
-    end
+      def mail_from
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns array of recipients who has received current email
-    #
+      ##
+      #
+      # Returns array of recipients who has received current email
+      #
 
-    def recipients
-      fail NotImplementedError
-    end
+      def recipients
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns email received time in format:
-    #
+      ##
+      #
+      # Returns email received time in format:
+      #
 
-    def received_time
-      fail NotImplementedError
-    end
+      def received_time
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Returns sender user email
-    #
+      ##
+      #
+      # Returns sender user email
+      #
 
-    def sender_email
-      fail NotImplementedError
-    end
+      def sender_email
+        raise NotImplementedError
+      end
 
-    ##
-    #
-    # Allows to get email MIME attachment
-    #
+      ##
+      #
+      # Allows to get email MIME attachment
+      #
 
-    def mime_part
-      fail NotImplementedError
+      def mime_part
+        raise NotImplementedError
+      end
     end
   end
 end

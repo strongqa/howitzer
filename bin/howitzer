@@ -22,7 +22,7 @@ module HowitzerCli
     c.switch [:t, :turnip], negatable: false
 
     c.action do |_global_options, options, args|
-      if args.size > 0
+      if !args.empty?
         validate_options(options)
         load_generators
         path_to_dir = File.join(Dir.pwd, args.first)
@@ -31,7 +31,7 @@ module HowitzerCli
         puts "      Created new './#{args.first}' folder"
         Dir.chdir(path_to_dir)
         Howitzer::ConfigGenerator.new(options)
-        Howitzer::PagesGenerator.new(options)
+        Howitzer::WebGenerator.new(options)
         Howitzer::TasksGenerator.new(options)
         Howitzer::EmailsGenerator.new(options)
         Howitzer::RootGenerator.new(options)
@@ -55,16 +55,20 @@ module HowitzerCli
     c.action do
       check_project_presence
       load_generators
-      Howitzer::ConfigGenerator.new({})
+      Howitzer::ConfigGenerator.new
+      Howitzer::WebGenerator.new
+      Howitzer::TasksGenerator.new
+      Howitzer::EmailsGenerator.new
+      Howitzer::PrerequisitesGenerator.new
       if cucumber_integrated?
         Howitzer::RootGenerator.new(cucumber: true)
-        Howitzer::CucumberGenerator.new({})
+        Howitzer::CucumberGenerator.new
       elsif rspec_integrated?
         Howitzer::RootGenerator.new(rspec: true)
-        Howitzer::RspecGenerator.new({})
+        Howitzer::RspecGenerator.new
       elsif turnip_integrated?
         Howitzer::RootGenerator.new(turnip: true)
-        Howitzer::TurnipGenerator.new({})
+        Howitzer::TurnipGenerator.new
       end
     end
   end
@@ -84,7 +88,7 @@ module HowitzerCli
     end
 
     def howitzer_project?
-      Dir.exist?('pages') && Dir.exist?('config') && File.exist?('boot.rb')
+      (Dir.exist?('web') || Dir.exist?('pages')) && Dir.exist?('config') && File.exist?('boot.rb')
     end
 
     def load_generators

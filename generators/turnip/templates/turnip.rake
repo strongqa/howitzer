@@ -1,5 +1,10 @@
 require 'rspec/core/rake_task'
-TURNIP_OPTS = "--format html --out ./#{settings.log_dir}/#{settings.html_log} --format documentation --color"
+TURNIP_OPTS = [
+  '--format html',
+  "--out ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
+  '--format documentation',
+  ' --color'
+].join(' ').freeze
 
 RSpec::Core::RakeTask.new(:rspec, 'Run all turnip scenarios') do |t|
   t.pattern = './spec{,/*/**}/*.feature'
