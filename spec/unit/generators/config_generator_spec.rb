@@ -15,6 +15,7 @@ RSpec.describe 'Generators' do
     let(:expected_result) do
       [
         { name: '/config', is_directory: true },
+        { name: '/config/capybara.rb', is_directory: false, size: template_file_size('config', 'capybara.rb') },
         { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') }
       ]
@@ -25,6 +26,7 @@ RSpec.describe 'Generators' do
       let(:expected_output) do
         "  * Config files generation ...
       Added 'config/custom.yml' file
+      Added 'config/capybara.rb' file
       Added 'config/default.yml' file\n"
       end
       subject { output.string }

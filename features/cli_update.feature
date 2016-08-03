@@ -10,6 +10,7 @@ Feature: Howitzer CLI Update Existing Project
     """
       * Config files generation ...
           Identical 'config/custom.yml' file
+          Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
@@ -42,6 +43,7 @@ Feature: Howitzer CLI Update Existing Project
     """
       * Config files generation ...
           Identical 'config/custom.yml' file
+          Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
@@ -78,6 +80,7 @@ Feature: Howitzer CLI Update Existing Project
     """
       * Config files generation ...
           Identical 'config/custom.yml' file
+          Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
@@ -115,6 +118,7 @@ Feature: Howitzer CLI Update Existing Project
     """
       * Config files generation ...
           Identical 'config/custom.yml' file
+          Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file

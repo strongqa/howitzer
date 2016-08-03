@@ -1,6 +1,7 @@
 require 'rspec'
 require 'capybara/rspec'
 require_relative '../boot'
+require_relative '../config/capybara'
 
 Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
 
@@ -11,7 +12,6 @@ RSpec.configure do |config|
   Howitzer::Utils::DataStorage.store('sauce', :status, true)
 
   config.include FactoryGirl::Syntax::Methods
-  config.include Howitzer::CapybaraSettings
   config.include Capybara::RSpecMatchers
   config.include Howitzer::Helpers
 
@@ -51,8 +51,8 @@ RSpec.configure do |config|
 
   at_exit do
     if Howitzer::Helpers.sauce_driver?
-      log.info "SAUCE SERVER LOG URL: #{Howitzer::CapybaraSettings.sauce_resource_path('selenium-server.log')}"
-      Howitzer::CapybaraSettings.update_sauce_job_status(passed: Howitzer::Utils::DataStorage.extract('sauce', :status))
+      log.info "SAUCE SERVER LOG URL: #{Howitzer::Helpers.sauce_resource_path('selenium-server.log')}"
+      Howitzer::Helpers.update_sauce_job_status(passed: Howitzer::Utils::DataStorage.extract('sauce', :status))
     end
   end
 end

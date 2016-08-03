@@ -6,6 +6,7 @@ module Howitzer
       { files:
         [
           { source: 'custom.yml', destination: 'config/custom.yml' },
+          { source: 'capybara.rb', destination: 'config/capybara.rb' },
           { source: 'default.yml', destination: 'config/default.yml' }
         ] }
     end
