@@ -3,8 +3,6 @@
 
 AllCops:
   TargetRubyVersion: 2.0
-  Exclude:
-    - lib/howitzer/capybara_settings.rb
 
 LineLength:
   Max: 120
@@ -29,3 +27,6 @@ Style/TrivialAccessors:
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+
+Metrics/ModuleLength:
+  Max: 120

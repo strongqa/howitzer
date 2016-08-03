@@ -2,9 +2,13 @@
 module Howitzer
 end
 
+require 'selenium-webdriver'
+require 'capybara'
+
 require 'howitzer/version'
 require 'howitzer/settings'
-require 'howitzer/capybara_settings'
+require 'howitzer/utils/log'
+require 'howitzer/helpers'
 require 'howitzer/utils'
 require 'howitzer/helpers'
 require 'howitzer/email'

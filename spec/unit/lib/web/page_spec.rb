@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'howitzer/web/page'
 require 'howitzer/web/blank_page'
-require 'howitzer/capybara_settings'
 
 RSpec.describe Howitzer::Web::Page do
   let(:session) { double(:session) }

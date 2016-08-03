@@ -57,6 +57,7 @@ Feature: Howitzer CLI New Project Creation
           Created new './test_automation' folder
       * Config files generation ...
           Added 'config/custom.yml' file
+          Added 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
@@ -84,9 +85,10 @@ Feature: Howitzer CLI New Project Creation
     Then a directory named "test_automation" should exist
     Then the following files should exist:
       | test_automation/config/custom.yml                |
+      | test_automation/config/capybara.rb               |
       | test_automation/config/default.yml               |
       | test_automation/emails/example_email.rb          |
-      | test_automation/web/sections/menu_section.rb        |
+      | test_automation/web/sections/menu_section.rb     |
       | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |
@@ -114,6 +116,7 @@ Feature: Howitzer CLI New Project Creation
           Created new './test_automation' folder
       * Config files generation ...
           Added 'config/custom.yml' file
+          Added 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
@@ -143,6 +146,7 @@ Feature: Howitzer CLI New Project Creation
     Then a directory named "test_automation" should exist
     Then the following files should exist:
       | test_automation/config/custom.yml                         |
+      | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
       | test_automation/emails/example_email.rb                   |
       | test_automation/features/step_definitions/common_steps.rb |
@@ -175,6 +179,7 @@ Feature: Howitzer CLI New Project Creation
           Created new './test_automation' folder
       * Config files generation ...
           Added 'config/custom.yml' file
+          Added 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
@@ -205,9 +210,10 @@ Feature: Howitzer CLI New Project Creation
     Then a directory named "test_automation" should exist
     Then the following files should exist:
       | test_automation/config/custom.yml                         |
+      | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
       | test_automation/emails/example_email.rb                   |
-      | test_automation/web/sections/menu_section.rb                 |
+      | test_automation/web/sections/menu_section.rb              |
       | test_automation/web/pages/example_page.rb                 |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/turnip.rake                         |
@@ -281,6 +287,7 @@ Feature: Howitzer CLI New Project Creation
           Created new './test_automation' folder
       * Config files generation ...
           Added 'config/custom.yml' file
+          Added 'config/capybara.rb' file
           Added 'config/default.yml' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
@@ -308,9 +315,10 @@ Feature: Howitzer CLI New Project Creation
     Then a directory named "test_automation" should exist
     Then the following files should exist:
       | test_automation/config/custom.yml                |
+      | test_automation/config/capybara.rb               |
       | test_automation/config/default.yml               |
       | test_automation/emails/example_email.rb          |
-      | test_automation/web/sections/menu_section.rb        |
+      | test_automation/web/sections/menu_section.rb     |
       | test_automation/web/pages/example_page.rb        |
       | test_automation/prerequisites/factory_girl.rb    |
       | test_automation/prerequisites/her.rb             |

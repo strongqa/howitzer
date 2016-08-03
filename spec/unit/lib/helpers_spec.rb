@@ -1,7 +1,7 @@
 require 'spec_helper'
 require 'howitzer/helpers'
 
-RSpec.describe 'Helpers' do
+RSpec.describe Howitzer::Helpers do
   include Howitzer::Helpers
 
   let(:settings) { double('settings') }
@@ -10,6 +10,7 @@ RSpec.describe 'Helpers' do
   let(:phantomjs_driver) { false }
   let(:sauce_driver) { false }
   let(:testingbot_driver) { false }
+  let(:test_object) { described_class }
 
   describe '#sauce_driver?' do
     subject { sauce_driver? }
@@ -1018,5 +1019,231 @@ RSpec.describe 'Helpers' do
   describe '#ri' do
     subject { ri 'boom' }
     it { expect { subject }.to raise_error(RuntimeError, /boom/) }
+  end
+
+  describe '#sauce_resource_path' do
+    subject { test_object.sauce_resource_path(name) }
+    let(:name) { 'test_name' }
+    before do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_user) { 'vlad' }
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_api_key) { '11111' }
+      allow(test_object).to receive(:session_id) { '12341234' }
+    end
+    it { is_expected.to eql('https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name') }
+  end
+  describe '.sauce_resource_path' do
+    subject { test_object.sauce_resource_path(name) }
+    let(:name) { 'test_name' }
+    before do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_user) { 'vlad' }
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_api_key) { '11111' }
+      allow(test_object).to receive(:session_id) { '12341234' }
+    end
+
+    it { is_expected.to eql('https://vlad:11111@saucelabs.com/rest/vlad/jobs/12341234/results/test_name') }
+  end
+
+  describe '#update_sauce_job_status' do
+    subject { test_object.update_sauce_job_status }
+    before  do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_user) { 'vlad1' }
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_api_key) { '22222' }
+      allow(test_object).to receive(:session_id) { '12341234' }
+      stub_const('RestClient', double)
+    end
+
+    it do
+      expect(RestClient).to receive(:put).with(
+        'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+        '{}',
+        content_type: :json,
+        accept: :json
+      ).once
+      subject
+    end
+  end
+
+  describe '.update_sauce_resource_path' do
+    subject { test_object.update_sauce_job_status }
+    before  do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_user) { 'vlad1' }
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_api_key) { '22222' }
+      allow(test_object).to receive(:session_id) { '12341234' }
+      stub_const('RestClient', double)
+    end
+
+    it do
+      expect(RestClient).to receive(:put).with(
+        'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+        '{}',
+        content_type: :json,
+        accept: :json
+      ).once
+      subject
+    end
+  end
+
+  describe '#suite_name' do
+    subject { test_object.suite_name }
+    before do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_browser_name) { 'ie' }
+    end
+
+    context 'when environment present' do
+      before { ENV['RAKE_TASK'] = rake_task }
+      context 'when includes rspec' do
+        let(:rake_task) { 'rspec:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+      context 'when includes spec' do
+        let(:rake_task) { 'spec:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+
+      context 'when includes cucumber' do
+        let(:rake_task) { 'cucumber:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+      context 'when not includes rpsec and cucumber' do
+        let(:rake_task) { 'unknown' }
+        it { is_expected.to eql('UNKNOWN IE') }
+      end
+      context 'when includes only cucumber' do
+        let(:rake_task) { 'cucumber' }
+        it { is_expected.to eql('ALL IE') }
+      end
+    end
+    context 'when environment empty' do
+      before { ENV['RAKE_TASK'] = nil }
+      it { is_expected.to eql('CUSTOM IE') }
+    end
+  end
+
+  describe '.suite_name' do
+    subject { test_object.suite_name }
+    before do
+      allow_any_instance_of(SexySettings::Base).to receive(:sl_browser_name) { 'ie' }
+    end
+
+    context 'when environment present' do
+      before { ENV['RAKE_TASK'] = rake_task }
+      context 'when includes rspec' do
+        let(:rake_task) { 'rspec:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+      context 'when includes spec' do
+        let(:rake_task) { 'spec:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+
+      context 'when includes cucumber' do
+        let(:rake_task) { 'cucumber:bvt' }
+        it { is_expected.to eql('BVT IE') }
+      end
+      context 'when not includes rpsec and cucumber' do
+        let(:rake_task) { 'unknown' }
+        it { is_expected.to eql('UNKNOWN IE') }
+      end
+      context 'when includes only cucumber' do
+        let(:rake_task) { 'cucumber' }
+        it { is_expected.to eql('ALL IE') }
+      end
+    end
+    context 'when environment empty' do
+      before { ENV['RAKE_TASK'] = nil }
+      it { is_expected.to eql('CUSTOM IE') }
+    end
+  end
+
+  describe '#session_id' do
+    subject { test_object.session_id }
+    before do
+      browser = double
+      current_session = double
+      driver = double
+      instance_variable = double
+      allow(Capybara).to receive(:current_session) { current_session }
+      allow(current_session).to receive(:driver) { driver }
+      allow(driver).to receive(:browser) { browser }
+      allow(browser).to receive(:instance_variable_get).with(:@bridge) { instance_variable }
+      allow(instance_variable).to receive(:session_id) { 'test' }
+    end
+
+    it { is_expected.to eql('test') }
+  end
+
+  describe '.session_id' do
+    subject { test_object.session_id }
+    before do
+      browser = double
+      current_session = double
+      driver = double
+      instance_variable = double
+      allow(Capybara).to receive(:current_session) { current_session }
+      allow(current_session).to receive(:driver) { driver }
+      allow(driver).to receive(:browser) { browser }
+      allow(browser).to receive(:instance_variable_get).with(:@bridge) { instance_variable }
+      allow(instance_variable).to receive(:session_id) { 'test' }
+    end
+
+    it { is_expected.to eql('test') }
+  end
+
+  describe '#rake_task_name' do
+    subject { test_object.rake_task_name }
+    before { ENV['RAKE_TASK'] = rake_task }
+    context 'when includes rspec' do
+      let(:rake_task) { 'rspec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes cucumber' do
+      let(:rake_task) { 'cucumber:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes spec' do
+      let(:rake_task) { 'spec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes only cucumber' do
+      let(:rake_task) { 'cucumber' }
+      it { is_expected.to eq('') }
+    end
+    context 'when includes unknown task' do
+      let(:rake_task) { 'unknown' }
+      it { is_expected.to eq('UNKNOWN') }
+    end
+    context 'when environment is empty' do
+      let(:rake_task) { nil }
+      it { is_expected.to eq('') }
+    end
+  end
+
+  describe '.rake_task_name' do
+    subject { test_object.rake_task_name }
+    before { ENV['RAKE_TASK'] = rake_task }
+    context 'when includes rspec' do
+      let(:rake_task) { 'rspec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes cucumber' do
+      let(:rake_task) { 'cucumber:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes spec' do
+      let(:rake_task) { 'spec:bvt' }
+      it { is_expected.to eq('BVT') }
+    end
+    context 'when includes only cucumber' do
+      let(:rake_task) { 'cucumber' }
+      it { is_expected.to eq('') }
+    end
+    context 'when includes unknown task' do
+      let(:rake_task) { 'unknown' }
+      it { is_expected.to eq('UNKNOWN') }
+    end
+    context 'when environment is empty' do
+      let(:rake_task) { nil }
+      it { is_expected.to eq('') }
+    end
   end
 end

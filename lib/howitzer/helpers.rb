@@ -1,3 +1,4 @@
+require 'rest-client'
 require 'howitzer/exceptions'
 
 module Howitzer
@@ -152,6 +153,91 @@ module Howitzer
 
     def ri(value)
       raise value.inspect
+    end
+
+    ##
+    #
+    # Returns custom name for rake task
+    #
+    # *Returns:*
+    # * +string+ - Returns rake task name
+    #
+
+    def rake_task_name
+      ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+    end
+
+    # describe me!
+    def prefix_name
+      'CUSTOM' unless ENV['RAKE_TASK']
+      rake_task_name.empty? ? 'ALL' : rake_task_name
+    end
+
+    ##
+    #
+    # Returns url of current Sauce Labs job
+    #
+    # *Parameters:*
+    # * +name+ - Your account name
+    #
+    # *Returns:*
+    # * +string+ - URL address of last running Sauce Labs job
+    #
+
+    def sauce_resource_path(name)
+      host = "https://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
+      path = "/rest/#{settings.sl_user}/jobs/#{session_id}/results/#{name}"
+      "#{host}#{path}"
+    end
+
+    ##
+    #
+    # Sends http request to change current Sauce Labs job status - pass/fail
+    #
+    # *Parameters:*
+    # * +json_data+ - test status as hash (for details see Saucelab documentation)
+    #
+
+    def update_sauce_job_status(json_data = {})
+      host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
+      path = "/rest/v1/#{settings.sl_user}/jobs/#{session_id}"
+      url = "#{host}#{path}"
+      ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
+    end
+
+    ##
+    #
+    # Returns custom name for Sauce Labs job
+    #
+    # *Returns:*
+    # * +string+ - Return name of current Sauce Labs job
+    #
+
+    def suite_name
+      res = if ENV['RAKE_TASK']
+              res = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
+              res.empty? ? 'ALL' : res
+            else
+              'CUSTOM'
+            end
+      "#{res} #{settings.sl_browser_name.upcase}"
+    end
+
+    # describe me!
+    def load_driver_gem!(driver, lib, gem)
+      require lib
+    rescue LoadError
+      raise LoadError,
+            "':#{driver}' driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
+    end
+
+    ##
+    #
+    # Returns current session id
+    #
+
+    def session_id
+      Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
     end
 
     private
