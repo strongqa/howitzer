@@ -27,9 +27,7 @@ module Howitzer
       include ::RSpec::Matchers
 
       PROXY_CAPYBARA_METHODS.each do |method|
-        define_method method do |*args, &block|
-          Capybara.current_session.send method, *args, &block
-        end
+        define_method(method) { |*args, &block| Capybara.current_session.send(method, *args, &block) }
       end
 
       def self.inherited(subclass)
@@ -81,13 +79,9 @@ module Howitzer
 
       def self.current_page
         page_list = matched_pages
-        if page_list.count.zero?
-          UnknownPage
-        elsif page_list.count > 1
-          log.error AmbiguousPageMatchingError, ambiguous_page_msg(page_list)
-        elsif page_list.count == 1
-          page_list.first
-        end
+        return UnknownPage if page_list.count.zero?
+        return log.error(AmbiguousPageMatchingError, ambiguous_page_msg(page_list)) if page_list.count > 1
+        return page_list.first if page_list.count == 1
       end
 
       ##
@@ -107,6 +101,13 @@ module Howitzer
         log.error IncorrectPageError, incorrect_page_msg
       end
 
+      # describe me!
+      # we use that for redirects testing
+
+      def self.current_url
+        Capybara.current_session.current_url
+      end
+
       ##
       # Returns expanded page url
       #
@@ -115,10 +116,8 @@ module Howitzer
       #
 
       def self.expanded_url(params = {})
-        if url_template.nil?
-          raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
-        end
-        "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}"
+        return "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}" unless url_template.nil?
+        raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
       end
 
       class << self
@@ -150,12 +149,12 @@ module Howitzer
 
         def incorrect_page_msg
           "Current page: #{current_page}, expected: #{self}.\n" \
-                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+                    "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
 
         def ambiguous_page_msg(page_list)
           "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
-                    "\tCurrent url: #{instance.current_url}\n\tCurrent title: #{instance.title}"
+                    "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
       end
 
