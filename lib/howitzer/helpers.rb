@@ -1,3 +1,4 @@
+require 'rest-client'
 require 'howitzer/exceptions'
 
 module Howitzer
