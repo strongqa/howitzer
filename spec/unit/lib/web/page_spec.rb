@@ -140,6 +140,13 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
+  describe '.current_url' do
+    before { allow(Capybara).to receive_message_chain(:current_session, :current_url) { 'http://example.com' } }
+    it 'should return current url page' do
+      expect(Howitzer::Web::Page.current_url).to eq('http://example.com')
+    end
+  end
+
   describe '.root_url' do
     let(:url_value) { 'http://example.com' }
     it do
