@@ -147,8 +147,10 @@ end
 # :browserstack driver
 
 Capybara.register_driver :browserstack do |app|
+  name = Howitzer::Helpers.prefix_name.to_s +
+         (settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase).to_s
   caps_opts = {
-    name: "#{prefix_name} #{settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase}",
+    name: name,
     maxduration: settings.bs_max_duration.to_i,
     idletimeout: settings.bs_idle_timeout.to_i,
     project: settings.bs_project,
