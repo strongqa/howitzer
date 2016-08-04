@@ -30,7 +30,9 @@ module Mailgun
     def get(resource_path, params=nil, accept="*/*; q=0.5, application/xml")
       http_params = {:accept => accept}
       http_params = http_params.merge(params: params) if params
-      response = @http_client[resource_path].get(http_params)
+      response = rp(tries: 10, on: RestClient::BadRequest) do
+        @http_client[resource_path].get(http_params)
+      end  
       Response.new(response)
     rescue => e
       log.error Howitzer::CommunicationError, e.message
