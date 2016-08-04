@@ -45,7 +45,7 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 
 ## Requirements
 * Supported OS: Mac OS X, Linux, Windows
-* [Ruby](https://www.ruby-lang.org/en/downloads/) 1.9.3+
+* [Ruby](https://www.ruby-lang.org/en/downloads/) 2.2.2+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
 * [PhantomJS](http://phantomjs.org/download.html)
 * [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
