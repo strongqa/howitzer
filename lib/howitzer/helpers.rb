@@ -169,7 +169,6 @@ module Howitzer
 
     # describe me!
     def prefix_name
-      'CUSTOM' unless ENV['RAKE_TASK']
       rake_task_name.empty? ? 'ALL' : rake_task_name
     end
 
@@ -228,7 +227,7 @@ module Howitzer
       require lib
     rescue LoadError
       raise LoadError,
-            "':#{driver}' driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
+            "`:#{driver}` driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
     end
 
     ##
