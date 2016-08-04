@@ -19,7 +19,7 @@ RSpec.describe Howitzer::MailgunApi::Response do
       it { is_expected.to eq('foo' => 'bar') }
     end
     context 'when impossible parse body' do
-      let(:body) { '123' }
+      let(:body) { "'123': '123' :123" }
       it do
         expect(log).to receive(:error).with(Howitzer::ParseError, any_args)
           .once.and_call_original
