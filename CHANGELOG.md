@@ -1,8 +1,14 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v1.1.0...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v1.1.1...master)
 
 ### New Features
 
 ### Bugfixes
+
+## [v1.1.1](https://github.com/strongqa/howitzer/compare/v1.1.0...v1.1.1)
+
+### Bugfixes
+- fixed problem with Mailgun
+- fixed problems with gems
 
 ## [v1.1.0](https://github.com/strongqa/howitzer/compare/v1.0.2...v1.1.0)
 
@@ -67,7 +73,7 @@ It is major release, so there are many new features, refactoring, unit tests, co
 
 ### Bugfixes
 
-* Fixed problem with dependencies 
+* Fixed problem with dependencies
 
 ## [v0.0.1](https://github.com/strongqa/howitzer/tree/v0.0.1)
 

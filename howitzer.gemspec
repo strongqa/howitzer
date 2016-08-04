@@ -19,6 +19,8 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version = '>= 1.9.3'
 
   gem.add_runtime_dependency 'nokogiri', '~> 1.6' if gem.platform.to_s =~ /mswin|mingw/
+  gem.add_runtime_dependency 'rack', '~> 1.0'
+  gem.add_runtime_dependency 'tins', '1.6.0'
   gem.add_runtime_dependency 'rake'
   gem.add_runtime_dependency 'gli'
   gem.add_runtime_dependency 'syntax'
@@ -28,7 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'repeater'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '~>1.1.10'
-  gem.add_runtime_dependency 'rest-client'
+  gem.add_runtime_dependency 'rest-client', '~>1.8'
   gem.add_runtime_dependency 'poltergeist'
   gem.add_runtime_dependency 'rawler'
   gem.add_runtime_dependency 'capybara'
