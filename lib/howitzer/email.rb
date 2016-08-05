@@ -46,7 +46,7 @@ class Email
         hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
       end
       if event
-        message = Mailgun::Connector.instance.client.get("domains/#{Mailgun::Connector.instance.domain}/messages/#{event['storage']['key']}").to_h
+        message = Mailgun::Connector.instance.client.get_url(event['storage']['url']).to_h
       else
         raise Howitzer::EmailNotFoundError.new('Message not received yet, retry...')
       end

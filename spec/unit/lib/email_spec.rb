@@ -44,10 +44,23 @@ RSpec.describe 'Email' do
     let(:events) { double(to_h: {'items' => [event]}) }
     subject { Email.find(recipient, message_subject) }
     context 'when message is found' do
-      let(:event) { {'message' => {'recipients' => [recipient], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
+      let(:url) { 'https://mailgun.com/domains/mailgun@test.domain/messages/1234567890' }
+      let(:event) do
+        {
+          'message' => {
+            'recipients' => [recipient],
+            'headers' => {
+              'subject' => message_subject
+            }
+          },
+          'storage' => {
+            'url' => url
+          }
+        }
+      end
       before do
         allow(Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').ordered.once {events}
-        allow(Mailgun::Connector.instance.client).to receive(:get).with('domains/mailgun@test.domain/messages/1234567890').ordered.once { mailgun_message }
+        allow(Mailgun::Connector.instance.client).to receive(:get_url).with(url).ordered.once { mailgun_message }
       end
       it do
         expect(Email).to receive(:new).with(message).once

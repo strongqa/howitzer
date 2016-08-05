@@ -325,7 +325,7 @@ module Capybara
     Capybara.run_server = false
     Capybara.app_host = ''
     Capybara.asset_host = app_base_url
-    Capybara.default_wait_time = settings.timeout_small
+    Capybara.default_max_wait_time = settings.timeout_small
     Capybara.ignore_hidden_elements = true
     Capybara.visible_text_only = true
     Capybara.match = :one
