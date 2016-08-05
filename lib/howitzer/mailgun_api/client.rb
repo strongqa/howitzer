@@ -9,7 +9,7 @@ module Howitzer
     # wrapper around RestClient so you don't have to worry about the HTTP aspect
     # of communicating with our API.
     class Client
-      def initialize(api_key, api_host = 'api.mailgun.net', api_version = 'v3', ssl = true)
+      def initialize(api_key, api_host = 'so.api.mailgun.net', api_version = 'v3', ssl = true)
         endpoint = endpoint_generator(api_host, api_version, ssl)
         @http_client = ::RestClient::Resource.new(endpoint,
                                                   user: 'api',
