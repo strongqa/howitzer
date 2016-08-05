@@ -40,16 +40,19 @@ RSpec.describe 'Mailgun Email Adapter' do
               'subject' => message_subject
             }
           },
-          'storage' => { 'key' => '1234567890' }
+          'storage' => {
+            'key' => '1234567890',
+            'url' => 'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
+          }
         }
       end
       before do
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
-          event: 'stored'
+          params: { event: 'stored' }
         ).ordered.once { events }
-        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
-          'domains/mailgun@test.domain/messages/1234567890'
+        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get_url).with(
+          'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
         ).ordered.once { mailgun_message }
       end
       it do
@@ -66,7 +69,11 @@ RSpec.describe 'Mailgun Email Adapter' do
             'headers' => {
               'subject' => message_subject
             }
-          }, 'storage' => { 'key' => '1234567890' }
+          },
+          'storage' => {
+            'key' => '1234567890',
+            'url' => 'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
+          }
         }
       end
       before do
@@ -74,7 +81,7 @@ RSpec.describe 'Mailgun Email Adapter' do
         allow(settings).to receive(:timeout_short) { 0.05 }
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
-          event: 'stored'
+          params: { event: 'stored' }
         ).at_least(:twice).ordered { events }
       end
       it do

@@ -17,7 +17,9 @@ module Howitzer
       end
 
       def self.events
-        MailgunApi::Connector.instance.client.get("#{MailgunApi::Connector.instance.domain}/events", event: 'stored')
+        MailgunApi::Connector.instance.client.get(
+          "#{MailgunApi::Connector.instance.domain}/events", params: { event: 'stored' }
+        )
       end
       private_class_method :events
 
@@ -43,8 +45,8 @@ module Howitzer
         event = event_by(recipient, subject)
         raise EmailNotFoundError, 'Message not received yet, retry...' unless event
 
-        message_url = "domains/#{MailgunApi::Connector.instance.domain}/messages/#{event['storage']['key']}"
-        MailgunApi::Connector.instance.client.get(message_url).to_h
+        message_url = event['storage']['url']
+        MailgunApi::Connector.instance.client.get_url(message_url).to_h
       end
       private_class_method :retrieve_message
 

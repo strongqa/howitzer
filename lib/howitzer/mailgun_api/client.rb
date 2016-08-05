@@ -9,12 +9,15 @@ module Howitzer
     # wrapper around RestClient so you don't have to worry about the HTTP aspect
     # of communicating with our API.
     class Client
-      def initialize(api_key, api_host = 'so.api.mailgun.net', api_version = 'v3', ssl = true)
-        endpoint = endpoint_generator(api_host, api_version, ssl)
-        @http_client = ::RestClient::Resource.new(endpoint,
-                                                  user: 'api',
-                                                  password: api_key,
-                                                  user_agent: 'mailgun-sdk-ruby/1.0.1')
+      USER_AGENT = 'mailgun-sdk-ruby'.freeze
+      attr_reader :api_user, :api_key, :api_host, :api_version, :ssl
+      def initialize(api_user: 'api', api_key:, api_host: 'api.mailgun.net', api_version: 'v3', ssl: true)
+        @api_user = api_user
+        @api_key = api_key
+        @api_host = api_host
+        @api_version = api_version
+        @ssl = ssl
+        @http_client = ::RestClient::Resource.new(endpoint, user: api_user, password: api_key, user_agent: USER_AGENT)
       end
 
       # Generic Mailgun GET Handler
@@ -25,12 +28,20 @@ module Howitzer
       # containing required parameters for the requested resource.
       # @return [Mailgun::Response] A Mailgun::Response object.
 
-      def get(resource_path, params = nil, accept = '*/*; q=0.5, application/xml')
+      def get(resource_path, params: nil, accept: '*/*')
         http_params = { accept: accept }
         http_params = http_params.merge(params: params) if params
-        response = rp(tries: 10, on: RestClient::BadRequest) do
-          @http_client[resource_path].get(http_params)
-        end
+        response = http_client[resource_path].get(http_params)
+        Response.new(response)
+      rescue => e
+        log.error CommunicationError, e.message
+      end
+
+      # describe me!
+      def get_url(resource_url, params: nil, accept: '*/*')
+        response = ::RestClient::Resource.new(
+          resource_url, user: api_user, password: api_key, user_agent: USER_AGENT, accept: accept, params: params
+        )
         Response.new(response)
       rescue => e
         log.error CommunicationError, e.message
@@ -38,7 +49,9 @@ module Howitzer
 
       private
 
-      def endpoint_generator(api_host, api_version, ssl)
+      attr_reader :http_client
+
+      def endpoint
         scheme = "http#{'s' if ssl}"
         res = "#{scheme}://#{api_host}"
         res << "/#{api_version}" if api_version

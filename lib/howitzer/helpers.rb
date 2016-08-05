@@ -134,9 +134,9 @@ module Howitzer
       secs = time_in_numeric.to_i
       mins = secs / 60
       hours = mins / 60
-      if hours > 0
+      if hours.positive?
         "[#{hours}h #{mins % 60}m #{secs % 60}s]"
-      elsif mins > 0
+      elsif mins.positive?
         "[#{mins}m #{secs % 60}s]"
       elsif secs >= 0
         "[0m #{secs}s]"
