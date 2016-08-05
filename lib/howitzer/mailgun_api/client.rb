@@ -39,7 +39,7 @@ module Howitzer
 
       # describe me!
       def get_url(resource_url, params: nil, accept: '*/*')
-        response = ::RestClient::Resource.new(
+        response = ::RestClient.get(
           resource_url, user: api_user, password: api_key, user_agent: USER_AGENT, accept: accept, params: params
         )
         Response.new(response)

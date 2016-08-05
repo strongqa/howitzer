@@ -43,7 +43,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
       let(:response_raw) { double }
       let(:response_real) { double }
       before do
-        allow(RestClient::Resource).to receive(:new).with(any_args) { response_raw }
+        allow(RestClient).to receive(:get).with(any_args) { response_raw }
         allow(Howitzer::MailgunApi::Response).to receive(:new).with(response_raw) { response_real }
       end
       it { is_expected.to eq(response_real) }
@@ -52,7 +52,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
       before do
         allow(RestClient::Resource).to receive(:new).with(any_args) { response_raw }
         mg_obj
-        allow(RestClient::Resource).to receive(:new).with(any_args).and_raise(StandardError, 'Some message')
+        allow(RestClient).to receive(:get).with(any_args).and_raise(StandardError, 'Some message')
       end
       it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
     end
