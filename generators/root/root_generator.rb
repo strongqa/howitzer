@@ -7,6 +7,7 @@ module Howitzer
       { files:
         [
           { source: '.gitignore', destination: '.gitignore' },
+          { source: '.rubocop.yml', destination: '.rubocop.yml' },
           { source: 'Rakefile', destination: 'Rakefile' },
           { source: 'boot.rb', destination: 'boot.rb' }
         ],

@@ -9,6 +9,8 @@ def log
 end
 
 require 'howitzer'
+require 'pry'
+require 'pry-byebug'
 
 Dir[File.join(File.dirname(__FILE__), './emails/**/*.rb')].each { |f| require f }
 Dir[File.join(File.dirname(__FILE__), './web/sections/**/*.rb')].each { |f| require f }

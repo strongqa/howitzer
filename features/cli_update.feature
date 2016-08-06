@@ -26,6 +26,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.rubocop.yml' file
           Identical 'Rakefile' file
           Conflict with 'boot.rb' file
             Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
@@ -59,6 +60,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Identical '.gitignore' file
+          Identical '.rubocop.yml' file
           Identical 'Rakefile' file
           Identical 'boot.rb' file
           Conflict with 'Gemfile' template
@@ -96,6 +98,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.rubocop.yml' file
           Identical 'Rakefile' file
           Conflict with 'boot.rb' file
             Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
@@ -134,6 +137,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.rubocop.yml' file
           Identical 'Rakefile' file
           Identical 'boot.rb' file
           Conflict with 'Gemfile' template

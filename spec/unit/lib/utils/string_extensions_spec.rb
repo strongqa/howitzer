@@ -65,4 +65,13 @@ RSpec.describe Howitzer::Utils::StringExtensions do
       it { is_expected.to eql(my_email) }
     end
   end
+  describe '#on' do
+    let(:block) { -> {} }
+    subject { page_name.on(&block) }
+    before do
+      allow(page_name).to receive(:as_page_class) { page_object }
+      expect(page_object).to receive(:on).once
+    end
+    it { is_expected.to be_nil }
+  end
 end

@@ -50,6 +50,15 @@ module Howitzer
         as_class('Email')
       end
 
+      ##
+      #
+      # Delegate #on to page
+      #
+
+      def on(&block)
+        as_page_class.on(&block)
+      end
+
       private
 
       def as_class(type)
