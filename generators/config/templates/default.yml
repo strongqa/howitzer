@@ -55,22 +55,22 @@
  sl_max_duration: '1800'
  sl_idle_timeout: '180'
 
- # -TestingBot- browsers that are supported: firefox => '8', googlechrome, iexplore => '9'
+ # -TestingBot-
  tb_api_key: client_key
  tb_api_secret: client_secret
  tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
- tb_platform: :WIN8
- tb_browser_name: firefox
- tb_browser_version: 8
- tb_selenium_version: "2.18.0"
+ tb_platform: CAPITAN
+ tb_browser_name: Chrome
+ tb_browser_version: latest
+ tb_selenium_version: '2.45.0'
  tb_max_duration: '1800'
  tb_idle_timeout: '180'
  tb_record_screenshot: false
 
  # -BrowserStack
  bs_user_name: bs_user
- bs_password: bs_password
- bs_url: "http://${bs_user_name}:${bs_password}@hub.browserstack.com/wd/hub"
+ bs_access_key: access_key
+ bs_url: "http://${bs_user_name}:${bs_access_key}@hub.browserstack.com/wd/hub"
  bs_os_name: 'Windows'
  bs_os_version: '8'
  bs_browser_name: 'Firefox'

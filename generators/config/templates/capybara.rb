@@ -111,18 +111,16 @@ end
 # :testingbot driver
 
 if settings.driver.to_s.to_sym == :testingbot
-  Howitzer::Helpers.load_driver_gem!(:testingbot, 'testingbot', 'testingbot')
-
   Capybara.register_driver :testingbot do |app|
     caps_opts = {
       platform: settings.tb_platform,
       browser_name: settings.tb_browser_name,
+      version: settings.tb_browser_version,
       name: "#{Howitzer::Helpers.prefix_name} #{settings.tb_browser_name.upcase}",
       maxduration: settings.tb_max_duration.to_i,
       idletimeout: settings.tb_idle_timeout.to_i,
       'selenium-version' => settings.tb_selenium_version,
-      screenshot: settings.tb_record_screenshot,
-      'avoid-proxy' => settings.tb_avoid_proxy
+      screenshot: settings.tb_record_screenshot
     }
 
     unless (settings.tb_browser_version.to_s || '').empty?
@@ -135,22 +133,16 @@ if settings.driver.to_s.to_sym == :testingbot
       browser: :remote
     }
 
-    driver = Capybara::Selenium::Driver.new(app, options)
-    driver.browser.file_detector = lambda do |args|
-      str = args.first.to_s
-      str if File.exist?(str)
-    end
-    driver
+    Capybara::Selenium::Driver.new(app, options)
   end
 end
 
 # :browserstack driver
 
 Capybara.register_driver :browserstack do |app|
-  name = Howitzer::Helpers.prefix_name.to_s +
-         (settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase).to_s
+  browser_name = settings.bs_mobile ? settings.bs_m_browser : settings.bs_browser_name.upcase
   caps_opts = {
-    name: name,
+    name: "#{Howitzer::Helpers.prefix_name} #{browser_name}",
     maxduration: settings.bs_max_duration.to_i,
     idletimeout: settings.bs_idle_timeout.to_i,
     project: settings.bs_project,
