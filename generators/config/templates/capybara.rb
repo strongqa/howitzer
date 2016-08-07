@@ -81,6 +81,7 @@ Capybara.register_driver :sauce do |app|
   caps_opts = {
     platform: settings.sl_platform,
     browser_name: settings.sl_browser_name,
+    version: settings.sl_browser_version,
     name: "#{Howitzer::Helpers.prefix_name} #{settings.sl_browser_name.upcase}",
     'max-duration' => settings.sl_max_duration,
     'idle-timeout' => settings.sl_idle_timeout,

@@ -22,6 +22,7 @@ RSpec.configure do |config|
     if Howitzer::Helpers.sauce_driver?
       suite_name = "#{(ENV['RAKE_TASK'] || 'CUSTOM').sub('rspec:', '').upcase} #{settings.sl_browser_name.upcase}"
       Capybara.drivers[:sauce][].options[:desired_capabilities][:name] = suite_name
+      Capybara.current_session # we force new session creating to register at_exit callback on browser method
     end
   end
 

@@ -14,6 +14,7 @@ Howitzer::Utils::DataStorage.store('sauce', :status, true)
 
 if Howitzer::Helpers.sauce_driver?
   Capybara.drivers[:sauce][].options[:desired_capabilities][:name] = Howitzer::Helpers.suite_name
+  Capybara.current_session # we force new session creating to register at_exit callback on browser method
 end
 
 Before do |scenario|

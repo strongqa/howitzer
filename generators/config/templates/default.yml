@@ -49,9 +49,10 @@
  sl_user: some_user
  sl_api_key: some_api_key
  sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
- sl_platform: :VISTA
- sl_browser_name: firefox
- sl_selenium_version: "2.18.0"
+ sl_platform: 'Mac OS X 10.9'
+ sl_browser_name: Chrome
+ sl_browser_version: '31'
+ sl_selenium_version: '2.53.1'
  sl_max_duration: '1800'
  sl_idle_timeout: '180'
 
