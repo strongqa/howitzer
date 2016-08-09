@@ -45,53 +45,31 @@
  pjs_ignore_js_errors: false
  pjs_ignore_ssl_errors: true
 
- # -SauceLabs-
- sl_user: some_user
- sl_api_key: some_api_key
- sl_url: "http://${sl_user}:${sl_api_key}@ondemand.saucelabs.com:80/wd/hub"
- sl_platform: 'Mac OS X 10.9'
- sl_browser_name: Chrome
- sl_browser_version: '31'
- sl_selenium_version: '2.53.1'
- sl_max_duration: '1800'
- sl_idle_timeout: '180'
+ ###########################################################
+ # Cloud-based Cross-browser Services                      #
+ ###########################################################
+ cloud_auth_login: some_user_or_client_key
+ cloud_auth_pass: api_key_or_api_secret_or_access_key
+ cloud_platform: any
+ cloud_browser_name: Chrome
+ cloud_browser_version: '31'
+ cloud_max_duration: '1800'
 
- # -TestingBot-
- tb_api_key: client_key
- tb_api_secret: client_secret
- tb_url: "http://${tb_api_key}:${tb_api_secret}@hub.testingbot.com:80/wd/hub"
- tb_platform: CAPITAN
- tb_browser_name: Chrome
- tb_browser_version: latest
- tb_selenium_version: '2.45.0'
- tb_max_duration: '1800'
- tb_idle_timeout: '180'
- tb_record_screenshot: false
+ # -SauceLabs- (https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options)
+ cloud_sauce_record_screenshots: false
+ cloud_sauce_idle_timeout: '180'
+ cloud_sauce_video_upload_on_pass: false
 
- # -BrowserStack
- bs_user_name: bs_user
- bs_access_key: access_key
- bs_url: "http://${bs_user_name}:${bs_access_key}@hub.browserstack.com/wd/hub"
- bs_os_name: 'Windows'
- bs_os_version: '8'
- bs_browser_name: 'Firefox'
- bs_browser_version: '16.0'
- bs_resolution: '1024x768'
- bs_max_duration: '1800'
- bs_idle_timeout: '180'
+ # -TestingBot- (https://testingbot.com/support/other/test-options)
+ cloud_testingbot_idle_timeout: '180'
+ cloud_testingbot_screenshots: false
 
- # Run tests on mobile browsers
- bs_mobile: false
- bs_m_browser: 'iPhone'
- bs_m_platform: 'MAC'
- bs_m_device: 'iPhone 5'
-
- bs_local: 'false'
- bs_local_ID: 'Testing123'
- bs_build: 'v1'
- bs_project: 'Test Project'
- bs_ssl: 'true'
- bs_debug: 'false'
+ # -BrowserStack (https://www.browserstack.com/automate/capabilities)
+ cloud_bstack_resolution: '1024x768'
+ cloud_bstack_project: 'Howitzer Example'
+ cloud_bstack_build: 'v1'
+ cloud_bstack_resolution: '1024x768'
+ cloud_bstack_mobile_device:
 
 ###########################################################
 # DATABASE SETTINGS                                       #

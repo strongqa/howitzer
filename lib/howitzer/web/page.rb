@@ -144,7 +144,7 @@ module Howitzer
         attr_reader :url_template
 
         def parent_url
-          @root_url || Helpers.app_url
+          @root_url || Helpers.app_uri.site
         end
 
         def incorrect_page_msg

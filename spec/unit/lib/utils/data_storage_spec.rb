@@ -60,24 +60,24 @@ RSpec.describe Howitzer::Utils::DataStorage do
   end
   describe '.clear_all_ns' do
     before do
-      described_class.store('sauce', :status, false)
+      described_class.store(:cloud, :status, false)
       described_class.store(:foo, 'foo', 'some value1')
       described_class.store(:bar, 'bar', 'some value2')
       described_class.store(:baz, 'baz', 'some value3')
     end
     context 'when default argument' do
       before { described_class.clear_all_ns }
-      it { expect(described_class.data).to eq('sauce' => { status: false }, :foo => {}, :bar => {}, :baz => {}) }
+      it { expect(described_class.data).to eq(cloud: { status: false }, foo: {}, bar: {}, baz: {}) }
     end
     context 'when custom argument' do
       let(:exception_list) { [:foo, :bar] }
       before { described_class.clear_all_ns(exception_list) }
       it do
         expect(described_class.data).to eq(
-          'sauce' => {},
-          :foo => { 'foo' => 'some value1' },
-          :bar => { 'bar' => 'some value2' },
-          :baz => {}
+          cloud: {},
+          foo: { 'foo' => 'some value1' },
+          bar: { 'bar' => 'some value2' },
+          baz: {}
         )
       end
     end

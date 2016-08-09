@@ -24,7 +24,7 @@ RSpec.describe Howitzer::Helpers do
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
-      let(:driver_setting) { 'sauce' }
+      let(:driver_setting) { :cloud }
       it { is_expected.to be true }
     end
     context 'when driver is not specified' do

@@ -5,7 +5,7 @@ module Howitzer
     # Data can be stored in memory using DataStorage
     #
     module DataStorage
-      SPECIAL_NS_LIST = ['sauce'].freeze
+      SPECIAL_NS_LIST = [:cloud].freeze
       @data ||= {}
 
       class << self

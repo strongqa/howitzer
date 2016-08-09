@@ -3,30 +3,13 @@ require 'howitzer/exceptions'
 
 module Howitzer
   # This module holds helpers methods
-  module Helpers
+  module CapybaraHelpers
     CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
 
-    # rubocop:disable Style/ModuleFunction
-    extend self
+    # describe me!
 
-    ##
-    #
-    # Returns whether or not the current driver is SauceLabs.
-    #
-
-    def sauce_driver?
-      log.error DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-      settings.driver.to_s.to_sym == :sauce
-    end
-
-    ##
-    #
-    # Returns whether or not the current driver is TestingBot.
-    #
-
-    def testingbot_driver?
-      log.error DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-      settings.driver.to_s.to_sym == :testingbot
+    def cloud_driver?
+      [:sauce, :testingbot, :browserstack].include?(settings.driver.to_sym)
     end
 
     ##
@@ -35,8 +18,7 @@ module Howitzer
     #
 
     def selenium_driver?
-      log.error DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-      settings.driver.to_s.to_sym == :selenium
+      settings.driver.to_sym == :selenium
     end
 
     ##
@@ -45,8 +27,7 @@ module Howitzer
     #
 
     def selenium_grid_driver?
-      log.error DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-      settings.driver.to_s.to_sym == :selenium_grid
+      settings.driver.to_sym == :selenium_grid
     end
 
     ##
@@ -55,8 +36,7 @@ module Howitzer
     #
 
     def phantomjs_driver?
-      log.error DriverNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.driver.nil?
-      settings.driver.to_s.to_sym == :phantomjs
+      settings.driver.to_sym == :phantomjs
     end
 
     ##
@@ -97,33 +77,6 @@ module Howitzer
 
     ##
     #
-    # Returns application url including base authentication (if specified in settings)
-    #
-
-    def app_url
-      prefix =
-        if settings.app_base_auth_login.blank?
-          ''
-        else
-          "#{settings.app_base_auth_login}:#{settings.app_base_auth_pass}@"
-        end
-      app_base_url prefix
-    end
-
-    ##
-    #
-    # Returns application url without base authentication by default
-    #
-    # *Parameters:*
-    # * +prefix+ - Sets base authentication prefix (defaults to: nil)
-    #
-
-    def app_base_url(prefix = nil)
-      "#{settings.app_protocol || 'http'}://#{prefix}#{settings.app_host}"
-    end
-
-    ##
-    #
     # Returns formatted duration time
     #
     # *Parameters:*
@@ -134,25 +87,9 @@ module Howitzer
       secs = time_in_numeric.to_i
       mins = secs / 60
       hours = mins / 60
-      if hours.positive?
-        "[#{hours}h #{mins % 60}m #{secs % 60}s]"
-      elsif mins.positive?
-        "[#{mins}m #{secs % 60}s]"
-      elsif secs >= 0
-        "[0m #{secs}s]"
-      end
-    end
-
-    ##
-    #
-    # Evaluates given value
-    #
-    # *Parameters:*
-    # * +value+ - Value to be evaluated
-    #
-
-    def ri(value)
-      raise value.inspect
+      return "[#{hours}h #{mins % 60}m #{secs % 60}s]" if hours.positive?
+      return "[#{mins}m #{secs % 60}s]" if mins.positive?
+      return "[0m #{secs}s]" if secs >= 0
     end
 
     ##
@@ -183,9 +120,16 @@ module Howitzer
     # * +string+ - URL address of last running Sauce Labs job
     #
 
-    def sauce_resource_path(name)
-      host = "https://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
-      path = "/rest/#{settings.sl_user}/jobs/#{session_id}/results/#{name}"
+    def sauce_resource_path(kind)
+      name =
+        case kind
+        when :video then 'video.flv'
+        when :server_log then 'selenium-server.log'
+        else
+          raise InvalidArgument, "Unknown '#{kind}' kind"
+        end
+      host = "https://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/#{settings.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
       "#{host}#{path}"
     end
 
@@ -198,8 +142,8 @@ module Howitzer
     #
 
     def update_sauce_job_status(json_data = {})
-      host = "http://#{settings.sl_user}:#{settings.sl_api_key}@saucelabs.com"
-      path = "/rest/v1/#{settings.sl_user}/jobs/#{session_id}"
+      host = "http://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/v1/#{settings.cloud_auth_login}/jobs/#{session_id}"
       url = "#{host}#{path}"
       ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
     end
@@ -219,7 +163,7 @@ module Howitzer
             else
               'CUSTOM'
             end
-      "#{res} #{settings.sl_browser_name.upcase}"
+      "#{res} #{settings.cloud_browser_name.upcase}"
     end
 
     # describe me!
@@ -239,26 +183,57 @@ module Howitzer
       Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
     end
 
-    private
+    # describe me!
+    def required_cloud_caps
+      {
+        platform: settings.cloud_platform,
+        browserName: settings.cloud_browser_name,
+        version: settings.cloud_browser_version,
+        name: "#{prefix_name} #{settings.cloud_browser_name}"
+      }
+    end
 
-    def browser?(*browser_aliases)
-      if sauce_driver?
-        sauce_browser?(*browser_aliases)
-      elsif testingbot_driver?
-        testingbot_browser?(*browser_aliases)
-      elsif selenium_driver? || selenium_grid_driver?
-        selenium_browser?(*browser_aliases)
+    # describe me!
+    def remote_file_detector
+      lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
       end
     end
 
-    def sauce_browser?(*browser_aliases)
-      log.error SlBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sl_browser_name.nil?
-      browser_aliases.include?(settings.sl_browser_name.to_s.to_sym)
+    # describe me!
+    def cloud_driver(caps, url)
+      options = {
+        url: url,
+        desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),
+        http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap { |c| c.timeout = settings.timeout_medium },
+        browser: :remote
+      }
+      driver = Capybara::Selenium::Driver.new(app, options)
+      driver.browser.file_detector = remote_file_detector
+      driver
     end
 
-    def testingbot_browser?(*browser_aliases)
-      log.error TbBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.tb_browser_name.nil?
-      browser_aliases.include?(settings.tb_browser_name.to_s.to_sym)
+    # describe me!
+
+    def cloud_resource_path(kind)
+      case driver.to_sym
+      when :sauce then sauce_resource_path(kind)
+      else
+        '[NOT IMPLEMENTED]'
+      end
+    end
+
+    private
+
+    def browser?(*browser_aliases)
+      return cloud_browser?(*browser_aliases) if cloud_driver?
+      return selenium_browser?(*browser_aliases) if selenium_driver? || selenium_grid_driver?
+    end
+
+    def cloud_browser?(*browser_aliases)
+      log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.cloud_browser_name.nil?
+      browser_aliases.include?(settings.cloud_browser_name.to_s.to_sym)
     end
 
     def selenium_browser?(*browser_aliases)
