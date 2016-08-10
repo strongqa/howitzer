@@ -133,6 +133,14 @@ module Howitzer
       "#{host}#{path}"
     end
 
+    def update_cloud_job_status(json_data = {})
+      case settings.driver.to_sym
+      when :sauce then update_sauce_job_status(json_data)
+      else
+        '[NOT IMPLEMENTED]'
+      end
+    end
+
     ##
     #
     # Sends http request to change current Sauce Labs job status - pass/fail
