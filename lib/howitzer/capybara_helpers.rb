@@ -217,7 +217,7 @@ module Howitzer
     # describe me!
 
     def cloud_resource_path(kind)
-      case driver.to_sym
+      case settings.driver.to_sym
       when :sauce then sauce_resource_path(kind)
       else
         '[NOT IMPLEMENTED]'
