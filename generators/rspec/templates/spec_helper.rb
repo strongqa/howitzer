@@ -11,6 +11,9 @@ RSpec.configure do |config|
   cache.store(:cloud, :start_time, Time.now.utc)
   cache.store(:cloud, :status, true)
 
+  config.include FactoryGirl::Syntax::Methods
+  config.include Capybara::RSpecMatchers
+
   config.disable_monkey_patching = true
   config.color = true
 
