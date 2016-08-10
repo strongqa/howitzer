@@ -202,7 +202,7 @@ module Howitzer
     end
 
     # describe me!
-    def cloud_driver(caps, url)
+    def cloud_driver(app, caps, url)
       options = {
         url: url,
         desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),

@@ -26,6 +26,7 @@ Capybara.configure do |config|
   config.javascript_driver = settings.driver.to_s.to_sym
 end
 
+require 'howitzer/capybara_helpers'
 include Howitzer::CapybaraHelpers
 
 # :selenium driver
@@ -79,7 +80,7 @@ end
 
 # :sauce driver
 
-Capybara.register_driver :sauce do |_app|
+Capybara.register_driver :sauce do |app|
   caps = required_cloud_caps.merge(
     maxDuration: settings.cloud_max_duration,
     idleTimeout: settings.cloud_sauce_idle_timeout,
@@ -87,24 +88,24 @@ Capybara.register_driver :sauce do |_app|
     videoUploadOnPass: settings.cloud_sauce_video_upload_on_pass
   )
   url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
-  cloud_driver(caps, url)
+  cloud_driver(app, caps, url)
 end
 
 # :testingbot driver
 
-Capybara.register_driver :testingbot do |_app|
+Capybara.register_driver :testingbot do |app|
   caps = required_cloud_caps.merge(
     maxduration: settings.cloud_max_duration,
     idletimeout: settings.cloud_testingbot_idle_timeout,
     screenshot: settings.cloud_testingbot_screenshots
   )
   url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@hub.testingbot.com/wd/hub"
-  cloud_driver(caps, url)
+  cloud_driver(app, caps, url)
 end
 
 # :browserstack driver
 
-Capybara.register_driver :browserstack do |_app|
+Capybara.register_driver :browserstack do |app|
   caps = required_cloud_caps.merge(
     project: settings.cloud_bstack_project,
     build: settings.cloud_bstack_build
@@ -112,7 +113,7 @@ Capybara.register_driver :browserstack do |_app|
   caps[:resolution] = settings.cloud_bstack_resolution if settings.cloud_bstack_resolution.present?
   caps[:device] = settings.cloud_bstack_mobile_device if settings.cloud_bstack_mobile_device.present?
   url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@hub.browserstack.com/wd/hub"
-  cloud_driver(caps, url)
+  cloud_driver(app, caps, url)
 end
 
 # :selenium_grid driver
