@@ -20,7 +20,7 @@ RSpec.configure do |config|
   config.before(:all) do
     log.print_feature_name(self.class.description.empty? ? self.class.metadata[:description] : self.class.description)
     if cloud_driver?
-      suite_name = "#{rake_task_name} #{settings.cloud_browser_name.upcase}"
+      suite_name = "#{ENV['RAKE_TASK'].to_s.upcase} #{settings.cloud_browser_name.upcase}"
       Capybara.drivers[settings.driver.to_sym][].options[:desired_capabilities][:name] = suite_name
       Capybara.current_session # we force new session creating to register at_exit callback on browser method
     end

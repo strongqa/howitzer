@@ -92,21 +92,9 @@ module Howitzer
       return "[0m #{secs}s]" if secs >= 0
     end
 
-    ##
-    #
-    # Returns custom name for rake task
-    #
-    # *Returns:*
-    # * +string+ - Returns rake task name
-    #
-
-    def rake_task_name
-      ENV['RAKE_TASK'].to_s.sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
-    end
-
     # describe me!
     def prefix_name
-      rake_task_name.empty? ? 'ALL' : rake_task_name
+      (ENV['RAKE_TASK'] || 'ALL').upcase
     end
 
     ##
@@ -126,7 +114,7 @@ module Howitzer
         when :video then 'video.flv'
         when :server_log then 'selenium-server.log'
         else
-          raise InvalidArgument, "Unknown '#{kind}' kind"
+          raise ArgumentError, "Unknown '#{kind}' kind"
         end
       host = "https://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@saucelabs.com"
       path = "/rest/#{settings.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
