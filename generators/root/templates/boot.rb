@@ -8,6 +8,10 @@ def log
   Howitzer::Utils::Log.instance
 end
 
+def cache
+  Howitzer.cache
+end
+
 require 'howitzer'
 require 'pry'
 require 'pry-byebug'
