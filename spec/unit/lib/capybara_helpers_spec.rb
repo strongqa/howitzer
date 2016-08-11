@@ -1,8 +1,8 @@
 require 'spec_helper'
-require 'howitzer/helpers'
+require 'howitzer/capybara_helpers'
 
-RSpec.describe Howitzer::Helpers do
-  include Howitzer::Helpers
+RSpec.xdescribe Howitzer::CapybaraHelpers do
+  include Howitzer::CapybaraHelpers
 
   let(:settings) { double('settings') }
   let(:selenium_driver) { false }

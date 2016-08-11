@@ -17,14 +17,6 @@ RSpec.configure do |config|
   config.disable_monkey_patching = true
   config.color = true
 
-  config.before(:all) do
-    if cloud_driver?
-      suite_name = "#{rake_task_name} #{settings.cloud_browser_name.upcase}"
-      Capybara.drivers[settings.driver.to_sym][].options[:desired_capabilities][:name] = suite_name
-      Capybara.current_session # we force new session creating to register at_exit callback on browser method ASAP
-    end
-  end
-
   config.before(:each) do
     scenario_name =
       if RSpec.current_example.description.empty?
