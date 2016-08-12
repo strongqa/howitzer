@@ -93,7 +93,7 @@ module Howitzer
 
     def source_path(file_name)
       base_name = self.class.name.sub('Generator', '').sub('Howitzer::', '').downcase
-      File.expand_path(file_name, File.join(File.dirname(__FILE__), base_name, 'templates'))
+      File.expand_path(file_name, File.join(__dir__, base_name, 'templates'))
     end
 
     def dest_path(path)

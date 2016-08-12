@@ -93,7 +93,7 @@ module HowitzerCli
 
     def load_generators
       Dir[
-          File.join(File.dirname(__FILE__), '..', 'generators', '**', '*_generator.rb')
+          File.join(__dir__, '..', 'generators', '**', '*_generator.rb')
       ].each { |f| require File.expand_path(f) }
     end
 

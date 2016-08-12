@@ -186,9 +186,8 @@ RSpec.describe Howitzer::BaseGenerator do
     subject { described_class.new({}).send(:source_path, 'example.txt') }
     before do
       allow_any_instance_of(described_class).to receive(:initialize) { nil }
-      allow(File).to receive(:dirname) { '/' }
     end
-    it { is_expected.to eq('/base/templates/example.txt') }
+    it { is_expected.to include('/base/templates/example.txt') }
   end
 
   describe '#dest_path' do

@@ -2,7 +2,7 @@
 # http://www.rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md
 require 'factory_girl'
 
-FactoryGirl.definition_file_paths = [File.join(File.dirname(__FILE__), 'factories')]
+FactoryGirl.definition_file_paths = [File.join(__dir__, 'factories')]
 FactoryGirl.find_definitions
 
 # This module holds custom FactoryGirl methods
