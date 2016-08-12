@@ -629,7 +629,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
     end
   end
 
-  describe '.update_sauce_resource_path' do
+  describe '.update_sauce_job_statu' do
     subject { update_sauce_job_status }
     before  do
       allow(settings).to receive(:cloud_auth_login) { 'vlad1' }
@@ -646,6 +646,21 @@ RSpec.describe Howitzer::CapybaraHelpers do
         accept: :json
       ).once
       subject
+    end
+  end
+
+  describe '.update_cloud_job_status' do
+    subject { update_cloud_job_status(status: true) }
+    context 'when sauce driver' do
+      before do
+        allow(settings).to receive(:driver) { 'sauce' }
+        expect(self).to receive(:update_sauce_job_status).with(status: true) { true }
+      end
+      it { is_expected.to eq(true) }
+    end
+    context 'when other driver' do
+      before { allow(settings).to receive(:driver) { 'browserstack' } }
+      it { is_expected.to eq('[NOT IMPLEMENTED]') }
     end
   end
 
@@ -682,6 +697,77 @@ RSpec.describe Howitzer::CapybaraHelpers do
     end
 
     it { is_expected.to eql('test') }
+  end
+
+  describe '.required_cloud_caps' do
+    subject { required_cloud_caps }
+    before do
+      allow(settings).to receive(:cloud_platform) { 'Windows' }
+      allow(settings).to receive(:cloud_browser_name) { 'Safari' }
+      allow(settings).to receive(:cloud_browser_version) { '10.0' }
+      allow(self).to receive(:prefix_name) { 'Suite' }
+    end
+    it 'should return correct hash' do
+      is_expected.to eq(
+        platform: 'Windows',
+        browserName: 'Safari',
+        version: '10.0',
+        name: 'Suite Safari'
+      )
+    end
+  end
+
+  describe '.remote_file_detector' do
+    subject { remote_file_detector }
+    it 'should return lambda' do
+      is_expected.to be_a(Proc)
+    end
+
+    it 'should return nil when file missing' do
+      expect(subject.call('unknown.file')).to be_nil
+    end
+  end
+
+  describe '.cloud_driver' do
+    let(:app) { double(:app) }
+    let(:caps) { double(:caps) }
+    let(:url) { 'https://example.com' }
+    let(:file_detector) { double(:file) }
+    let(:driver) { double(:driver) }
+    let(:driver_browser) { double(:driver_browser) }
+    let(:cap_class) { double(:cap_class) }
+    let(:des_caps) { double(:des_class) }
+    let(:http_class) { double(:http_class) }
+    let(:http_client) { double(:http_client) }
+    subject { cloud_driver(app, caps, url) }
+    before do
+      allow(settings).to receive(:timeout_medium) { 10 }
+      allow(self).to receive(:remote_file_detector) { file_detector }
+      stub_const('Selenium::WebDriver::Remote::Capabilities', cap_class)
+      allow(cap_class).to receive(:new).with(caps) { des_caps }
+      stub_const('Selenium::WebDriver::Remote::Http::Default', http_class)
+      allow(http_class).to receive(:new).with(no_args) { http_client }
+      expect(http_client).to receive(:timeout=).with(10)
+      allow(Capybara::Selenium::Driver).to receive(:new).with(app, kind_of(Hash)) { driver }
+      expect(driver).to receive(:browser) { driver_browser }
+      expect(driver_browser).to receive(:file_detector=).with(file_detector)
+    end
+    it { is_expected.to eq(driver) }
+  end
+
+  describe '.cloud_resource_path' do
+    subject { cloud_resource_path(:video) }
+    context 'when sauce driver' do
+      before do
+        allow(settings).to receive(:driver) { 'sauce' }
+        expect(self).to receive(:sauce_resource_path).with(:video) { true }
+      end
+      it { is_expected.to eq(true) }
+    end
+    context 'when other driver' do
+      before { allow(settings).to receive(:driver) { 'browserstack' } }
+      it { is_expected.to eq('[NOT IMPLEMENTED]') }
+    end
   end
 
   describe '.prefix_name' do
