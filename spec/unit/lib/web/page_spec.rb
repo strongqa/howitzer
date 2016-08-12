@@ -226,14 +226,14 @@ RSpec.describe Howitzer::Web::Page do
       let(:driver) { double }
       before { allow(settings).to receive(:maximized_window) { true } }
       it do
-        expect_any_instance_of(described_class).to receive_message_chain('driver.browser.manage.window.maximize')
+        expect_any_instance_of(described_class).to receive_message_chain('current_window.maximize')
         subject
       end
     end
     context 'when maximized_window is false' do
       before { allow(settings).to receive(:maximized_window) { false } }
       it do
-        expect_any_instance_of(described_class).not_to receive(:driver)
+        expect_any_instance_of(described_class).not_to receive('current_window.maximize')
         subject
       end
     end

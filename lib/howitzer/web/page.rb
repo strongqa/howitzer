@@ -160,7 +160,7 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        driver.browser.manage.window.maximize if settings.maximized_window
+        current_window.maximize if settings.maximized_window
       end
 
       ##
