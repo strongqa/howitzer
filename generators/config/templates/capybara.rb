@@ -50,6 +50,9 @@ end
 
 if settings.driver.to_sym == :webkit
   load_driver_gem!(:webkit, 'capybara-webkit', 'capybara-webkit')
+  Capybara::Webkit.configure do |config|
+    config.allow_url(settings.app_host)
+  end
 end
 
 # :poltergeist driver
