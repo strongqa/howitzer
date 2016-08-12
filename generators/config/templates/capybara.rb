@@ -87,7 +87,7 @@ Capybara.register_driver :sauce do |app|
     recordScreenshots: settings.cloud_sauce_record_screenshot,
     videoUploadOnPass: settings.cloud_sauce_video_upload_on_pass
   )
-  url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
+  url = "http://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
   cloud_driver(app, caps, url)
 end
 
@@ -99,7 +99,7 @@ Capybara.register_driver :testingbot do |app|
     idletimeout: settings.cloud_testingbot_idle_timeout,
     screenshot: settings.cloud_testingbot_screenshots
   )
-  url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@hub.testingbot.com/wd/hub"
+  url = "http://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@hub.testingbot.com/wd/hub"
   cloud_driver(app, caps, url)
 end
 
@@ -112,7 +112,7 @@ Capybara.register_driver :browserstack do |app|
   )
   caps[:resolution] = settings.cloud_bstack_resolution if settings.cloud_bstack_resolution.present?
   caps[:device] = settings.cloud_bstack_mobile_device if settings.cloud_bstack_mobile_device.present?
-  url = "http://#{settings.cloud_auth_login}:${settings.cloud_auth_pass}@hub.browserstack.com/wd/hub"
+  url = "http://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@hub.browserstack.com/wd/hub"
   cloud_driver(app, caps, url)
 end
 
