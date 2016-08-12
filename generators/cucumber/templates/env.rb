@@ -9,7 +9,7 @@ FileUtils.mkdir_p(Howitzer.settings.log_dir)
 
 log.settings_as_formatted_text
 cache.store(:cloud, :start_time, Time.now.utc)
-cachee.store(:cloud, :status, true)
+cache.store(:cloud, :status, true)
 
 if cloud_driver?
   Capybara.drivers[settings.driver.to_sym][].options[:desired_capabilities][:name] = suite_name
