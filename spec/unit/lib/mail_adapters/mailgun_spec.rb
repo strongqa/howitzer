@@ -77,8 +77,6 @@ RSpec.describe 'Mailgun Email Adapter' do
         }
       end
       before do
-        allow(settings).to receive(:timeout_small) { 0.5 }
-        allow(settings).to receive(:timeout_short) { 0.05 }
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
           params: { event: 'stored' }

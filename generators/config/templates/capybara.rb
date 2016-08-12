@@ -17,7 +17,7 @@ Capybara.configure do |config|
   config.app_host = ''
   config.asset_host = Howitzer.app_uri.origin
   config.default_selector = :css
-  config.default_max_wait_time = settings.timeout_small
+  config.default_max_wait_time = settings.capybara_wait_time
   config.ignore_hidden_elements = true
   config.match = :one
   config.exact = true
@@ -32,7 +32,7 @@ include Howitzer::CapybaraHelpers
 # :selenium driver
 
 Capybara.register_driver :selenium do |app|
-  params = { browser: settings.sel_browser.to_s.to_sym }
+  params = { browser: settings.selenium_browser.to_s.to_sym }
   if ff_browser?
     ff_profile = Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
       profile['network.http.phishy-userpass-length'] = 255
@@ -60,7 +60,7 @@ if settings.driver.to_sym == :poltergeist
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
       app,
-      js_errors: !settings.pjs_ignore_js_errors,
+      js_errors: !settings.phantom_ignore_js_errors,
       phantomjs_options: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
     )
   end
@@ -72,9 +72,9 @@ Capybara.register_driver :phantomjs do |app|
   Capybara::Selenium::Driver.new(
     app, browser: :phantomjs,
          desired_capabilities: {
-           javascript_enabled: !settings.pjs_ignore_js_errors
+           javascript_enabled: !settings.phantom_ignore_js_errors
          },
-         args: ["--ignore-ssl-errors=#{settings.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
+         args: ["--ignore-ssl-errors=#{settings.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
   )
 end
 
@@ -128,9 +128,10 @@ Capybara.register_driver :selenium_grid do |app|
          elsif safari_browser?
            Selenium::WebDriver::Remote::Capabilities.safari
          else
-           log.error "Unknown '#{settings.sel_browser}' sel_browser. Check your settings, it should be one of" \
+           log.error "Unknown '#{settings.selenium_browser}' selenium_browser." \
+                     ' Check your settings, it should be one of' \
                      ' [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
          end
 
-  Capybara::Selenium::Driver.new(app, browser: :remote, url: settings.sel_hub_url, desired_capabilities: caps)
+  Capybara::Selenium::Driver.new(app, browser: :remote, url: settings.selenium_hub_url, desired_capabilities: caps)
 end

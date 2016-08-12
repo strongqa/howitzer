@@ -92,7 +92,7 @@ module Howitzer
       # * +time_out+ - Seconds that will be waiting for web page to be loaded
       #
 
-      def self.displayed?(timeout = settings.timeout_small)
+      def self.displayed?(timeout = settings.page_load_idle_timeout)
         end_time = ::Time.now + timeout
         until ::Time.now > end_time
           return true if opened?

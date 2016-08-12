@@ -17,11 +17,12 @@ driver: selenium
 mail_adapter: mailgun
 mailgun_key: mailgun_account_private_key
 mailgun_domain: mailgun@test.domain
+mailgun_idle_timeout: 0.5
+mailgun_sleep_time: 0.05
 
 ############################################################
 # TIMEOUTS                                                 #
 ############################################################
-timeout_tiny: 1
-timeout_short: 2
-timeout_small: 5
-timeout_medium: 15
+page_load_idle_timeout: 0.1
+capybara_wait_time: 5
+cloud_http_idle_timeout: 10

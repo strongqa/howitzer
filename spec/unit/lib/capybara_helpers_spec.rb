@@ -134,20 +134,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
       end
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :ie' do
-          before { allow(settings).to receive(:sel_browser) { :ie } }
+        context 'settings.selenium_browser = :ie' do
+          before { allow(settings).to receive(:selenium_browser) { :ie } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :iexplore' do
-          before { allow(settings).to receive(:sel_browser) { :iexplore } }
+        context 'settings.selenium_browser = :iexplore' do
+          before { allow(settings).to receive(:selenium_browser) { :iexplore } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -162,20 +162,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
       end
       context 'when selenium_grid_driver? is TRUE' do
         let(:selenium_grid_driver) { true }
-        context 'settings.sel_browser = :ie' do
-          before { allow(settings).to receive(:sel_browser) { :ie } }
+        context 'settings.selenium_browser = :ie' do
+          before { allow(settings).to receive(:selenium_browser) { :ie } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :iexplore' do
-          before { allow(settings).to receive(:sel_browser) { :iexplore } }
+        context 'settings.selenium_browser = :iexplore' do
+          before { allow(settings).to receive(:selenium_browser) { :iexplore } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -196,20 +196,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
       end
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :ie' do
-          before { allow(settings).to receive(:sel_browser) { :ie } }
+        context 'settings.selenium_browser = :ie' do
+          before { allow(settings).to receive(:selenium_browser) { :ie } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :iexplore' do
-          before { allow(settings).to receive(:sel_browser) { :iexplore } }
+        context 'settings.selenium_browser = :iexplore' do
+          before { allow(settings).to receive(:selenium_browser) { :iexplore } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -296,20 +296,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
       end
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :ff' do
-          before { allow(settings).to receive(:sel_browser) { :ff } }
+        context 'settings.selenium_browser = :ff' do
+          before { allow(settings).to receive(:selenium_browser) { :ff } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :firefox' do
-          before { allow(settings).to receive(:sel_browser) { :firefox } }
+        context 'settings.selenium_browser = :firefox' do
+          before { allow(settings).to receive(:selenium_browser) { :firefox } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -328,20 +328,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :ff' do
-          before { allow(settings).to receive(:sel_browser) { :ff } }
+        context 'settings.selenium_browser = :ff' do
+          before { allow(settings).to receive(:selenium_browser) { :ff } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :firefox' do
-          before { allow(settings).to receive(:sel_browser) { :firefox } }
+        context 'settings.selenium_browser = :firefox' do
+          before { allow(settings).to receive(:selenium_browser) { :firefox } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -393,20 +393,20 @@ RSpec.describe Howitzer::CapybaraHelpers do
         before { allow(self).to receive(:cloud_driver?) { false } }
         context 'when selenium_grid_driver? is TRUE' do
           let(:selenium_grid_driver) { true }
-          context 'settings.sel_browser = :ff' do
-            before { allow(settings).to receive(:sel_browser) { :ff } }
+          context 'settings.selenium_browser = :ff' do
+            before { allow(settings).to receive(:selenium_browser) { :ff } }
             it { is_expected.to be_truthy }
           end
-          context 'settings.sel_browser = :firefox' do
-            before { allow(settings).to receive(:sel_browser) { :firefox } }
+          context 'settings.selenium_browser = :firefox' do
+            before { allow(settings).to receive(:selenium_browser) { :firefox } }
             it { is_expected.to be_truthy }
           end
-          context 'settings.sel_browser = :chrome' do
-            before { allow(settings).to receive(:sel_browser) { :chrome } }
+          context 'settings.selenium_browser = :chrome' do
+            before { allow(settings).to receive(:selenium_browser) { :chrome } }
             it { is_expected.to be_falsey }
           end
-          context 'settings.sel_browser is not specified' do
-            before { allow(settings).to receive(:sel_browser) { nil } }
+          context 'settings.selenium_browser is not specified' do
+            before { allow(settings).to receive(:selenium_browser) { nil } }
             it do
               expect(log).to receive(:error).with(
                 Howitzer::SelBrowserNotSpecifiedError,
@@ -486,16 +486,16 @@ RSpec.describe Howitzer::CapybaraHelpers do
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :chrome' do
-          before { allow(settings).to receive(:sel_browser) { :chrome } }
+        context 'settings.selenium_browser = :chrome' do
+          before { allow(settings).to receive(:selenium_browser) { :chrome } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :firefox' do
-          before { allow(settings).to receive(:sel_browser) { :firefox } }
+        context 'settings.selenium_browser = :firefox' do
+          before { allow(settings).to receive(:selenium_browser) { :firefox } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -537,16 +537,16 @@ RSpec.describe Howitzer::CapybaraHelpers do
       before { allow(self).to receive(:cloud_driver?) { false } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :safari' do
-          before { allow(settings).to receive(:sel_browser) { :safari } }
+        context 'settings.selenium_browser = :safari' do
+          before { allow(settings).to receive(:selenium_browser) { :safari } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :firefox' do
-          before { allow(settings).to receive(:sel_browser) { :firefox } }
+        context 'settings.selenium_browser = :firefox' do
+          before { allow(settings).to receive(:selenium_browser) { :firefox } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -565,16 +565,16 @@ RSpec.describe Howitzer::CapybaraHelpers do
       before { allow(self).to receive(:selenium_driver?) { selenium_driver } }
       context 'when selenium_driver? is TRUE' do
         let(:selenium_driver) { true }
-        context 'settings.sel_browser = :safari' do
-          before { allow(settings).to receive(:sel_browser) { :safari } }
+        context 'settings.selenium_browser = :safari' do
+          before { allow(settings).to receive(:selenium_browser) { :safari } }
           it { is_expected.to be_truthy }
         end
-        context 'settings.sel_browser = :firefox' do
-          before { allow(settings).to receive(:sel_browser) { :firefox } }
+        context 'settings.selenium_browser = :firefox' do
+          before { allow(settings).to receive(:selenium_browser) { :firefox } }
           it { is_expected.to be_falsey }
         end
-        context 'settings.sel_browser is not specified' do
-          before { allow(settings).to receive(:sel_browser) { nil } }
+        context 'settings.selenium_browser is not specified' do
+          before { allow(settings).to receive(:selenium_browser) { nil } }
           it do
             expect(log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
@@ -741,7 +741,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
     let(:http_client) { double(:http_client) }
     subject { cloud_driver(app, caps, url) }
     before do
-      allow(settings).to receive(:timeout_medium) { 10 }
+      allow(settings).to receive(:cloud_http_idle_timeout) { 10 }
       allow(self).to receive(:remote_file_detector) { file_detector }
       stub_const('Selenium::WebDriver::Remote::Capabilities', cap_class)
       allow(cap_class).to receive(:new).with(caps) { des_caps }
