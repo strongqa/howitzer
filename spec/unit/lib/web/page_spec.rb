@@ -157,6 +157,16 @@ RSpec.describe Howitzer::Web::Page do
   end
 
   describe '.expanded_url' do
+    before do
+      allow(Howitzer).to receive(:app_uri) do
+        ::Addressable::URI.new(
+          user: settings.app_base_auth_login,
+          password: settings.app_base_auth_pass,
+          host: settings.app_host,
+          scheme: settings.app_protocol || 'http'
+        )
+      end
+    end
     context 'when params present' do
       subject { test_page.expanded_url(id: 1) }
       context 'when page url specified' do

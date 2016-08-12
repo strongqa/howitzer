@@ -6,7 +6,7 @@ require 'rubocop/rake_task'
 
 load 'howitzer/tasks/framework.rake'
 
-Dir.chdir(File.join(File.dirname(__FILE__), '.'))
+Dir.chdir(File.join(__dir__, '.'))
 
 RuboCop::RakeTask.new
 

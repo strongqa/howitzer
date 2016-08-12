@@ -4,7 +4,7 @@ Given /^created old howitzer project based on rspec$/ do
 
   FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
   FileUtils.remove_dir File.join(expand_path('.'), 'test_automation'), true
-  overwrite_file('boot.rb', "Dir.chdir(File.join(File.dirname(__FILE__), '.'))")
+  overwrite_file('boot.rb', "Dir.chdir(File.join(__dir__, '.'))")
   overwrite_file('Gemfile', 'Hello')
   remove 'config/default.yml'
 end
@@ -15,7 +15,7 @@ Given /^created old howitzer project based on cucumber$/ do
 
   FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
   FileUtils.remove_dir File.join(expand_path('.'), 'test_automation'), true
-  overwrite_file('boot.rb', "Dir.chdir(File.join(File.dirname(__FILE__), '.'))")
+  overwrite_file('boot.rb', "Dir.chdir(File.join(__dir__, '.'))")
   overwrite_file('Gemfile', 'Hello')
   remove 'config/default.yml'
 end

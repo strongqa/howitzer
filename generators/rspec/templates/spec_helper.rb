@@ -3,7 +3,7 @@ require 'capybara/rspec'
 require_relative '../boot'
 require_relative '../config/capybara'
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
+Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   log.settings_as_formatted_text
@@ -29,7 +29,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each) do
-    Howitzer::Utils::DataStorage.clear_all_ns
+    cache.clear_all_ns
     if cloud_driver?
       session_end = duration(Time.now.utc - cache.extract(:cloud, :start_time))
       log.info "CLOUD VIDEO #{@session_start} - #{session_end}" \

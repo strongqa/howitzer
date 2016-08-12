@@ -33,7 +33,7 @@ SimpleCov.start do
 end
 
 def project_path
-  File.expand_path(File.join(File.dirname(__FILE__), '..'))
+  File.expand_path(File.join(__dir__, '..'))
 end
 
 def lib_path
@@ -48,7 +48,7 @@ def log_path
   File.join(project_path, 'spec/log')
 end
 
-Dir[File.join(File.dirname(__FILE__), 'support', '**', '*.rb')].each { |f| require f }
+Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include Howitzer::GeneratorHelper
