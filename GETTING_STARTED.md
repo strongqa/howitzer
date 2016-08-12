@@ -34,7 +34,7 @@ The table below gives an important information on the driver settings in Howitze
     </td>
     <td align="center">Headless</td>
     <td align="center">
-      <strong>pjs_ignore_js_errors</strong><br/><br/>
+      <strong>phantom_ignore_js_errors</strong><br/><br/>
       <strong>pjs_ignore_ssl_errors</strong>
     </td>
     <td align="center">
@@ -57,14 +57,14 @@ The table below gives an important information on the driver settings in Howitze
   <tr>
     <td><a href="https://code.google.com/p/selenium/wiki/RubyBindings">selenium</a></td>
     <td align="center">Real</td>
-    <td align="center"><strong>sel_browser</strong></td>
+    <td align="center"><strong>selenium_browser</strong></td>
     <td align="center">String</td>
     <td align="center">Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
   </tr>
   <tr>
       <td><a href="http://docs.seleniumhq.org/docs/07_selenium_grid.jsp">selenium_grid</a></td>
       <td align="center">Real</td>
-      <td align="center"><strong>sel_hub_url<br/>sel_browser<br/><br/><br/></strong></td>
+      <td align="center"><strong>selenium_hub_url<br/>selenium_browser<br/><br/><br/></strong></td>
       <td align="center">String<br/>String<br/><br/><br/></td>
       <td align="center">Hub url<br/>Indicate one of the following browsers: iexplore (ie), firefox (ff), chrome, safari.</td>
   </tr>

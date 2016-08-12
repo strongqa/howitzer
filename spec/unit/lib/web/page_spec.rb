@@ -125,7 +125,6 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:current_page) { 'FooPage' }
         allow(session).to receive(:current_url) { 'http://test.com' }
         allow(session).to receive(:title) { 'Test site' }
-        allow(settings).to receive(:timeout_small) { 0.1 }
         allow(described_class).to receive(:opened?) { false }
       end
       it do
@@ -266,7 +265,6 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.instance.click_alert_box(flag_value) }
     before do
       allow(settings).to receive(:driver) { driver_name }
-      allow(settings).to receive(:timeout_tiny) { 0 }
       allow(session).to receive(:current_url) { 'google.com' }
       allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
     end

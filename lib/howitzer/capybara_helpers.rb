@@ -199,10 +199,13 @@ module Howitzer
 
     # describe me!
     def cloud_driver(app, caps, url)
+      http_client = ::Selenium::WebDriver::Remote::Http::Default.new
+      http_client.timeout = settings.cloud_http_idle_timeout
+
       options = {
         url: url,
         desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),
-        http_client: ::Selenium::WebDriver::Remote::Http::Default.new.tap { |c| c.timeout = settings.timeout_medium },
+        http_client: http_client,
         browser: :remote
       }
       driver = Capybara::Selenium::Driver.new(app, options)
@@ -233,8 +236,8 @@ module Howitzer
     end
 
     def selenium_browser?(*browser_aliases)
-      log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.sel_browser.nil?
-      browser_aliases.include?(settings.sel_browser.to_s.to_sym)
+      log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.selenium_browser.nil?
+      browser_aliases.include?(settings.selenium_browser.to_s.to_sym)
     end
   end
 end
