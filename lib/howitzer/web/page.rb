@@ -48,9 +48,9 @@ module Howitzer
 
       def self.open(validate: true, **params)
         url = expanded_url(params)
-        log.info "Open #{name} page by '#{url}' url"
-        retryable(tries: 2, logger: log, trace: true, on: Exception) do |retries|
-          log.info 'Retry...' unless retries.zero?
+        Howitzer::Log.info "Open #{name} page by '#{url}' url"
+        retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
+          Howitzer::Log.info 'Retry...' unless retries.zero?
           Capybara.current_session.visit(url)
         end
         given if validate
@@ -80,7 +80,7 @@ module Howitzer
       def self.current_page
         page_list = matched_pages
         return UnknownPage if page_list.count.zero?
-        return log.error(AmbiguousPageMatchingError, ambiguous_page_msg(page_list)) if page_list.count > 1
+        return Howitzer::Log.error(AmbiguousPageMatchingError, ambiguous_page_msg(page_list)) if page_list.count > 1
         return page_list.first if page_list.count == 1
       end
 
@@ -98,7 +98,7 @@ module Howitzer
           return true if opened?
           sleep(0.5)
         end
-        log.error IncorrectPageError, incorrect_page_msg
+        Howitzer::Log.error IncorrectPageError, incorrect_page_msg
       end
 
       # describe me!
@@ -186,7 +186,7 @@ module Howitzer
       #
 
       def reload
-        log.info "Reload '#{current_url}'"
+        Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
       end
 

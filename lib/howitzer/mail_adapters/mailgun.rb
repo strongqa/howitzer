@@ -9,7 +9,7 @@ module Howitzer
       def self.find(recipient, subject)
         message = {}
         retryable(find_retry_params) { message = retrieve_message(recipient, subject) }
-        log.error(
+        Howitzer::Log.error(
           EmailNotFoundError,
           "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
         ) if message.empty?
@@ -35,7 +35,7 @@ module Howitzer
           timeout: Howitzer.mailgun_idle_timeout,
           sleep: Howitzer.mailgun_sleep_time,
           silent: true,
-          logger: log,
+          logger: Howitzer::Log,
           on: EmailNotFoundError
         }
       end
@@ -81,7 +81,7 @@ module Howitzer
       def mime_part
         files = message['attachments']
         if files.empty?
-          log.error NoAttachmentsError, 'No attachments where found.'
+          Howitzer::Log.error NoAttachmentsError, 'No attachments where found.'
           return
         end
         files

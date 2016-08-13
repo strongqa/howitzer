@@ -1,10 +1,10 @@
 require 'spec_helper'
-require 'howitzer/utils/log'
+require 'howitzer/log'
 include Howitzer::LoggerHelper
 
-RSpec.describe Howitzer::Utils::Log do
-  context '#log' do
-    subject { log }
+RSpec.describe Howitzer::Log do
+  context '#instance' do
+    subject { described_class.instance }
     let(:other_log) { described_class.instance }
     it { is_expected.to be_a_kind_of(described_class) }
     it { is_expected.to equal(other_log) }
@@ -12,7 +12,7 @@ RSpec.describe Howitzer::Utils::Log do
 
   context '.error' do
     context 'when one argument given' do
-      subject { log.error(*args) }
+      subject { Howitzer::Log.error(*args) }
       context 'when exception given as argument' do
         let(:args) { [StandardError.new('Exception_error_message')] }
         it { expect { subject }.to raise_error(StandardError, 'Exception_error_message') }
@@ -32,7 +32,7 @@ RSpec.describe Howitzer::Utils::Log do
       end
     end
     context 'when two arguments given' do
-      subject { log.error(*args) }
+      subject { Howitzer::Log.error(*args) }
       context 'when given text as first arg and caller as second' do
         let(:args) { %w(Some_text two_args_caller) }
         it { expect { subject }.to raise_error(RuntimeError) }
@@ -57,7 +57,7 @@ RSpec.describe Howitzer::Utils::Log do
       end
     end
     context 'when three arguments given' do
-      subject { log.error(*args) }
+      subject { Howitzer::Log.error(*args) }
       context 'when NameError given as first arg, message as second and caller as third' do
         let(:args) { [NameError, 'Name_error_text', 'three_args_caller'] }
         it { expect { subject }.to raise_error(NameError) }

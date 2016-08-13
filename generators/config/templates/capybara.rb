@@ -8,8 +8,10 @@ HOWITZER_KNOWN_DRIVERS = [
   :testingbot,
   :browserstack
 ].freeze
+
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
-  log.error "Unknown '#{Howitzer.driver}' driver. Check your settings, it should be one of #{HOWITZER_KNOWN_DRIVERS}"
+  Howitzer::Log.error "Unknown '#{Howitzer.driver}' driver." \
+                      " Check your settings, it should be one of #{HOWITZER_KNOWN_DRIVERS}"
 end
 
 Capybara.configure do |config|
@@ -131,7 +133,7 @@ Capybara.register_driver :selenium_grid do |app|
          elsif safari_browser?
            Selenium::WebDriver::Remote::Capabilities.safari
          else
-           log.error "Unknown '#{Howitzer.selenium_browser}' selenium_browser." \
+           Howitzer::Log.error "Unknown '#{Howitzer.selenium_browser}' selenium_browser." \
                      ' Check your settings, it should be one of' \
                      ' [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
          end

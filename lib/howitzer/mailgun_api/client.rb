@@ -34,7 +34,7 @@ module Howitzer
         response = http_client[resource_path].get(http_params)
         Response.new(response)
       rescue => e
-        log.error CommunicationError, e.message
+        Howitzer::Log.error CommunicationError, e.message
       end
 
       # describe me!
@@ -50,7 +50,7 @@ module Howitzer
         )
         Response.new(response)
       rescue => e
-        log.error CommunicationError, e.message
+        Howitzer::Log.error CommunicationError, e.message
       end
 
       private

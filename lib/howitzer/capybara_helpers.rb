@@ -231,12 +231,12 @@ module Howitzer
     end
 
     def cloud_browser?(*browser_aliases)
-      log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.cloud_browser_name.nil?
+      Howitzer::Log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.cloud_browser_name.nil?
       browser_aliases.include?(Howitzer.cloud_browser_name.to_s.to_sym)
     end
 
     def selenium_browser?(*browser_aliases)
-      log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.selenium_browser.nil?
+      Howitzer::Log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.selenium_browser.nil?
       browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
     end
   end

@@ -118,7 +118,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       context 'Howitzer.cloud_browser_name is not specified' do
         before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(
+          expect(Howitzer::Log).to receive(:error).with(
             Howitzer::CloudBrowserNotSpecifiedError,
             'Please check your settings'
           ).once.and_call_original
@@ -148,7 +148,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -176,7 +176,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -210,7 +210,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -247,7 +247,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.cloud_browser_name is not specified' do
           before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::CloudBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -280,7 +280,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       context 'Howitzer.cloud_browser_name is not specified' do
         before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(
+          expect(Howitzer::Log).to receive(:error).with(
             Howitzer::CloudBrowserNotSpecifiedError,
             'Please check your settings'
           ).once.and_call_original
@@ -310,7 +310,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -342,7 +342,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -379,7 +379,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.cloud_browser_name is not specified' do
           before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::CloudBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -407,7 +407,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
           context 'Howitzer.selenium_browser is not specified' do
             before { allow(Howitzer).to receive(:selenium_browser) { nil } }
             it do
-              expect(log).to receive(:error).with(
+              expect(Howitzer::Log).to receive(:error).with(
                 Howitzer::SelBrowserNotSpecifiedError,
                 'Please check your settings'
               ).once.and_call_original
@@ -444,7 +444,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
           context 'Howitzer.cloud_browser_name is not specified' do
             before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
             it do
-              expect(log).to receive(:error).with(
+              expect(Howitzer::Log).to receive(:error).with(
                 Howitzer::CloudBrowserNotSpecifiedError,
                 'Please check your settings'
               ).once.and_call_original
@@ -472,7 +472,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       context 'Howitzer.cloud_browser_name is not specified' do
         before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(
+          expect(Howitzer::Log).to receive(:error).with(
             Howitzer::CloudBrowserNotSpecifiedError,
             'Please check your settings'
           ).once.and_call_original
@@ -496,7 +496,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -523,7 +523,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       context 'Howitzer.cloud_browser_name is not specified' do
         before { allow(Howitzer).to receive(:cloud_browser_name) { nil } }
         it do
-          expect(log).to receive(:error).with(
+          expect(Howitzer::Log).to receive(:error).with(
             Howitzer::CloudBrowserNotSpecifiedError,
             'Please check your settings'
           ).once.and_call_original
@@ -547,7 +547,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original
@@ -575,7 +575,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
         context 'Howitzer.selenium_browser is not specified' do
           before { allow(Howitzer).to receive(:selenium_browser) { nil } }
           it do
-            expect(log).to receive(:error).with(
+            expect(Howitzer::Log).to receive(:error).with(
               Howitzer::SelBrowserNotSpecifiedError,
               'Please check your settings'
             ).once.and_call_original

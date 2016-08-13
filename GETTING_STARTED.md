@@ -317,7 +317,7 @@ module TopMenu
   end
 
   def open_menu
-    log.info "Open menu"
+    Howitzer::Log.info "Open menu"
     test_link1_element.click
   end
 end
@@ -395,12 +395,12 @@ end
 ```ruby
 class MyPage < WebPage
   def submit_form
-    log.info { "[ACTION] Submit form" }
+    Howitzer::Log.info { "[ACTION] Submit form" }
     # ...
   end
 
   def fill_form
-    log.info { "[ACTION] Fill form" }
+    Howitzer::Log.info { "[ACTION] Fill form" }
     # ...
   end
 end
@@ -502,7 +502,7 @@ FATAL <WARN <INFO <DEBUG
 **Example:**
 
 ```bash
-log.info "info message"
+Howitzer::Log.info "info message"
 ```
 
 To create a record with a different level, use the appropriate method.
@@ -510,8 +510,8 @@ To create a record with a different level, use the appropriate method.
 **Example:**
 
 ```bash
-log.warn "warning message"
-log.fatal "fatal message"
+Howitzer::Log.warn "warning message"
+Howitzer::Log.fatal "fatal message"
 ```
 
 If the option `Howitzer.debug_mode` = true, the logger will record messages with **DEBUG** status.
@@ -531,12 +531,12 @@ Examples of logs usage in **Pages** and **Email**.
 ```ruby
 class MyPage < WebPage
   def submit_form
-    log.info  "[ACTION] Submit form"
+    Howitzer::Log.info  "[ACTION] Submit form"
     …
   end
 
   def fill_form
-    log.info  "[ACTION] Fill form"
+    Howitzer::Log.info  "[ACTION] Fill form"
     …
   end
 end
@@ -550,9 +550,9 @@ class TestEmail < Email
 
   def addressed_to?(new_user)
     if /Hi #{ new_user }/ === plain_text_body
-      log.info "some message"
+      Howitzer::Log.info "some message"
     else
-      log.warn "some mesage"
+      Howitzer::Log.warn "some mesage"
     end
   end
 end

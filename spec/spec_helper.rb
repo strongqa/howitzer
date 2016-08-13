@@ -46,7 +46,6 @@ puts SexySettings::Base.instance.as_formatted_text
 
 require 'howitzer'
 require 'howitzer/exceptions'
-require 'howitzer/utils/log'
 
 def project_path
   File.expand_path(File.join(__dir__, '..'))
@@ -62,10 +61,6 @@ end
 
 def log_path
   File.join(project_path, 'spec/log')
-end
-
-def log
-  Howitzer::Utils::Log.instance
 end
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }

@@ -21,7 +21,7 @@ RSpec.describe Howitzer::Web::PageValidator do
     subject { web_page.check_validations_are_defined! }
     context 'when no validation specified' do
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::NoValidationError,
           "No any page validation was found for 'TestWebPageClass' page"
         ).once.and_call_original
@@ -129,7 +129,7 @@ RSpec.describe Howitzer::Web::PageValidator do
       let(:name) { :unknown }
       let(:value) { '' }
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::UnknownValidationError,
           "unknown 'unknown' validation type"
         ).once.and_call_original
@@ -151,7 +151,7 @@ RSpec.describe Howitzer::Web::PageValidator do
     subject { web_page_class.opened? }
     context 'when no one validation is defined' do
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::NoValidationError,
           "No any page validation was found for 'TestWebPageClass' page"
         ).once.and_call_original

@@ -15,14 +15,6 @@ module Howitzer
       define_method(key) { value }
     end
   end
-  ##
-  #
-  # Returns logger as singleton object
-  #
-
-  def self.log
-    Log.instance
-  end
 
   ##
   #
@@ -48,7 +40,7 @@ module Howitzer
 end
 
 require 'howitzer/version'
-require 'howitzer/utils/log'
+require 'howitzer/log'
 require 'howitzer/utils'
 require 'howitzer/email'
 require 'howitzer/web'

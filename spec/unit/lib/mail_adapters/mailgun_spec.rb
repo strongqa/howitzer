@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'howitzer/email'
-require 'howitzer/utils/log'
+require 'howitzer/log'
 require 'howitzer/exceptions'
 require 'howitzer/mailgun_api/connector'
 
@@ -83,7 +83,7 @@ RSpec.describe 'Mailgun Email Adapter' do
         ).at_least(:twice).ordered { events }
       end
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::EmailNotFoundError,
           "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found."
         )
@@ -145,7 +145,7 @@ RSpec.describe 'Mailgun Email Adapter' do
       let(:error) { Howitzer::NoAttachmentsError }
       let(:error_message) { 'No attachments where found.' }
       it do
-        expect(log).to receive(:error).with(error, error_message).once
+        expect(Howitzer::Log).to receive(:error).with(error, error_message).once
         subject
       end
     end

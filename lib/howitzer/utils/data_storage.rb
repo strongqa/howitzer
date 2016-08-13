@@ -69,7 +69,7 @@ module Howitzer
           if ns
             init_ns(ns) if ns_absent?(ns)
           else
-            log.error 'Data storage namespace can not be empty'
+            Howitzer::Log.error 'Data storage namespace can not be empty'
           end
         end
 

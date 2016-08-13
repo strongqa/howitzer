@@ -1,9 +1,5 @@
 Dir.chdir(File.join(__dir__, '.'))
 
-def log
-  Howitzer::Utils::Log.instance
-end
-
 def cache
   Howitzer.cache
 end

@@ -21,7 +21,7 @@ RSpec.describe Howitzer::MailgunApi::Response do
     context 'when impossible parse body' do
       let(:body) { "'123': '123' :123" }
       it do
-        expect(log).to receive(:error).with(Howitzer::ParseError, any_args)
+        expect(Howitzer::Log).to receive(:error).with(Howitzer::ParseError, any_args)
           .once.and_call_original
         expect { subject }.to raise_error(Howitzer::ParseError)
       end
