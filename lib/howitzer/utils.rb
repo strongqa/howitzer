@@ -8,5 +8,4 @@ module Howitzer
   end
 end
 
-require 'howitzer/utils/data_storage'
 require 'howitzer/utils/string_extensions'
