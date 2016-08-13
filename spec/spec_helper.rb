@@ -2,19 +2,6 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'coveralls'
-require 'tmpdir'
-require 'ffaker'
-require 'capybara'
-require 'json'
-require 'capybara/dsl'
-require 'active_support'
-require 'active_support/deprecation'
-require 'active_support/deprecation/method_wrappers'
-require 'active_support/core_ext'
-require 'repeater'
-require 'howitzer/exceptions'
-require 'howitzer/utils/log'
-
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
     SimpleCov::Formatter::HTMLFormatter,
@@ -32,6 +19,35 @@ SimpleCov.start do
   add_group 'lib', '/lib'
 end
 
+require 'tmpdir'
+require 'ffaker'
+require 'capybara'
+require 'json'
+require 'capybara/dsl'
+require 'active_support'
+require 'active_support/deprecation'
+require 'active_support/deprecation/method_wrappers'
+require 'active_support/core_ext'
+require 'repeater'
+require 'sexy_settings'
+
+SexySettings.configure do |config|
+  config.path_to_default_settings = File.expand_path(
+    'default.yml',
+    File.join(__dir__, '..', 'generators', 'config', 'templates')
+  )
+  config.path_to_custom_settings = File.expand_path(
+    'custom.yml',
+    File.join(__dir__, 'config')
+  )
+end
+
+puts SexySettings::Base.instance.as_formatted_text
+
+require 'howitzer'
+require 'howitzer/exceptions'
+require 'howitzer/utils/log'
+
 def project_path
   File.expand_path(File.join(__dir__, '..'))
 end
@@ -46,6 +62,10 @@ end
 
 def log_path
   File.join(project_path, 'spec/log')
+end
+
+def log
+  Howitzer::Utils::Log.instance
 end
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }

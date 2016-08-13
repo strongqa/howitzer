@@ -5,14 +5,14 @@ require_relative '../../config/capybara'
 
 World(FactoryGirl::Syntax::Methods)
 
-FileUtils.mkdir_p(Howitzer.settings.log_dir)
+FileUtils.mkdir_p(Howitzer.log_dir)
 
 log.settings_as_formatted_text
 cache.store(:cloud, :start_time, Time.now.utc)
 cache.store(:cloud, :status, true)
 
 if cloud_driver?
-  Capybara.drivers[settings.driver.to_sym][].options[:desired_capabilities][:name] = suite_name
+  Capybara.drivers[Howitzer.driver.to_sym][].options[:desired_capabilities][:name] = suite_name
   Capybara.current_session # we force new session creating to register at_exit callback on browser method
 end
 

@@ -62,7 +62,7 @@ RSpec.describe Howitzer::MailgunApi::Connector do
   describe '#change_domain' do
     context 'when default' do
       before { connector.change_domain }
-      it { expect(connector.instance_variable_get(:@domain)).to eq(settings.mailgun_domain) }
+      it { expect(connector.instance_variable_get(:@domain)).to eq(Howitzer.mailgun_domain) }
     end
     context 'when custom' do
       before { connector.change_domain(domain_name) }

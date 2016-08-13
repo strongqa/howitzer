@@ -81,6 +81,7 @@
  html_log: log.html
  selenium_server_log: selenium-server.log
  required_clean_logs: true
+ hide_datetime_from_log: false
 
 ###########################################################
 # MAIL SETTINGS                                           #

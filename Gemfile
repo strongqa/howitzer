@@ -12,3 +12,5 @@ gemspec
 group :development do
   gem 'rubocop'
 end
+
+gem 'pry'

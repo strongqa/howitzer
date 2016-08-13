@@ -92,7 +92,7 @@ module Howitzer
       # * +time_out+ - Seconds that will be waiting for web page to be loaded
       #
 
-      def self.displayed?(timeout = settings.page_load_idle_timeout)
+      def self.displayed?(timeout = Howitzer.page_load_idle_timeout)
         end_time = ::Time.now + timeout
         until ::Time.now > end_time
           return true if opened?
@@ -160,7 +160,7 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if settings.maximized_window
+        current_window.maximize if Howitzer.maximized_window
       end
 
       ##
@@ -172,7 +172,7 @@ module Howitzer
       #
 
       def click_alert_box(flag)
-        if %w(selenium sauce).include? settings.driver
+        if %w(selenium sauce).include? Howitzer.driver
           alert = driver.browser.switch_to.alert
           flag ? alert.accept : alert.dismiss
         else

@@ -1,7 +1,7 @@
 require 'rspec/core/rake_task'
 TURNIP_OPTS = [
   '--format html',
-  "--out ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
+  "--out ./#{Howitzer.log_dir}/#{Howitzer.html_log}",
   '--format documentation',
   ' --color'
 ].join(' ').freeze

@@ -9,7 +9,7 @@ module Howitzer
     # describe me!
 
     def cloud_driver?
-      [:sauce, :testingbot, :browserstack].include?(settings.driver.to_sym)
+      [:sauce, :testingbot, :browserstack].include?(Howitzer.driver.to_sym)
     end
 
     ##
@@ -18,7 +18,7 @@ module Howitzer
     #
 
     def selenium_driver?
-      settings.driver.to_sym == :selenium
+      Howitzer.driver.to_sym == :selenium
     end
 
     ##
@@ -27,7 +27,7 @@ module Howitzer
     #
 
     def selenium_grid_driver?
-      settings.driver.to_sym == :selenium_grid
+      Howitzer.driver.to_sym == :selenium_grid
     end
 
     ##
@@ -36,7 +36,7 @@ module Howitzer
     #
 
     def phantomjs_driver?
-      settings.driver.to_sym == :phantomjs
+      Howitzer.driver.to_sym == :phantomjs
     end
 
     ##
@@ -116,13 +116,13 @@ module Howitzer
         else
           raise ArgumentError, "Unknown '#{kind}' kind"
         end
-      host = "https://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@saucelabs.com"
-      path = "/rest/#{settings.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
+      host = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/#{Howitzer.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
       "#{host}#{path}"
     end
 
     def update_cloud_job_status(json_data = {})
-      case settings.driver.to_sym
+      case Howitzer.driver.to_sym
       when :sauce then update_sauce_job_status(json_data)
       else
         '[NOT IMPLEMENTED]'
@@ -138,8 +138,8 @@ module Howitzer
     #
 
     def update_sauce_job_status(json_data = {})
-      host = "http://#{settings.cloud_auth_login}:#{settings.cloud_auth_pass}@saucelabs.com"
-      path = "/rest/v1/#{settings.cloud_auth_login}/jobs/#{session_id}"
+      host = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/v1/#{Howitzer.cloud_auth_login}/jobs/#{session_id}"
       url = "#{host}#{path}"
       ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
     end
@@ -159,7 +159,7 @@ module Howitzer
             else
               'CUSTOM'
             end
-      "#{res} #{settings.cloud_browser_name.upcase}"
+      "#{res} #{Howitzer.cloud_browser_name.upcase}"
     end
 
     # describe me!
@@ -182,10 +182,10 @@ module Howitzer
     # describe me!
     def required_cloud_caps
       {
-        platform: settings.cloud_platform,
-        browserName: settings.cloud_browser_name,
-        version: settings.cloud_browser_version,
-        name: "#{prefix_name} #{settings.cloud_browser_name}"
+        platform: Howitzer.cloud_platform,
+        browserName: Howitzer.cloud_browser_name,
+        version: Howitzer.cloud_browser_version,
+        name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
       }
     end
 
@@ -200,7 +200,7 @@ module Howitzer
     # describe me!
     def cloud_driver(app, caps, url)
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
-      http_client.timeout = settings.cloud_http_idle_timeout
+      http_client.timeout = Howitzer.cloud_http_idle_timeout
 
       options = {
         url: url,
@@ -216,7 +216,7 @@ module Howitzer
     # describe me!
 
     def cloud_resource_path(kind)
-      case settings.driver.to_sym
+      case Howitzer.driver.to_sym
       when :sauce then sauce_resource_path(kind)
       else
         '[NOT IMPLEMENTED]'
@@ -231,13 +231,13 @@ module Howitzer
     end
 
     def cloud_browser?(*browser_aliases)
-      log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.cloud_browser_name.nil?
-      browser_aliases.include?(settings.cloud_browser_name.to_s.to_sym)
+      log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.cloud_browser_name.nil?
+      browser_aliases.include?(Howitzer.cloud_browser_name.to_s.to_sym)
     end
 
     def selenium_browser?(*browser_aliases)
-      log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if settings.selenium_browser.nil?
-      browser_aliases.include?(settings.selenium_browser.to_s.to_sym)
+      log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.selenium_browser.nil?
+      browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
     end
   end
 end
