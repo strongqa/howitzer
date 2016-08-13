@@ -1,7 +1,7 @@
 require 'spec_helper'
-require 'howitzer/utils/data_storage'
+require 'howitzer/cache'
 
-RSpec.describe Howitzer::Utils::DataStorage do
+RSpec.describe Howitzer::Cache do
   before { described_class.data.clear }
   describe '.store' do
     subject { described_class.store(ns, 7, :halt) }

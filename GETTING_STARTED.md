@@ -585,19 +585,19 @@ The module supports the following methods:
 </thead>
 <tbody>
   <tr>
-    <td>DataStorage.store(ns,key,value) </td>
+    <td>Howitzer::Howitzer::Cache.store(ns,key,value) </td>
     <td>Adds data to the storage, where ns is a unique namespace name.</td>
   </tr>
   <tr>
-    <td>DataStorage::extract(ns, key=nil)</td>
+    <td>Howitzer::Cache::extract(ns, key=nil)</td>
     <td>Gets data from the storage by a namespace and a key. If a key is not specified, it will return all data from the namespace.</td>
   </tr>
   <tr>
-    <td>DataStorage::clear_ns(ns)</td>
+    <td>Howitzer::Cache::clear_ns(ns)</td>
     <td>Removes a namespace with the data.</td>
   </tr>
   <tr>
-    <td>DataStorage::clear_all_ns(exception_list=SPECIAL_NS_LIST)</td>
+    <td>Howitzer::Cache::clear_all_ns(exception_list=SPECIAL_NS_LIST)</td>
     <td>Removes all namespaces except special namespaces provided as an array.</td>
   </tr>
 </tbody>
@@ -606,9 +606,9 @@ The module supports the following methods:
 **Example:**
 
 ```ruby
-DataStorage.store(:user, 1, User.new('Peter'))
-DataStorage.store(:user, 2, User.new('Dan'))
-DataStorage.store(:post, "post1", Post.new("Amazing post"))
+Howitzer::Howitzer::Cache.store(:user, 1, User.new('Peter'))
+Howitzer::Howitzer::Cache.store(:user, 2, User.new('Dan'))
+Howitzer::Howitzer::Cache.store(:post, "post1", Post.new("Amazing post"))
 ```
 
 In memory it looks like:

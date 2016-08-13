@@ -32,15 +32,11 @@ module Howitzer
       scheme: Howitzer.app_protocol || 'http'
     )
   end
-
-  # describe me!
-  def self.cache
-    Howitzer::Utils::DataStorage
-  end
 end
 
 require 'howitzer/version'
 require 'howitzer/log'
 require 'howitzer/utils'
+require 'howitzer/cache'
 require 'howitzer/email'
 require 'howitzer/web'
