@@ -15,7 +15,8 @@ RSpec.describe Howitzer::Web::Page do
         subject { described_class.open(id: 1) }
         it do
           expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
-          expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+          expect(Howitzer::Log).to receive(:info)
+            .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
           expect(session).to receive(:visit).with(url_value).once.ordered
           expect(described_class).to receive(:given).once.ordered { true }
@@ -27,7 +28,8 @@ RSpec.describe Howitzer::Web::Page do
         subject { described_class.open }
         it do
           expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
-          expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+          expect(Howitzer::Log).to receive(:info)
+            .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
           expect(session).to receive(:visit).with(url_value).once.ordered
           expect(described_class).to receive(:given).once.ordered { true }
@@ -40,7 +42,7 @@ RSpec.describe Howitzer::Web::Page do
       subject { described_class.open(validate: false) }
       it do
         expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
-        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+        expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
         expect(described_class).not_to receive(:given)
@@ -52,7 +54,7 @@ RSpec.describe Howitzer::Web::Page do
       subject { described_class.open(validate: true, id: 1) }
       it do
         expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
-        expect(log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
+        expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
         expect(described_class).to receive(:given).once.ordered { true }
@@ -99,7 +101,7 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:matched_pages) { [foo_page, bar_page] }
       end
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::AmbiguousPageMatchingError,
           "Current page matches more that one page class (FooPage, BarPage).\n" \
           "\tCurrent url: http://test.com\n\tCurrent title: Test site"
@@ -128,7 +130,7 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:opened?) { false }
       end
       it do
-        expect(log).to receive(:error).with(
+        expect(Howitzer::Log).to receive(:error).with(
           Howitzer::IncorrectPageError,
           "Current page: FooPage, expected: #{described_class}.\n" \
           "\tCurrent url: http://test.com\n\tCurrent title: Test site"
@@ -340,7 +342,7 @@ RSpec.describe Howitzer::Web::Page do
       allow(session).to receive(:current_url) { 'google.com' }
     end
     it do
-      expect(log).to receive(:info) { "Reload 'google.com'" }
+      expect(Howitzer::Log).to receive(:info) { "Reload 'google.com'" }
       expect(session).to receive(:visit).with('google.com')
       subject
     end

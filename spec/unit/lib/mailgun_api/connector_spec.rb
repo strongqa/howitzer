@@ -26,7 +26,7 @@ RSpec.describe Howitzer::MailgunApi::Connector do
       let(:key) { nil }
       subject { connector.client(key) }
       it do
-        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
+        expect(Howitzer::Log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
           .once.and_call_original
         expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
       end
@@ -35,7 +35,7 @@ RSpec.describe Howitzer::MailgunApi::Connector do
       let(:key) { '' }
       subject { connector.client(key) }
       it do
-        expect(log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
+        expect(Howitzer::Log).to receive(:error).with(Howitzer::InvalidApiKeyError, 'Api key can not be blank')
           .once.and_call_original
         expect { subject }.to raise_error(Howitzer::InvalidApiKeyError)
       end

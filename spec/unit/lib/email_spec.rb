@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'howitzer/email'
-require 'howitzer/utils/log'
+require 'howitzer/log'
 require 'howitzer/exceptions'
 
 RSpec.describe Howitzer::Email do

@@ -28,7 +28,7 @@ module Howitzer
       private
 
       def check_api_key(api_key)
-        log.error InvalidApiKeyError, 'Api key can not be blank' if api_key.blank?
+        Howitzer::Log.error InvalidApiKeyError, 'Api key can not be blank' if api_key.blank?
       end
     end
   end

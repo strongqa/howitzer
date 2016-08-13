@@ -29,7 +29,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
         allow(RestClient::Resource).to receive(:new) { resource }
       end
       it do
-        expect(log).to receive(:error).with(Howitzer::CommunicationError, '401 Unauthorized: Forbidden')
+        expect(Howitzer::Log).to receive(:error).with(Howitzer::CommunicationError, '401 Unauthorized: Forbidden')
           .once.and_call_original
         expect { subject }.to raise_error(Howitzer::CommunicationError)
       end

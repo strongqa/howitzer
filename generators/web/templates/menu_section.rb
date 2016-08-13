@@ -7,7 +7,7 @@ class MenuSection < Howitzer::Web::Section
   element :log_out, :xpath, ".//*[@id='metaMenu']//a[contains(., 'Log Out')]"
 
   def logout
-    log.info 'Log out'
+    Howitzer::Log.info 'Log out'
     log_out_element.click
   end
 end

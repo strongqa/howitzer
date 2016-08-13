@@ -26,7 +26,7 @@ module Howitzer
       def get(_options, _query_string = nil)
         Response.new(response_generator('bounces'))
       rescue StandardError => e
-        log.error Howitzer::CommunicationError.new(e), e.response
+        Howitzer::Log.error Howitzer::CommunicationError.new(e), e.response
       end
 
       private
