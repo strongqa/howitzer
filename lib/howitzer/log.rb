@@ -93,11 +93,13 @@ module Howitzer
       Logger['ruby_log'].trace = true
     end
 
+    #:nocov:
     def log_without_formatting
       self.base_formatter = blank_formatter
       yield
       self.base_formatter = default_formatter
     end
+    #:nocov:
 
     def console_log
       StdoutOutputter.new(:console).tap { |o| o.only_at(INFO, DEBUG, WARN) }
@@ -107,10 +109,13 @@ module Howitzer
       StderrOutputter.new(:error, 'level' => ERROR)
     end
 
+    #:nocov:
     def blank_formatter
       PatternFormatter.new(pattern: '%m')
     end
+    #:nocov:
 
+    #:nocov:
     def default_formatter
       params = if Howitzer.hide_datetime_from_log
                  { pattern: '[%l] %m' }
@@ -119,26 +124,22 @@ module Howitzer
                end
       PatternFormatter.new(params)
     end
+    #:nocov:
 
     def base_formatter=(formatter)
       @logger.outputters.each { |outputter| outputter.formatter = formatter }
     end
 
-    def error_object(*args)
+    def error_object(value, *args)
       case args.size
-        when 0
-          $ERROR_INFO
-        when 1
-          args.first.is_a?(Exception) ? args.first : RuntimeError.new(args.first)
-        when 2
-          error_object_for_two_args(args.first, args.last)
-        when 3
-          exception = args.first.new(args[1])
-          exception.set_backtrace(args.last)
-          exception
-        #:nocov:
-        else nil
-        #:nocov:
+      when 0
+        value.is_a?(Exception) ? value : RuntimeError.new(value)
+      when 1
+        error_object_for_two_args(value, args.last)
+      else
+        exception = value.new(args.first)
+        exception.set_backtrace(args[1]) if args[1]
+        exception
       end
     end
 
