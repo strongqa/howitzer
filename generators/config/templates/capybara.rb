@@ -87,7 +87,7 @@ Capybara.register_driver :sauce do |app|
   caps = required_cloud_caps.merge(
     maxDuration: Howitzer.cloud_max_duration,
     idleTimeout: Howitzer.cloud_sauce_idle_timeout,
-    recordScreenshots: Howitzer.cloud_sauce_record_screenshot,
+    recordScreenshots: Howitzer.cloud_sauce_record_screenshots,
     videoUploadOnPass: Howitzer.cloud_sauce_video_upload_on_pass
   )
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
