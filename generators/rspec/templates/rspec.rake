@@ -1,6 +1,6 @@
 require 'rspec/core/rake_task'
 RSPEC_OPTS = [
-  "--format html --out ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
+  "--format html --out ./#{Howitzer.log_dir}/#{Howitzer.html_log}",
   '--format documentation',
   '--color'
 ].join(' ').freeze

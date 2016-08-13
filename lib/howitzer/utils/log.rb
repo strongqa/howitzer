@@ -53,7 +53,7 @@ module Howitzer
       #
 
       def settings_as_formatted_text
-        log_without_formatting { info settings.as_formatted_text }
+        log_without_formatting { info ::SexySettings::Base.instance.as_formatted_text }
       end
 
       ##
@@ -74,7 +74,7 @@ module Howitzer
         @logger.add(console_log)
         @logger.add(error_log)
         self.base_formatter = default_formatter
-        Logger['ruby_log'].level = settings.debug_mode ? ALL : INFO
+        Logger['ruby_log'].level = Howitzer.debug_mode ? ALL : INFO
         Logger['ruby_log'].trace = true
       end
 
@@ -97,7 +97,7 @@ module Howitzer
       end
 
       def default_formatter
-        params = if settings.hide_datetime_from_log
+        params = if Howitzer.hide_datetime_from_log
                    { pattern: '[%l] %m' }
                  else
                    { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }

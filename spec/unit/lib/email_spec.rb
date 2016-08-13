@@ -12,19 +12,19 @@ RSpec.describe Howitzer::Email do
   describe '.adapter' do
     it do
       expect(described_class.adapter)
-        .to eql(Howitzer::MailAdapters.const_get(settings.mail_adapter.to_s.capitalize))
+        .to eql(Howitzer::MailAdapters.const_get(Howitzer.mail_adapter.to_s.capitalize))
     end
   end
 
   describe '.adapter_name' do
-    it { expect(described_class.adapter_name).to eql settings.mail_adapter.to_sym }
+    it { expect(described_class.adapter_name).to eql Howitzer.mail_adapter.to_sym }
   end
 
   describe '.adapter=' do
     subject { described_class.adapter = name }
 
     context 'when adapter_name is Symbol or String' do
-      let(:name) { settings.mail_adapter }
+      let(:name) { Howitzer.mail_adapter }
       it { expect(described_class.adapter).to eql Howitzer::MailAdapters.const_get(name.to_s.capitalize) }
     end
 

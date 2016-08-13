@@ -32,8 +32,8 @@ module Howitzer
 
       def self.find_retry_params
         {
-          timeout: settings.mailgun_idle_timeout,
-          sleep: settings.mailgun_sleep_time,
+          timeout: Howitzer.mailgun_idle_timeout,
+          sleep: Howitzer.mailgun_sleep_time,
           silent: true,
           logger: log,
           on: EmailNotFoundError

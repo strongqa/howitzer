@@ -160,10 +160,10 @@ RSpec.describe Howitzer::Web::Page do
     before do
       allow(Howitzer).to receive(:app_uri) do
         ::Addressable::URI.new(
-          user: settings.app_base_auth_login,
-          password: settings.app_base_auth_pass,
-          host: settings.app_host,
-          scheme: settings.app_protocol || 'http'
+          user: Howitzer.app_base_auth_login,
+          password: Howitzer.app_base_auth_pass,
+          host: Howitzer.app_host,
+          scheme: Howitzer.app_protocol || 'http'
         )
       end
     end
@@ -189,7 +189,7 @@ RSpec.describe Howitzer::Web::Page do
               url '/users{/id}'
             end
           end
-          it { is_expected.to eq('http://my.website.com/users/1') }
+          it { is_expected.to eq('http://login:pass@my.website.com/users/1') }
         end
       end
       context 'when page url missing' do
@@ -234,14 +234,14 @@ RSpec.describe Howitzer::Web::Page do
     end
     context 'when maximized_window is true' do
       let(:driver) { double }
-      before { allow(settings).to receive(:maximized_window) { true } }
+      before { allow(Howitzer).to receive(:maximized_window) { true } }
       it do
         expect_any_instance_of(described_class).to receive_message_chain('current_window.maximize')
         subject
       end
     end
     context 'when maximized_window is false' do
-      before { allow(settings).to receive(:maximized_window) { false } }
+      before { allow(Howitzer).to receive(:maximized_window) { false } }
       it do
         expect_any_instance_of(described_class).not_to receive('current_window.maximize')
         subject
@@ -274,7 +274,7 @@ RSpec.describe Howitzer::Web::Page do
   describe '#click_alert_box' do
     subject { described_class.instance.click_alert_box(flag_value) }
     before do
-      allow(settings).to receive(:driver) { driver_name }
+      allow(Howitzer).to receive(:driver) { driver_name }
       allow(session).to receive(:current_url) { 'google.com' }
       allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
     end

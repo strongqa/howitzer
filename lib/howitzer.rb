@@ -9,8 +9,11 @@ end
 
 # This is main namespace for the library
 module Howitzer
-  def self.settings
-    ::SexySettings::Base.instance
+  class << self
+    # define methods for all known settings
+    ::SexySettings::Base.instance.all.each do |key, value|
+      define_method(key) { value }
+    end
   end
   ##
   #
@@ -31,10 +34,10 @@ module Howitzer
 
   def self.app_uri
     ::Addressable::URI.new(
-      user: settings.app_base_auth_login,
-      password: settings.app_base_auth_pass,
-      host: settings.app_host,
-      scheme: settings.app_protocol || 'http'
+      user: Howitzer.app_base_auth_login,
+      password: Howitzer.app_base_auth_pass,
+      host: Howitzer.app_host,
+      scheme: Howitzer.app_protocol || 'http'
     )
   end
 

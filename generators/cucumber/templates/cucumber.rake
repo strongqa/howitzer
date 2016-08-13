@@ -4,8 +4,8 @@ CUCUMBER_OPTS = [
   '-r features',
   '-v',
   '-x',
-  "-f html -o ./#{Howitzer.settings.log_dir}/#{Howitzer.settings.html_log}",
-  "-f junit -o ./#{Howitzer.settings.log_dir}",
+  "-f html -o ./#{Howitzer.log_dir}/#{Howitzer.html_log}",
+  "-f junit -o ./#{Howitzer.log_dir}",
   '-f pretty'
 ].join(' ').freeze
 

@@ -514,7 +514,7 @@ log.warn "warning message"
 log.fatal "fatal message"
 ```
 
-If the option `settings.debug_mode` = true, the logger will record messages with **DEBUG** status.
+If the option `Howitzer.debug_mode` = true, the logger will record messages with **DEBUG** status.
 
 Logs are generated and saved in the **log** _directory_.
 

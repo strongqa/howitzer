@@ -2,14 +2,6 @@ require 'spec_helper'
 require 'howitzer'
 
 RSpec.describe 'Howitzer' do
-  describe '.settings' do
-    subject { Howitzer.settings }
-    context 'when method called two times' do
-      let(:other_settings) { Howitzer.settings }
-      it { is_expected.to equal(other_settings) }
-      it { expect(other_settings).to be_a_kind_of(SexySettings::Base) }
-    end
-  end
   describe 'SexySettings configuration' do
     subject { SexySettings.configuration }
     it { expect(subject.path_to_custom_settings).to include('config/custom.yml') }
@@ -17,10 +9,10 @@ RSpec.describe 'Howitzer' do
   end
   describe '.app_uri' do
     before do
-      allow(settings).to receive(:app_base_auth_login) { app_base_auth_login_setting }
-      allow(settings).to receive(:app_base_auth_pass) { app_base_auth_pass_setting }
-      allow(settings).to receive(:app_protocol) { app_protocol_setting }
-      allow(settings).to receive(:app_host) { app_host_setting }
+      allow(Howitzer).to receive(:app_base_auth_login) { app_base_auth_login_setting }
+      allow(Howitzer).to receive(:app_base_auth_pass) { app_base_auth_pass_setting }
+      allow(Howitzer).to receive(:app_protocol) { app_protocol_setting }
+      allow(Howitzer).to receive(:app_host) { app_host_setting }
     end
     let(:app_protocol_setting) { nil }
     let(:app_host_setting) { 'redmine.strongqa.com' }

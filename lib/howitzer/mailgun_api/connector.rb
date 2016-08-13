@@ -10,7 +10,7 @@ module Howitzer
 
       attr_reader :api_key
 
-      def client(api_key = settings.mailgun_key)
+      def client(api_key = Howitzer.mailgun_key)
         check_api_key(api_key)
         return @client if @api_key == api_key && @api_key
         @api_key = api_key
@@ -21,7 +21,7 @@ module Howitzer
         @domain || change_domain
       end
 
-      def change_domain(domain_name = settings.mailgun_domain)
+      def change_domain(domain_name = Howitzer.mailgun_domain)
         @domain = domain_name
       end
 

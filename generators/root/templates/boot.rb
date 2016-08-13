@@ -1,9 +1,5 @@
 Dir.chdir(File.join(__dir__, '.'))
 
-def settings
-  SexySettings::Base.instance
-end
-
 def log
   Howitzer::Utils::Log.instance
 end
