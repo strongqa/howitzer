@@ -64,7 +64,7 @@ if Howitzer.driver.to_sym == :poltergeist
     Capybara::Poltergeist::Driver.new(
       app,
       js_errors: !Howitzer.phantom_ignore_js_errors,
-      phantomjs_options: ["--ignore-ssl-errors=#{Howitzer.pjs_ignore_ssl_errors ? 'yes' : 'no'}"]
+      phantomjs_options: ["--ignore-ssl-errors=#{Howitzer.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
     )
   end
 end
