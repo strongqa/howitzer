@@ -34,7 +34,7 @@ RSpec.configure do |config|
       session_end = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
       Howitzer::Log.info "CLOUD VIDEO #{@session_start} - #{session_end}" \
                " URL: #{CapybaraHelpers.cloud_resource_path(:video)}"
-    elsif ie_browser?
+    elsif CapybaraHelpers.ie_browser?
       Howitzer::Log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
     end
