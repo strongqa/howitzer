@@ -3,7 +3,6 @@ source 'https://rubygems.org'
 group :test do
   gem 'coveralls', require: false
   gem 'simplecov', require: false
-  gem 'poltergeist', require: false
   gem 'repeater', require: false
   gem 'rest-client', require: false
 end

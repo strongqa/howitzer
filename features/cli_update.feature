@@ -21,8 +21,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
           Identical 'prerequisites/factory_girl.rb' file
-          Identical 'prerequisites/her.rb' file
           Identical 'prerequisites/factories/users.rb' file
+          Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
@@ -55,8 +55,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
           Identical 'prerequisites/factory_girl.rb' file
-          Identical 'prerequisites/her.rb' file
           Identical 'prerequisites/factories/users.rb' file
+          Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Identical '.gitignore' file
@@ -93,8 +93,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
           Identical 'prerequisites/factory_girl.rb' file
-          Identical 'prerequisites/her.rb' file
           Identical 'prerequisites/factories/users.rb' file
+          Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
@@ -132,8 +132,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
           Identical 'prerequisites/factory_girl.rb' file
-          Identical 'prerequisites/her.rb' file
           Identical 'prerequisites/factories/users.rb' file
+          Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
