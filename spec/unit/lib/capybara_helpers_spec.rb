@@ -35,27 +35,6 @@ RSpec.describe Howitzer::CapybaraHelpers do
     end
   end
 
-  describe '#phantomjs_driver?' do
-    subject { phantomjs_driver? }
-    before { allow(Howitzer).to receive(:driver) { driver_setting } }
-    context 'when :phantomjs' do
-      let(:driver_setting) { :phantomjs }
-      it { is_expected.to be_truthy }
-    end
-    context 'when not :phantomjs' do
-      let(:driver_setting) { :selenium }
-      it { is_expected.to be_falsey }
-    end
-    context 'when :selenium_grid' do
-      let(:driver_setting) { :selenium_grid }
-      it { is_expected.to be_falsey }
-    end
-    context 'when driver specified as String' do
-      let(:driver_setting) { 'phantomjs' }
-      it { is_expected.to be_truthy }
-    end
-  end
-
   describe '#selenium_driver?' do
     subject { selenium_driver? }
     before { allow(Howitzer).to receive(:driver) { driver_setting } }
@@ -660,24 +639,6 @@ RSpec.describe Howitzer::CapybaraHelpers do
     context 'when other driver' do
       before { allow(Howitzer).to receive(:driver) { 'browserstack' } }
       it { is_expected.to eq('[NOT IMPLEMENTED]') }
-    end
-  end
-
-  describe '.suite_name' do
-    subject { suite_name }
-    before do
-      allow(Howitzer).to receive(:cloud_browser_name) { 'ie' }
-    end
-
-    context 'when environment present' do
-      let(:rake_task) { 'features:bvt' }
-      before { ENV['RAKE_TASK'] = rake_task }
-      after { ENV['RAKE_TASK'] = nil }
-      it { is_expected.to eql('FEATURES:BVT IE') }
-    end
-    context 'when environment empty' do
-      before { ENV['RAKE_TASK'] = nil }
-      it { is_expected.to eql('CUSTOM IE') }
     end
   end
 

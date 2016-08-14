@@ -25,15 +25,15 @@ RSpec.configure do |config|
         RSpec.current_example.description
       end
     Howitzer::Log.print_scenario_name(scenario_name)
-    @session_start = duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
+    @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
   end
 
   config.after(:each) do
     Howitzer::Cache.clear_all_ns
-    if cloud_driver?
-      session_end = duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
+    if CapybaraHelpers.cloud_driver?
+      session_end = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
       Howitzer::Log.info "CLOUD VIDEO #{@session_start} - #{session_end}" \
-               " URL: #{cloud_resource_path(:video)}"
+               " URL: #{CapybaraHelpers.cloud_resource_path(:video)}"
     elsif ie_browser?
       Howitzer::Log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
@@ -41,16 +41,16 @@ RSpec.configure do |config|
   end
 
   config.after(:suite) do
-    if cloud_driver?
+    if CapybaraHelpers.cloud_driver?
       report_failures_count = config.reporter.failed_examples.count
       Howitzer::Cache.store(:cloud, :status, report_failures_count.zero?)
     end
   end
 
   at_exit do
-    if cloud_driver?
-      Howitzer::Log.info "CLOUD SERVER LOG URL: #{cloud_resource_path(:server_log)}"
-      update_cloud_job_status(passed: Howitzer::Cache.extract(:cloud, :status))
+    if CapybaraHelpers.cloud_driver?
+      Howitzer::Log.info "CLOUD SERVER LOG URL: #{CapybaraHelpers.cloud_resource_path(:server_log)}"
+      CapybaraHelpers.update_cloud_job_status(passed: Howitzer::Cache.extract(:cloud, :status))
     end
   end
 end
