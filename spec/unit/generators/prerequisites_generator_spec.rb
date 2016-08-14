@@ -24,8 +24,12 @@ RSpec.describe 'Generators' do
           name: '/prerequisites/factory_girl.rb',
           is_directory: false, size: template_file_size('prerequisites', 'factory_girl.rb')
         },
-        { name: '/prerequisites/her.rb', is_directory: false, size: template_file_size('prerequisites', 'her.rb') },
         { name: '/prerequisites/models', is_directory: true },
+        {
+          name: '/prerequisites/models/base.rb',
+          is_directory: false,
+          size: template_file_size('prerequisites', 'base.rb')
+        },
         {
           name: '/prerequisites/models/user.rb',
           is_directory: false,
@@ -38,8 +42,8 @@ RSpec.describe 'Generators' do
       let(:expected_output) do
         "  * Pre-requisites integration to the framework ...
       Added 'prerequisites/factory_girl.rb' file
-      Added 'prerequisites/her.rb' file
       Added 'prerequisites/factories/users.rb' file
+      Added 'prerequisites/models/base.rb' file
       Added 'prerequisites/models/user.rb' file\n"
       end
       subject { output.string }

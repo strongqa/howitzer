@@ -5,12 +5,12 @@ module Howitzer
   class PrerequisitesGenerator < BaseGenerator
     def manifest
       { files:
-            [
-              { source: 'factory_girl.rb', destination: 'prerequisites/factory_girl.rb' },
-              { source: 'her.rb', destination: 'prerequisites/her.rb' },
-              { source: 'users.rb', destination: 'prerequisites/factories/users.rb' },
-              { source: 'user.rb', destination: 'prerequisites/models/user.rb' }
-            ] }
+          [
+            { source: 'factory_girl.rb', destination: 'prerequisites/factory_girl.rb' },
+            { source: 'users.rb', destination: 'prerequisites/factories/users.rb' },
+            { source: 'base.rb', destination: 'prerequisites/models/base.rb' },
+            { source: 'user.rb', destination: 'prerequisites/models/user.rb' }
+          ] }
     end
 
     protected
