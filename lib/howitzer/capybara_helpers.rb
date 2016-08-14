@@ -14,33 +14,6 @@ module Howitzer
 
     ##
     #
-    # Returns whether or not the current driver is Selenium.
-    #
-
-    def selenium_driver?
-      Howitzer.driver.to_sym == :selenium
-    end
-
-    ##
-    #
-    # Returns whether or not the current driver is Selenium Grid.
-    #
-
-    def selenium_grid_driver?
-      Howitzer.driver.to_sym == :selenium_grid
-    end
-
-    ##
-    #
-    # Returns whether or not the current driver is PhantomJS.
-    #
-
-    def phantomjs_driver?
-      Howitzer.driver.to_sym == :phantomjs
-    end
-
-    ##
-    #
     # Returns whether or not the current browser is Internet Explorer.
     #
 
@@ -92,74 +65,12 @@ module Howitzer
       return "[0m #{secs}s]" if secs >= 0
     end
 
-    # describe me!
-    def prefix_name
-      (ENV['RAKE_TASK'] || 'ALL').upcase
-    end
-
-    ##
-    #
-    # Returns url of current Sauce Labs job
-    #
-    # *Parameters:*
-    # * +name+ - Your account name
-    #
-    # *Returns:*
-    # * +string+ - URL address of last running Sauce Labs job
-    #
-
-    def sauce_resource_path(kind)
-      name =
-        case kind
-        when :video then 'video.flv'
-        when :server_log then 'selenium-server.log'
-        else
-          raise ArgumentError, "Unknown '#{kind}' kind"
-        end
-      host = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
-      path = "/rest/#{Howitzer.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
-      "#{host}#{path}"
-    end
-
     def update_cloud_job_status(json_data = {})
       case Howitzer.driver.to_sym
       when :sauce then update_sauce_job_status(json_data)
       else
         '[NOT IMPLEMENTED]'
       end
-    end
-
-    ##
-    #
-    # Sends http request to change current Sauce Labs job status - pass/fail
-    #
-    # *Parameters:*
-    # * +json_data+ - test status as hash (for details see Saucelab documentation)
-    #
-
-    def update_sauce_job_status(json_data = {})
-      host = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
-      path = "/rest/v1/#{Howitzer.cloud_auth_login}/jobs/#{session_id}"
-      url = "#{host}#{path}"
-      ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
-    end
-
-    ##
-    #
-    # Returns custom name for Sauce Labs job
-    #
-    # *Returns:*
-    # * +string+ - Return name of current Sauce Labs job
-    #
-
-    def suite_name
-      res = if ENV['RAKE_TASK']
-              res = ENV['RAKE_TASK'].sub(/(?:r?spec|cucumber):?(.*)/, '\1').upcase
-              res.empty? ? 'ALL' : res
-            else
-              'CUSTOM'
-            end
-      "#{res} #{Howitzer.cloud_browser_name.upcase}"
     end
 
     # describe me!
@@ -170,15 +81,6 @@ module Howitzer
             "`:#{driver}` driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
     end
 
-    ##
-    #
-    # Returns current session id
-    #
-
-    def session_id
-      Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
-    end
-
     # describe me!
     def required_cloud_caps
       {
@@ -187,14 +89,6 @@ module Howitzer
         version: Howitzer.cloud_browser_version,
         name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
       }
-    end
-
-    # describe me!
-    def remote_file_detector
-      lambda do |args|
-        str = args.first.to_s
-        str if File.exist?(str)
-      end
     end
 
     # describe me!
@@ -238,6 +132,49 @@ module Howitzer
     def selenium_browser?(*browser_aliases)
       Howitzer::Log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.selenium_browser.nil?
       browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
+    end
+
+    def selenium_driver?
+      Howitzer.driver.to_sym == :selenium
+    end
+
+    def selenium_grid_driver?
+      Howitzer.driver.to_sym == :selenium_grid
+    end
+
+    def prefix_name
+      (ENV['RAKE_TASK'] || 'ALL').upcase
+    end
+
+    def sauce_resource_path(kind)
+      name =
+        case kind
+        when :video then 'video.flv'
+        when :server_log then 'selenium-server.log'
+        else
+          raise ArgumentError, "Unknown '#{kind}' kind"
+        end
+      host = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/#{Howitzer.cloud_auth_login}/jobs/#{session_id}/results/#{name}"
+      "#{host}#{path}"
+    end
+
+    def update_sauce_job_status(json_data = {})
+      host = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
+      path = "/rest/v1/#{Howitzer.cloud_auth_login}/jobs/#{session_id}"
+      url = "#{host}#{path}"
+      ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json
+    end
+
+    def session_id
+      Capybara.current_session.driver.browser.instance_variable_get(:@bridge).session_id
+    end
+
+    def remote_file_detector
+      lambda do |args|
+        str = args.first.to_s
+        str if File.exist?(str)
+      end
     end
   end
 end

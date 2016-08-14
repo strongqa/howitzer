@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.author        = 'Roman Parashchenko'
   gem.email         = 'howitzer@strongqa.com'
   gem.description   = 'Howitzer uses the best practices and design patterns allowing to generate a test project in' \
-      ' less than 5 minutes. It has out-of-the-box configurations for parallel cross-browser testing in the Cloud.'
+      ' less than 5 minutes. It has out-of-the-box configurations for parallel cross-browser testing in the cloud.'
   gem.summary       = 'Ruby based framework for acceptance testing'
   gem.homepage      = 'http://strongqa.github.io/howitzer/'
   gem.license       = 'MIT'

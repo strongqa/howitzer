@@ -29,13 +29,17 @@ Capybara.configure do |config|
 end
 
 require 'howitzer/capybara_helpers'
-include Howitzer::CapybaraHelpers
+
+# namespace for capybara helpers
+module CapybaraHelpers
+  extend Howitzer::CapybaraHelpers
+end
 
 # :selenium driver
 
 Capybara.register_driver :selenium do |app|
   params = { browser: Howitzer.selenium_browser.to_s.to_sym }
-  if ff_browser?
+  if CapybaraHelpers.ff_browser?
     ff_profile = Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
       profile['network.http.phishy-userpass-length'] = 255
       profile['browser.safebrowsing.malware.enabled'] = false
@@ -51,7 +55,7 @@ end
 # :webkit driver
 
 if Howitzer.driver.to_sym == :webkit
-  load_driver_gem!(:webkit, 'capybara-webkit', 'capybara-webkit')
+  CapybaraHelpers.load_driver_gem!(:webkit, 'capybara-webkit', 'capybara-webkit')
   Capybara::Webkit.configure do |config|
     config.allow_url(Howitzer.app_host)
   end
@@ -60,7 +64,7 @@ end
 # :poltergeist driver
 
 if Howitzer.driver.to_sym == :poltergeist
-  load_driver_gem!(:poltergeist, 'capybara/poltergeist', 'poltergeist')
+  CapybaraHelpers.load_driver_gem!(:poltergeist, 'capybara/poltergeist', 'poltergeist')
 
   Capybara.register_driver :poltergeist do |app|
     Capybara::Poltergeist::Driver.new(
@@ -86,51 +90,51 @@ end
 # :sauce driver
 
 Capybara.register_driver :sauce do |app|
-  caps = required_cloud_caps.merge(
+  caps = CapybaraHelpers.required_cloud_caps.merge(
     maxDuration: Howitzer.cloud_max_duration,
     idleTimeout: Howitzer.cloud_sauce_idle_timeout,
     recordScreenshots: Howitzer.cloud_sauce_record_screenshots,
     videoUploadOnPass: Howitzer.cloud_sauce_video_upload_on_pass
   )
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
-  cloud_driver(app, caps, url)
+  CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
 # :testingbot driver
 
 Capybara.register_driver :testingbot do |app|
-  caps = required_cloud_caps.merge(
+  caps = CapybaraHelpers.required_cloud_caps.merge(
     maxduration: Howitzer.cloud_max_duration,
     idletimeout: Howitzer.cloud_testingbot_idle_timeout,
     screenshot: Howitzer.cloud_testingbot_screenshots
   )
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.testingbot.com/wd/hub"
-  cloud_driver(app, caps, url)
+  CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
 # :browserstack driver
 
 Capybara.register_driver :browserstack do |app|
-  caps = required_cloud_caps.merge(
+  caps = CapybaraHelpers.required_cloud_caps.merge(
     project: Howitzer.cloud_bstack_project,
     build: Howitzer.cloud_bstack_build
   )
   caps[:resolution] = Howitzer.cloud_bstack_resolution if Howitzer.cloud_bstack_resolution.present?
   caps[:device] = Howitzer.cloud_bstack_mobile_device if Howitzer.cloud_bstack_mobile_device.present?
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.browserstack.com/wd/hub"
-  cloud_driver(app, caps, url)
+  CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
 # :selenium_grid driver
 
 Capybara.register_driver :selenium_grid do |app|
-  caps = if ie_browser?
+  caps = if CapybaraHelpers.ie_browser?
            Selenium::WebDriver::Remote::Capabilities.internet_explorer
-         elsif ff_browser?
+         elsif CapybaraHelpers.ff_browser?
            Selenium::WebDriver::Remote::Capabilities.firefox
-         elsif chrome_browser?
+         elsif CapybaraHelpers.chrome_browser?
            Selenium::WebDriver::Remote::Capabilities.chrome
-         elsif safari_browser?
+         elsif CapybaraHelpers.safari_browser?
            Selenium::WebDriver::Remote::Capabilities.safari
          else
            Howitzer::Log.error "Unknown '#{Howitzer.selenium_browser}' selenium_browser." \
