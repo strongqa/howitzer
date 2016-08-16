@@ -19,7 +19,7 @@ RSpec.configure do |config|
 
   config.before(:each) do
     scenario_name =
-      if RSpec.current_example.description.empty?
+      if RSpec.current_example.description.blank?
         RSpec.current_example.metadata[:full_description]
       else
         RSpec.current_example.description

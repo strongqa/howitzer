@@ -19,7 +19,7 @@ RSpec.configure do |config|
 
   config.before(type: :feature) do
     Howitzer::Log.print_scenario_name(
-      self.class.description.empty? ? self.class.metadata[:description] : self.class.description
+      self.class.description.blank? ? self.class.metadata[:description] : self.class.description
     )
     @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
   end

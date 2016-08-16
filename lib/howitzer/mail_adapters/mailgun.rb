@@ -12,7 +12,7 @@ module Howitzer
         Howitzer::Log.error(
           EmailNotFoundError,
           "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
-        ) if message.empty?
+        ) if message.blank?
         new(message)
       end
 
@@ -80,7 +80,7 @@ module Howitzer
 
       def mime_part
         files = message['attachments']
-        if files.empty?
+        if files.blank?
           Howitzer::Log.error NoAttachmentsError, 'No attachments where found.'
           return
         end

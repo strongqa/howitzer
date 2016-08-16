@@ -35,8 +35,10 @@ module Howitzer
 end
 
 require 'howitzer/version'
+require 'howitzer/exceptions'
 require 'howitzer/log'
 require 'howitzer/utils'
 require 'howitzer/cache'
 require 'howitzer/email'
 require 'howitzer/web'
+require 'howitzer/capybara_helpers'
