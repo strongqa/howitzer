@@ -16,9 +16,8 @@ RSpec.describe 'Generators' do
       [
         { name: '/.gitignore', is_directory: false, size: 196 },
         { name: '/.rubocop.yml', is_directory: false, size: 584 },
-        { name: '/Gemfile', is_directory: false, size: 589 },
-        { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') },
-        { name: '/boot.rb', is_directory: false, size: template_file_size('root', 'boot.rb') }
+        { name: '/Gemfile', is_directory: false, size: 615 },
+        { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') }
       ]
     end
     let(:options) { {} }
@@ -31,7 +30,6 @@ RSpec.describe 'Generators' do
       Added '.gitignore' file
       Added '.rubocop.yml' file
       Added 'Rakefile' file
-      Added 'boot.rb' file
       Added template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
         end
         it { is_expected.to eql(expected_output) }
@@ -42,7 +40,6 @@ RSpec.describe 'Generators' do
       Added '.gitignore' file
       Added '.rubocop.yml' file
       Added 'Rakefile' file
-      Added 'boot.rb' file
       Added template 'Gemfile.erb' with params '{:rspec=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { rspec: true } }
@@ -54,7 +51,6 @@ RSpec.describe 'Generators' do
       Added '.gitignore' file
       Added '.rubocop.yml' file
       Added 'Rakefile' file
-      Added 'boot.rb' file
       Added template 'Gemfile.erb' with params '{:cucumber=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { cucumber: true } }
@@ -66,7 +62,6 @@ RSpec.describe 'Generators' do
       Added '.gitignore' file
       Added '.rubocop.yml' file
       Added 'Rakefile' file
-      Added 'boot.rb' file
       Added template 'Gemfile.erb' with params '{:turnip=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { turnip: true } }

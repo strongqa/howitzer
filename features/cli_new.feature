@@ -56,6 +56,7 @@ Feature: Howitzer CLI New Project Creation
       * New project directory creation ...
           Created new './test_automation' folder
       * Config files generation ...
+          Added 'config/boot.rb' file
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -70,7 +71,6 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added '.rubocop.yml' file
           Added 'Rakefile' file
-          Added 'boot.rb' file
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
@@ -85,6 +85,7 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
+      | test_automation/config/boot.rb                   |
       | test_automation/config/custom.yml                |
       | test_automation/config/capybara.rb               |
       | test_automation/config/default.yml               |
@@ -99,7 +100,6 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/spec/spec_helper.rb              |
       | test_automation/tasks/common.rake                |
       | test_automation/tasks/rspec.rake                 |
-      | test_automation/boot.rb                          |
       | test_automation/Gemfile                          |
       | test_automation/Rakefile                         |
       | test_automation/.gitignore                       |
@@ -117,6 +117,7 @@ Feature: Howitzer CLI New Project Creation
       * New project directory creation ...
           Created new './test_automation' folder
       * Config files generation ...
+          Added 'config/boot.rb' file
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -131,7 +132,6 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added '.rubocop.yml' file
           Added 'Rakefile' file
-          Added 'boot.rb' file
           Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
@@ -148,6 +148,7 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
+      | test_automation/config/boot.rb                            |
       | test_automation/config/custom.yml                         |
       | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
@@ -164,7 +165,6 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/prerequisites/models/user.rb              |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/cucumber.rake                       |
-      | test_automation/boot.rb                                   |
       | test_automation/Gemfile                                   |
       | test_automation/Rakefile                                  |
       | test_automation/.gitignore                                |
@@ -182,6 +182,7 @@ Feature: Howitzer CLI New Project Creation
       * New project directory creation ...
           Created new './test_automation' folder
       * Config files generation ...
+          Added 'config/boot.rb' file
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -196,7 +197,6 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added '.rubocop.yml' file
           Added 'Rakefile' file
-          Added 'boot.rb' file
           Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
@@ -214,6 +214,7 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
+      | test_automation/config/boot.rb                            |
       | test_automation/config/custom.yml                         |
       | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
@@ -227,7 +228,6 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/spec/acceptance/example.feature           |
       | test_automation/spec/steps/common_steps.rb                |
       | test_automation/.rspec                                    |
-      | test_automation/boot.rb                                   |
       | test_automation/Gemfile                                   |
       | test_automation/Rakefile                                  |
       | test_automation/.gitignore                                |
@@ -292,6 +292,7 @@ Feature: Howitzer CLI New Project Creation
       * New project directory creation ...
           Created new './test_automation' folder
       * Config files generation ...
+          Added 'config/boot.rb' file
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -306,7 +307,6 @@ Feature: Howitzer CLI New Project Creation
           Added '.gitignore' file
           Added '.rubocop.yml' file
           Added 'Rakefile' file
-          Added 'boot.rb' file
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_girl.rb' file
@@ -321,6 +321,7 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
+      | test_automation/config/boot.rb                   |
       | test_automation/config/custom.yml                |
       | test_automation/config/capybara.rb               |
       | test_automation/config/default.yml               |
@@ -335,7 +336,6 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/spec/spec_helper.rb              |
       | test_automation/tasks/common.rake                |
       | test_automation/tasks/rspec.rake                 |
-      | test_automation/boot.rb                          |
       | test_automation/Gemfile                          |
       | test_automation/Rakefile                         |
       | test_automation/.gitignore                       |

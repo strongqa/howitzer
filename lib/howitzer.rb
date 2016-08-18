@@ -14,6 +14,8 @@ module Howitzer
     ::SexySettings::Base.instance.all.each do |key, value|
       define_method(key) { value }
     end
+
+    attr_accessor :current_rake_task
   end
 
   ##

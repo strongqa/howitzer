@@ -9,6 +9,7 @@ Feature: Howitzer CLI Update Existing Project
     Then the output should contain:
     """
       * Config files generation ...
+          Identical 'config/boot.rb' file
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -27,9 +28,8 @@ Feature: Howitzer CLI Update Existing Project
       * Root files generation ...
           Added '.gitignore' file
           Added '.rubocop.yml' file
-          Identical 'Rakefile' file
-          Conflict with 'boot.rb' file
-            Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
+          Conflict with 'Rakefile' file
+            Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * RSpec integration to the framework ...
@@ -43,6 +43,7 @@ Feature: Howitzer CLI Update Existing Project
     Then the output should contain:
     """
       * Config files generation ...
+          Identical 'config/boot.rb' file
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
@@ -62,7 +63,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical '.gitignore' file
           Identical '.rubocop.yml' file
           Identical 'Rakefile' file
-          Identical 'boot.rb' file
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * RSpec integration to the framework ...
@@ -81,6 +81,7 @@ Feature: Howitzer CLI Update Existing Project
     Then the output should contain:
     """
       * Config files generation ...
+          Identical 'config/boot.rb' file
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
@@ -99,9 +100,8 @@ Feature: Howitzer CLI Update Existing Project
       * Root files generation ...
           Added '.gitignore' file
           Added '.rubocop.yml' file
-          Identical 'Rakefile' file
-          Conflict with 'boot.rb' file
-            Overwrite 'boot.rb' file? [Yn]:          Forced 'boot.rb' file
+          Conflict with 'Rakefile' file
+            Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * Cucumber integration to the framework ...
@@ -120,6 +120,7 @@ Feature: Howitzer CLI Update Existing Project
     Then the output should contain:
     """
       * Config files generation ...
+          Identical 'config/boot.rb' file
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
@@ -139,7 +140,6 @@ Feature: Howitzer CLI Update Existing Project
           Added '.gitignore' file
           Added '.rubocop.yml' file
           Identical 'Rakefile' file
-          Identical 'boot.rb' file
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * Turnip integration to the framework ...
