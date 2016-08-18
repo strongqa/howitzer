@@ -1,0 +1,32 @@
+# See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
+# To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+
+AllCops:
+  TargetRubyVersion: 2.3
+
+LineLength:
+  Max: 120
+
+Style/CaseIndentation:
+  Enabled: false
+
+Style/EmptyElse:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Style/CaseEquality:
+  Enabled: false
+
+MethodLength:
+  Max: 30
+
+Style/TrivialAccessors:
+  AllowDSLWriters: true
+
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
+Metrics/ModuleLength:
+  Max: 150

@@ -2,4 +2,10 @@ require 'repeater'
 require 'active_support'
 require 'active_support/all'
 
-Dir[File.join(File.dirname(__FILE__), "./utils/**/*.rb")].each {|f| require f}
+module Howitzer
+  # This module holds different util staff
+  module Utils
+  end
+end
+
+require 'howitzer/utils/string_extensions'

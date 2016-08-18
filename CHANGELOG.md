@@ -1,6 +1,10 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v1.1.1...master)
 
 ### New Features
+- Added REST API prerequisites
+- Added Turnip supporting
+- Restricted using several bdd frameworks at the same time
+- Removed Opera browser supporting
 
 ### Bugfixes
 

@@ -1,0 +1,28 @@
+source 'https://rubygems.org'
+
+# Uncomment it if you are going to use 'webkit' driver. QT library should be installed.
+# See https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit
+#
+# gem 'capybara-webkit'
+
+gem 'howitzer'
+# Uncomment it if you are going to use 'poltergeist' driver. PhantomJS should be installed.
+# See https://github.com/jnicklas/capybara#poltergeist
+# gem 'poltergeist', github: 'teampoltergeist/poltergeist', branch: :master
+gem 'rest-client'
+gem 'repeater'
+gem 'her'
+gem 'factory_girl'
+gem 'capybara-screenshot'
+<% if cucumber %>
+gem 'syntax'
+gem 'cucumber', '~>2.0'
+<% elsif rspec %>
+gem 'rspec', '~>3.2'
+<% elsif turnip %>
+gem 'rspec', '~>3.2'
+gem 'turnip'
+<% end %>
+gem 'rubocop'
+gem 'pry'
+gem 'pry-byebug'

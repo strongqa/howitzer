@@ -1,5 +1,4 @@
 app_host: localhost:3000
-maximized_window: true
 driver: selenium
-sel_browser: chrome
+selenium_browser: chrome
 debug_mode: true

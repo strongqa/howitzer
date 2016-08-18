@@ -1,9 +1,29 @@
-Given /^created old howitzer project$/ do
-  clean_current_dir
-  run_simple 'howitzer new test_automation --rspec --cucumber'
-  FileUtils.move(Dir.glob("#{Dir.pwd}/#{current_dir}/test_automation/*"), File.join(Dir.pwd, current_dir))
-  FileUtils.remove_dir File.join(current_dir, 'test_automation'), true
-  overwrite_file('boot.rb', "Dir.chdir(File.join(File.dirname(__FILE__), '.'))")
-  overwrite_file('Gemfile', "Hello")
-  remove_file 'config/default.yml'
+Given /^created old howitzer project based on rspec$/ do
+  run_simple 'howitzer new test_automation --rspec'
+  all_commands.shift
+
+  FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
+  FileUtils.remove_dir File.join(expand_path('.'), 'test_automation'), true
+  overwrite_file('Rakefile', "Dir.chdir(File.join(__dir__, '.'))")
+  overwrite_file('Gemfile', 'Hello')
+  remove 'config/default.yml'
+end
+
+Given /^created old howitzer project based on cucumber$/ do
+  run_simple 'howitzer new test_automation --cucumber'
+  all_commands.shift
+
+  FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
+  FileUtils.remove_dir File.join(expand_path('.'), 'test_automation'), true
+  overwrite_file('Rakefile', "Dir.chdir(File.join(__dir__, '.'))")
+  overwrite_file('Gemfile', 'Hello')
+  remove 'config/default.yml'
+end
+
+Given /^created old howitzer project based on turnip$/ do
+  run_simple 'howitzer new test_automation --turnip'
+  all_commands.shift
+
+  FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
+  FileUtils.remove_dir File.join(expand_path('.'), 'test_automation'), true
 end

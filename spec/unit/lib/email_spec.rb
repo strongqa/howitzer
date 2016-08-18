@@ -1,142 +1,155 @@
 require 'spec_helper'
 require 'howitzer/email'
-require 'howitzer/utils/log'
+require 'howitzer/log'
 require 'howitzer/exceptions'
 
-RSpec.describe 'Email' do
-  let(:recipient){ 'first_tester@gmail.com' }
-  let(:message) do
-    {
-        'body-plain' => 'test body footer',
-        'stripped-html' => '<p> test body </p> <p> footer </p>',
-        'stripped-text' => 'test body',
-        'From' => 'Strong Tester <tester@gmail.com>',
-        'To' => recipient,
-        'Received' => 'by 10.216.46.75 with HTTP; Sat, 5 Apr 2014 05:10:42 -0700 (PDT)',
-        'sender' => 'tester@gmail.com',
-        'attachments' => []
-    }
-  end
-  let(:message_subject){ 'test subject' }
-  let(:mail_address){ double }
-  let(:email_object){ Email.new(message) }
-  before do
-    stub_const('Email::SUBJECT', message_subject)
+RSpec.describe Howitzer::Email do
+  let(:recipient) { 'first_tester@gmail.com' }
+  let(:message_subject) { 'test subject' }
+  let(:message) { double(:message) }
+  let(:email_object) { described_class.new(message) }
+
+  describe '.adapter' do
+    it do
+      expect(described_class.adapter)
+        .to eql(Howitzer::MailAdapters.const_get(Howitzer.mail_adapter.to_s.capitalize))
+    end
   end
 
-  describe '#new' do
-    context 'when Email instance receive message and add create @message variable that' do
-      it { expect(email_object.instance_variable_get(:@message)).to eql message}
+  describe '.adapter_name' do
+    it { expect(described_class.adapter_name).to eql Howitzer.mail_adapter.to_sym }
+  end
+
+  describe '.adapter=' do
+    subject { described_class.adapter = name }
+
+    context 'when adapter_name is Symbol or String' do
+      let(:name) { Howitzer.mail_adapter }
+      it { expect(described_class.adapter).to eql Howitzer::MailAdapters.const_get(name.to_s.capitalize) }
+    end
+
+    context 'when adapter_name is not Symbol or String' do
+      let(:name) { nil }
+      it { expect { subject }.to raise_error(Howitzer::NoMailAdapterError) }
+    end
+  end
+
+  describe '.subject' do
+    it do
+      described_class.send(:subject, message_subject)
+      expect(described_class.instance_variable_get(:@subject)).to eql message_subject
+    end
+    it 'should be protected' do
+      expect { described_class.subject(message_subject) }.to raise_error(NoMethodError)
     end
   end
 
   describe '.find_by_recipient' do
     let(:recipient) { 'test@user.com' }
-    subject { Email.find_by_recipient(recipient) }
-    it do
-      expect(Email).to receive(:find).with(recipient, message_subject).once
-      subject
+
+    context 'simple subject without parameters' do
+      subject { described_class.find_by_recipient(recipient) }
+      before { described_class.class_eval { subject 'Some title' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title').once
+        subject
+      end
+    end
+
+    context 'complex subject with 1 parameter' do
+      subject { described_class.find_by_recipient(recipient, name: 'Vasya') }
+      before { described_class.class_eval { subject 'Some title from :name' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title from Vasya').once
+        subject
+      end
+    end
+
+    context 'complex subject with 2 parameters' do
+      subject { described_class.find_by_recipient(recipient, foo: 1, bar: 2) }
+      before { described_class.class_eval { subject 'Some title with :foo and :bar' } }
+      it do
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title with 1 and 2').once
+        subject
+      end
+    end
+
+    context 'missing subject' do
+      subject { described_class.find_by_recipient(recipient) }
+      before { described_class.class_eval { subject nil } }
+      it do
+        expect { subject }.to raise_error(Howitzer::NoEmailSubjectError)
+      end
     end
   end
 
-  describe '.find' do
-    let(:mailgun_message){ double(to_h: message) }
-    let(:events) { double(to_h: {'items' => [event]}) }
-    subject { Email.find(recipient, message_subject) }
-    context 'when message is found' do
-      let(:url) { 'https://mailgun.com/domains/mailgun@test.domain/messages/1234567890' }
-      let(:event) do
-        {
-          'message' => {
-            'recipients' => [recipient],
-            'headers' => {
-              'subject' => message_subject
-            }
-          },
-          'storage' => {
-            'url' => url
-          }
-        }
-      end
-      before do
-        allow(Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').ordered.once {events}
-        allow(Mailgun::Connector.instance.client).to receive(:get_url).with(url).ordered.once { mailgun_message }
-      end
-      it do
-        expect(Email).to receive(:new).with(message).once
-        subject
-      end
-    end
-    context 'when message is not found' do
-      let(:event) { {'message' => {'recipients' => ['other@test.com'], 'headers' => {'subject' => message_subject} }, 'storage' => {'key' => '1234567890'} } }
-      before do
-        allow(settings).to receive(:timeout_small) { 0.5 }
-        allow(settings).to receive(:timeout_short) { 0.05 }
-        allow(Mailgun::Connector.instance.client).to receive(:get).with('mailgun@test.domain/events', event: 'stored').at_least(:twice).ordered {events}
-      end
-      it do
-        expect(log).to receive(:error).with(Howitzer::EmailNotFoundError, "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found.")
-        subject
-      end
+  describe '#new' do
+    context 'when Email instance receive message and add create @message variable that' do
+      it { expect(email_object.instance_variable_get(:@message)).to eql message }
     end
   end
 
   describe '#plain_text_body' do
-    it { expect(email_object.plain_text_body).to eql message['body-plain'] }
+    subject { email_object.plain_text_body }
+    it do
+      expect(message).to receive(:plain_text_body).once
+      subject
+    end
   end
 
   describe '#html_body' do
-    it { expect(email_object.html_body).to eql message['stripped-html'] }
+    subject { email_object.html_body }
+    it do
+      expect(message).to receive(:html_body).once
+      subject
+    end
   end
 
   describe '#text' do
-    it { expect(email_object.text).to eql message['stripped-text'] }
+    subject { email_object.text }
+    it do
+      expect(message).to receive(:text).once
+      subject
+    end
   end
 
   describe '#mail_from' do
-    it { expect(email_object.mail_from).to eql message['From'] }
+    subject { email_object.mail_from }
+    it do
+      expect(message).to receive(:mail_from).once
+      subject
+    end
   end
 
   describe '#recipients' do
     subject { email_object.recipients }
-    it { is_expected.to be_a_kind_of Array }
-
-    context 'when one recipient' do
-      it { is_expected.to include message['To']}
-    end
-
-    context 'when more than one recipient' do
-      let(:second_recipient) { 'second_tester@gmail.com' }
-      let(:message_with_multiple_recipients) { message.merge({'To' => "#{recipient}, #{second_recipient}"}) }
-      let(:email_object) { Email.new(message_with_multiple_recipients) }
-      it { is_expected.to eql [recipient, second_recipient] }
+    it do
+      expect(message).to receive(:recipients).once
+      subject
     end
   end
 
   describe '#received_time' do
-    it { expect(email_object.received_time).to eql message['Received'][27..63] }
+    subject { email_object.received_time }
+    it do
+      expect(message).to receive(:received_time).once
+      subject
+    end
   end
 
   describe '#sender_email' do
-    it { expect(email_object.sender_email).to eql message['sender'] }
+    subject { email_object.sender_email }
+    it do
+      expect(message).to receive(:sender_email).once
+      subject
+    end
   end
 
-  describe '#get_mime_part' do
-    subject { email_object.get_mime_part }
-
-    context 'when has attachments' do
-      let(:files) { [double] }
-      before { email_object.instance_variable_set(:@message, 'attachments' => files)}
-      it { is_expected.to eq(files) }
-    end
-
-    context 'when no attachments' do
-      let(:error) { Howitzer::NoAttachmentsError }
-      let(:error_message) { 'No attachments where found.' }
-      it do
-        expect(log).to receive(:error).with(error, error_message).once
-        subject
-      end
+  describe '#mime_part' do
+    subject { email_object.mime_part }
+    it do
+      expect(message).to receive(:mime_part).once
+      subject
     end
   end
 end
