@@ -139,6 +139,7 @@ From version _v1.1.0_ howitzer provides **howitzer update** command. After updat
 ```
 $ howitzer update
         *  Config files generation ...
+            Identical 'config/boot.rb' file
             Identical 'config/custom.yml' file
             Added 'config/default.yml' file
         * Root files generation ...
@@ -147,10 +148,6 @@ $ howitzer update
               Overwrite 'Gemfile' file? [Yn]:Y
                 Forced 'Gemfile' file
             Identical 'Rakefile' file
-            Conflict with 'boot.rb' file
-              Overwrite 'boot.rb' file? [Yn]:n
-                Skipped 'boot.rb' file
-
 ...
 ```
 Don't forget to review the difference, to see if there were any unexpected changes and merge them. It is easy if your project is under revision control systems like _Git_.

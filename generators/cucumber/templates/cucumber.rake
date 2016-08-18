@@ -1,53 +1,64 @@
 require 'cucumber'
 require 'cucumber/rake/task'
-CUCUMBER_OPTS = [
-  '-r features',
-  '-v',
-  '-x',
-  "-f html -o ./#{Howitzer.log_dir}/#{Howitzer.html_log}",
-  "-f junit -o ./#{Howitzer.log_dir}",
-  '-f pretty'
-].join(' ').freeze
+
+opts = lambda do |task_name|
+  [
+    '-r features',
+    '-v',
+    '-x',
+    "-f html -o ./#{Howitzer.log_dir}/#{Howitzer.driver}_#{task_name}_#{Howitzer.html_log}",
+    "-f junit -o ./#{Howitzer.log_dir}",
+    '-f pretty'
+  ].join(' ').freeze
+end
 
 Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber scenarios') do |t|
+  Howitzer.current_rake_task = t.name
   t.fork = false
-  t.cucumber_opts = CUCUMBER_OPTS
+  t.cucumber_opts = opts.call(t.name)
 end
 
 Cucumber::Rake::Task.new(:features, 'Run all workable scenarios (without @wip and @bug tags)') do |t|
+  Howitzer.current_rake_task = t.name
   t.fork = false
-  t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug"
+  t.cucumber_opts = "#{opts.call(t.name)} --tags ~@wip --tags ~@bug"
 end
 
 namespace :features do
   Cucumber::Rake::Task.new(:wip, 'Run scenarios in progress (with @wip tag)') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @wip"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags @wip"
   end
 
   Cucumber::Rake::Task.new(:bug, 'Run scenarios with known bugs (with @bug tag)') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @bug"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags @bug"
   end
 
   Cucumber::Rake::Task.new(:smoke, 'Run workable smoke scenarios (with @smoke tag)') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags @smoke --tags ~@wip --tags ~@bug"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags @smoke --tags ~@wip --tags ~@bug"
   end
 
   Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
   end
 
   Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p1"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags ~@wip --tags ~@bug --tags @p1"
   end
 
   Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with low priority (with @p2 tag)') do |t|
+    Howitzer.current_rake_task = t.name
     t.fork = false
-    t.cucumber_opts = "#{CUCUMBER_OPTS} --tags ~@wip --tags ~@bug --tags @p2"
+    t.cucumber_opts = "#{opts.call(t.name)} --tags ~@wip --tags ~@bug --tags @p2"
   end
 end
 

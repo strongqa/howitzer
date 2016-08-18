@@ -732,9 +732,9 @@ RSpec.describe Howitzer::CapybaraHelpers do
 
   describe '.prefix_name' do
     subject { prefix_name }
-    context 'when RAKE_TASK present' do
-      before { ENV['RAKE_TASK'] = 'Foo' }
-      after { ENV['RAKE_TASK'] = nil }
+    context 'when current rake task present' do
+      before { Howitzer.current_rake_task = 'Foo' }
+      after { Howitzer.current_rake_task = nil }
       it { is_expected.to eq('FOO') }
     end
     context 'when rake_task_name empty' do

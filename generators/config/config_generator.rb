@@ -5,6 +5,7 @@ module Howitzer
     def manifest
       { files:
         [
+          { source: 'boot.rb', destination: 'config/boot.rb' },
           { source: 'custom.yml', destination: 'config/custom.yml' },
           { source: 'capybara.rb', destination: 'config/capybara.rb' },
           { source: 'default.yml', destination: 'config/default.yml' }

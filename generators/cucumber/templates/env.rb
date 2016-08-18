@@ -1,6 +1,6 @@
 require 'cucumber'
 require 'capybara/cucumber'
-require_relative '../../boot'
+require_relative '../../config/boot'
 require_relative '../../config/capybara'
 
 World(FactoryGirl::Syntax::Methods)

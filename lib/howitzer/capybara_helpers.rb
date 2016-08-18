@@ -143,7 +143,7 @@ module Howitzer
     end
 
     def prefix_name
-      (ENV['RAKE_TASK'] || 'ALL').upcase
+      (Howitzer.current_rake_task || 'ALL').upcase
     end
 
     def sauce_resource_path(kind)
