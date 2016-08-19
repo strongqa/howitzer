@@ -16,7 +16,7 @@ end
 
 Capybara.configure do |config|
   config.run_server = false
-  config.app_host = ''
+  config.app_host = nil
   config.asset_host = Howitzer.app_uri.origin
   config.default_selector = :css
   config.default_max_wait_time = Howitzer.capybara_wait_time
