@@ -1,6 +1,6 @@
-require 'rspec'
 require 'capybara/rspec'
-require_relative '../boot'
+require 'capybara-screenshot/rspec'
+require_relative '../config/boot'
 require_relative '../config/capybara'
 
 Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
