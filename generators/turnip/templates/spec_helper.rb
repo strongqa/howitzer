@@ -3,7 +3,7 @@ require 'capybara-screenshot/rspec'
 require_relative '../config/boot'
 require_relative '../config/capybara'
 
-Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
+Dir['./spec/support/**/*.rb'].each { |f| require f }
 
 RSpec.configure do |config|
   Howitzer::Log.settings_as_formatted_text
@@ -17,10 +17,14 @@ RSpec.configure do |config|
   config.disable_monkey_patching = true
   config.color = true
 
-  config.before(type: :feature) do
-    Howitzer::Log.print_scenario_name(
-      self.class.description.blank? ? self.class.metadata[:description] : self.class.description
-    )
+  config.before(:each) do
+    scenario_name =
+      if RSpec.current_example.description.blank?
+        RSpec.current_example.metadata[:full_description]
+      else
+        RSpec.current_example.description
+      end
+    Howitzer::Log.print_scenario_name(scenario_name)
     @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
   end
 
@@ -30,7 +34,6 @@ RSpec.configure do |config|
       session_end = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
       Howitzer::Log.info "CLOUD VIDEO #{@session_start} - #{session_end}" \
                " URL: #{CapybaraHelpers.cloud_resource_path(:video)}"
-
     elsif CapybaraHelpers.ie_browser?
       Howitzer::Log.info 'IE reset session'
       page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
