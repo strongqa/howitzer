@@ -15,7 +15,7 @@ end
 Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber scenarios') do |t|
   Howitzer.current_rake_task = t.instance_variable_get :@task_name
   t.fork = false
-  t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))}"
+  t.cucumber_opts = opts.call(t.instance_variable_get(:@task_name))
 end
 
 Cucumber::Rake::Task.new(:features, 'Run all workable scenarios (without @wip and @bug tags)') do |t|
@@ -46,7 +46,8 @@ namespace :features do
   Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
     Howitzer.current_rake_task = t.instance_variable_get :@task_name
     t.fork = false
-    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
+    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))}
+    --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
   end
 
   Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
