@@ -136,16 +136,13 @@ module Howitzer
         end
 
         def root_url(value)
-          @root_url = value
+          define_singleton_method(:parent_url) { value }
+          private_class_method :parent_url
         end
 
         private
 
         attr_reader :url_template
-
-        def parent_url
-          @root_url || Howitzer.app_uri.site
-        end
 
         def incorrect_page_msg
           "Current page: #{current_page}, expected: #{self}.\n" \
@@ -157,6 +154,8 @@ module Howitzer
                     "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
       end
+
+      root_url Howitzer.app_uri.site
 
       def initialize
         check_validations_are_defined!

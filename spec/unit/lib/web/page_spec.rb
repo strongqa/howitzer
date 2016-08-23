@@ -148,13 +148,29 @@ RSpec.describe Howitzer::Web::Page do
   end
 
   describe '.root_url' do
-    let(:url_value) { 'http://example.com' }
-    it do
-      described_class.send(:root_url, url_value)
-      expect(described_class.instance_variable_get(:@root_url)).to eql url_value
+    let!(:base_class) do
+      Class.new(described_class) do
+        root_url 'https://base.com'
+      end
     end
+    let!(:child_class1) do
+      Class.new(base_class) do
+        root_url 'https://child.com'
+      end
+    end
+    let!(:child_class2) do
+      Class.new(base_class)
+    end
+    let!(:child_class3) do
+      Class.new(described_class)
+    end
+    it { expect(described_class.send(:parent_url)).to eq('http://login:pass@my.website.com') }
+    it { expect(base_class.send(:parent_url)).to eq('https://base.com') }
+    it { expect(child_class1.send(:parent_url)).to eq('https://child.com') }
+    it { expect(child_class2.send(:parent_url)).to eq('https://base.com') }
+    it { expect(child_class3.send(:parent_url)).to eq('http://login:pass@my.website.com') }
     it 'should be protected' do
-      expect { described_class.root_url(url_value) }.to raise_error(NoMethodError)
+      expect { described_class.root_url('http://example.com') }.to raise_error(NoMethodError)
     end
   end
 
