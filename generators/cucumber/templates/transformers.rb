@@ -3,7 +3,7 @@
 #############################################################
 
 Transform /FACTORY_(\w+)(\d*)(?:\[\:(.+)\])?/ do |factory, num, property|
-  res = FactoryGirl.given_factory_by_number(factory.downcase, num)
+  res = FactoryGirl.given_by_number(factory.downcase, num)
   res = res.send(property) if property
   res
 end
@@ -15,7 +15,7 @@ Transform /^table:.*$/ do |table|
 
       data = /FACTORY_(?<factory>\w+)(?<num>\d*)(?:\[\:(?<property>.+)\])?/.match(el)
       if data
-        res = FactoryGirl.given_factory_by_number(data[:factory].downcase, data[:num])
+        res = FactoryGirl.given_by_number(data[:factory].downcase, data[:num])
         res = res.send(data[:property]) if data[:property]
       end
 
