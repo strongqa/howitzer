@@ -1,25 +1,26 @@
-# Howitzer
+<p align="center">
+  <a href="https://github.com/strongqa/howitzer">
+    <img src="https://github.com/strongqa/howitzer/blob/gh-pages/images/howitzer-logo.png" alt="Howitzer" />
+  </a>
+  <br/>
+  
+  <p>Howitzer is a Ruby-based framework for acceptance testing of web applications.</p>
+  
+  <p>It was originally developed for testing web applications, but you can also use it for API testing and web service testing.</p>
 
-[![Join the chat at https://gitter.im/strongqa/howitzer](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/strongqa/howitzer?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
-[![Gem Version](http://img.shields.io/gem/v/howitzer.svg)][gem]
-[![Build Status](https://travis-ci.org/strongqa/howitzer.svg?branch=master)][travis]
-[![Dependency Status](https://gemnasium.com/strongqa/howitzer.svg)][gemnasium]
-[![Code Climate](https://codeclimate.com/github/strongqa/howitzer.png)][codeclimate]
-[![Coverage Status](https://coveralls.io/repos/strongqa/howitzer/badge.png?branch=master)][coveralls]
-[![License](http://img.shields.io/badge/license-MIT-blue.svg)][license]
+  <p>The framework was built with modern patterns, techniques, and tools in automated testing. </p>
 
-[gem]: https://rubygems.org/gems/howitzer
-[travis]: https://travis-ci.org/strongqa/howitzer
-[gemnasium]: https://gemnasium.com/strongqa/howitzer
-[codeclimate]: https://codeclimate.com/github/strongqa/howitzer
-[coveralls]: https://coveralls.io/r/strongqa/howitzer?branch=master
-[license]: https://github.com/strongqa/howitzer/blob/master/LICENSE
-
-Howitzer is a Ruby-based framework for acceptance testing.
-
-It was originally developed for testing web applications, but you can also use it for API testing and web service testing.
-
-The framework was built with modern patterns, techniques, and tools in automated testing. For details, please see [Test Framework Design](https://github.com/strongqa/howitzer/wiki/Test-Framework-Design).
+  <p>
+  <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
+  <a href="https://rubygems.org/gems/howitzer"><img src="http://img.shields.io/gem/v/her.svg" /></a>
+  <a href="https://travis-ci.org/strongqa/howitzer"><img src="https://travis-ci.org/strongqa/howitzer.svg?branch=master" /></a>
+  <a href='https://gemnasium.com/strongqa/howitzer'><img src="https://gemnasium.com/strongqa/howitzer.svg" /></a>
+  <a href="https://codeclimate.com/github/strongqa/howitzer"><img src="https://codeclimate.com/github/strongqa/howitzer.png" /></a>
+  <a href="https://coveralls.io/r/strongqa/howitzer?branch=master"><img src="https://coveralls.io/repos/strongqa/howitzer/badge.png?branch=master" /></a>
+  <a href="https://github.com/strongqa/howitzer/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg" /></a>
+  </p>
+  
+</p>
 
 ## Key Benefits
 - Independent of test web application, its technologies and languages.
