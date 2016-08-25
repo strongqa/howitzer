@@ -2,6 +2,7 @@ require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
 require 'coveralls'
+Coveralls.wear!
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
   [
     SimpleCov::Formatter::HTMLFormatter,
