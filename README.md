@@ -4,11 +4,9 @@
   </a>
   <br/>
   
-  <p align="center"><b>Howitzer is a Ruby-based framework for acceptance testing of web applications.</b></p>
+  <p align="center"><b>Ruby-based framework for acceptance testing of web applications.</b></p>
   
-  <p align="center">It was originally developed for testing web applications, but you can also use it for API testing and web service testing.</p>
-
-  <p align="center">The framework was built with modern patterns, techniques, and tools in automated testing. </p>
+  <p align="center">It was originally developed for testing web applications, but you can also use it for API testing and web service testing. The framework was built with modern patterns, techniques, and tools in automated testing. </p>
 
   <p align="center">
   <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
