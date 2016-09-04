@@ -81,19 +81,25 @@ Learn and specify correct default settings in the `config/default.yml` file. For
 
 ## Test Implementation Workflow
 
-- Prepare features and scenarios
+- Prepare BDD feature with scenarios
+- Mark feature/scenarios with priority tags.
+- Implement prerequisites generation (optional):
+  * implement factories
+  * implement models
 - Implement appropriate pages in the `web/pages` folder. For details, refer to  [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
-- Implement emails in `emails` folder.
+- Implement emails in `emails` folder (optional).
 - Implement scenarios:
   * For Cucumber:
     1. Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
     2. Implement step definitions in the `features/step_definitions` folder.
   * For Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara to create descriptive acceptance tests.
-  * For Turnip:Implement step definitions in the `spec/steps` folder.
-- Debug features against to desired driver.
+  * For Turnip: Implement step definitions in the `spec/steps` folder.
+- Debug features against to desired drivers.
 - Enjoy it!
 
 ## Rake Tasks
+
+[Rake](https://ruby.github.io/rake/) was originally created to handle software build processes, but the combination of convenience and flexibility that it provides has made it the standard method of job automation for Ruby projects.
 
 You can get a list of all available tasks by typing the following command:
 
@@ -105,22 +111,15 @@ rake -T
 ## Upgrading Howitzer
 Before attempting to upgrade an existing project, you should be sure you have a good reason to upgrade. You need to balance several factors: the need for new features, the increasing difficulty of finding support for old code, and your available time and skills, to name a few.
 
-From version _v1.1.0_ howitzer provides **howitzer update** command. After updating the Howitzer version in the Gemfile, run this rake task. This will help you with the creation of new files and changes of old files in an interactive session.
+From version _v1.1.0_ howitzer provides **howitzer update** command. After updating the Howitzer version in the Gemfile, run following commands:
 
 ```
-$ howitzer update
-        *  Config files generation ...
-            Identical 'config/boot.rb' file
-            Identical 'config/custom.yml' file
-            Added 'config/default.yml' file
-        * Root files generation ...
-            Added '.gitignore' file
-            Conflict with 'Gemfile' file
-              Overwrite 'Gemfile' file? [Yn]:Y
-                Forced 'Gemfile' file
-            Identical 'Rakefile' file
-...
+bundle update howitzer
+bundle exec howitzer update
 ```
+
+This will help you with the creation of new files and changes of old files in an interactive session.
+
 Don't forget to review the difference, to see if there were any unexpected changes and merge them. It is easy if your project is under revision control systems like _Git_.
 
 ## Additional Information
@@ -140,7 +139,7 @@ community](https://github.com/strongqa/howitzer/graphs/contributors).
 License
 -------
 
-howitzer is Copyright © 2012-2015 Roman Parashchenko and StrongQA. It is free
+howitzer is Copyright © 2012-2016 Roman Parashchenko and StrongQA Ltd. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](/LICENSE) file.
 
