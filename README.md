@@ -1,11 +1,11 @@
-<p align="center">
+<p align="center" style="overflow: hidden;">
   <a href="https://github.com/strongqa/howitzer">
-    <img src="https://github.com/strongqa/howitzer/blob/gh-pages/images/howitzer-logo.png" alt="Howitzer" />
+    <img src="https://raw.githubusercontent.com/strongqa/howitzer/gh-pages/images/howitzer-logo.png" alt="Howitzer" />
   </a>
   <br/>
-  
+
   <p align="center"><b>Ruby-based framework for acceptance testing of web applications.</b></p>
-  
+
   <p align="center">The framework was built with modern patterns, techniques, and tools in automated testing in order to speed up tests development and simplify supporting.</p>
 
   <p align="center">
@@ -17,7 +17,7 @@
   <a href='https://coveralls.io/github/strongqa/howitzer?branch=master'><img src='https://coveralls.io/repos/github/strongqa/howitzer/badge.svg?branch=master' alt='Coverage Status' /></a>
   <a href="https://github.com/strongqa/howitzer/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg" /></a>
   </p>
-  
+
 </p>
 
 ## Key Benefits
@@ -44,7 +44,7 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [Ruby](https://www.ruby-lang.org/en/downloads/) 2.2.2+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
 * [PhantomJS](http://phantomjs.org/download.html) (For **phantomjs** and **poltergeist** drivers only)
-* [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
+* [ChromeDriver](https://github.com/SeleniumHQ/selenium/wiki/ChromeDriver)
 * [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For **webkit** driver only)
 
 ## Setup
@@ -131,7 +131,7 @@ Don't forget to review the difference, to see if there were any unexpected chang
 Contributing
 ------------
 
-Please see [CONTRIBUTING.md](https://github.com/strongqa/howitzer/blob/master/CONTRIBUTING.md).
+Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 howitzer was originally designed by Roman Parashchenko and is now maintained by StrongQA team. You can find list of contributors here [open source
 community](https://github.com/strongqa/howitzer/graphs/contributors).
@@ -141,7 +141,7 @@ License
 
 howitzer is Copyright © 2012-2016 Roman Parashchenko and StrongQA Ltd. It is free
 software, and may be redistributed under the terms specified in the
-[LICENSE](/LICENSE) file.
+[LICENSE](LICENSE) file.
 
 About StrongQA
 ----------------
