@@ -6,7 +6,7 @@
   
   <p align="center"><b>Ruby-based framework for acceptance testing of web applications.</b></p>
   
-  <p align="center">It was originally developed for testing web applications, but you can also use it for API testing and web service testing. The framework was built with modern patterns, techniques, and tools in automated testing. </p>
+  <p align="center">The framework was built with modern patterns, techniques, and tools in automated testing in order to speed up tests development and simplify supporting.</p>
 
   <p align="center">
   <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
@@ -21,18 +21,16 @@
 </p>
 
 ## Key Benefits
-- Independent of test web application, its technologies and languages.
-- Fast installation of the complete testing infrastructure (takes less than 5 minutes).
-- Flexible configuration of the test framework.
-- Possibility to choose between Cucumber, RSpec or Turnip BDD tool.
+- Independent of a web application technical stack, language and architecture.
+- Fast installation and configuration of the complete testing infrastructure (takes less than 5 minutes).
+- Elegant, intuitive and powerful Ruby language underneath.
+- Possibility to choose your favorite BDD tool (Cucumber, RSpec or Turnip).
 - Integration with SauceLabs, Testingbot, BrowserStack and MailGun web services.
-- Easy tests support.
+- Easy tests support based on the best patterns, techniques, principles.
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
-- Searches for broken links.
-
 
 ## Documentation
-Refer to the [GETTING STARTED](http://rubydoc.info/gems/howitzer/file/GETTING_STARTED.md) document to start working with *Howitzer*.
+Refer to the [GETTING STARTED](GETTING_STARTED.md) document to start working with *Howitzer*.
 
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
@@ -40,13 +38,12 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [Howitzer Example RSpec](https://github.com/strongqa/howitzer_example_rspec) – an example of Howitzer based project for demo web application based on RSpec.
 * [Howitzer Example Cucumber](https://github.com/strongqa/howitzer_example_cucumber) – an example of Howitzer based project for demo web application based on Cucumber.
 * [Howitzer Example Turnip](https://github.com/strongqa/howitzer_example_turnip) – an example of Howitzer based project for demo web application based on Turnip.
-* [Howitzer Stat](https://github.com/strongqa/howitzer_stat) – is the extension to Howitzer product. It is used for automated tests coverage visualization of web pages.
 
 ## Requirements
 * Supported OS: Mac OS X, Linux, Windows
 * [Ruby](https://www.ruby-lang.org/en/downloads/) 2.2.2+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
-* [PhantomJS](http://phantomjs.org/download.html)
+* [PhantomJS](http://phantomjs.org/download.html) (For **phantomjs** and **poltergeist** drivers only)
 * [ChromeDriver](https://code.google.com/p/selenium/wiki/ChromeDriver)
 * [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For **webkit** driver only)
 
@@ -60,36 +57,10 @@ gem install howitzer
 ## Usage
 Browse to a desired directory where a new project will be created.
 
-To deploy the framework with [Cucumber](https://cucumber.io/), type:
+To generate the project with [Cucumber](https://cucumber.io/), type:
 
 ```bash
 howitzer new <PROJECT NAME> --cucumber
-```
-
-The following folders and files will be generated:
-```
-config/
-  default.yml
-  custom.yml
-tasks/
-  common.rake
-  cucumber.rake
-  rspec.rake
-emails/
-  example_email.rb
-features/
-  support/env.rb
-  step_definitions/common_steps.rb
-  example.feature
-web/
-  pages/
-    example_page.rb
-  sections/  
-    menu_section.rb
-boot.rb
-Gemfile
-Rakefile
-.gitignore
 ```
 
 With [Rspec](http://rspec.info/):
@@ -111,14 +82,15 @@ Learn and specify correct default settings in the `config/default.yml` file. For
 ## Test Implementation Workflow
 
 - Prepare features and scenarios
-- Implement appropriate pages in the `pages` folder. For details, refer to  [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
+- Implement appropriate pages in the `web/pages` folder. For details, refer to  [Page Object Pattern](https://github.com/strongqa/howitzer/wiki/PageObject-pattern).
 - Implement emails in `emails` folder.
 - Implement scenarios:
   * For Cucumber:
     1. Read and learn [Cucumber Best Practices](https://github.com/strongqa/howitzer/wiki/Cucumber-Best-Practices)
-    2. Implement step definitions in the `features/step_definitions/common_steps.rb` file.
+    2. Implement step definitions in the `features/step_definitions` folder.
   * For Rspec: Use [DSL](https://github.com/jnicklas/capybara/blob/master/lib/capybara/rspec/features.rb) provided by Capybara to create descriptive acceptance tests.
-- Debug feature against to desired driver.
+  * For Turnip:Implement step definitions in the `spec/steps` folder.
+- Debug features against to desired driver.
 - Enjoy it!
 
 ## Rake Tasks
