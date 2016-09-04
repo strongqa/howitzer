@@ -1,5 +1,5 @@
 require 'cucumber'
-require 'capybara/cucumber'
+require 'capybara-screenshot/cucumber'
 require_relative '../../config/boot'
 require_relative '../../config/capybara'
 
@@ -12,6 +12,7 @@ Howitzer::Cache.store(:cloud, :start_time, Time.now.utc)
 Howitzer::Cache.store(:cloud, :status, true)
 
 Before do |scenario|
+  Capybara.use_default_driver
   Howitzer::Log.print_feature_name(scenario.feature.name)
   Howitzer::Log.print_scenario_name(scenario.name)
   @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
@@ -28,6 +29,7 @@ After do |scenario|
     page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
   end
   Howitzer::Cache.clear_all_ns
+  Capybara.reset_sessions!
 end
 
 at_exit do
