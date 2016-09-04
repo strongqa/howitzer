@@ -144,3 +144,13 @@ Capybara.register_driver :selenium_grid do |app|
 
   Capybara::Selenium::Driver.new(app, browser: :remote, url: Howitzer.selenium_hub_url, desired_capabilities: caps)
 end
+
+Capybara.save_path = Howitzer.log_dir
+Capybara::Screenshot.register_driver(:phantomjs) do |driver, path|
+  driver.browser.save_screenshot path
+end
+Capybara::Screenshot.append_timestamp = false
+Capybara::Screenshot.register_filename_prefix_formatter(:default) do
+  "capybara-screenshot-#{Gen.serial}"
+end
+Capybara::Screenshot.prune_strategy = :keep_last_run
