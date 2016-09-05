@@ -7,7 +7,6 @@ Dir[
   './emails/**/*.rb',
   './web/sections/**/*.rb',
   './web/pages/**/*.rb',
-  './config/spyke.rb',
   './prerequisites/models/**/*.rb',
   './prerequisites/factory_girl.rb'
 ].each { |f| require f }
