@@ -1,10 +1,4 @@
 ###########################################################
-#  COMMON SETTINGS                                        #
-###########################################################
- debug_mode: false
- page_load_idle_timeout: 20
-
-###########################################################
 # APPLICATION SETTINGS                                    #
 ###########################################################
  app_base_auth_login: login
@@ -22,9 +16,8 @@
 ###########################################################
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
-
- # Specify maximized browser window size
- maximized_window: true
+ page_load_idle_timeout: 20
+ maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
  # testingbot, browserstack
@@ -78,6 +71,7 @@
 # LOGGER SETTINGS                                         #
 ###########################################################
  log_dir: "log"
+ debug_mode: false
  html_log: log.html
  selenium_server_log: selenium-server.log
  required_clean_logs: true

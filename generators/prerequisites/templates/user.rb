@@ -1,5 +1,5 @@
 require_relative 'base'
-# Example Model class
+# Example User Model
 class User < Base
   def self.default
     where(email: Howitzer.app_test_user).first
