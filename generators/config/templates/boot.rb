@@ -1,18 +1,15 @@
-Dir.chdir(File.join(__dir__, '.'))
+require 'rubygems'
+require 'bundler/setup'
 
-def cache
-  Howitzer.cache
-end
+Bundler.require(:default)
 
-require 'howitzer'
-require 'pry'
-require 'pry-byebug'
-
-Dir[File.join(__dir__, 'emails/**/*.rb')].each { |f| require f }
-Dir[File.join(__dir__, 'web/sections/**/*.rb')].each { |f| require f }
-Dir[File.join(__dir__, 'web/pages/**/*.rb')].each { |f| require f }
-
-Dir[File.join(__dir__, 'prerequisites/models/**/*.rb')].each { |f| require f }
-require File.join(__dir__, 'prerequisites/factory_girl')
+Dir[
+  './emails/**/*.rb',
+  './web/sections/**/*.rb',
+  './web/pages/**/*.rb',
+  './config/spyke.rb',
+  './prerequisites/models/**/*.rb',
+  './prerequisites/factory_girl.rb'
+].each { |f| require f }
 
 String.send(:include, Howitzer::Utils::StringExtensions)
