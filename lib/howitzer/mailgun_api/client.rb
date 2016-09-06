@@ -7,7 +7,7 @@ module Howitzer
   module MailgunApi
     # A Mailgun::Client object is used to communicate with the Mailgun API. It is a
     # wrapper around RestClient so you don't have to worry about the HTTP aspect
-    # of communicating with our API.
+    # of communicating with Mailgun API.
     class Client
       USER_AGENT = 'mailgun-sdk-ruby'.freeze
       attr_reader :api_user, :api_key, :api_host, :api_version, :ssl
@@ -22,10 +22,11 @@ module Howitzer
 
       # Generic Mailgun GET Handler
       #
-      # @param [String] resource_path This is the API resource you wish to interact
-      # with. Be sure to include your domain, where necessary.
-      # @param [Hash] params This should be a standard Hash for query
-      # containing required parameters for the requested resource.
+      # @param resource_path [String] This is the API resource you wish to interact
+      #   with. Be sure to include your domain, where necessary.
+      # @param params [Hash] This should be a standard Hash for query
+      #   containing required parameters for the requested resource.
+      # @raise CommunicationError in case if something went wrong
       # @return [Mailgun::Response] A Mailgun::Response object.
 
       def get(resource_path, params: nil, accept: '*/*')
@@ -37,7 +38,17 @@ module Howitzer
         Howitzer::Log.error CommunicationError, e.message
       end
 
-      # describe me!
+      # Extracts data by url in custom way
+      # @note This method was introducted because of saving emails to different nodes.
+      #   As result we can not use {#get} method, because client holds general api url
+      #
+      # @param resource_url [String] full url
+      # @param params [Hash] This should be a standard Hash for query
+      #   containing required parameters for the requested resource.
+      # @param accept [String] accept pattern for headers
+      # @raise CommunicationError in case if something went wrong
+      # @return [Mailgun::Response] A Mailgun::Response object.
+
       def get_url(resource_url, params: nil, accept: '*/*')
         response = ::RestClient::Request.execute(
           method: :get,

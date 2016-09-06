@@ -15,8 +15,8 @@ module Howitzer
       end
 
       # Return response as Ruby Hash
-      #
-      # @return [Hash] A standard Ruby Hash containing the HTTP result.
+      # @raise [ParseError] in case of json parsing error
+      # @return [Hash] HTTP result as hash.
 
       def to_h
         JSON.parse(@body)

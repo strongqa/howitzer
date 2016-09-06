@@ -19,12 +19,14 @@ module Howitzer
       # Finds an email in mailbox
       # @param recipient [String] email
       # @param subject [String]
+
       def self.find(_recipient, _subject)
         raise NotImplementedError
       end
 
       # Creates a new instance of email
       # @param message [Object] original message data
+
       def initialize(message)
         @message = message
       end

@@ -9,20 +9,20 @@ module Howitzer
       include Singleton
 
       attr_reader :api_key
+      attr_accessor :domain
+
+      # Assigns default value for domain
+      def initialize
+        self.domain = Howitzer.mailgun_domain
+      end
+
+      # @return [Client] mailgun client
 
       def client(api_key = Howitzer.mailgun_key)
         check_api_key(api_key)
         return @client if @api_key == api_key && @api_key
         @api_key = api_key
         @client = Client.new(api_key: @api_key)
-      end
-
-      def domain
-        @domain || change_domain
-      end
-
-      def change_domain(domain_name = Howitzer.mailgun_domain)
-        @domain = domain_name
       end
 
       private
