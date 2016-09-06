@@ -142,6 +142,20 @@ RSpec.describe 'Mailgun Email Adapter' do
     end
 
     context 'when no attachments' do
+      it { is_expected.to eq([]) }
+    end
+  end
+
+  describe '#mime_part!' do
+    subject { email_object.mime_part! }
+
+    context 'when has attachments' do
+      let(:files) { [double] }
+      before { email_object.instance_variable_set(:@message, 'attachments' => files) }
+      it { is_expected.to eq(files) }
+    end
+
+    context 'when no attachments' do
       let(:error) { Howitzer::NoAttachmentsError }
       let(:error_message) { 'No attachments where found.' }
       it do
