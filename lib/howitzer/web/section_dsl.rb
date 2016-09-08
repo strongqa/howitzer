@@ -20,7 +20,7 @@ module Howitzer
             @args = args
             self.section_class =
               if block
-                Class.new(Howitzer::Web::AnonymousSection)
+                Class.new(Howitzer::Web::BaseSection)
               else
                 "#{name}_section".classify.constantize
               end
@@ -85,4 +85,4 @@ module Howitzer
   end
 end
 
-require 'howitzer/web/anonymous_section'
+require 'howitzer/web/base_section'

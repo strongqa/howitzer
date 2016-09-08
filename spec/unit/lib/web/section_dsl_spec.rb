@@ -113,7 +113,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
     context 'when section with 2 arguments and block' do
       let(:finder_args) { [:xpath, './/div'] }
       let(:section_name) { :unknown }
-      let(:section_class) { Howitzer::Web::AnonymousSection }
+      let(:section_class) { Howitzer::Web::BaseSection }
       before do
         web_page_class.class_eval do
           section :unknown, :xpath, './/div' do
@@ -127,7 +127,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
     context 'when nested section with 2 arguments and block' do
       let(:finder_args) { [:xpath, './/div'] }
       let(:section_name) { :name1 }
-      let(:section_class) { Howitzer::Web::AnonymousSection }
+      let(:section_class) { Howitzer::Web::BaseSection }
       before do
         web_page_class.class_eval do
           section :name1, :xpath, './/div' do

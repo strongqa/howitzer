@@ -1,8 +1,8 @@
 require 'spec_helper'
 require 'howitzer/web/section_dsl'
-require 'howitzer/web/anonymous_section'
+require 'howitzer/web/base_section'
 
-RSpec.describe Howitzer::Web::AnonymousSection do
+RSpec.describe Howitzer::Web::BaseSection do
   describe 'element dsl methods' do
     let(:parent) { double }
     let(:capybara_context) { double }
