@@ -18,13 +18,12 @@ module Howitzer
     attr_accessor :current_rake_task
   end
 
-  ##
+  # @return application uri
   #
-  # Returns application uri
-  #
-  # uri.site - returns url with auth
-  # uri.origin -returns url without auth
-  #
+  # @example returns url with auth
+  #  app_uri.site
+  # @example returns url without auth
+  #  app_uri.origin
 
   def self.app_uri
     ::Addressable::URI.new(

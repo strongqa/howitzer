@@ -30,55 +30,43 @@ module Howitzer
       end
     end
 
-    ##
-    #
-    # Prints log entry about error with ERROR severity
-    # *Examples:*
-    #  Howitzer::Log.error MyException, 'Some error text', caller
-    #  Howitzer::Log.error 'Some error text', caller
-    #  Howitzer::Log.error MyException, 'Some caller text'
-    #  Howitzer::Log.error 'Some error text'
-    #  Howitzer::Log.error err_object
-    #
-    # *Parameters:*
-    # * +args+ - see example
-    #
+    # Outputs log entry about error with ERROR severity
+    # @param value [Exception, String] exception class or error message
+    # @param args [Array] See examples
+    # @example
+    #   Howitzer::Log.error MyException, 'Some error text', caller
+    # @example
+    #   Howitzer::Log.error 'Some error text', caller
+    # @example
+    #   Howitzer::Log.error MyException, 'Some caller text'
+    # @example
+    #   Howitzer::Log.error 'Some error text'
+    # @example
+    #   Howitzer::Log.error err_object
 
-    def error(*args)
-      object = error_object(*args)
+    def error(value, *args)
+      object = error_object(value, *args)
       err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
       @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
       raise(object)
     end
 
-    ##
-    #
-    # Prints feature name into log with INFO severity
-    #
-    # *Parameters:*
-    # * +text+ - Feature name
-    #
+    # Outputs feature name into log with INFO severity
+    # @param text [String] feature name
 
     def print_feature_name(text)
       log_without_formatting { info "*** Feature: #{text.upcase} ***" }
     end
 
-    ##
-    #
-    # Returns formatted howitzer settings
-    #
+    # Outputs formatted howitzer settings
 
     def settings_as_formatted_text
       log_without_formatting { info ::SexySettings::Base.instance.as_formatted_text }
     end
 
-    ##
-    #
-    # Prints scenario name into log with INFO severity
-    #
-    # *Parameters:*
-    # * +text+ - Scenario name
-    #
+    # Outputs scenario name into log with INFO severity
+    # @param text [String] scenario name
+
     def print_scenario_name(text)
       log_without_formatting { info " => Scenario: #{text}" }
     end
