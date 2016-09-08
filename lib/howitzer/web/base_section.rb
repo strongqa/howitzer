@@ -4,7 +4,7 @@ require 'howitzer/web/section_dsl'
 
 module Howitzer
   module Web
-    # describe me!
+    # This class holds base functinality for sections
     class BaseSection
       include ElementDsl
       include SectionDsl

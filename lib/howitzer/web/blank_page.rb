@@ -2,7 +2,7 @@ require 'howitzer/web/page'
 
 module Howitzer
   module Web
-    # This class represents blank page
+    # This class represents standard blank page in browser
     class BlankPage < Page
       root_url ''
       url 'about:blank'
