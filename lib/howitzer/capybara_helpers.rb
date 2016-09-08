@@ -2,59 +2,45 @@ require 'rest-client'
 require 'howitzer/exceptions'
 
 module Howitzer
-  # This module holds helpers methods
+  # This module holds capybara helpers methods
   module CapybaraHelpers
     CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
 
-    # describe me!
+    # @return [Boolean] true if current driver related with SauceLab,
+    #   Testingbot or Browserstack cloud service
 
     def cloud_driver?
       [:sauce, :testingbot, :browserstack].include?(Howitzer.driver.to_sym)
     end
 
-    ##
-    #
-    # Returns whether or not the current browser is Internet Explorer.
-    #
+    # @return [Boolean] whether or not current browser is
+    #   Internet Explorer.
 
     def ie_browser?
       browser? :ie, :iexplore
     end
 
-    ##
-    #
-    # Returns whether or not the current browser is FireFox.
-    #
+    # @return [Boolean] whether or not current browser is FireFox.
 
     def ff_browser?
       browser? :ff, :firefox
     end
 
-    ##
-    #
-    # Returns whether or not the current browser is Google Chrome.
-    #
+    # @return [Boolean] whether or not current browser is Google Chrome.
 
     def chrome_browser?
       browser? :chrome
     end
 
-    ##
-    #
-    # Returns whether or not the current browser is Safari.
+    # @return [Boolean] whether or not current browser is Safari.
     #
 
     def safari_browser?
       browser? :safari
     end
 
-    ##
-    #
-    # Returns formatted duration time
-    #
-    # *Parameters:*
-    # * +time_in_numeric+ - Number of seconds
-    #
+    # @param time_in_numeric [Integer] Number of seconds
+    # @return [String] formatted duration time
 
     def duration(time_in_numeric)
       secs = time_in_numeric.to_i
@@ -65,6 +51,10 @@ module Howitzer
       return "[0m #{secs}s]" if secs >= 0
     end
 
+    # Updates job status on job cloud
+    # @note SauceLabs is currently supported only
+    # @param json_data [String] (for example, {passed: true})
+
     def update_cloud_job_status(json_data = {})
       case Howitzer.driver.to_sym
       when :sauce then update_sauce_job_status(json_data)
@@ -73,7 +63,12 @@ module Howitzer
       end
     end
 
-    # describe me!
+    # Tries to load appropriate driver gem
+    # @param driver [String] driver name
+    # @param lib [String] what is required to load
+    # @param gem [String] gem name
+    # @raise LoadError if gem is missing in bunder context
+
     def load_driver_gem!(driver, lib, gem)
       require lib
     rescue LoadError
@@ -81,7 +76,8 @@ module Howitzer
             "`:#{driver}` driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
     end
 
-    # describe me!
+    # @return [Hash] selenium capabilities required for a cloud driver
+
     def required_cloud_caps
       {
         platform: Howitzer.cloud_platform,
@@ -91,7 +87,12 @@ module Howitzer
       }
     end
 
-    # describe me!
+    # Buids selenium driver for a cloud service
+    # @param app [<Rack>] a rack application that this server will contain
+    # @param caps [Hash] remote capabilities
+    # @param url [String] a remote hub url
+    # @return [Capybara::Selenium::Driver]
+
     def cloud_driver(app, caps, url)
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
       http_client.timeout = Howitzer.cloud_http_idle_timeout
@@ -107,7 +108,8 @@ module Howitzer
       driver
     end
 
-    # describe me!
+    # @return [String] path to cloud resources (logs, videos, etc.)
+    # @note SauceLabs is supported currently only
 
     def cloud_resource_path(kind)
       case Howitzer.driver.to_sym

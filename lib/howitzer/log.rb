@@ -7,6 +7,7 @@ module Howitzer
     include Singleton
     include Log4r
 
+    # @todo implement documentation here!
     [:debug, :info, :warn, :fatal].each do |method_name|
       define_method method_name do |text|
         @logger.send(method_name, text)

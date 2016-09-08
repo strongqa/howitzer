@@ -8,21 +8,13 @@ module Howitzer
 
     attr_reader :message
 
-    ##
-    #
-    # Return mail adapter class
-    #
+    # @return [<MailAdapters::Abstract>] mail adapter class
 
     def self.adapter
       return @adapter if @adapter
       self.adapter = Howitzer.mail_adapter.to_sym
       @adapter
     end
-
-    ##
-    #
-    # Return mail adapter name
-    #
 
     class << self
       attr_reader :adapter_name
@@ -34,13 +26,9 @@ module Howitzer
       end
     end
 
-    ##
-    #
-    # Specify mail adapter
-    #
-    # *Parameters:*
-    # * +adapter_name+ - adapter name as string or symbol
-    #
+    # Specifies a mail adapter
+    # @param adapter_name [String, Symbol] email adapter name
+    # @raise NoMailAdapterError when adapter name is not String or Symbol
 
     def self.adapter=(adapter_name)
       @adapter_name = adapter_name
@@ -53,13 +41,11 @@ module Howitzer
       end
     end
 
-    ##
-    #
-    # Search mail by recepient
-    #
-    # *Parameters:*
-    # * +recepient+ - recepient's email address
-    #
+    # Searches a mail by a recepient
+    # @param recepient [String] recepient's email address
+    # @param params [Hash] placeholders with appropriate values
+    # @raise NoEmailSubjectError when subject is not specified for email class
+    # @return [Email] instance of email message
 
     def self.find_by_recipient(recipient, params = {})
       raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
@@ -68,86 +54,62 @@ module Howitzer
       new(adapter.find(recipient, expand_subject(params)))
     end
 
-    def self.expand_subject(params)
-      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
-      @subject
-    end
-    private_class_method :expand_subject
-
     def initialize(message)
       @message = message
     end
 
-    ##
-    #
-    # Returns plain text body of email message
-    #
+    # @return [String, nil] plain text of email message
 
     def plain_text_body
       message.plain_text_body
     end
 
-    ##
-    #
-    # Returns html body of email message
-    #
+    # @return [String, nil] html body of email message
 
     def html_body
       message.html_body
     end
 
-    ##
-    #
-    # Returns mail text
-    #
+    # @return [String, nil] mail text
 
     def text
       message.text
     end
 
-    ##
-    #
-    # Returns who has send email data in format: User Name <user@email>
-    #
+    # @return [String] who has send email data in format: User Name <user@email>
 
     def mail_from
       message.mail_from
     end
 
-    ##
-    #
-    # Returns array of recipients who has received current email
-    #
+    # @return [Array<String>] array of recipients who has received current email
 
     def recipients
       message.recipients
     end
 
-    ##
-    #
-    # Returns email received time in format:
-    #
+    # @return [String] email received time
 
     def received_time
       message.received_time
     end
 
-    ##
-    #
-    # Returns sender user email
-    #
+    # @return [String] sender user email
 
     def sender_email
       message.sender_email
     end
 
-    ##
-    #
     # Allows to get email MIME attachment
-    #
 
     def mime_part
       message.mime_part
     end
+
+    def self.expand_subject(params)
+      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
+      @subject
+    end
+    private_class_method :expand_subject
   end
 end
