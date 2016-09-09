@@ -6,6 +6,8 @@ module Howitzer
         base.extend(ClassMethods)
       end
 
+      # Returns capybara context. For example, capybara session, parent element, etc.
+      # @abstract should be defined in parent context
       def capybara_context
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
@@ -19,6 +21,41 @@ module Howitzer
       # This module holds frame dsl class methods
       module ClassMethods
         protected
+
+        # Creates a group of methods to interact with described HTML frame on page
+        # @note This method generates following dynamic methods:
+        #
+        #   <b><em>frame_name</em>_iframe</b> - equals capybara #within_frame(...) method
+        #
+        #   <b>has_<em>frame_name</em>_iframe?</b> - equals capybara #has_selector(...) method
+        #
+        #   <b>has_no_<em>frame_name</em>_iframe?</b> - equals capybara #has_no_selector(...) method
+        # @param name [Symbol, String] unique iframe name
+        # @param selector [Integer, String] frame name/id or index. Possible to specify id as #some_id
+        # @example Using in page class
+        #   class FbPage < Howitzer::Web::Page
+        #     element :like, :xpath, ".//*[text()='Like']"
+        #     def like
+        #       like_element.click
+        #     end
+        #
+        #     def liked?
+        #       #some code here
+        #     end
+        #   end
+        #
+        #   class HomePage < Howitzer::Web::Page
+        #     iframe :fb, 1
+        #   end
+        #
+        #   HomePage.on do
+        #     fb_iframe do |frame|
+        #       frame.like
+        #       expect(frame).to be_liked
+        #     end
+        #   end
+        #   HomePage.on { is_expected.to have_fb_iframe }
+        # @!visibility public
 
         def iframe(name, selector)
           klass = "#{name}_page".classify.constantize

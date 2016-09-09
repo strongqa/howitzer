@@ -10,31 +10,21 @@ module Howitzer
         base.extend(ClassMethods)
       end
 
-      ##
-      #
-      # Returns validation list
-      #
-      # @return [Hash]
-      #
+      # @return [Hash] Defined validations for all page classes
+
       def self.validations
         @validations ||= {}
       end
 
-      ##
-      #
       # Returns page list
-      #
       # @return [Array]
-      #
+
       def self.pages
         @pages ||= []
       end
 
-      ##
-      # Check if any validations are defined, if no, tries to find old style, else raise error
-      #
-      # @raise  [Howitzer::NoValidationError] If no one validation is defined for page
-      #
+      # Checks if any validations are defined for the page
+      # @raise  [Howitzer::NoValidationError] If no one validation is defined for the page
 
       def check_validations_are_defined!
         return if self.class.validations.present?
@@ -44,28 +34,34 @@ module Howitzer
 
       # This module holds page validation class methods
       module ClassMethods
-        ##
-        #
-        # Adds validation to validation list
-        #
-        # @param [Symbol or String] name       Which validation type. Possible values [:url, :element_presence, :title]
-        # @option options [Hash]                      Validation options
-        #    :pattern => [Regexp]                     For :url and :title validation types
-        #    :name => [String]                        For :element_presence (Existing element name)
-        # @raise  [Howitzer::UnknownValidationError]  If unknown validation type was passed
-        #
+        # Adds validation to validation list for current page
+        # @param name [Symbol, String] validation type. Possible values [:url, :element_presence, :title]
+        # @param value [Symbol, String, Regexp]
+        #   For :url and :title validation types must be <b>Regexp</b>
+        #   For :element_presence must be one of element names described for page
+        # @param additional_value [Object, nil] any value required to pass for a labmda selector
+        # @raise  [Howitzer::UnknownValidationError] on unknown validation type
+        # @example
+        #   class ArticleListPage < Howitzer::Web::Page
+        #     validate :title, /\ADemo web application - Listing Articles\z/
+        #   end
+        # @example
+        #   class ArticlePage < Howitzer::Web::Page
+        #     validate :url, %r{\/articles\/\d+\/?\z}
+        #   end
+        # @example
+        #   class HomePage < Howitzer::Web::Page
+        #     validate :element_presence, :menu_item, 'Logout'
+        #     element :menu_item, :xpath, ->(name) { ".//a[.='#{name}']" }
+        #   end
+
         def validate(name, value, additional_value = nil)
           validate_by_type(name, value, additional_value)
         end
 
-        ##
-        # Check whether page is opened or no
-        #
+        # Check whether current page is opened or no
+        # @return [Boolean]
         # @raise  [Howitzer::NoValidationError] If no one validation is defined for page
-        #
-        # *Returns:*
-        # * +boolean+
-        #
 
         def opened?
           if validations.blank?
@@ -75,19 +71,14 @@ module Howitzer
           end
         end
 
-        ##
-        #
-        # Finds all matched pages which are satisfy of defined validations
-        #
-        # *Returns:*
-        # * +array+ - page names
-        #
+        # Finds all matched pages which satisfy of defined validations on current page
+        # @return [Array] page name list
 
         def matched_pages
           PageValidator.pages.select(&:opened?)
         end
 
-        # Describe me!
+        # @return [Hash] Defined validations for current page class
 
         def validations
           PageValidator.validations[name] ||= {}
