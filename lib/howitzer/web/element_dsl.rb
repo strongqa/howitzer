@@ -36,9 +36,9 @@ module Howitzer
         #   <b>has_<em>element_name</em>_element?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>element_name</em>_element?</b> - equals capybara #has_no_selector(...) method
-        # @param name [Symbol, String] unique element name
+        # @param name [Symbol, String] an unique element name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
-        # @example Using in page class
+        # @example Using in a page class
         #   class HomePage < Howitzer::Web::Page
         #     element :new_button, :xpath, ".//*[@name='New']"
         #
@@ -49,7 +49,7 @@ module Howitzer
         #
         #   HomePage.on { is_expected.to have_new_button_element }
         #   HomePage.on { is_expected.to have_no_new_button_element }
-        # @example Using in section class
+        # @example Using in a section class
         #   class MenuSection < Howitzer::Web::Section
         #     me '.main-menu'
         #     element :menu_item, '.item'

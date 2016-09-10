@@ -11,7 +11,7 @@ require 'howitzer/exceptions'
 
 module Howitzer
   module Web
-    # This class represents single web page. This is parent class for all web pages
+    # This class represents a single web page. This is a parent class for all web pages
     class Page
       UnknownPage = Class.new
       PROXY_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
@@ -33,15 +33,16 @@ module Howitzer
       # This Ruby callback makes all inherited classes as singleton classes.
       # In additional it addes current page to page validator pages in case
       # if it has any defined validations.
+
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
         PageValidator.pages << subclass if subclass.validations.present?
       end
 
       # Opens a web page in browser
-      # @note It tries to open page twice and then raises error if validation is failed
+      # @note It tries to open the page twice and then raises the error if a validation is failed
       # @param validate [Boolean] if fase will skip current page validation (is opened)
-      # @param params [Array] - placeholder names and their values
+      # @param params [Array] placeholder names and their values
       # @return [Page]
 
       def self.open(validate: true, **params)
@@ -54,7 +55,7 @@ module Howitzer
         given if validate
       end
 
-      # Returns singleton instance of the web page
+      # Returns a singleton instance of the web page
       # @return [Page]
 
       def self.given
@@ -62,8 +63,8 @@ module Howitzer
         instance
       end
 
-      # Tries to identify current page name or raise error if ambiguous page matching
-      # @return [String] page name
+      # Tries to identify current page name or raise the error if ambiguous page matching
+      # @return [String] a page name
       # @raise [UnknownPage] when no any matched pages
       # @raise [AmbiguousPageMatchingError] when matched more than 1 page
 
@@ -74,10 +75,10 @@ module Howitzer
         return page_list.first if page_list.count == 1
       end
 
-      # Waits until web page is opened
-      # @param time_out [Integer] time in seconds required web page to be loaded
+      # Waits until a web page is opened
+      # @param time_out [Integer] time in seconds a required web page to be loaded
       # @return [Boolean]
-      # @raise [IncorrectPageError] when timeout expired and page is not displayed
+      # @raise [IncorrectPageError] when timeout expired and the page is not displayed
 
       def self.displayed?(timeout = Howitzer.page_load_idle_timeout)
         end_time = ::Time.now + timeout
@@ -94,7 +95,7 @@ module Howitzer
         Capybara.current_session.current_url
       end
 
-      # Returns expanded page url for page opening
+      # Returns an expanded page url for the page opening
       # @param params [Array] placeholders and their values
       # @return [String]
 
@@ -106,7 +107,7 @@ module Howitzer
       class << self
         protected
 
-        # DSL to specify url pattern for page opening
+        # DSL to specify an url pattern for the page opening
         # @param value [String] url pattern, for details please see Addressable gem
         # @see .parent_url
         # @example
@@ -120,9 +121,9 @@ module Howitzer
           @url_template = value.to_s
         end
 
-        # DSL to specify root url for page opening
+        # DSL to specify a root url for the page opening
         # @note By default it specifies Howitzer.app_uri.site as root url
-        # @param value [String] host
+        # @param value [String] a host
         # @example
         #   class AuthPage < Howitzer::Web::Page
         #     parent_url 'https:/example.com'
@@ -172,7 +173,7 @@ module Howitzer
         end
       end
 
-      # Reloads current page in browser
+      # Reloads current page in a browser
 
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"

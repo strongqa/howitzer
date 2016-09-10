@@ -19,7 +19,7 @@ module Howitzer
         class SectionScope
           attr_accessor :section_class
 
-          # Instantiates anynomous or named section and executes block code in section scope
+          # Instantiates an anynomous or named section and executes block code in the section scope
 
           def initialize(name, *args, &block)
             @args = args
@@ -32,20 +32,20 @@ module Howitzer
             instance_eval(&block) if block_given?
           end
 
-          # Defines element on section
+          # Defines an element on the section
           # @see Howitzer::PageDsl::ClassMethods#element
 
           def element(*args)
             section_class.send(:element, *args)
           end
 
-          # Delegates section describing to section class
+          # Delegates a section describing to the section class
 
           def section(name, *args, &block)
             section_class.send(:section, name, *args, &block)
           end
 
-          # Returns selector for the section.
+          # Returns a selector for the section.
           # @note If anonymous section uses, then inline selector should be specified.
           #   Otherwise arguments should be defined with `.me` dsl method in named section
           # @return [Array]
@@ -61,7 +61,7 @@ module Howitzer
 
         protected
 
-        # DSL method which defines named or anonymous section within page or section
+        # DSL method which defines named or anonymous section within a page or a section
         # @note This method generates following dynamic methods:
         #
         #   <b><em>section_name</em>_section</b> - equals capybara #find(...) method
@@ -73,7 +73,7 @@ module Howitzer
         #   <b>has_<em>section_name</em>_section?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>section_name</em>_section?</b> - equals capybara #has_no_selector(...) method
-        # @param name [Symbol, String] unique section name
+        # @param name [Symbol, String] an unique section name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
         #  (In most cases should be ommited for named sections because the section selector is specified
         #  with `#me` method. But must be specified for anonymous sections)

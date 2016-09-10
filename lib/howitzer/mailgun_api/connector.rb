@@ -11,12 +11,13 @@ module Howitzer
       attr_reader :api_key
       attr_accessor :domain
 
-      # Assigns default value for domain
+      # Assigns default value for a domain
+
       def initialize
         self.domain = Howitzer.mailgun_domain
       end
 
-      # @return [Client] mailgun client
+      # @return [Client] a mailgun client
 
       def client(api_key = Howitzer.mailgun_key)
         check_api_key(api_key)

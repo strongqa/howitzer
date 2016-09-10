@@ -30,9 +30,9 @@ module Howitzer
         #   <b>has_<em>frame_name</em>_iframe?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>frame_name</em>_iframe?</b> - equals capybara #has_no_selector(...) method
-        # @param name [Symbol, String] unique iframe name
+        # @param name [Symbol, String] an unique iframe name
         # @param selector [Integer, String] frame name/id or index. Possible to specify id as #some_id
-        # @example Using in page class
+        # @example Using in a page class
         #   class FbPage < Howitzer::Web::Page
         #     element :like, :xpath, ".//*[text()='Like']"
         #     def like

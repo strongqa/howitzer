@@ -39,7 +39,7 @@ module Howitzer
       browser? :safari
     end
 
-    # @param time_in_numeric [Integer] Number of seconds
+    # @param time_in_numeric [Integer] number of seconds
     # @return [String] formatted duration time
 
     def duration(time_in_numeric)
@@ -51,7 +51,7 @@ module Howitzer
       return "[0m #{secs}s]" if secs >= 0
     end
 
-    # Updates job status on job cloud
+    # Updates a job status on the job cloud
     # @note SauceLabs is currently supported only
     # @param json_data [String] (for example, {passed: true})
 
@@ -64,10 +64,10 @@ module Howitzer
     end
 
     # Tries to load appropriate driver gem
-    # @param driver [String] driver name
+    # @param driver [String] a driver name
     # @param lib [String] what is required to load
-    # @param gem [String] gem name
-    # @raise LoadError if gem is missing in bunder context
+    # @param gem [String] a gem name
+    # @raise [LoadError] if the gem is missing in a bunder context
 
     def load_driver_gem!(driver, lib, gem)
       require lib
@@ -109,7 +109,7 @@ module Howitzer
     end
 
     # @return [String] path to cloud resources (logs, videos, etc.)
-    # @note SauceLabs is supported currently only
+    # @note Currently SauceLabs is supported only
 
     def cloud_resource_path(kind)
       case Howitzer.driver.to_sym

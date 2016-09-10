@@ -2,7 +2,7 @@ module Howitzer
   module Utils
     # This module extends standard String class with useful methods for Cucumber step definitions
     module StringExtensions
-      # Opens page by name
+      # Opens a page by name
       # @example
       #   'home'.open #=> HomePage.open
       # @see Howitzer::Web::Page.open
@@ -11,7 +11,7 @@ module Howitzer
         as_page_class.open(*args)
       end
 
-      # Returns instantiated page by name
+      # Returns an instantiated page by name
       # @example
       #   'home'.given #=> HomePage.given
       # @see Howitzer::Web::Page.given
@@ -20,7 +20,7 @@ module Howitzer
         as_page_class.given
       end
 
-      # Waits until page is opened or raise error
+      # Waits until a page is opened or raises error
       # @example
       #   'home'.displayed? #=> HomePage.displayed?
       # @see Howitzer::Web::Page.displayed?
@@ -29,7 +29,7 @@ module Howitzer
         as_page_class.displayed?
       end
 
-      # Returns page class by name
+      # Returns a page class by name
       # @example
       #   'home'.as_page_class #=> HomePage
       # @see Howitzer::Web::Page
@@ -38,7 +38,7 @@ module Howitzer
         as_class('Page')
       end
 
-      # Returns email class by name
+      # Returns an email class by name
       # @example
       #   'Reset Password'.as_email_class #=> ResetPasswordEmail
       # @see Howitzer::Email
@@ -47,7 +47,7 @@ module Howitzer
         as_class('Email')
       end
 
-      # Executes code in context of page
+      # Executes code in context of the page
       # @example
       #   'home'.on { puts 1 } #=> HomePage.on { puts 1 }
       # @see Howitzer::Web::Page.on

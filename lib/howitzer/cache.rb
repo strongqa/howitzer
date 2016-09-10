@@ -10,12 +10,12 @@ module Howitzer
     class << self
       attr_reader :data
 
-      # Saves data into memory. Marking by namespace and key
+      # Saves data into memory. Marking by a namespace and a key
       #
-      # @param ns [String] Namespace
-      # @param key [String] Key that should be uniq within namespace
-      # @param value [Object] Everything you want to store in Memory
-      # @raise error if namespace missing
+      # @param ns [String] a namespace
+      # @param key [String] a key that should be uniq within the namespace
+      # @param value [Object] everything you want to store in Memory
+      # @raise [StandardError] if the namespace missing
 
       def store(ns, key, value)
         check_ns(ns)
@@ -24,19 +24,20 @@ module Howitzer
 
       # Gets data from memory. Can get all namespace or single data value in namespace using key
       #
-      # @param ns [String] Namespace
-      # @param key [String] Key that isn't necessary required
-      # @return [Object, Hash] if the key is ommited then returns all data from the namespace
-      # @raise error if namespace missing
+      # @param ns [String] a namespace
+      # @param key [String] key that isn't necessary required
+      # @return [Object, Hash] all data from the namespace if the key is ommited, otherwise returs
+      #   all data for the namespace
+      # @raise [StandardError] if the namespace missing
 
       def extract(ns, key = nil)
         check_ns(ns)
         key ? @data[ns][key] : @data[ns]
       end
 
-      # Deletes all data from namespace
+      # Deletes all data from a namespace
       #
-      # @param ns [String] Namespace
+      # @param ns [String] a namespace
 
       def clear_ns(ns)
         init_ns(ns)
@@ -44,7 +45,7 @@ module Howitzer
 
       # Deletes all namespaces with data
       #
-      # @param exception_list [Array] namespace list for excluding
+      # @param exception_list [Array] a namespace list for excluding
 
       def clear_all_ns(exception_list = SPECIAL_NS_LIST)
         (@data.keys - exception_list).each { |ns| clear_ns(ns) }

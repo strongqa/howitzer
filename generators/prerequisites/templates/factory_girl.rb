@@ -10,7 +10,7 @@ module FactoryGirl
   # If there is data in the cache with the given name and number,
   # then that data is returned. Otherwise it stores firstly and then returns
   # @param factory [String] underscored factory name
-  # @param num [Integer] factory number
+  # @param num [Integer] a factory number
   # @return [Object] the factory
   def self.given_by_number(factory, num)
     data = Howitzer::Cache.extract(factory, num.to_i)

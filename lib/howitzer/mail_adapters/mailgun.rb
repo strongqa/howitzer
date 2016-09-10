@@ -8,7 +8,7 @@ module Howitzer
     class Mailgun < Abstract
       # Finds an email in storage
       # @note emails are stored for 3 days only!
-      # @param recipient [String] email
+      # @param recipient [String] an email
       # @param subject [String]
 
       def self.find(recipient, subject)
@@ -21,13 +21,13 @@ module Howitzer
         new(message)
       end
 
-      # @return [String] plain text body of email message
+      # @return [String] plain text body of the email message
 
       def plain_text_body
         message['body-plain']
       end
 
-      # @return [String] html body of email message
+      # @return [String] html body of the email message
 
       def html_body
         message['stripped-html']
@@ -39,7 +39,7 @@ module Howitzer
         message['stripped-text']
       end
 
-      # @return [String] email specified in `From` field
+      # @return [String] an email address specified in `From` field
 
       def mail_from
         message['From']
@@ -51,13 +51,13 @@ module Howitzer
         message['To'].split ', '
       end
 
-      # @return [String]
+      # @return [String] when email was received
 
       def received_time
         message['Received'][/\w+, \d+ \w+ \d+ \d+:\d+:\d+ -\d+ \(\w+\)$/]
       end
 
-      # @return [String] real sender email
+      # @return [String] a real sender email address
 
       def sender_email
         message['sender']

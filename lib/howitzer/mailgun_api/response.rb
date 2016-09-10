@@ -14,8 +14,8 @@ module Howitzer
         @code = response.code
       end
 
-      # Return response as Ruby Hash
-      # @raise [ParseError] in case of json parsing error
+      # Return a response as a Ruby Hash
+      # @raise [ParseError] in case of an json parsing error
       # @return [Hash] HTTP result as hash.
 
       def to_h

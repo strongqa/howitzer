@@ -8,7 +8,7 @@ module Howitzer
 
     attr_reader :message
 
-    # @return [<MailAdapters::Abstract>] mail adapter class
+    # @return [<MailAdapters::Abstract>] a mail adapter class
 
     def self.adapter
       return @adapter if @adapter
@@ -27,8 +27,8 @@ module Howitzer
     end
 
     # Specifies a mail adapter
-    # @param adapter_name [String, Symbol] email adapter name
-    # @raise NoMailAdapterError when adapter name is not String or Symbol
+    # @param adapter_name [String, Symbol] an email adapter name
+    # @raise [NoMailAdapterError] when the adapter name is not String or Symbol
 
     def self.adapter=(adapter_name)
       @adapter_name = adapter_name
@@ -44,8 +44,8 @@ module Howitzer
     # Searches a mail by a recepient
     # @param recepient [String] recepient's email address
     # @param params [Hash] placeholders with appropriate values
-    # @raise NoEmailSubjectError when subject is not specified for email class
-    # @return [Email] instance of email message
+    # @raise [NoEmailSubjectError] when a subject is not specified for the email class
+    # @return [Email] an instance of the email message
 
     def self.find_by_recipient(recipient, params = {})
       raise NoEmailSubjectError, "Please specify email subject. For example:\n" \
@@ -58,25 +58,25 @@ module Howitzer
       @message = message
     end
 
-    # @return [String, nil] plain text of email message
+    # @return [String, nil] a plain text of the email message
 
     def plain_text_body
       message.plain_text_body
     end
 
-    # @return [String, nil] html body of email message
+    # @return [String, nil] a html body of the email message
 
     def html_body
       message.html_body
     end
 
-    # @return [String, nil] mail text
+    # @return [String, nil] a mail text
 
     def text
       message.text
     end
 
-    # @return [String] who has send email data in format: User Name <user@email>
+    # @return [String] who has sent the email data in format: User Name <user@email>
 
     def mail_from
       message.mail_from
@@ -94,7 +94,7 @@ module Howitzer
       message.received_time
     end
 
-    # @return [String] sender user email
+    # @return [String] a sender user email
 
     def sender_email
       message.sender_email

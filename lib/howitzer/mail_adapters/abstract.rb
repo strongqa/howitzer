@@ -17,7 +17,7 @@ module Howitzer
       attr_reader :message
 
       # Finds an email in mailbox
-      # @param recipient [String] email
+      # @param recipient [String] an email
       # @param subject [String]
 
       def self.find(_recipient, _subject)
@@ -25,48 +25,57 @@ module Howitzer
       end
 
       # Creates a new instance of email
+
       # @param message [Object] original message data
 
       def initialize(message)
         @message = message
       end
 
-      # Returns plain text body of email message
+      # Returns a plain text body of the email message
+
       def plain_text_body
         raise NotImplementedError
       end
 
-      # Returns html body of email message
+      # Returns a html body of the email message
+
       def html_body
         raise NotImplementedError
       end
 
-      # Returns mail text
+      # Returns a mail text
+
       def text
         raise NotImplementedError
       end
 
-      # Returns who has send email data in format: User Name <user@email>
+      # Returns who has sent email data in format: User Name <user@email>
+
       def mail_from
         raise NotImplementedError
       end
 
-      # Returns array of recipients who has received current email
+      # Returns an array of recipients who has received current email
+
       def recipients
         raise NotImplementedError
       end
 
-      # Returns email received time in format:
+      # Returns email received time
+
       def received_time
         raise NotImplementedError
       end
 
       # Returns sender user email
+
       def sender_email
         raise NotImplementedError
       end
 
       # Allows to get email MIME attachment
+
       def mime_part
         raise NotImplementedError
       end

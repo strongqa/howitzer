@@ -31,8 +31,8 @@ module Howitzer
     end
 
     # Outputs log entry about error with ERROR severity
-    # @param value [Exception, String] exception class or error message
-    # @param args [Array] See examples
+    # @param value [Exception, String] an exception class or an error message
+    # @param args [Array] see examples
     # @example
     #   Howitzer::Log.error MyException, 'Some error text', caller
     # @example
@@ -51,8 +51,8 @@ module Howitzer
       raise(object)
     end
 
-    # Outputs feature name into log with INFO severity
-    # @param text [String] feature name
+    # Outputs a feature name into the log with INFO severity
+    # @param text [String] a feature name
 
     def print_feature_name(text)
       log_without_formatting { info "*** Feature: #{text.upcase} ***" }
@@ -64,8 +64,8 @@ module Howitzer
       log_without_formatting { info ::SexySettings::Base.instance.as_formatted_text }
     end
 
-    # Outputs scenario name into log with INFO severity
-    # @param text [String] scenario name
+    # Outputs a scenario name into log with INFO severity
+    # @param text [String] a scenario name
 
     def print_scenario_name(text)
       log_without_formatting { info " => Scenario: #{text}" }

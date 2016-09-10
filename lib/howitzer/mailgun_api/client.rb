@@ -22,12 +22,12 @@ module Howitzer
 
       # Generic Mailgun GET Handler
       #
-      # @param resource_path [String] This is the API resource you wish to interact
-      #   with. Be sure to include your domain, where necessary.
-      # @param params [Hash] This should be a standard Hash for query
+      # @param resource_path [String] this is the API resource you wish to interact
+      #   with. Be sure to include your domain, where it is necessary.
+      # @param params [Hash] this should be a standard Hash for query
       #   containing required parameters for the requested resource.
-      # @raise CommunicationError in case if something went wrong
-      # @return [Mailgun::Response] A Mailgun::Response object.
+      # @raise [CommunicationError] if something went wrong
+      # @return [Mailgun::Response] a Mailgun::Response object.
 
       def get(resource_path, params: nil, accept: '*/*')
         http_params = { accept: accept }
@@ -42,12 +42,12 @@ module Howitzer
       # @note This method was introducted because of saving emails to different nodes.
       #   As result we can not use {#get} method, because client holds general api url
       #
-      # @param resource_url [String] full url
-      # @param params [Hash] This should be a standard Hash for query
+      # @param resource_url [String] a full url
+      # @param params [Hash] this should be a standard Hash for query
       #   containing required parameters for the requested resource.
-      # @param accept [String] accept pattern for headers
-      # @raise CommunicationError in case if something went wrong
-      # @return [Mailgun::Response] A Mailgun::Response object.
+      # @param accept [String] an accept pattern for headers
+      # @raise [CommunicationError] if something went wrong
+      # @return [Mailgun::Response] a Mailgun::Response object.
 
       def get_url(resource_url, params: nil, accept: '*/*')
         response = ::RestClient::Request.execute(

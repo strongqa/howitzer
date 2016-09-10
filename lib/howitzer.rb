@@ -18,7 +18,7 @@ module Howitzer
     attr_accessor :current_rake_task
   end
 
-  # @return application uri
+  # @return an application uri
   #
   # @example returns url with auth
   #  app_uri.site

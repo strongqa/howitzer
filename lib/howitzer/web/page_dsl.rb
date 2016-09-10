@@ -11,7 +11,7 @@ module Howitzer
           instance_eval(&block)
         end
 
-        # Makes current page as subject for Rspec expectations
+        # Makes current page as a subject for Rspec expectations
         # @example
         #  HomePage.on { expect(HomePage.given).to have_menu_section } # Bad
         #  HomePage.on { is_expected.to have_menu_section } # Good
@@ -27,7 +27,7 @@ module Howitzer
           page_klass.given.send(name, *args, &block)
         end
 
-        # Makes proxied methods to be evaludated and returned as proc
+        # Makes proxied methods to be evaludated and returned as a proc
         # @see #method_missing
 
         def respond_to_missing?(name, include_private = false)
