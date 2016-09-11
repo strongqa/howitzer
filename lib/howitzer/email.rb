@@ -21,6 +21,16 @@ module Howitzer
 
       protected
 
+      # DSL method to specify a subject pattern directly in an email class
+      # @param value [String] an email subject with optional placeholders (strings started with : symbol)
+      # @example
+      #   class WelcomeEmail < Howitzer::Email
+      #     subject 'Welcome on board :name'
+      #   end
+      #
+      #   WelcomeEmail.find_by_recipient('john.smith@example.com', name: 'John')
+      # @!visibility public
+
       def subject(value)
         @subject = value
       end
@@ -46,6 +56,7 @@ module Howitzer
     # @param params [Hash] placeholders with appropriate values
     # @raise [NoEmailSubjectError] when a subject is not specified for the email class
     # @return [Email] an instance of the email message
+    # @see .subject
 
     def self.find_by_recipient(recipient, params = {})
       raise Howitzer::NoEmailSubjectError, "Please specify email subject. For example:\n" \
