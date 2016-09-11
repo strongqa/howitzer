@@ -32,8 +32,8 @@ module Howitzer
             instance_eval(&block) if block_given?
           end
 
-          # Defines an element on the section
-          # @see Howitzer::PageDsl::ClassMethods#element
+          # # Defines an element on the section
+          # # @see Howitzer::PageDsl::ClassMethods#element
 
           def element(*args)
             section_class.send(:element, *args)
@@ -73,6 +73,7 @@ module Howitzer
         #   <b>has_<em>section_name</em>_section?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>section_name</em>_section?</b> - equals capybara #has_no_selector(...) method
+        # @note It is possible to use nested anonymous sections
         # @param name [Symbol, String] an unique section name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
         #  (In most cases should be ommited for named sections because the section selector is specified
@@ -95,6 +96,17 @@ module Howitzer
         #       def edit_info(title: nil)
         #         edit_button_element.click
         #         title_field_element.set(title)
+        #       end
+        #     end
+        #   end
+        #   HomePage.on { info_panel.edit_info(title: 'Test Title') }
+        # @example Anonymous nested section
+        #   class HomePage < Howitzer::Web::Page
+        #     section :info_panel, '#panel' do
+        #       element :edit_button, '.edit'
+        #
+        #       section :form, '.form' do
+        #         element :title_field, '.title'
         #       end
         #     end
         #   end

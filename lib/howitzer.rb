@@ -10,7 +10,11 @@ end
 # This is main namespace for the library
 module Howitzer
   class << self
-    # define methods for all known settings
+    # Defines methods for all known settings
+    # @example
+    #  Howtzer.app_host
+    #  Howitzer.driver
+
     ::SexySettings::Base.instance.all.each do |key, value|
       define_method(key) { value }
     end

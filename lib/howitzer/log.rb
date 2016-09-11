@@ -7,27 +7,45 @@ module Howitzer
     include Singleton
     include Log4r
 
-    # @todo implement documentation here!
-    [:debug, :info, :warn, :error, :fatal].each do |method_name|
-      define_method method_name do |text|
-        @logger.send(method_name, text)
-      end
-      class << self
-        [
-          :debug,
-          :info,
-          :warn,
-          :fatal,
-          :error,
-          :print_feature_name,
-          :settings_as_formatted_text,
-          :print_scenario_name
-        ].each do |method_name|
-          define_method method_name do |*args|
-            instance.send(method_name, *args)
-          end
-        end
-      end
+    class << self
+      # Delegates all public instance methods to the class
+      delegate :debug, :info, :warn, :fatal, :error, :print_feature_name,
+               :settings_as_formatted_text, :print_scenario_name, to: :instance
+    end
+
+    # Outputs debug message if Howitzer.debug_mode == true
+    # @param msg [String] a message
+
+    def debug(msg)
+      @logger.debug(msg)
+    end
+
+    # Outputs info message
+    # @param msg [String] a message
+
+    def info(msg)
+      @logger.info(msg)
+    end
+
+    # Outputs warn message
+    # @param msg [String] a message
+
+    def warn(msg)
+      @logger.warn(msg)
+    end
+
+    # Outputs error message
+    # @param msg [String] a message
+
+    def error(msg)
+      @logger.error(msg)
+    end
+
+    # Outputs fatal message
+    # @param msg [String] a message
+
+    def fatal(msg)
+      @logger.fatal(msg)
     end
 
     # Outputs a feature name into the log with INFO severity
