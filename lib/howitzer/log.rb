@@ -8,7 +8,7 @@ module Howitzer
     include Log4r
 
     # @todo implement documentation here!
-    [:debug, :info, :warn, :fatal].each do |method_name|
+    [:debug, :info, :warn, :error, :fatal].each do |method_name|
       define_method method_name do |text|
         @logger.send(method_name, text)
       end
@@ -28,27 +28,6 @@ module Howitzer
           end
         end
       end
-    end
-
-    # Outputs log entry about error with ERROR severity
-    # @param value [Exception, String] an exception class or an error message
-    # @param args [Array] see examples
-    # @example
-    #   Howitzer::Log.error MyException, 'Some error text', caller
-    # @example
-    #   Howitzer::Log.error 'Some error text', caller
-    # @example
-    #   Howitzer::Log.error MyException, 'Some caller text'
-    # @example
-    #   Howitzer::Log.error 'Some error text'
-    # @example
-    #   Howitzer::Log.error err_object
-
-    def error(value, *args)
-      object = error_object(value, *args)
-      err_backtrace = object.backtrace ? "\n\t#{object.backtrace.join("\n\t")}" : nil
-      @logger.error("[#{object.class}] #{object.message}#{err_backtrace}")
-      raise(object)
     end
 
     # Outputs a feature name into the log with INFO severity
@@ -117,29 +96,6 @@ module Howitzer
 
     def base_formatter=(formatter)
       @logger.outputters.each { |outputter| outputter.formatter = formatter }
-    end
-
-    def error_object(value, *args)
-      case args.size
-      when 0
-        value.is_a?(Exception) ? value : RuntimeError.new(value)
-      when 1
-        error_object_for_two_args(value, args.last)
-      else
-        exception = value.new(args.first)
-        exception.set_backtrace(args[1]) if args[1]
-        exception
-      end
-    end
-
-    def error_object_for_two_args(arg1, arg2)
-      if arg1.is_a?(Class) && arg1 < Exception
-        arg1.new(arg2)
-      else
-        exception = RuntimeError.new(arg1)
-        exception.set_backtrace(arg2)
-        exception
-      end
     end
   end
 end

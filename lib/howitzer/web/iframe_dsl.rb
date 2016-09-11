@@ -8,6 +8,7 @@ module Howitzer
 
       # Returns capybara context. For example, capybara session, parent element, etc.
       # @abstract should be defined in parent context
+
       def capybara_context
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end

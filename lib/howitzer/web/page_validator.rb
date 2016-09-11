@@ -29,7 +29,7 @@ module Howitzer
       def check_validations_are_defined!
         return if self.class.validations.present?
 
-        Howitzer::Log.error NoValidationError, "No any page validation was found for '#{self.class.name}' page"
+        raise Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
       end
 
       # This module holds page validation class methods
@@ -64,11 +64,10 @@ module Howitzer
         # @raise  [Howitzer::NoValidationError] if no one validation is defined for the page
 
         def opened?
-          if validations.blank?
-            Howitzer::Log.error NoValidationError, "No any page validation was found for '#{name}' page"
-          else
-            !validations.any? { |(_, validation)| !validation.call(self) }
+          if validations.present?
+            return !validations.any? { |(_, validation)| !validation.call(self) }
           end
+          raise Howitzer::NoValidationError, "No any page validation was found for '#{name}' page"
         end
 
         # Finds all matched pages which satisfy of defined validations on current page
@@ -110,7 +109,7 @@ module Howitzer
             when :title
               validate_by_title(value)
             else
-              Howitzer::Log.error UnknownValidationError, "unknown '#{type}' validation type"
+              raise Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
           end
         end
       end

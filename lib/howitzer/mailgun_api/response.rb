@@ -21,7 +21,7 @@ module Howitzer
       def to_h
         JSON.parse(@body)
       rescue StandardError => e
-        Howitzer::Log.error ParseError, e.message
+        raise ParseError, e.message
       end
     end
   end

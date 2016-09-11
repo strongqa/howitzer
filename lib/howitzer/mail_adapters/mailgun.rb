@@ -10,15 +10,14 @@ module Howitzer
       # @note emails are stored for 3 days only!
       # @param recipient [String] an email
       # @param subject [String]
+      # @raise [EmailNotFoundError] if message blank
 
       def self.find(recipient, subject)
         message = {}
         retryable(find_retry_params) { message = retrieve_message(recipient, subject) }
-        Howitzer::Log.error(
-          EmailNotFoundError,
-          "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
-        ) if message.blank?
-        new(message)
+        return new(message) if message.present?
+        raise Howitzer::EmailNotFoundError,
+              "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
       end
 
       # @return [String] plain text body of the email message
@@ -75,7 +74,7 @@ module Howitzer
       def mime_part!
         files = mime_part
         return files if files.present?
-        Howitzer::Log.error NoAttachmentsError, 'No attachments where found.'
+        raise Howitzer::NoAttachmentsError, 'No attachments where found.'
       end
 
       def self.events
@@ -98,14 +97,14 @@ module Howitzer
           sleep: Howitzer.mailgun_sleep_time,
           silent: true,
           logger: Howitzer::Log,
-          on: EmailNotFoundError
+          on: Howitzer::EmailNotFoundError
         }
       end
       private_class_method :find_retry_params
 
       def self.retrieve_message(recipient, subject)
         event = event_by(recipient, subject)
-        raise EmailNotFoundError, 'Message not received yet, retry...' unless event
+        raise Howitzer::EmailNotFoundError, 'Message not received yet, retry...' unless event
 
         message_url = event['storage']['url']
         MailgunApi::Connector.instance.client.get_url(message_url).to_h

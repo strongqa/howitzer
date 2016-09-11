@@ -15,7 +15,7 @@ module Howitzer
       # @param ns [String] a namespace
       # @param key [String] a key that should be uniq within the namespace
       # @param value [Object] everything you want to store in Memory
-      # @raise [StandardError] if the namespace missing
+      # @raise [NoDataError] if the namespace missing
 
       def store(ns, key, value)
         check_ns(ns)
@@ -28,7 +28,7 @@ module Howitzer
       # @param key [String] key that isn't necessary required
       # @return [Object, Hash] all data from the namespace if the key is ommited, otherwise returs
       #   all data for the namespace
-      # @raise [StandardError] if the namespace missing
+      # @raise [NoDataError] if the namespace missing
 
       def extract(ns, key = nil)
         check_ns(ns)
@@ -54,11 +54,8 @@ module Howitzer
       private
 
       def check_ns(ns)
-        if ns
-          init_ns(ns) if ns_absent?(ns)
-        else
-          Howitzer::Log.error 'Data storage namespace can not be empty'
-        end
+        raise Howitzer::NoDataError, 'Data storage namespace can not be empty' unless ns
+        init_ns(ns) if ns_absent?(ns)
       end
 
       def ns_absent?(ns)

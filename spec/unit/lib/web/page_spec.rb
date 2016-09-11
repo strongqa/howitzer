@@ -101,12 +101,11 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:matched_pages) { [foo_page, bar_page] }
       end
       it do
-        expect(Howitzer::Log).to receive(:error).with(
+        expect { subject }.to raise_error(
           Howitzer::AmbiguousPageMatchingError,
           "Current page matches more that one page class (FooPage, BarPage).\n" \
           "\tCurrent url: http://test.com\n\tCurrent title: Test site"
-        ).once
-        subject
+        )
       end
     end
     context 'when matched_pages has only 1 page' do
@@ -130,12 +129,11 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:opened?) { false }
       end
       it do
-        expect(Howitzer::Log).to receive(:error).with(
+        expect { subject }.to raise_error(
           Howitzer::IncorrectPageError,
           "Current page: FooPage, expected: #{described_class}.\n" \
           "\tCurrent url: http://test.com\n\tCurrent title: Test site"
         )
-        subject
       end
     end
   end

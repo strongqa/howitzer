@@ -35,7 +35,7 @@ module Howitzer
         response = http_client[resource_path].get(http_params)
         Response.new(response)
       rescue => e
-        Howitzer::Log.error CommunicationError, e.message
+        raise Howitzer::CommunicationError, e.message
       end
 
       # Extracts data by url in custom way
@@ -61,7 +61,7 @@ module Howitzer
         )
         Response.new(response)
       rescue => e
-        Howitzer::Log.error CommunicationError, e.message
+        raise Howitzer::CommunicationError, e.message
       end
 
       private

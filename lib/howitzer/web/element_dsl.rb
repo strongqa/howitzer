@@ -8,6 +8,7 @@ module Howitzer
 
       # Returns capybara context. For example, capybara session, parent element, etc.
       # @abstract should be defined in parent context
+
       def capybara_context
         raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
@@ -58,6 +59,7 @@ module Howitzer
         #       menu_item_elements.map(&:text)
         #     end
         #   end
+        # @raise [BadElementParamsError] if wrong element arguments
         # @!visibility public
 
         def element(name, *args)
@@ -73,7 +75,7 @@ module Howitzer
         def validate_arguments!(args)
           return unless args.map(&:class).count(Proc) > 1
 
-          raise BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
+          raise Howitzer::BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
         end
 
         def define_element(name, args)

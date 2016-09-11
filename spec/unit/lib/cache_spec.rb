@@ -17,7 +17,7 @@ RSpec.describe Howitzer::Cache do
     end
     context 'when namespace empty' do
       let(:ns) { nil }
-      it { expect { subject }.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
+      it { expect { subject }.to raise_error(Howitzer::NoDataError, 'Data storage namespace can not be empty') }
     end
   end
   describe '.extract' do
@@ -46,7 +46,7 @@ RSpec.describe Howitzer::Cache do
     context 'when namespace not specified' do
       let(:ns) { nil }
       let(:key) { nil }
-      it { expect { subject }.to raise_error(RuntimeError, 'Data storage namespace can not be empty') }
+      it { expect { subject }.to raise_error(Howitzer::NoDataError, 'Data storage namespace can not be empty') }
     end
   end
   describe '.clear_ns' do

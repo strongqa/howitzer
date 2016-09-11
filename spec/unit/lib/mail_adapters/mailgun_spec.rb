@@ -83,11 +83,10 @@ RSpec.describe 'Mailgun Email Adapter' do
         ).at_least(:twice).ordered { events }
       end
       it do
-        expect(Howitzer::Log).to receive(:error).with(
+        expect { subject }.to raise_error(
           Howitzer::EmailNotFoundError,
           "Message with subject '#{message_subject}' for recipient '#{recipient}' was not found."
         )
-        subject
       end
     end
   end
@@ -156,11 +155,8 @@ RSpec.describe 'Mailgun Email Adapter' do
     end
 
     context 'when no attachments' do
-      let(:error) { Howitzer::NoAttachmentsError }
-      let(:error_message) { 'No attachments where found.' }
       it do
-        expect(Howitzer::Log).to receive(:error).with(error, error_message).once
-        subject
+        expect { subject }.to raise_error(Howitzer::NoAttachmentsError, 'No attachments where found.')
       end
     end
   end

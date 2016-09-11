@@ -15,25 +15,32 @@ module Howitzer
 
     # @return [Boolean] whether or not current browser is
     #   Internet Explorer.
+    # @raise [CloudBrowserNotSpecifiedError] if cloud driver and missing browser name
+    # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def ie_browser?
       browser? :ie, :iexplore
     end
 
     # @return [Boolean] whether or not current browser is FireFox.
+    # @raise [CloudBrowserNotSpecifiedError] if cloud driver and missing browser name
+    # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def ff_browser?
       browser? :ff, :firefox
     end
 
     # @return [Boolean] whether or not current browser is Google Chrome.
+    # @raise [CloudBrowserNotSpecifiedError] if cloud driver and missing browser name
+    # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def chrome_browser?
       browser? :chrome
     end
 
     # @return [Boolean] whether or not current browser is Safari.
-    #
+    # @raise [CloudBrowserNotSpecifiedError] if cloud driver and missing browser name
+    # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def safari_browser?
       browser? :safari
@@ -110,6 +117,7 @@ module Howitzer
 
     # @return [String] path to cloud resources (logs, videos, etc.)
     # @note Currently SauceLabs is supported only
+    # @raise [ArgumentError] if unknown kind
 
     def cloud_resource_path(kind)
       case Howitzer.driver.to_sym
@@ -127,13 +135,17 @@ module Howitzer
     end
 
     def cloud_browser?(*browser_aliases)
-      Howitzer::Log.error CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.cloud_browser_name.nil?
-      browser_aliases.include?(Howitzer.cloud_browser_name.to_s.to_sym)
+      unless Howitzer.cloud_browser_name.nil?
+        return browser_aliases.include?(Howitzer.cloud_browser_name.to_s.to_sym)
+      end
+      raise Howitzer::CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 
     def selenium_browser?(*browser_aliases)
-      Howitzer::Log.error SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG if Howitzer.selenium_browser.nil?
-      browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
+      unless Howitzer.selenium_browser.nil?
+        return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
+      end
+      raise Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 
     def selenium_driver?

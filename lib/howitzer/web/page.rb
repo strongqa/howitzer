@@ -71,8 +71,8 @@ module Howitzer
       def self.current_page
         page_list = matched_pages
         return UnknownPage if page_list.count.zero?
-        return Howitzer::Log.error(AmbiguousPageMatchingError, ambiguous_page_msg(page_list)) if page_list.count > 1
         return page_list.first if page_list.count == 1
+        raise Howitzer::AmbiguousPageMatchingError, ambiguous_page_msg(page_list)
       end
 
       # Waits until a web page is opened
@@ -86,7 +86,7 @@ module Howitzer
           return true if opened?
           sleep(0.5)
         end
-        Howitzer::Log.error IncorrectPageError, incorrect_page_msg
+        raise Howitzer::IncorrectPageError, incorrect_page_msg
       end
 
       # @return [String] current page url from browser
@@ -98,10 +98,11 @@ module Howitzer
       # Returns an expanded page url for the page opening
       # @param params [Array] placeholders and their values
       # @return [String]
+      # @raise [PageUrlNotSpecifiedError] if an url is not specified for the page
 
       def self.expanded_url(params = {})
         return "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}" unless url_template.nil?
-        raise PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+        raise Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
       end
 
       class << self

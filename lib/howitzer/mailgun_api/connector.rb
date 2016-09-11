@@ -18,6 +18,7 @@ module Howitzer
       end
 
       # @return [Client] a mailgun client
+      # @raise [InvalidApiKeyError] if api_key is blank
 
       def client(api_key = Howitzer.mailgun_key)
         check_api_key(api_key)
@@ -29,7 +30,7 @@ module Howitzer
       private
 
       def check_api_key(api_key)
-        Howitzer::Log.error InvalidApiKeyError, 'Api key can not be blank' if api_key.blank?
+        raise Howitzer::InvalidApiKeyError, 'Api key can not be blank' if api_key.blank?
       end
     end
   end
