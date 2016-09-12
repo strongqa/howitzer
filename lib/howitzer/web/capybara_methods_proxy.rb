@@ -7,6 +7,9 @@ module Howitzer
                                Capybara::Session::MODAL_METHODS +
                                [:driver, :text]
 
+    # Capybara form dsl methods are not compatible with page object pattern and Howitzer gem.
+    # Instead of including Capybara::DSL module, we proxy most interesting Capybara methods and
+    # prevent using extra methods which can potentially broke main principles and framework concept
     PROXIED_CAPYBARA_METHODS.each do |method|
       define_method(method) { |*args, &block| Capybara.current_session.send(method, *args, &block) }
     end
