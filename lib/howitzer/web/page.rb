@@ -2,6 +2,7 @@ require 'singleton'
 require 'capybara'
 require 'rspec/expectations'
 require 'addressable/template'
+require 'howitzer/web/capybara_methods_proxy'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
 require 'howitzer/web/iframe_dsl'
@@ -14,21 +15,14 @@ module Howitzer
     # This class represents a single web page. This is a parent class for all web pages
     class Page
       UnknownPage = Class.new
-      PROXY_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
-                               Capybara::Session::MODAL_METHODS +
-                               [:driver, :text]
-
       include Singleton
+      include CapybaraMethodsProxy
       include ElementDsl
       include IframeDsl
       include PageDsl
       include SectionDsl
       include PageValidator
       include ::RSpec::Matchers
-
-      PROXY_CAPYBARA_METHODS.each do |method|
-        define_method(method) { |*args, &block| Capybara.current_session.send(method, *args, &block) }
-      end
 
       # This Ruby callback makes all inherited classes as singleton classes.
       # In additional it addes current page to page validator pages in case
@@ -160,18 +154,6 @@ module Howitzer
       def initialize
         check_validations_are_defined!
         current_window.maximize if Howitzer.maximized_window
-      end
-
-      # Accepts or declines JS alert box by given flag
-      # @param flag [Boolean] Determines accept or decline alert box
-
-      def click_alert_box(flag)
-        if %w(selenium sauce).include? Howitzer.driver
-          alert = driver.browser.switch_to.alert
-          flag ? alert.accept : alert.dismiss
-        else
-          evaluate_script("window.confirm = function() { return #{flag}; }")
-        end
       end
 
       # Reloads current page in a browser
