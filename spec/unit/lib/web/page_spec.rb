@@ -277,67 +277,6 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
-  describe '#click_alert_box' do
-    subject { described_class.instance.click_alert_box(flag_value) }
-    before do
-      allow(Howitzer).to receive(:driver) { driver_name }
-      allow(session).to receive(:current_url) { 'google.com' }
-      allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
-    end
-    context 'when flag true and correct driver specified' do
-      let(:flag_value) { true }
-      let(:page) { double }
-      let(:alert) { double }
-      let(:driver) { double }
-      let(:browser) { double }
-      let(:switch_to) { double }
-      let(:driver_name) { 'selenium' }
-      it do
-        expect(session).to receive(:driver).ordered { driver }
-        expect(driver).to receive(:browser).ordered { browser }
-        expect(browser).to receive(:switch_to).ordered { switch_to }
-        expect(switch_to).to receive(:alert).ordered { alert }
-        expect(alert).to receive(:accept).once
-        subject
-      end
-    end
-    context 'when flag false and correct driver specified' do
-      let(:flag_value) { false }
-      let(:page) { double }
-      let(:alert) { double }
-      let(:driver) { double }
-      let(:browser) { double }
-      let(:switch_to) { double }
-      let(:driver_name) { 'selenium' }
-      it do
-        expect(session).to receive(:driver).ordered { driver }
-        expect(driver).to receive(:browser).ordered { browser }
-        expect(browser).to receive(:switch_to).ordered { switch_to }
-        expect(switch_to).to receive(:alert).ordered { alert }
-        expect(alert).to receive(:dismiss).once
-        subject
-      end
-    end
-    context 'when flag true and wrong driver specified' do
-      let(:flag_value) { true }
-      let(:page) { double }
-      let(:driver_name) { 'ff' }
-      it do
-        expect(session).to receive(:evaluate_script).with('window.confirm = function() { return true; }')
-        subject
-      end
-    end
-    context 'when flag false and wrong driver specified' do
-      let(:driver_name) { 'ff' }
-      let(:flag_value) { false }
-      let(:page) { double }
-      it do
-        expect(session).to receive(:evaluate_script).with('window.confirm = function() { return false; }')
-        subject
-      end
-    end
-  end
-
   describe '#reload' do
     let(:wait_for_url) { double }
     subject { described_class.instance.reload }
@@ -356,5 +295,10 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.instance.capybara_context }
     before { expect(Capybara).to receive(:current_session) { :context } }
     it { is_expected.to eq(:context) }
+  end
+
+  describe 'includes proxied capybara methods' do
+    let(:reciever) { described_class.instance }
+    include_examples :capybara_methods_proxy
   end
 end

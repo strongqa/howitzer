@@ -33,4 +33,9 @@ RSpec.describe Howitzer::Web::BaseSection do
     subject { described_class.new(1, :test).capybara_context }
     it { is_expected.to eq(:test) }
   end
+
+  describe 'includes proxied capybara methods' do
+    let(:reciever) { Class.new(described_class).new(:test, 1) }
+    include_examples :capybara_methods_proxy
+  end
 end
