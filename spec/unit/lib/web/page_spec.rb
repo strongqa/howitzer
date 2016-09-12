@@ -145,15 +145,15 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
-  describe '.root_url' do
+  describe '.site' do
     let!(:base_class) do
       Class.new(described_class) do
-        root_url 'https://base.com'
+        site 'https://base.com'
       end
     end
     let!(:child_class1) do
       Class.new(base_class) do
-        root_url 'https://child.com'
+        site 'https://child.com'
       end
     end
     let!(:child_class2) do
@@ -162,13 +162,13 @@ RSpec.describe Howitzer::Web::Page do
     let!(:child_class3) do
       Class.new(described_class)
     end
-    it { expect(described_class.send(:parent_url)).to eq('http://login:pass@my.website.com') }
-    it { expect(base_class.send(:parent_url)).to eq('https://base.com') }
-    it { expect(child_class1.send(:parent_url)).to eq('https://child.com') }
-    it { expect(child_class2.send(:parent_url)).to eq('https://base.com') }
-    it { expect(child_class3.send(:parent_url)).to eq('http://login:pass@my.website.com') }
+    it { expect(described_class.send(:app_host)).to eq('http://login:pass@my.website.com') }
+    it { expect(base_class.send(:app_host)).to eq('https://base.com') }
+    it { expect(child_class1.send(:app_host)).to eq('https://child.com') }
+    it { expect(child_class2.send(:app_host)).to eq('https://base.com') }
+    it { expect(child_class3.send(:app_host)).to eq('http://login:pass@my.website.com') }
     it 'should be protected' do
-      expect { described_class.root_url('http://example.com') }.to raise_error(NoMethodError)
+      expect { described_class.site('http://example.com') }.to raise_error(NoMethodError)
     end
   end
 
@@ -183,8 +183,8 @@ RSpec.describe Howitzer::Web::Page do
         context 'when other page' do
           let(:test_page) do
             Class.new(described_class) do
-              root_url 'http://example.com'
-              url '/users{/id}'
+              site 'http://example.com'
+              path '/users{/id}'
             end
           end
           it { is_expected.to eq('http://example.com/users/1') }
@@ -192,7 +192,7 @@ RSpec.describe Howitzer::Web::Page do
         context 'when root not specified' do
           let(:test_page) do
             Class.new(described_class) do
-              url '/users{/id}'
+              path '/users{/id}'
             end
           end
           it { is_expected.to eq('http://login:pass@my.website.com/users/1') }
@@ -202,8 +202,8 @@ RSpec.describe Howitzer::Web::Page do
         subject { described_class.expanded_url }
         it do
           expect { subject }.to raise_error(
-            ::Howitzer::PageUrlNotSpecifiedError,
-            "Please specify url for '#{described_class}' page. Example: url '/home'"
+            ::Howitzer::NoPathForPageError,
+            "Please specify path for '#{described_class}' page. Example: path '/home'"
           )
         end
       end
@@ -211,8 +211,8 @@ RSpec.describe Howitzer::Web::Page do
     context 'when params missing' do
       let(:test_page) do
         Class.new(described_class) do
-          root_url 'http://example.com'
-          url '/users'
+          site 'http://example.com'
+          path '/users'
         end
       end
       subject { test_page.expanded_url }
@@ -220,16 +220,16 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
-  describe '.url' do
-    subject { described_class.send(:url, value) }
+  describe '.path' do
+    subject { described_class.send(:path, value) }
     before { subject }
     context 'when value is number' do
       let(:value) { 1 }
-      it { expect(described_class.instance_variable_get(:@url_template)).to eq('1') }
+      it { expect(described_class.instance_variable_get(:@path_template)).to eq('1') }
     end
     context 'when value is string' do
       let(:value) { '/users' }
-      it { expect(described_class.instance_variable_get(:@url_template)).to eq('/users') }
+      it { expect(described_class.instance_variable_get(:@path_template)).to eq('/users') }
     end
   end
 

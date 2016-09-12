@@ -4,8 +4,8 @@ module Howitzer
   module Web
     # This class represents standard blank page in browser
     class BlankPage < Page
-      root_url ''
-      url 'about:blank'
+      site ''
+      path 'about:blank'
       validate :url, /^about:blank$/
     end
   end

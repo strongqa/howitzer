@@ -98,19 +98,19 @@ module Howitzer
       # Returns an expanded page url for the page opening
       # @param params [Array] placeholders and their values
       # @return [String]
-      # @raise [PageUrlNotSpecifiedError] if an url is not specified for the page
+      # @raise [NoPathForPageError] if an url is not specified for the page
 
       def self.expanded_url(params = {})
-        return "#{parent_url}#{Addressable::Template.new(url_template).expand(params)}" unless url_template.nil?
-        raise Howitzer::PageUrlNotSpecifiedError, "Please specify url for '#{self}' page. Example: url '/home'"
+        return "#{app_host}#{Addressable::Template.new(path_template).expand(params)}" unless path_template.nil?
+        raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
       end
 
       class << self
         protected
 
-        # DSL to specify an url pattern for the page opening
-        # @param value [String] url pattern, for details please see Addressable gem
-        # @see .parent_url
+        # DSL to specify an relative path pattern for the page opening
+        # @param value [String] a path pattern, for details please see Addressable gem
+        # @see .site
         # @example
         #   class ArticlePage < Howitzer::Web::Page
         #     url '/articles/:id'
@@ -118,31 +118,31 @@ module Howitzer
         #   ArticlePage.open(id: 10)
         # @!visibility public
 
-        def url(value)
-          @url_template = value.to_s
+        def path(value)
+          @path_template = value.to_s
         end
 
-        # DSL to specify a root url for the page opening
-        # @note By default it specifies Howitzer.app_uri.site as root url
-        # @param value [String] a host
+        # DSL to specify a site for the page opening
+        # @note By default it specifies Howitzer.app_uri.site as a site
+        # @param value [String] a site as combination of protocol, host and port
         # @example
         #   class AuthPage < Howitzer::Web::Page
-        #     parent_url 'https:/example.com'
+        #     site 'https:/example.com'
         #   end
         #
         #   class LoginPage < AuthPage
-        #     url '/login'
+        #     path '/login'
         #   end
         # @!visibility public
 
-        def root_url(value)
-          define_singleton_method(:parent_url) { value }
-          private_class_method :parent_url
+        def site(value)
+          define_singleton_method(:app_host) { value }
+          private_class_method :app_host
         end
 
         private
 
-        attr_reader :url_template
+        attr_reader :path_template
 
         def incorrect_page_msg
           "Current page: #{current_page}, expected: #{self}.\n" \
@@ -155,7 +155,7 @@ module Howitzer
         end
       end
 
-      root_url Howitzer.app_uri.site
+      site Howitzer.app_uri.site
 
       def initialize
         check_validations_are_defined!

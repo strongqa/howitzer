@@ -144,7 +144,7 @@ Every page can contain `url` dsl to specify page url:
 # put the class to ./pages/home_page.rb file
 
 class HomePage < WebPage
-  url '/'
+  path '/'
 end
 ```
 
@@ -154,7 +154,7 @@ end
 # put the class to ./pages/product_page.rb file
 
 class ProductPage < WebPage
-  url '/products{/id}'
+  path '/products{/id}'
 end
 ```
 
@@ -164,7 +164,7 @@ end
 # put the class to ./pages/product_page.rb file
 
 class SearchPage < WebPage
-  url '/search{?query*}'
+  path '/search{?query*}'
 end
 ```
 
@@ -179,7 +179,7 @@ SearchPage.open #=> visits /search
 SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
 ```
 
-For more information about url patterns please refers to https://github.com/sporkmonger/addressable
+For more information about path patterns please refers to https://github.com/sporkmonger/addressable
 
 ### Validations
 
@@ -224,7 +224,7 @@ Howitzer provides 3 different validation types:
 
 ```ruby
 class HomePage < WebPage
-  url '/'
+  path '/'
   validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
 ```
@@ -233,7 +233,7 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  url '/users/sign_in'
+  path '/users/sign_in'
   validate :title, /Sign In\z/
 end
 ```
@@ -242,7 +242,7 @@ end
 
 ```ruby
 class LoginPage < WebPage
-  url '/users/sign_in'
+  path '/users/sign_in'
   validate :element_presence, :sign_in_btn
   element :sign_in_btn, '#sign_in'
 end
@@ -250,7 +250,7 @@ end
 # OR
 
 class LoginPage < WebPage
-  url '/users/sign_in'
+  path '/users/sign_in'
   validate :element_presence, :menu_item, 'Profile'
   element :menu_item, :xpath, ->(value) { "//a[text()='#{value}']" }
 end
@@ -273,7 +273,7 @@ Each page contains a description of all elements on page
 
 ```ruby
 class HomePage < WebPage
-  url '/'
+  path '/'
   validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 
   element :test_name1, '.foo'                         #css locator, default
