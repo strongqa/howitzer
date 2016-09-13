@@ -162,28 +162,46 @@ The table below gives an important information on the driver settings in Howitze
 </tbody>
 </table>
 
+Introduction to the Page Object Model
+-------------------------------------
+
+The Page Object Model is a test automation pattern that aims to create
+an abstraction of your site's user interface that can be used in tests.
+The most common way to do this is to model each page as a class, and
+to then use instances of those classes in your tests.
+
+If a class represents a page then each element of the page is
+represented by a method that, when called, returns a reference to that
+element that can then be acted upon (clicked, set text value), or
+queried (is it enabled? visible?).
+
+Howitzer is based around this concept, but goes further as you'll see
+below by also allowing modelling of repeated sections that appear on
+multiple pages, or many times on a page using the concept of sections.
+
 Pages
 ------
 
 Pages are classes describing real web pages. For example, 'Home page' can be described as:
 
 ```ruby
-class HomePage < WebPage
+class HomePage < Howitzer::Web::Page
 end
 ```
 
-It means that each page is inherited from a parent class 'Web Page' which contains common methods for all pages.
+It means that each page is inherited from a parent class 'Howitzer::Web::Page' which contains common methods for all pages.
 
 ### Url specifying
 
-Every page can contain `url` dsl to specify page url:
+A page usually has a URL. If you want to be able to navigate to a page,
+you'll need to set at least its relative path. Here's how:
 
 **Example1:**
 
 ```ruby
-# put the class to ./pages/home_page.rb file
+# put the class to ./web/pages/home_page.rb file
 
-class HomePage < WebPage
+class HomePage < Howitzer::Web::Page
   path '/'
 end
 ```
@@ -191,9 +209,9 @@ end
 **Example2:**
 
 ```ruby
-# put the class to ./pages/product_page.rb file
+# put the class to ./web/pages/product_page.rb file
 
-class ProductPage < WebPage
+class ProductPage < Howitzer::Web::Page
   path '/products{/id}'
 end
 ```
@@ -201,9 +219,9 @@ end
 **Example3:**
 
 ```ruby
-# put the class to ./pages/product_page.rb file
+# put the class to ./web/pages/search_page.rb file
 
-class SearchPage < WebPage
+class SearchPage < Howitzer::Web::Page
   path '/search{?query*}'
 end
 ```
@@ -221,9 +239,19 @@ SearchPage.open(query: {text: :foo}) #=> visits /search?text=foo
 
 For more information about path patterns please refers to https://github.com/sporkmonger/addressable
 
+__Note:__ By default, all pages have an application host specified in Howitzer::Web::page class as Howitzer.app_host.site
+If your web application under test consists of different application hosts, then you can specify custom application host for specific page classes. Here's how:
+
+```ruby
+class AuthPage < Howitzer::Web::Page
+  site 'https://example.com'
+  path '/auth'
+end
+```
+
 ### Validations
 
-The Page Object pattern is not expected to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
+The Page Object pattern does not suppose to use any validations on the UI driver level. But at the same time every page must have some anchor to identify a page exclusively.
 
 ```ruby
 validate <type>, <value>
@@ -263,7 +291,7 @@ Howitzer provides 3 different validation types:
 **Example 1:**
 
 ```ruby
-class HomePage < WebPage
+class HomePage < Howitzer::Web::Page
   path '/'
   validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
 end
@@ -272,7 +300,7 @@ end
 **Example 2:**
 
 ```ruby
-class LoginPage < WebPage
+class LoginPage < Howitzer::Web::Page
   path '/users/sign_in'
   validate :title, /Sign In\z/
 end
@@ -281,7 +309,7 @@ end
 **Example 3:**
 
 ```ruby
-class LoginPage < WebPage
+class LoginPage < Howitzer::Web::Page
   path '/users/sign_in'
   validate :element_presence, :sign_in_btn
   element :sign_in_btn, '#sign_in'
@@ -289,7 +317,7 @@ end
 
 # OR
 
-class LoginPage < WebPage
+class LoginPage < Howitzer::Web::Page
   path '/users/sign_in'
   validate :element_presence, :menu_item, 'Profile'
   element :menu_item, :xpath, ->(value) { "//a[text()='#{value}']" }
@@ -297,13 +325,31 @@ end
 
 ```
 
-Howitzer allows using all 3 validations, but only 1 is really required. If any validation fails, the exception will appear.
+Howitzer allows using all 3 validations at the same time, but only **1** is really required. If any validation fails, the exception will appear.
 
-**CAUTION:** Page validation is triggered in 2 cases only:
+### Verifying that a particular page is displayed
+
+Howitzer automatically parses your page path template and verifies that whatever components your template specifies match the
+currently viewed page.
+
+Page validation is triggered in 2 cases **implicitly**:
 
 1. < Web Page Class >.open
 2. < Web Page Class >.given
 
+Calling `#displayed?` will trigger validations **explicitly**. It returns true if the browser's current URL
+matches the page's template and false if it doesn't.
+
+For example, with the following path template:
+
+```ruby
+class Account < Howitzer::Web::Page
+  path '/accounts/{id}'
+end
+
+Account.open(id: 22)
+Account.on { is_expected.to be_displayed }
+```
 
 ### Locators ###
 
