@@ -6,8 +6,8 @@ Available Drivers
 
 **Driver** is a universal interface for test runners against various web browsers. All driver implementations can be divided into 2 categories:
 
-* **Headless testing** – a browser emulation without a GUI (very useful on CI servers, e.g. Bamboo, TeamCity, Jenkins, etc.).
-* **Real browser testing** - an integration with real browsers through extensions, plugins, ActiveX, etc., (for local and cloud based testing, like SauceLabs, Testingbot, BrowserStack).
+* **Headless testing** – a browser emulation without a GUI (very useful on CI servers, e.g. Bamboo, TeamCity, Jenkins, CircleCI, Travis, etc.).
+* **Real browser testing** - an integration with real browsers through extensions, plugins, ActiveX, etc. (for local and cloud based testing, like SauceLabs, Testingbot, BrowserStack).
 
 Howitzer uses [Capybara](http://jnicklas.github.io/capybara/) for the driver management and configuration. All you need to do is to:
 
@@ -35,7 +35,7 @@ The table below gives an important information on the driver settings in Howitze
     <td align="center">Headless</td>
     <td align="center">
       <strong>phantom_ignore_js_errors</strong><br/><br/>
-      <strong>pjs_ignore_ssl_errors</strong>
+      <strong>phantom_ignore_ssl_errors</strong>
     </td>
     <td align="center">
       Boolean <br/><br/>
@@ -72,52 +72,92 @@ The table below gives an important information on the driver settings in Howitze
     <td><a href="https://saucelabs.com">sauce</a></td>
     <td align="center">Real</td>
     <td align="center">
-    <strong>sl_user<strong><br/>
-    <strong>sl_api_key</strong><br/>
-    <strong>sl_url</strong><br/>
-    <strong>sl_platform</strong><br/>
-    <strong>sl_browser_name</strong><br/>
-    <strong>sl_selenium_version</strong><br/>
-    <strong>sl_max_duration</strong><br/>
-    <strong>sl_idle_timeout</strong></td>
+    <strong>cloud_auth_login<strong><br/>
+    <strong>cloud_auth_pass</strong><br/>
+    <strong>cloud_platform</strong><br/>
+    <strong>cloud_browser_name</strong><br/>
+    <strong>cloud_browser_version</strong><br/>
+    <strong>cloud_max_duration</strong><br/>
+    <strong>cloud_http_idle_timeout</strong><br/>
+    <strong>cloud_sauce_record_screenshots</strong><br/>
+    <strong>cloud_sauce_idle_timeout</strong><br/>
+    <strong>cloud_sauce_video_upload_on_pass</strong>
+    </td>
+
     <td align="center">
     String<br/>
     String<br/>
     String<br/>
-    Symbol<br/>
     String<br/>
     String<br/>
     String<br/>
-    String</td>
-    <td align="center">See details <a href="https://saucelabs.com/docs/additional-config">here</a></td>
+    Integer<br/>
+    Bolean<br/>
+    String<br/>
+    Boolean
+    </td>
+    <td align="center">See details <a href="https://wiki.saucelabs.com/display/DOCS/Test+Configuration+Options">here</a></td>
   </tr>
   <tr>
     <td><a href="http://testingbot.com">testingbot</a></td>
     <td align="center">Real</td>
     <td align="center">
-      <strong>tb_api_key<strong><br/>
-      <strong>tb_api_secret<strong><br/>
-      <strong>tb_url<strong><br/>
-      <strong>tb_platform<strong><br/>
-      <strong>tb_browser_name<strong><br/>
-      <strong>tb_browser_version<strong><br/>
-      <strong>tb_selenium_version<strong><br/>
-      <strong>tb_max_duration<strong><br/>
-      <strong>tb_idle_timeout<strong><br/>
-      <strong>tb_record_screenshot<strong>
+      <strong>cloud_auth_login<strong><br/>
+      <strong>cloud_auth_pass</strong><br/>
+      <strong>cloud_platform</strong><br/>
+      <strong>cloud_browser_name</strong><br/>
+      <strong>cloud_browser_version</strong><br/>
+      <strong>cloud_max_duration</strong><br/>
+      <strong>cloud_http_idle_timeout</strong><br/>
+      <strong>cloud_testingbot_idle_timeout</strong><br/>
+      <strong>cloud_testingbot_screenshots</strong>
     </td>
     <td align="center">
     String<br/>
     String<br/>
     String<br/>
-    Symbol<br/>
-    String<br/>
-    Numberic<br/>
     String<br/>
     String<br/>
     String<br/>
-    Boolean</td>
-    <td align="center">See details <a href="http://testingbot.com/support/other/test-options">here</a></td>
+    Integer<br/>
+    String<br/>
+    Boolean
+    </td>
+    <td align="center">See details <a href="https://testingbot.com/support/other/test-options">here</a></td>
+  </tr>
+  <tr>
+    <td><a href="https://www.browserstack.com">browserstack</a></td>
+    <td align="center">Real</td>
+    <td align="center">
+    <strong>cloud_auth_login<strong><br/>
+    <strong>cloud_auth_pass</strong><br/>
+    <strong>cloud_platform</strong><br/>
+    <strong>cloud_browser_name</strong><br/>
+    <strong>cloud_browser_version</strong><br/>
+    <strong>cloud_max_duration</strong><br/>
+    <strong>cloud_http_idle_timeout</strong><br/>
+    <strong>cloud_bstack_resolution</strong><br/>
+    <strong>cloud_bstack_project</strong><br/>
+    <strong>cloud_bstack_build</strong><br/>
+    <strong>cloud_bstack_resolution</strong><br/>
+    <strong>cloud_bstack_mobile_device</strong>
+    </td>
+
+    <td align="center">
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    Integer<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String<br/>
+    String
+    </td>
+    <td align="center">See details <a href="https://www.browserstack.com/automate/capabilities">here</a></td>
   </tr>
 </tbody>
 </table>
