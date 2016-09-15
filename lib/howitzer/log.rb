@@ -1,5 +1,6 @@
 require 'log4r'
 require 'fileutils'
+require 'active_support/core_ext/module'
 
 module Howitzer
   # This class represents logger
