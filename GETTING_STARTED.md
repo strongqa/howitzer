@@ -365,17 +365,17 @@ HomePage.on { evaluate_script("alert('Hello World')") }
 HomePage.on { expect(text).to include('Logout') }
 ```
 
-### Locators ###
+Elements
+--------
 
-Each page contains a description of all elements on page
+Pages are made up of elements (text fields, buttons, combo boxes, etc), either individual elements or groups of them. Examples of individual elements would be a search field or a company logo image; examples of element collections would be items in any sort of list, eg: menu items, images in a carousel, etc.
 
-**Example:**
+### Element Specifying
+
+To interact with elements, they need to be defined as part of the relevant page. Howitzer introduces `.element` dsl method which receivers element name as first arguments. Other arguments are totaly the same as for `Capybara::Node::Finders#all` method. It allows you to define all required methods on page and do not repeat yourself.
 
 ```ruby
 class HomePage < WebPage
-  path '/'
-  validate :url, /\A(?:.*?:\/\/)?[^\/]*\/?\z/
-
   element :test_name1, '.foo'                         #css locator, default
   element :test_name2, :css, '.foo'                   #css locator
   element :test_name3, :xpath, '//div[@value="bar"]'  #xpath locator
@@ -388,6 +388,10 @@ class HomePage < WebPage
   element :test_field3, :fillable_field, 'bas'        #field locator by 'baz' name
 end
 ```
+
+The `element` method will add a number of methods to instances of the particular Page class. 
+
+#TODO 
 
 Sometimes it needs to have universal selectors, for instance for many items from menu. Another case, when it's unknown text in selector in advance. For such cases, Howitzer suggests to use _lambda_ selectors.
 
