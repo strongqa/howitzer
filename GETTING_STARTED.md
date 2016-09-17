@@ -1,4 +1,4 @@
-Getting Started (!!!DEPRECATED!!! The documentation will be updated very soon!)
+Getting Started
 ===============
 
 Available Drivers
@@ -349,6 +349,20 @@ end
 
 Account.open(id: 22)
 Account.on { is_expected.to be_displayed }
+```
+
+### Proxied Capybara Methods
+
+Capybara form dsl methods are not compatible with page object pattern and Howitzer gem.
+Instead of including Capybara::DSL module, we proxy most interesting Capybara methods and
+prevent using extra methods which can potentially broke main principles and framework concept
+
+You can access all [Capybara::Session::SESSION_METHODS](https://github.com/jnicklas/capybara/blob/master/lib/capybara/session.rb) and [Capybara::Session::MODAL_METHODS](https://github.com/jnicklas/capybara/blob/master/lib/capybara/session.rb) methods via instance of any Howitzer page. In additional, `#driver` and  `#text` are available as well. Here are examples how to use:
+
+```ruby
+HomePage.on { evaluate_script("alert('Hello World')") }
+#or
+HomePage.on { expect(text).to include('Logout') }
 ```
 
 ### Locators ###
