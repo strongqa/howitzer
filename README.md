@@ -146,7 +146,7 @@ software, and may be redistributed under the terms specified in the
 About StrongQA
 ----------------
 
-![StrongQA](http://strongqa.com/head_logo_big.png)
+![StrongQA](https://github.com/strongqa/howitzer/blob/gh-pages/images/strongqa-logo.png)
 
 howitzer is maintained and funded by StrongQA, Ltd.
 The names and logos for StrongQA are trademarks of StrongQA, Ltd.
