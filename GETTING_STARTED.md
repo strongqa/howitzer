@@ -372,10 +372,10 @@ Pages are made up of elements (text fields, buttons, combo boxes, etc), either i
 
 ### Element Specifying
 
-To interact with elements, they need to be defined as part of the relevant page. Howitzer introduces `.element` dsl method which receivers element name as first arguments. Other arguments are totaly the same as for `Capybara::Node::Finders#all` method. It allows you to define all required methods on page and do not repeat yourself.
+To interact with elements, they need to be defined as part of the relevant page. Howitzer introduces `.element` dsl method which receivers element name as first arguments. Other arguments are totaly the same as for `Capybara::Node::Finders#all` method. It allows you to define all required elements on page and do not repeat yourself.
 
 ```ruby
-class HomePage < WebPage
+class HomePage < Howitzer::Web::Page
   element :test_name1, '.foo'                         #css locator, default
   element :test_name2, :css, '.foo'                   #css locator
   element :test_name3, :xpath, '//div[@value="bar"]'  #xpath locator
@@ -391,9 +391,37 @@ end
 
 The `element` method will add a number of methods to instances of the particular Page class. 
 
-#TODO 
+```
+#<element_name>_element - equals capybara #find(…) method
+#<element_name>_elements - equals capybara #all(…) method
+#<element_name>_elements.first - equals capybara #first(…) method
+#<has_element_name>_element? - equals capybara #has_selector(…) method
+#<has_no_element_name>_element? - equals capybara #has_no_selector(…) method
+```
 
-Sometimes it needs to have universal selectors, for instance for many items from menu. Another case, when it's unknown text in selector in advance. For such cases, Howitzer suggests to use _lambda_ selectors.
+__Note:__ It is forbiden to access to elements via specific page class directly. You must implement logical method within the page instead. Nevertheless, predicate methods are still available for elements. It is useful to compbine with [Rspec predicate matchers](https://github.com/rspec/rspec-expectations#predicate-matchers)
+
+Here is a real example:
+
+```ruby
+class HomePage < Howitzer::Web::Page
+  element :new_button, :xpath, ".//*[@name='New']"
+
+  def start_new_project
+    new_button_element.click
+  end
+end
+
+HomePage.on { new_button_element.click } # Wrong! It will raise the error
+HomePage.on { start_new_project } # Right!
+
+HomePage.on { is_expected.to have_new_button_element } 
+HomePage.on { is_expected.to have_no_new_button_element }
+```
+
+### Elements with dynamic content
+
+Sometimes it needs to have universal selectors, for instance for menu items. Another case, when it's unknown text in selector in advance. For such cases, Howitzer suggests to use _lambda_ selectors.
 
 **Example:**
 
@@ -406,26 +434,17 @@ Sometimes it needs to have universal selectors, for instance for many items from
  end
 ```
 
-### Pages with static information ###
+Sections
+--------
 
-If static information is repeated on several different pages, it can be a good idea to move these methods into a separate module.
+Cooming soon ...
 
-**Example:**
 
-```ruby
-module TopMenu
-  def self.included(base)
-    base.class_eval do
-      element :test_link1_element, :link, 'Foo'
-    end
-  end
+IFrames
+--------
 
-  def open_menu
-    Howitzer::Log.info "Open menu"
-    test_link1_element.click
-  end
-end
-```
+Comming soon ...
+
 
 ### Good Practices Rules ###
 
@@ -436,7 +455,7 @@ Good Practice Rules
 **Example:**
 
 ```ruby
-class MyPage < WebPage
+class MyPage < Howitzer::Web::Page
   def submit_form
     # ...
   end
@@ -447,24 +466,9 @@ class MyPage < WebPage
 end
 ```
 
-**Rule Two:** Any ACTION method should return an instance of the page. This allows you to do the following:
+**Rule Two:** Coding of checks in the class pages methods are __prohibited.__
 
-```ruby
-MyPage.open.fill_form.submit_form
-```
-
-**Example:**
-
-```ruby
-class MyPage < WebPage
-  def fill_form
-    # ...
-    MyPage.given
-  end
-end
-```
-
-**Rule Three:** Coding of checks in the class pages methods are __prohibited.__
+Here is how implement it correctly:
 
 **Example:**
 
@@ -485,26 +489,26 @@ my_page_spec.rb
 ```ruby
 require 'spec_helper'
 
-describe “some feature” do
+RSpec.describe “some feature” do
   context “when...” do
     it { expect(MyPage.get_all_prices).to include(400) }
   end
 end
 ```
 
-**Rule Four:** All ACTION methods should create log entries.
+**Rule Three:** All ACTION methods should create log entries.
 
 **Example:**
 
 ```ruby
 class MyPage < WebPage
   def submit_form
-    Howitzer::Log.info { "[ACTION] Submit form" }
+    Howitzer::Log.info "[ACTION] Submit form"
     # ...
   end
 
   def fill_form
-    Howitzer::Log.info { "[ACTION] Fill form" }
+    Howitzer::Log.info "[ACTION] Fill form"
     # ...
   end
 end
@@ -513,8 +517,46 @@ end
 Emails
 ------
 
-Howitzer uses an outstanding service called [Mailgun](http://mailgun.com) that allows to catch all emails of a sandbox domain and store them in its own data storage within 3 days.
-It is extremely useful during web application testing when a new user with email confirmation is created.
+Howitzer allows you to define individual emails like web pages.  is used for this task. 
+
+### Individual Emails
+
+To interact with individual emails, they need to be defined as separate classes with Email sufix inherited from `Howitzer::Email` class.
+In additinal, each class must contain special subject pattern which uses to identify the email correctly. Howitzer makes this easy:
+
+```ruby
+# put it to ./emails/welcome_email.rb
+class WelcomeEmail < Howitzer::Email
+  subject 'Welcome on board :name' # :name is placeholder here
+  
+  def addressed_to?(new_user) # check that the letter were sent to proper recipient
+     / Hi # { new_user } / === plain_text_body # see info about available methods bellow
+  end
+end
+
+email = WelcomeEmail.find_by_recipient('john.smith@example.com', name: 'John')
+expect(email).to be_addressed_to('John')
+
+```
+
+### Adapters
+
+Howitzer provides `Howitzer::MailAdapters::Abstract` universal interface for different email adapters. Here are list of methods which are required to be present:
+
+* **.find_by_recipient (recipient)** - searches for the letter recipient. The parameter receives email recipient.
+* **.find (recipient, subject)** - same as the **self.find_by_recipient** (recipient), but only when we do not know in advance what kind of __subject__ has an email.
+* **\#plain_text_body** - receiving the body of messages in a plain text.
+* **\#html_body** - receiving the body of messages in html.
+* **\#text** - receiving the body of messages as a stripped text.
+* **\#mail_from** - returns the sender’s email data in the format: User Name <user@email>
+* **\#recipients** - returns the array of recipients who received the current email.
+* **\#received_time** - returns the time when an email was received.
+* **\#sender_email** - returns an email of a sender.
+* **\#mime_part** - allows you receiving an email attachment.
+
+#### Mailgun
+
+By default Howitzer uses an outstanding service called [Mailgun](http://www.mailgun.com) that allows to catch all emails of a sandbox domain and store them in its own data storage within 3 days. It is extremely useful during web application testing when a new user with email confirmation is created.
 
 You can use a **free** account. Follow the below steps to create an account:
 
@@ -545,63 +587,27 @@ You can use a **free** account. Follow the below steps to create an account:
 </tbody>
 </table>
 
-_**Email**_ Class corresponds to one letter. Used to test the notifications.
-
-* **.find_by_recipient (recipient)** - searches for the letter recipient. The parameter receives email recipient.
-* **.find (recipient, subject)** - same as the **self.find_by_recipient** (recipient), but only when we do not know in advance what kind of __subject__ has an email.
-* **\#plain_text_body** - receiving the body of messages in a plain text.
-* **\#html_body** - receiving the body of messages in html.
-* **\#text_body** - receiving the body of messages as a stripped text.
-* **\#mail_from** - returns the sender’s email data in the format: User Name <user@email>
-* **\#recipients** - returns the array of recipients who received the current email.
-* **\#received_time** - returns the time when an email was received.
-* **\#sender_email** - returns an email of a sender.
-* **\#mime_part** - allows you receiving an email attachment.
-
-**Example:**
-
-```ruby
-class MyEmail < Email
-  SUBJECT = 'TEST SUBJECT' # specify the subject of an email
-end
-```
-
-This is how a custom class might look like:
-
-```ruby
- #put the class to ./emails/my_email.rb file
-
- class MyEmail <Email
-   SUBJECT = "Test email" # specify the subject of an email
-
-   def addressed_to? (new_user) # check that the letter were sent to proper recipient
-     / Hi # { new_user } / === plain_text_body
-   end
- end
-```
-
 Logging
 -------
 
 *Howitzer* allows logging to HTML and output to the console.
 
-### BUILT-IN logging ###
+### BUILT-IN logging
 
 *Howitzer* uses the resources of Cucumber and RSpec to generate HTML and JUnit logging. HTML provides the possibility to view the log in HTML while JUnit uses the logs in CI, correspondingly.
 
-Running of built-in HTML generators for RSpec and Cucumber logging is available if you run the tests using the `rake` tasks.
+Running of built-in HTML generators for RSpec, Turnip and Cucumber logging is available if you run the tests using the `rake` tasks.
 
 It is also possible to manually run the tests with automatic logging.
 
-
-### Extended Logging ###
+### Extended Logging
 
 The Extended logging in the console is also available.
-It uses the _log manager_ provided by the **_log_** method.
+It uses the _log manager_ provided by the **_Howitzer.Log_** module.
 
-_Howitzer_ supports 4 levels of logging: _**FATAL, WARN, INFO, DEBUG.**_
+_Howitzer_ supports 5 levels of logging: _**FATAL, ERROR, WARN, INFO, DEBUG.**_
 
-FATAL <WARN <INFO <DEBUG
+FATAL < ERROR < WARN < INFO < DEBUG
 
 **Example:**
 
@@ -609,7 +615,7 @@ FATAL <WARN <INFO <DEBUG
 Howitzer::Log.info "info message"
 ```
 
-To create a record with a different level, use the appropriate method.
+To output a log entry with a different level, use the appropriate method.
 
 **Example:**
 
@@ -618,7 +624,7 @@ Howitzer::Log.warn "warning message"
 Howitzer::Log.fatal "fatal message"
 ```
 
-If the option `Howitzer.debug_mode` = true, the logger will record messages with **DEBUG** status.
+If the option `Howitzer.debug_mode` = true, the logger will record messages with **DEBUG** status. Otherwise, it will be ignored.
 
 Logs are generated and saved in the **log** _directory_.
 
@@ -633,14 +639,14 @@ Examples of logs usage in **Pages** and **Email**.
 **Example:** with **Page.**
 
 ```ruby
-class MyPage < WebPage
+class MyPage < Howitzer::Web::Page
   def submit_form
-    Howitzer::Log.info  "[ACTION] Submit form"
+    Howitzer::Log.info "[ACTION] Submit form"
     …
   end
 
   def fill_form
-    Howitzer::Log.info  "[ACTION] Fill form"
+    Howitzer::Log.info "[ACTION] Fill form"
     …
   end
 end
@@ -650,7 +656,7 @@ end
 
 ```ruby
 class TestEmail < Email
-  SUBJECT = "Test email"
+  subject "Test email"
 
   def addressed_to?(new_user)
     if /Hi #{ new_user }/ === plain_text_body
@@ -669,13 +675,10 @@ ls -l 2>&1 | tee file.txt
 ```
 It will log BOTH stdout and stderr from ls to file.txt.
 
-## Data Generators ##
+Data Storage
+-------------
 
-The Data generator allows generating data structures (e.g. User) and store the data in its own Memory storage.
-
-### Data Storage ##
-
-The Data Storage is a simple key value storage that uses namespaces (e.g. :user, :sauce, etc.).
+The Data Storage is a simple key value storage that uses namespaces (e.g. :user, :cloud, etc.).
 
 This module has next methods:
 The module supports the following methods:
@@ -689,7 +692,7 @@ The module supports the following methods:
 </thead>
 <tbody>
   <tr>
-    <td>Howitzer::Howitzer::Cache.store(ns,key,value) </td>
+    <td>Howitzer::Cache.store(ns,key,value) </td>
     <td>Adds data to the storage, where ns is a unique namespace name.</td>
   </tr>
   <tr>
@@ -710,9 +713,9 @@ The module supports the following methods:
 **Example:**
 
 ```ruby
-Howitzer::Howitzer::Cache.store(:user, 1, User.new('Peter'))
-Howitzer::Howitzer::Cache.store(:user, 2, User.new('Dan'))
-Howitzer::Howitzer::Cache.store(:post, "post1", Post.new("Amazing post"))
+Howitzer::Cache.store(:user, 1, User.new('Peter'))
+Howitzer::Cache.store(:user, 2, User.new('Dan'))
+Howitzer::Cache.store(:post, "post1", Post.new("Amazing post"))
 ```
 
 In memory it looks like:
@@ -729,11 +732,17 @@ In memory it looks like:
 }
 ```
 
-### Pre-Requisites ####
+Pre-Requisites
+---------------
 
 This module uses standard methods for generating test data.
 
 //TODO
+
+## Data Generators ##
+
+The Data generator allows generating data structures (e.g. User) and store the data in its own Memory storage.
+
 
 ### Cucumber Transformers ###
 
