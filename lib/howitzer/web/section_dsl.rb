@@ -110,7 +110,7 @@ module Howitzer
         #       end
         #     end
         #   end
-        #   HomePage.on { info_panel.edit_info(title: 'Test Title') }
+        #   HomePage.on { info_panel_section.edit_info(title: 'Test Title') }
         # @!visibility public
 
         def section(name, *args, &block)

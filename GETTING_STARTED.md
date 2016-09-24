@@ -389,7 +389,7 @@ class HomePage < Howitzer::Web::Page
 end
 ```
 
-The `element` method will add a number of methods to instances of the particular Page class. 
+The `element` method will add a number of methods to instances of the particular Page class.
 
 ```
 #<element_name>_element - equals capybara #find(…) method
@@ -415,7 +415,7 @@ end
 HomePage.on { new_button_element.click } # Wrong! It will raise the error
 HomePage.on { start_new_project } # Right!
 
-HomePage.on { is_expected.to have_new_button_element } 
+HomePage.on { is_expected.to have_new_button_element }
 HomePage.on { is_expected.to have_no_new_button_element }
 ```
 
@@ -437,14 +437,350 @@ Sometimes it needs to have universal selectors, for instance for menu items. Ano
 Sections
 --------
 
-Cooming soon ...
+Howitzer allows you to model sections of a page that appear on multiple
+pages or that appear a number of times on a page separately from Pages.
+Howitzer provides the `Howitzer::Web::Section` class for this task.
 
+### Named Sections
+
+Howitzer provides `section` dsl method. It generates `<section_name>_section`
+method witch returns an instance of a page section, found by the supplied css
+selector with using special `me` dsl method. This root node becomes the 'scope'
+of the section. What follows is an explanation of `section`.
+
+#### Defining a Section
+
+A section is similar to a page in that it inherits from a
+Howitzer::Web::Section class:
+
+```ruby
+class MenuSection < Howitzer::Web::Section
+  me "#gbx3" #parent element for the section
+end
+```
+
+At the moment, this section does nothing.
+
+#### Adding a section to a page
+
+Pages include sections that's how Howitzer works. Here's a page that
+includes the above `MenuSection` section:
+
+```ruby
+class HomePage < Howitzer::Web::Page
+  section :menu
+end
+```
+
+#### Accessing a page's section
+
+The `section` method (like the `element` method) adds a few methods to
+the page or section class it was called against. The first method that
+is added is one that returns an instance of the section, the method name
+being the first argument to the `section` method with `_section` prefix . Here's an example:
+
+```ruby
+# the section:
+
+class MenuSection < Howitzer::Web::Section
+  me "#gbx3"
+end
+
+# the page that includes the section:
+
+class HomePage < Howitzer::Web::Page
+  section :menu
+end
+
+# the page and section in action:
+
+HomePage.on { menu_section }
+```
+
+When the `menu_section` method is called against `HomePage`, an instance of
+`MenuSection` is returned. The small magic happens there. First argument of
+`section` method is converted to a section class (:menu -> MenuSection).
+
+The second argument is optional. If it is omitted, then default selector will be
+used as section scope (defined with `me` dsl method). In case if that is passed to
+the `section` method that will be used to find the root element of the section;
+
+The following shows that though the same section can appear on multiple
+pages, it can take a different root node:
+
+```ruby
+# define the section that appears on both pages
+
+class MenuSection < Howitzer::Web::Section
+  me '#gbx3'
+end
+
+# define 2 pages, each containing the same section
+
+class HomePage < Howitzer::Web::Page
+  section :menu # default selector here
+end
+
+class SearchResultsPage < Howitzer::Web::Page
+  section :menu, "#gbx48" # overrides the default selector
+end
+```
+
+You can see that the `MenuSection` is used in both the `HomePage` and
+`SearchResultsPage` pages, but each has slightly different root node. The
+capybara element that is found by the css selector becomes the root node
+for the relevant page's instance of the `MenuSection` section.
+
+#### Adding elements to a section
+
+This works just the same as adding elements to a page:
+
+```ruby
+class MenuSection < Howitzer::Web::Section
+  me '#gbx3'
+
+  element :menu_item, :xpath, ->(text){ ".//li[text()='#{text}']" }
+
+  def logout
+    menu_item_element('Logout').click
+  end  
+end
+```
+
+Note that the selectors used to find elements are searched for
+within the scope of the root element of that section. The search for the
+element won't be page-wide but it will only look in the section.
+
+When the section is added to a page...
+
+```ruby
+class HomePage < Howitzer::Web::Page
+  section :menu
+end
+```
+
+...then the section's method can be accessed like this:
+
+```ruby
+HomePage.open
+HomePage.on { menu_section.logout }
+```
+
+#### Testing for the existence of a section
+
+Just like elements, it is possible to test for the existence of a
+section. The `section` method adds a method called `has_<section name>_section?`
+to the page or section it's been added to - same idea as what the
+`has_<element name>_element?` method. Given the following setup:
+
+```ruby
+class MenuSection < Howitzer::Web::Section
+  me '#gbx3'
+  element :search, "a.search"
+end
+
+class HomePage < Howitzer::Web::Page
+  section :menu
+end
+```
+
+... you can check whether the section is present on the page or not:
+
+```ruby
+HomePage.on { has_menu_section? } #=> returns true or false
+```
+
+Again, this allows pretty test code:
+
+```ruby
+HomePage.on { is_expected.to have_menu_section }
+HomePage.on { is_expected.to have_no_menu_section }
+```
+
+#### Sections within sections
+
+You are not limited to adding sections only to pages; you can nest
+sections within sections within sections within sections!
+
+```ruby
+
+# define a page that contains an area that contains a section for both logging in and registration, then modeling each of the sub sections separately
+
+class LoginSection < Howitzer::Web::Section
+  me "div.login-area"
+  element :username, "#username"
+  element :password, "#password"
+  element :sign_in, "button"
+
+  def login(username, password)
+    username_element.set username
+    password_element.set password
+    sign_in_element.click
+  end  
+end
+
+class RegistrationSection < Howitzer::Web::Section
+  me "div.reg-area"
+  element :first_name, "#first_name"
+  element :last_name, "#last_name"
+  element :next_step, "button.next-reg-step"
+
+  def sign_up(first_name, last_name)
+    first_name_element.set first_name
+    first_name_element.set last_name
+    next_step_element.click
+  end
+end
+
+class LoginRegistrationFormSection < Howitzer::Web::Section
+  me "div.login-registration"
+  section :login
+  section :registration  
+end
+
+class HomePage < Howitzer::Web::Page
+  section :login_and_registration
+end
+
+# how to login (fatuous, but demonstrates the point):
+
+Then /^I sign in$/ do
+  HomePage.open
+  HomePage.on do
+    is_expected.to have_login_and_registration_section
+    login_and_registration_section.login_section.login('bob', 'p4ssw0rd')
+  end  
+end
+
+# how to sign up:
+
+When /^I enter my name into the home page's registration form$/ do
+  HomePage.open
+  HomePage.on do
+    expect(login_and_registration_section.registration_section).to have_first_name
+    expect(login_and_registration_section.registration_section).to have_last_name
+    login_and_registration_section.registration_section.signup('Bob', 'Arum')
+  end  
+end
+```
+
+#### Anonymous Sections
+
+If you want to use a section more as a namespace for elements and are not
+planning on re-using it, you may find it more convenient to define
+an anonymous section using a block:
+
+```ruby
+class HomePage < Howitzer::Web::Page
+  section :menu, '.menu' do
+    element :title, '.title'
+    element :item, 'a'
+  end
+end
+```
+
+This code will create an anonymous section that you can use in the same way
+as an ordinary section:
+
+```ruby
+Home.open
+Home.on { is_expected.to have_menu_section }
+```
+
+### Section Collections
+
+An individual section represents a discrete section of a page, but often
+sections are repeated on a page, an example is a search result listing -
+each listing contains a title, a url and a description of the content.
+It makes sense to model this only once and then to be able to access
+each instance of a search result on a page as an array of Howitzer
+sections. To achieve this, Howitzer generates the `<section_name>_sections`
+method that can be called in a page or a section.
+
+The only difference between `<section_name>_section` and `<section_name>_sections`
+is that whereas the first returns an instance of the supplied section class,
+the second returns an array containing as many instances of the section class as
+there are capybara elements found by the supplied css selector.
 
 IFrames
 --------
 
-Comming soon ...
+Howitzer allows you to interact with iframes. An iframe is declared as
+a `Howitzer::Web::Page` class, and then referenced by the page or section it
+is embedded into. Like a section, it is possible to test for the
+existence of the iframe, wait for it to exist as well as interact with
+the page it contains.
 
+### Creating an iframe
+
+An iframe is declared in the same way as a Page:
+
+```ruby
+class FbPage < Howitzer::Web::Page
+  element :some_text_field, "input.username"
+end
+```
+
+To expose the iframe, reference it from another page or class using the `iframe`
+method. The `iframe` method takes 2 arguments; the name by which you
+would like to reference the iframe, and an ID or class by which you can locate the iframe. For example:
+
+```ruby
+class DashboardPage < Howitzer::Web::Page
+  iframe :fb, "#fb"
+end
+```
+
+The second argument to the `iframe` method must
+contain a selector that will locate the iframe node.
+
+### Testing for an iframe's existence
+
+Like an element or section, it is possible to test for an iframe's
+existence using the auto-generated `has_<iframe_name>_iframe?` method.
+Using the above example, here's how it's done:
+
+```ruby
+DashboardPage.open
+DashboardPage.on { is_expected.to have_fb_iframe }
+```
+
+### Interacting with an iframe's contents:
+
+Since an iframe contains a fully fledged Howitzer::Page, you are able
+to interact with the elements and sections defined within it. Due to
+capybara internals it is necessary to pass a block to the iframe instead
+of simply calling methods on it; the block argument is the
+Howitzer::Page that represents the iframe's contents. For example:
+
+```ruby
+# Howitzer::Page representing the iframe
+class LoginPage < Howitzer::Web::Page
+  element :username, "input.username"
+  element :password, "input.password"
+
+  def login(username, password)
+    username_element.set username
+    password_element.set password
+  end  
+end
+
+# Howitzer::Web::Page representing the page that contains the iframe
+class HomePage < Howitzer::Web::Page
+  iframe :login, "#login_and_registration"
+end
+
+# cucumber step that performs login
+When /^I log in$/ do
+  HomePage.open
+  HomePage.on do
+    login_iframe do |frame|
+      #`frame` is an instance of the `LoginPage` class
+      frame.login('admin', 'p4ssword')
+    end
+  end  
+end
+```
 
 ### Good Practices Rules ###
 
@@ -517,7 +853,7 @@ end
 Emails
 ------
 
-Howitzer allows you to define individual emails like web pages.  is used for this task. 
+Howitzer allows you to define individual emails like web pages.  is used for this task.
 
 ### Individual Emails
 
@@ -528,7 +864,7 @@ In additinal, each class must contain special subject pattern which uses to iden
 # put it to ./emails/welcome_email.rb
 class WelcomeEmail < Howitzer::Email
   subject 'Welcome on board :name' # :name is placeholder here
-  
+
   def addressed_to?(new_user) # check that the letter were sent to proper recipient
      / Hi # { new_user } / === plain_text_body # see info about available methods bellow
   end
@@ -732,19 +1068,61 @@ In memory it looks like:
 }
 ```
 
-Pre-Requisites
+Test Pre-Requisites
 ---------------
 
-This module uses standard methods for generating test data.
+Typically any scenario consists from 3 parts: pre-requisites, actions,
+verifications. First of all, it means, you have to prepare somehow your
+application under test (AUT) to testable state for particular scenario.
+Remember, Howitzer considers the AUT as black box, so no way there to do
+it with the application code. How could we prepare test pre-requisites
+then? Here are possible options:
+1) direct manipulation with a database
+2) via GUI
+3) via REST API
+  In first case we could really to connect to a database and create required
+data. But wait, what about case when table is renamed or restructured by
+developers? It is really difficult to keep the such data generators in
+actual state.
+  In second case we would emulate a user iteration with the system.
+The main disadvantage is speed of scenario execution, it will grow
+dramatically. From other side, we rely on functionality which is out of
+testing goal. Assume, we have to create user. Bug on signup form will fail
+all scenarios where new user creation is required. Obviously we would like
+to have only 1 scenario in that case.
+  In third case we rely on REST API. If your AUT has already contained
+the REST API (for frontend, mobile, etc.), then it is reasonable to use it
+for your tests as well. Typically API is covered with unit and integration
+tests, and is not changed so often, like database structure. So, there is
+less risk than in previous case to have flood of failed tests.
 
-//TODO
+### REST API
 
-## Data Generators ##
+In real word, web applications have no strict limitations for API building.
+Some of them follow true REST and JSONAPI standards, like http://jsonapi.org
+But in most cases there is a mess with that. That is why Howitzer does not
+provide built-in solution here. So, you have to implement this part
+by yourself depends on conventions and rules which are used for AUT.
 
-The Data generator allows generating data structures (e.g. User) and store the data in its own Memory storage.
+### Models
 
+Model is special class which allows to communicate with single REST api
+endpoint. It wraps low level http connection, request building and response
+parsing. To implement a custom model, override the following methods:
+- `Base.find`
+- `Base.where`
+- `Base.save!`
 
-### Cucumber Transformers ###
+### Factories
+
+A fabric generates particular test data objects in schematic way. Howitzer
+uses [FactoryGirl](https://github.com/thoughtbot/factory_girl) ruby library
+to define factories.
+
+You can define a schematic for generating objects by defining a factory as
+`spec/factories/<model_name>s.rb`
+
+### Cucumber Transformers
 
 In **/features/support/tranformers.rb** file are described Cucumber transformers (to see more info visit this one:
 You will find the description of the Cucumber transformers in the **/features/support/tranformers.rb** file. To get more information, refer to this site:
@@ -769,7 +1147,7 @@ When I put next register data and apply it
 
 The last line will automatically replace `FACTORY_USER[:username]` with factory data which you can use.
 
-## Running a subset of scenarios ##
+## Running a subset of scenarios
 
 ### Tagging ###
 
