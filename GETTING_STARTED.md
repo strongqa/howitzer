@@ -747,14 +747,14 @@ DashboardPage.on { is_expected.to have_fb_iframe }
 
 ### Interacting with an iframe's contents:
 
-Since an iframe contains a fully fledged Howitzer::Page, you are able
+Since an iframe contains a fully fledged Howitzer::Web::Page, you are able
 to interact with the elements and sections defined within it. Due to
 capybara internals it is necessary to pass a block to the iframe instead
 of simply calling methods on it; the block argument is the
-Howitzer::Page that represents the iframe's contents. For example:
+Howitzer::Web::Page that represents the iframe's contents. For example:
 
 ```ruby
-# Howitzer::Page representing the iframe
+# Howitzer::Web::Page representing the iframe
 class LoginPage < Howitzer::Web::Page
   element :username, "input.username"
   element :password, "input.password"
@@ -991,7 +991,7 @@ end
 **Example:** with **Email.**
 
 ```ruby
-class TestEmail < Email
+class TestEmail < Howitzer::Email
   subject "Test email"
 
   def addressed_to?(new_user)
