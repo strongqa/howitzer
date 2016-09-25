@@ -1,5 +1,5 @@
 <p align="center" style="overflow: hidden;">
-  <a href="https://github.com/strongqa/howitzer">
+  <a href="http://howitzer-framework.io">
     <img src="https://raw.githubusercontent.com/strongqa/howitzer/gh-pages/images/howitzer-logo.png" alt="Howitzer" />
   </a>
   <br/>
