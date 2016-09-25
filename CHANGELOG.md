@@ -1,12 +1,35 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v1.1.1...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.0.0...master)
 
 ### New Features
-- Added REST API prerequisites
+
+### Bugfixes
+
+## [v2.0.0](https://github.com/strongqa/howitzer/compare/v1.1.1...v2.0.0)
+
+### New Features
+- Added REST API prerequisites with FactoryGirl
 - Added Turnip supporting
 - Restricted using several bdd frameworks at the same time
 - Removed Opera browser supporting
-
-### Bugfixes
+- Integrated Rubocop
+- Stopped Ruby supporting less than v2.2.2
+- Introduced /web folder for page object elements
+- Moved capybara settings to framework side
+- Integrated Capybara screenshots
+- Renamed and restructured default settings
+- Placed everything to own namespace
+- Introduced "subject" dsl method for emails
+- Moved framework dependent libraries from the gem
+- Introduced common tag groups for all BDD frameworks
+- Stopped Rawler supporting
+- Reimplemented page dsl methods from scratch
+- Introduced sections and iframes
+- Introduced email adapters
+- Stopped supporting of output to txt file
+- Removed raising error on log.error
+- Removed locator storage
+- Prevented capybara form dsl method usage
+- Introduced new Page.on method
 
 ## [v1.1.1](https://github.com/strongqa/howitzer/compare/v1.1.0...v1.1.1)
 
