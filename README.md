@@ -30,7 +30,7 @@
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 
 ## Documentation
-Refer to the [GETTING STARTED](GETTING_STARTED.md) document to start working with *Howitzer*.
+Refer to the [GETTING STARTED](http://docs.howitzer-framework.io) document to start working with *Howitzer*.
 
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
