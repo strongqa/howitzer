@@ -1,0 +1,7 @@
+.bundle
+.ruby-version
+.yardoc
+Gemfile.lock
+coverage
+pkg
+spec
