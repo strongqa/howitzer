@@ -12,6 +12,7 @@
 
  app_api_token:
  app_api_end_point: "api/v1"
+ app_api_protocol: http
 
 ###########################################################
 # TEST ENVIRONMENTS SETTINGS                              #
@@ -59,7 +60,6 @@
  cloud_bstack_resolution: '1024x768'
  cloud_bstack_project: 'Howitzer Example'
  cloud_bstack_build: 'v1'
- cloud_bstack_resolution: '1024x768'
  cloud_bstack_mobile_device:
 
 ###########################################################
