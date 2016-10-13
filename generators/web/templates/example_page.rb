@@ -1,4 +1,3 @@
-require_relative 'example_menu'
 # This class is example of web page
 class ExamplePage < Howitzer::Web::Page
   path '/'
