@@ -14,7 +14,21 @@ RSpec.describe Howitzer::Web::Page do
         let(:url_value) { 'http://example.com/users/1' }
         subject { described_class.open(id: 1) }
         it do
-          expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
+          expect(described_class).to receive(:expanded_url).with({ id: 1 }, nil) { url_value }.once.ordered
+          expect(Howitzer::Log).to receive(:info)
+            .with("Open #{described_class} page by '#{url_value}' url").once.ordered
+          expect(described_class).to receive(:retryable).ordered.once.and_call_original
+          expect(session).to receive(:visit).with(url_value).once.ordered
+          expect(described_class).to receive(:given).once.ordered { true }
+          expect(subject).to eq(true)
+        end
+      end
+      context 'when custom processor specified' do
+        let(:custom_processor) { double }
+        let(:url_value) { 'http://example.com/users/1' }
+        subject { described_class.open(id: 1, url_processor: custom_processor) }
+        it do
+          expect(described_class).to receive(:expanded_url).with({ id: 1 }, custom_processor) { url_value }.once.ordered
           expect(Howitzer::Log).to receive(:info)
             .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
@@ -27,7 +41,7 @@ RSpec.describe Howitzer::Web::Page do
         let(:url_value) { 'http://example.com/users' }
         subject { described_class.open }
         it do
-          expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
+          expect(described_class).to receive(:expanded_url).with({}, nil) { url_value }.once.ordered
           expect(Howitzer::Log).to receive(:info)
             .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
@@ -41,7 +55,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:url_value) { 'http://example.com/users' }
       subject { described_class.open(validate: false) }
       it do
-        expect(described_class).to receive(:expanded_url).with({}) { url_value }.once.ordered
+        expect(described_class).to receive(:expanded_url).with({}, nil) { url_value }.once.ordered
         expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
@@ -53,7 +67,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:url_value) { 'http://example.com/users/1' }
       subject { described_class.open(validate: true, id: 1) }
       it do
-        expect(described_class).to receive(:expanded_url).with(id: 1) { url_value }.once.ordered
+        expect(described_class).to receive(:expanded_url).with({ id: 1 }, nil) { url_value }.once.ordered
         expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
@@ -173,30 +187,61 @@ RSpec.describe Howitzer::Web::Page do
   end
 
   describe '.expanded_url' do
-    context 'when params present' do
-      subject { test_page.expanded_url(id: 1) }
-      context 'when page url specified' do
-        context 'when BlankPage' do
-          let(:test_page) { Howitzer::Web::BlankPage }
-          it { is_expected.to eq('about:blank') }
+    context 'when default url processor' do
+      context 'when params present' do
+        subject { test_page.expanded_url(id: 1) }
+        context 'when page url specified' do
+          context 'when BlankPage' do
+            let(:test_page) { Howitzer::Web::BlankPage }
+            it { is_expected.to eq('about:blank') }
+          end
+          context 'when other page' do
+            let(:test_page) do
+              Class.new(described_class) do
+                site 'http://example.com'
+                path '/users{/id}'
+              end
+            end
+            it { is_expected.to eq('http://example.com/users/1') }
+          end
+          context 'when root not specified' do
+            let(:test_page) do
+              Class.new(described_class) do
+                path '/users{/id}'
+              end
+            end
+            it { is_expected.to eq('http://login:pass@my.website.com/users/1') }
+          end
         end
-        context 'when other page' do
-          let(:test_page) do
-            Class.new(described_class) do
-              site 'http://example.com'
-              path '/users{/id}'
+      end
+      context 'when custom url processor' do
+        let(:test_page) do
+          Class.new(described_class) do
+            site 'http://example.com'
+            path '/users{/id}'
+          end
+        end
+        let(:custom_processor_class) do
+          Class.new do
+            def self.restore(_name, value)
+              value.tr('-', ' ')
+            end
+
+            def self.match(_name)
+              '.*'
+            end
+
+            def self.validate(_name, value)
+              !(value =~ /^[\w ]+$/).nil?
+            end
+
+            def self.transform(_name, value)
+              value.tr(' ', '+')
             end
           end
-          it { is_expected.to eq('http://example.com/users/1') }
         end
-        context 'when root not specified' do
-          let(:test_page) do
-            Class.new(described_class) do
-              path '/users{/id}'
-            end
-          end
-          it { is_expected.to eq('http://login:pass@my.website.com/users/1') }
-        end
+        subject { test_page.expanded_url({ id: 'hello world' }, custom_processor_class) }
+        it { is_expected.to eq('http://example.com/users/hello+world') }
       end
       context 'when page url missing' do
         subject { described_class.expanded_url }

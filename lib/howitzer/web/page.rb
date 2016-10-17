@@ -36,11 +36,12 @@ module Howitzer
       # Opens a web page in browser
       # @note It tries to open the page twice and then raises the error if a validation is failed
       # @param validate [Boolean] if fase will skip current page validation (is opened)
+      # @param url_processor [Class] custom url processor. For details see 'addressable' gem
       # @param params [Array] placeholder names and their values
       # @return [Page]
 
-      def self.open(validate: true, **params)
-        url = expanded_url(params)
+      def self.open(validate: true, url_processor: nil, **params)
+        url = expanded_url(params, url_processor)
         Howitzer::Log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
           Howitzer::Log.info 'Retry...' unless retries.zero?
@@ -91,11 +92,14 @@ module Howitzer
 
       # Returns an expanded page url for the page opening
       # @param params [Array] placeholders and their values
+      # @param url_processor [Class] custom url processor. For details see Addressable gem
       # @return [String]
       # @raise [NoPathForPageError] if an url is not specified for the page
 
-      def self.expanded_url(params = {})
-        return "#{app_host}#{Addressable::Template.new(path_template).expand(params)}" unless path_template.nil?
+      def self.expanded_url(params = {}, url_processor = nil)
+        unless path_template.nil?
+          return "#{app_host}#{Addressable::Template.new(path_template).expand(params, url_processor)}"
+        end
         raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
       end
 
