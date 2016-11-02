@@ -2,7 +2,7 @@
 #                      PREREQUISITES                        #
 #############################################################
 
-Given /^I have entered (.*) into the calculator$/ do |_input_|
+Given /^I have entered (.*) into the calculator$/ do |_input|
   pending
 end
 
