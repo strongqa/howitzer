@@ -26,7 +26,7 @@ After do |scenario|
              " URL: #{CapybaraHelpers.cloud_resource_path(:video)}"
   elsif CapybaraHelpers.ie_browser?
     Howitzer::Log.info 'IE reset session'
-    page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
+    Capybara.current_session.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
   end
   Howitzer::Cache.clear_all_ns
   Capybara.reset_sessions!

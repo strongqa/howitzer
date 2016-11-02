@@ -35,7 +35,7 @@ RSpec.configure do |config|
                " URL: #{CapybaraHelpers.cloud_resource_path(:video)}"
     elsif CapybaraHelpers.ie_browser?
       Howitzer::Log.info 'IE reset session'
-      page.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
+      Capybara.current_session.execute_script("void(document.execCommand('ClearAuthenticationCache', false));")
     end
     Capybara.reset_sessions!
     Capybara.use_default_driver
