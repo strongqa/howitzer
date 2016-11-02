@@ -166,7 +166,7 @@ RSpec.describe Howitzer::Web::PageValidator do
         before do
           allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
           allow(web_page_class.instance).to receive(:title) { 'Foo page' }
-          allow(web_page_class).to receive(:has_login_element?).with(no_args) { true }
+          allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
         end
         it { is_expected.to be_truthy }
       end

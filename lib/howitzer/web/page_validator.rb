@@ -87,17 +87,17 @@ module Howitzer
 
         def validate_element(element_name, value = nil)
           validations[:element_presence] =
-            ->(web_page) { web_page.public_send(*["has_#{element_name}_element?", value].compact) }
+            ->(web_page) { web_page.instance.public_send(*["has_#{element_name}_element?", value].compact) }
         end
 
         def validate_by_url(pattern)
           validations[:url] =
-            -> (web_page) { pattern === web_page.instance.current_url }
+            ->(web_page) { pattern === web_page.instance.current_url }
         end
 
         def validate_by_title(pattern)
           validations[:title] =
-            -> (web_page) { pattern === web_page.instance.title }
+            ->(web_page) { pattern === web_page.instance.title }
         end
 
         def validate_by_type(type, value, additional_value)
