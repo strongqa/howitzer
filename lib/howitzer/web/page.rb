@@ -71,7 +71,7 @@ module Howitzer
       end
 
       # Waits until a web page is opened
-      # @param time_out [Integer] time in seconds a required web page to be loaded
+      # @param timeout [Integer] time in seconds a required web page to be loaded
       # @return [Boolean]
       # @raise [IncorrectPageError] when timeout expired and the page is not displayed
 

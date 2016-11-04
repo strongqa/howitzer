@@ -52,7 +52,7 @@ module Howitzer
     end
 
     # Searches a mail by a recepient
-    # @param recepient [String] recepient's email address
+    # @param recipient [String] recepient's email address
     # @param params [Hash] placeholders with appropriate values
     # @raise [NoEmailSubjectError] when a subject is not specified for the email class
     # @return [Email] an instance of the email message

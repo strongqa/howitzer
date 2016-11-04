@@ -60,7 +60,7 @@ module Howitzer
 
     # Updates a job status on the job cloud
     # @note SauceLabs is currently supported only
-    # @param json_data [String] (for example, {passed: true})
+    # @param json_data [Hash] for example, (passed: true)
 
     def update_cloud_job_status(json_data = {})
       case Howitzer.driver.to_sym

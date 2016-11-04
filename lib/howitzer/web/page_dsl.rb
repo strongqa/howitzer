@@ -25,8 +25,8 @@ module Howitzer
         #
         # @note There are some exceptions:
         #   * Methods with `be_` and `have_` prefixes are excluded
-        #   * `out` method extracts an instance variable from an original context it starts from @.
-        #      Otherwise it executes a method from an original context
+        #   * `out` method extracts an instance variable from an original context if starts from @.
+        #    Otherwise it executes a method from an original context
 
         def method_missing(name, *args, &block)
           return super if name =~ /\A(?:be|have)_/
