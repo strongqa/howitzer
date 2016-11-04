@@ -25,13 +25,12 @@ module Howitzer
         #
         # @note There are some exceptions:
         #   * Methods with `be_` and `have_` prefixes are excluded
-        #   * `outer_var` method extracts an instance variable from an original context
-        #   * `outer_meth` method executes a method from an original context
+        #   * `out` method extracts an instance variable from an original context it starts from @.
+        #      Otherwise it executes a method from an original context
 
         def method_missing(name, *args, &block)
           return super if name =~ /\A(?:be|have)_/
-          return outer_context.instance_variable_get(args.first) if name == :outer_var
-          return outer_context.send(*args, &block) if name == :outer_meth
+          return eval_in_out_context(*args, &block) if name == :out
           page_klass.given.send(name, *args, &block)
         end
 
@@ -43,6 +42,17 @@ module Howitzer
         end
 
         private
+
+        def eval_in_out_context(*args, &block)
+          return nil if args.size.zero?
+          name = args.shift
+          return get_outer_instance_variable(name) if name.to_s.start_with?('@')
+          outer_context.send(name, *args, &block)
+        end
+
+        def get_outer_instance_variable(name)
+          outer_context.instance_variable_get(name)
+        end
 
         attr_accessor :page_klass, :outer_context
       end
@@ -68,7 +78,7 @@ module Howitzer
         #   end
         #   LoginPage.open
         #   LoginPage.on do
-        #     fill_form(name: outer_var(:@name), email: outer_meth(:email, 'yahoo.com'))
+        #     fill_form(name: out(:@name), email: out(:email, 'yahoo.com'))
         #     submit_form
         #   end
 
