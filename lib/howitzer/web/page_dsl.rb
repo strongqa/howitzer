@@ -8,6 +8,7 @@ module Howitzer
 
         def initialize(page_klass, &block)
           self.page_klass = page_klass
+          self.outer_context = eval('self', block.binding) if block.present?
           instance_eval(&block)
         end
 
@@ -20,10 +21,17 @@ module Howitzer
           expect(page_klass.given)
         end
 
-        # Proxies all methods to page instance except methods with be_ and have_ prefixes
+        # Proxies all methods to a page instance.
+        #
+        # @note There are some exceptions:
+        #   * Methods with `be_` and `have_` prefixes are excluded
+        #   * `outer_var` method extracts an instance variable from an original context
+        #   * `outer_meth` method executes a method from an original context
 
         def method_missing(name, *args, &block)
           return super if name =~ /\A(?:be|have)_/
+          return outer_context.instance_variable_get(args.first) if name == :outer_var
+          return outer_context.send(*args, &block) if name == :outer_meth
           page_klass.given.send(name, *args, &block)
         end
 
@@ -36,7 +44,7 @@ module Howitzer
 
         private
 
-        attr_accessor :page_klass
+        attr_accessor :page_klass, :outer_context
       end
 
       def self.included(base)
@@ -47,10 +55,20 @@ module Howitzer
         # Allows to execute page methods in context of the page.
         # @note It additionally checks the page is really displayed
         #   on each method call, otherwise it raises error
-        # @example
+        # @example Standard case
         #   LoginPage.open
         #   LoginPage.on do
         #     fill_form(name: 'John', email: 'jkarpensky@gmail.com')
+        #     submit_form
+        #   end
+        # @example More complex case with outer context
+        #   @name = 'John'
+        #   def email(domain = 'gmail.com')
+        #     "jkarpensky@#{domain}"
+        #   end
+        #   LoginPage.open
+        #   LoginPage.on do
+        #     fill_form(name: outer_var(:@name), email: outer_meth(:email, 'yahoo.com'))
         #     submit_form
         #   end
 

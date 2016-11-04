@@ -42,6 +42,46 @@ RSpec.describe Howitzer::Web::PageDsl::PageScope do
       it { expect(subject.class).to eq(RSpec::Matchers::BuiltIn::Has) }
     end
 
+    context 'when outer_var' do
+      let(:outer_context) do
+        Class.new do
+          def initialize(klass)
+            @klass = klass
+            @a = 5
+          end
+
+          def scope
+            @klass.new(nil) { 1 }
+          end
+        end
+      end
+      let(:scope) { outer_context.new(described_class).scope }
+      subject { scope.outer_var(:@a) }
+      it { is_expected.to eq(5) }
+    end
+
+    context 'when outer_var' do
+      let(:outer_context) do
+        Class.new do
+          def initialize(klass)
+            @klass = klass
+            @a = 5
+          end
+
+          def secret
+            '***'
+          end
+
+          def scope
+            @klass.new(nil) { 1 }
+          end
+        end
+      end
+      let(:scope) { outer_context.new(described_class).scope }
+      subject { scope.outer_meth(:secret) }
+      it { is_expected.to eq('***') }
+    end
+
     context 'when starts other prefix' do
       let(:scope) { described_class.new(page) { 1 } }
       subject { scope.foo(1, 2, 3) }
