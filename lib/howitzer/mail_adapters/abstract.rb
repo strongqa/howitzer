@@ -17,8 +17,8 @@ module Howitzer
       attr_reader :message
 
       # Finds an email in mailbox
-      # @param recipient [String] an email
-      # @param subject [String]
+      # @param _recipient [String] an email
+      # @param _subject [String]
 
       def self.find(_recipient, _subject)
         raise NotImplementedError
