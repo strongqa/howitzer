@@ -32,9 +32,26 @@ module Howitzer
       # @!visibility public
 
       def subject(value)
-        @subject = value
+        define_singleton_method(:subject_value) { value }
+        private_class_method :subject_value
+      end
+
+      # DSL method to specify a custom wait email time directly in an email class
+      # @param value [Integer] an wait time for a particular email.
+      #   If it is ommitted, default Howitzer.mail_wait_time will be used.
+      # @example
+      #   class WelcomeEmail < Howitzer::Email
+      #     wait_time 10.minutes
+      #   end
+      # @!visibility public
+
+      def wait_time(value)
+        define_singleton_method(:wait_time_value) { value }
+        private_class_method :wait_time_value
       end
     end
+
+    wait_time Howitzer.try(:mail_wait_time)
 
     # Specifies a mail adapter
     # @param adapter_name [String, Symbol] an email adapter name
@@ -59,12 +76,12 @@ module Howitzer
     # @see .subject
 
     def self.find_by_recipient(recipient, params = {})
-      if @subject.nil?
+      if defined?(subject_value).nil? || subject_value.nil?
         raise Howitzer::NoEmailSubjectError, "Please specify email subject. For example:\n" \
                                     "class SomeEmail < Howitzer::Email\n" \
                                     "  subject ‘some subject text’\nend"
       end
-      new(adapter.find(recipient, expand_subject(params)))
+      new(adapter.find(recipient, expand_subject(params), wait: wait_time_value))
     end
 
     def initialize(message)
@@ -120,8 +137,7 @@ module Howitzer
     end
 
     def self.expand_subject(params)
-      params.each { |k, v| @subject.sub!(":#{k}", v.to_s) }
-      @subject
+      params.inject(subject_value.dup) { |a, (k, v)| a.sub(":#{k}", v.to_s) }
     end
     private_class_method :expand_subject
   end

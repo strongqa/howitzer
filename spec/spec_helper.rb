@@ -69,11 +69,5 @@ Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
 RSpec.configure do |config|
   config.include Howitzer::GeneratorHelper
   config.disable_monkey_patching = true
-  config.around(:each) do |ex|
-    $stdout = StringIO.new
-    $stderr = StringIO.new
-    ex.run
-    $stdout = STDOUT
-    $stderr = STDERR
-  end
+  config.around(:each, &:run)
 end

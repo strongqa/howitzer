@@ -10,7 +10,7 @@ RSpec.describe Howitzer::MailAdapters::Abstract do
   let(:email_object) { Howitzer::Email.adapter.new(message) }
 
   describe '.find' do
-    subject { described_class.find(recipient, message_subject) }
+    subject { described_class.find(recipient, message_subject, wait: 10) }
     it { expect { subject }.to raise_error(NotImplementedError) }
   end
 

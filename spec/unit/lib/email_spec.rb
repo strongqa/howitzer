@@ -37,10 +37,32 @@ RSpec.describe Howitzer::Email do
   describe '.subject' do
     it do
       described_class.send(:subject, message_subject)
-      expect(described_class.instance_variable_get(:@subject)).to eql message_subject
+      expect(described_class.send(:subject_value)).to eql message_subject
+      expect(described_class.private_methods(true)).to include(:subject_value)
     end
     it 'should be protected' do
       expect { described_class.subject(message_subject) }.to raise_error(NoMethodError)
+    end
+  end
+
+  describe '.wait_time' do
+    subject { Class.new(described_class) }
+    it 'should be protected' do
+      expect { subject.wait_time(10) }.to raise_error(NoMethodError)
+    end
+
+    context 'when specified' do
+      before { subject.send(:wait_time, 10) }
+      it do
+        expect(subject.send(:wait_time_value)).to eql 10
+        expect(subject.private_methods(true)).to include(:wait_time_value)
+      end
+    end
+
+    context 'when missing' do
+      it do
+        expect(subject.send(:wait_time_value)).to eql 60
+      end
     end
   end
 
@@ -48,11 +70,10 @@ RSpec.describe Howitzer::Email do
     let(:recipient) { 'test@user.com' }
 
     context 'simple subject without parameters' do
-      subject { described_class.find_by_recipient(recipient) }
       before { described_class.class_eval { subject 'Some title' } }
       it do
-        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title').once
-        subject
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title', wait: 60).once
+        described_class.find_by_recipient(recipient)
       end
     end
 
@@ -60,7 +81,7 @@ RSpec.describe Howitzer::Email do
       subject { described_class.find_by_recipient(recipient, name: 'Vasya') }
       before { described_class.class_eval { subject 'Some title from :name' } }
       it do
-        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title from Vasya').once
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title from Vasya', wait: 60).once
         subject
       end
     end
@@ -69,12 +90,22 @@ RSpec.describe Howitzer::Email do
       subject { described_class.find_by_recipient(recipient, foo: 1, bar: 2) }
       before { described_class.class_eval { subject 'Some title with :foo and :bar' } }
       it do
-        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title with 1 and 2').once
+        expect(described_class.adapter).to receive(:find).with(recipient, 'Some title with 1 and 2', wait: 60).once
         subject
       end
     end
 
     context 'missing subject' do
+      subject { described_class.find_by_recipient(recipient) }
+      before do
+        described_class.instance_eval { undef :subject_value }
+      end
+      it do
+        expect { subject }.to raise_error(Howitzer::NoEmailSubjectError)
+      end
+    end
+
+    context 'nil subject' do
       subject { described_class.find_by_recipient(recipient) }
       before { described_class.class_eval { subject nil } }
       it do
