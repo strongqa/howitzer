@@ -681,8 +681,8 @@ RSpec.describe Howitzer::CapybaraHelpers do
   describe '.load_driver_gem!' do
     subject { load_driver_gem!(:webkit, 'capybara-webkit', 'capybara-webkit') }
     context 'when possible to require' do
-      before { allow(self).to receive(:require).with(:webkit) { true } }
-      it { expect { subject }.not_to raise_error(LoadError) }
+      before { allow(self).to receive(:require).with('capybara-webkit') { true } }
+      it { expect { subject }.not_to raise_error }
     end
     context 'when impossible to require' do
       it do
