@@ -18,11 +18,13 @@ module Howitzer
     ::SexySettings::Base.instance.all.each do |key, value|
       define_method(key) { value }
     end
-    attr_accessor :current_rake_task
-  end
 
-  if defined?(mailgun_idle_timeout)
-    puts "WARNING! 'mailgun_idle_timeout' setting is deprecated. Please replace with 'mail_wait_time' setting."
+    def mailgun_idle_timeout
+      puts "WARNING! 'mailgun_idle_timeout' setting is deprecated. Please replace with 'mail_wait_time' setting."
+      ::SexySettings::Base.instance.all['mailgun_idle_timeout']
+    end
+
+    attr_accessor :current_rake_task
   end
 
   # @return an application uri

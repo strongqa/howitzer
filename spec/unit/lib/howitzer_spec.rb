@@ -28,4 +28,13 @@ RSpec.describe 'Howitzer' do
       it { expect(Howitzer.app_uri.site).to eq('http://redmine.strongqa.com') }
     end
   end
+  describe '.mailgun_idle_timeout' do
+    subject { Howitzer.mailgun_idle_timeout }
+    before do
+      expect_any_instance_of(Object).to receive(:puts).with(
+        "WARNING! 'mailgun_idle_timeout' setting is deprecated. Please replace with 'mail_wait_time' setting."
+      )
+    end
+    it { is_expected.to eq(0.5) }
+  end
 end
