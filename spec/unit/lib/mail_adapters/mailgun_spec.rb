@@ -50,10 +50,10 @@ RSpec.describe 'Mailgun Email Adapter' do
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
           params: { event: 'stored' }
-        ).ordered.once { events }
+        ) { events }
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get_url).with(
           'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
-        ).ordered.once { mailgun_message }
+        ) { mailgun_message }
       end
       it do
         expect(Howitzer::Email.adapter).to receive(:new).with(message).once
@@ -80,7 +80,7 @@ RSpec.describe 'Mailgun Email Adapter' do
         allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
           'mailgun@test.domain/events',
           params: { event: 'stored' }
-        ).at_least(:twice).ordered { events }
+        ) { events }
       end
       it do
         expect { subject }.to raise_error(

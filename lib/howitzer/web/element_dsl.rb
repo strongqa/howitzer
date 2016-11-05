@@ -16,9 +16,13 @@ module Howitzer
       private
 
       def convert_arguments(args, params)
-        args.map do |arg|
-          arg.is_a?(Proc) ? arg.call(*params) : arg
+        hash = params.pop if params.last.is_a?(Hash)
+        args.map! do |el|
+          next(el) unless el.is_a?(Proc)
+          el.call(*params.shift(el.arity))
         end
+        args << hash unless hash.nil?
+        args
       end
 
       # This module holds element dsl methods methods

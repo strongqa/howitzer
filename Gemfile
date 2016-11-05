@@ -11,3 +11,4 @@ gemspec
 group :development do
   gem 'rubocop'
 end
+gem 'byebug'

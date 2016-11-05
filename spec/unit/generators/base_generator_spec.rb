@@ -52,19 +52,19 @@ RSpec.describe Howitzer::BaseGenerator do
 
   describe '#manifest' do
     subject { described_class.new({}).manifest }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
-    it { is_expected.to be_nil }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
+    it { is_expected.to eq([]) }
   end
 
   describe '#banner' do
     subject { described_class.new({}).send(:banner) }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     it { is_expected.to be_nil }
   end
 
   describe '#logger' do
     subject { described_class.new({}).send(:logger) }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     context 'when not specified' do
       before { described_class.instance_variable_set('@logger', nil) }
       it { is_expected.to eq($stdout) }
@@ -79,7 +79,7 @@ RSpec.describe Howitzer::BaseGenerator do
   describe '#destination' do
     subject { described_class.new({}).send(:destination) }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow_any_instance_of(described_class).to receive(:print_banner) { nil }
       allow(described_class).to receive(:destination) { '/' }
     end
     it { is_expected.to eq('/') }
@@ -91,7 +91,7 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:generator) { described_class.new({}) }
     subject { generator.send(:copy_files, list) }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow_any_instance_of(described_class).to receive(:print_banner) { nil }
       allow(generator).to receive(:source_path).with(list.first[:source]) { source_path }
     end
     after { subject }
@@ -112,7 +112,7 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:generator) { described_class.new('rspec' => true) }
     subject { generator.send(:copy_templates, list) }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow_any_instance_of(described_class).to receive(:print_banner) { nil }
       allow(generator).to receive(:source_path).with(list.first[:source]) { source_path }
       allow(generator).to receive(:dest_path).with(list.first[:destination]) { destination_path }
       allow(generator).to receive(:write_template).with(destination_path, source_path)
@@ -147,13 +147,12 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:generator) { described_class.new({}) }
     subject { generator.send(:print_banner) }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
-      allow(generator).to receive(:banner) { banner }
+      allow_any_instance_of(described_class).to receive(:banner) { banner }
     end
     after { subject }
     context 'when banner present' do
       let(:banner) { 'banner' }
-      it { expect(described_class.logger).to receive(:puts).with(banner).once }
+      it { expect(described_class.logger).to receive(:puts).with(banner).twice }
     end
     context 'when banner blank' do
       let(:banner) { '' }
@@ -163,21 +162,21 @@ RSpec.describe Howitzer::BaseGenerator do
 
   describe '#print_info' do
     subject { described_class.new({}).send(:print_info, 'data') }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     after { subject }
     it { expect(described_class.logger).to receive(:print).with('      data') }
   end
 
   describe '#puts_info' do
     subject { described_class.new({}).send(:puts_info, 'data') }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     after { subject }
     it { expect(described_class.logger).to receive(:puts).with('      data') }
   end
 
   describe '#puts_error' do
     subject { described_class.new({}).send(:puts_error, 'data') }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     after { subject }
     it { expect(described_class.logger).to receive(:puts).with('      ERROR: data') }
   end
@@ -185,14 +184,14 @@ RSpec.describe Howitzer::BaseGenerator do
   describe '#source_path' do
     subject { described_class.new({}).send(:source_path, 'example.txt') }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow_any_instance_of(described_class).to receive(:print_banner) { nil }
     end
     it { is_expected.to include('/base/templates/example.txt') }
   end
 
   describe '#dest_path' do
     subject { described_class.new({}).send(:dest_path, 'example.txt') }
-    before { allow_any_instance_of(described_class).to receive(:initialize) { nil } }
+    before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     it { is_expected.to include('/example.txt') }
   end
 
@@ -203,7 +202,7 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:dst) { '/path/to/d.txt' }
     subject { generator.send(:copy_with_path, data) }
     before do
-      allow_any_instance_of(described_class).to receive(:initialize) { nil }
+      allow_any_instance_of(described_class).to receive(:print_banner) { nil }
       allow(generator).to receive(:source_path).with('s.txt') { src }
       allow(generator).to receive(:dest_path).with('d.txt') { dst }
       allow(FileUtils).to receive(:mkdir_p).with('/path/to') { true }

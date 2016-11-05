@@ -67,7 +67,9 @@ module Howitzer
       end
     end
 
-    def manifest; end
+    def manifest
+      []
+    end
 
     protected
 
