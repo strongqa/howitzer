@@ -176,11 +176,11 @@ RSpec.describe Howitzer::Web::Page do
     let!(:child_class3) do
       Class.new(described_class)
     end
-    it { expect(described_class.send(:app_host)).to eq('http://login:pass@my.website.com') }
-    it { expect(base_class.send(:app_host)).to eq('https://base.com') }
-    it { expect(child_class1.send(:app_host)).to eq('https://child.com') }
-    it { expect(child_class2.send(:app_host)).to eq('https://base.com') }
-    it { expect(child_class3.send(:app_host)).to eq('http://login:pass@my.website.com') }
+    it { expect(described_class.send(:site_value)).to eq('http://login:pass@my.website.com') }
+    it { expect(base_class.send(:site_value)).to eq('https://base.com') }
+    it { expect(child_class1.send(:site_value)).to eq('https://child.com') }
+    it { expect(child_class2.send(:site_value)).to eq('https://base.com') }
+    it { expect(child_class3.send(:site_value)).to eq('http://login:pass@my.website.com') }
     it 'should be protected' do
       expect { described_class.site('http://example.com') }.to raise_error(NoMethodError)
     end
@@ -270,11 +270,16 @@ RSpec.describe Howitzer::Web::Page do
     before { subject }
     context 'when value is number' do
       let(:value) { 1 }
-      it { expect(described_class.instance_variable_get(:@path_template)).to eq('1') }
+      it do
+        expect(described_class.send(:path_value)).to eql '1'
+        expect(described_class.private_methods(true)).to include(:path_value)
+      end
     end
     context 'when value is string' do
       let(:value) { '/users' }
-      it { expect(described_class.instance_variable_get(:@path_template)).to eq('/users') }
+      it do
+        expect(described_class.send(:path_value)).to eql '/users'
+      end
     end
   end
 

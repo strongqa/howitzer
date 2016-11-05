@@ -97,8 +97,8 @@ module Howitzer
       # @raise [NoPathForPageError] if an url is not specified for the page
 
       def self.expanded_url(params = {}, url_processor = nil)
-        unless path_template.nil?
-          return "#{app_host}#{Addressable::Template.new(path_template).expand(params, url_processor)}"
+        if defined?(path_value)
+          return "#{site_value}#{Addressable::Template.new(path_value).expand(params, url_processor)}"
         end
         raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
       end
@@ -117,7 +117,8 @@ module Howitzer
         # @!visibility public
 
         def path(value)
-          @path_template = value.to_s
+          define_singleton_method(:path_value) { value.to_s }
+          private_class_method :path_value
         end
 
         # DSL to specify a site for the page opening
@@ -134,13 +135,11 @@ module Howitzer
         # @!visibility public
 
         def site(value)
-          define_singleton_method(:app_host) { value }
-          private_class_method :app_host
+          define_singleton_method(:site_value) { value }
+          private_class_method :site_value
         end
 
         private
-
-        attr_reader :path_template
 
         def incorrect_page_msg
           "Current page: #{current_page}, expected: #{self}.\n" \

@@ -1,10 +1,10 @@
 log_dir: "spec/log"
 driver: selenium
 mailgun_domain: mailgun@test.domain
-mailgun_idle_timeout: 0.5
 mailgun_sleep_time: 0.05
 page_load_idle_timeout: 0.1
 capybara_wait_time: 5
 cloud_http_idle_timeout: 10
 hide_datetime_from_log: true
 maximized_window: false
+mailgun_idle_timeout: 0.5

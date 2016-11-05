@@ -81,7 +81,9 @@
 # MAIL SETTINGS                                           #
 ###########################################################
  mail_adapter: mailgun
+ mail_wait_time: 60
+
+# -Mailgun- (http://www.mailgun.com/)
  mailgun_key: mailgun_account_private_key
  mailgun_domain: mailgun_domain_with_stored_method
- mailgun_idle_timeout: 60
  mailgun_sleep_time: 3

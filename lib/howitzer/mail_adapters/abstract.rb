@@ -19,8 +19,9 @@ module Howitzer
       # Finds an email in mailbox
       # @param _recipient [String] an email
       # @param _subject [String]
+      # @param _wait [Integer] how much time is required to wait an email
 
-      def self.find(_recipient, _subject)
+      def self.find(_recipient, _subject, _wait:)
         raise NotImplementedError
       end
 
