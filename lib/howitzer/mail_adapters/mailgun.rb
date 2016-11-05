@@ -15,7 +15,7 @@ module Howitzer
 
       def self.find(recipient, subject, wait:)
         message = {}
-        retryable(find_retry_params.merge(timeout: wait)) { message = retrieve_message(recipient, subject) }
+        retryable(find_retry_params(wait)) { message = retrieve_message(recipient, subject) }
         return new(message) if message.present?
         raise Howitzer::EmailNotFoundError,
               "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
@@ -92,8 +92,9 @@ module Howitzer
       end
       private_class_method :event_by
 
-      def self.find_retry_params
+      def self.find_retry_params(wait)
         {
+          timeout: wait || Howitzer.try(:mailgun_idle_timeout),
           sleep: Howitzer.mailgun_sleep_time,
           silent: true,
           logger: Howitzer::Log,
