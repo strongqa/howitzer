@@ -165,7 +165,7 @@ RSpec.describe Howitzer::Web::PageValidator do
       context 'when all matches' do
         before do
           allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
-          allow(web_page_class.instance).to receive(:title) { 'Foo page' }
+          allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
           allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
         end
         it { is_expected.to be_truthy }
@@ -173,7 +173,7 @@ RSpec.describe Howitzer::Web::PageValidator do
       context 'when first validation fails' do
         before do
           expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
-          expect(web_page_class.instance).to receive(:title).never
+          expect(web_page_class.instance).to receive(:has_title?).never
           allow(web_page_class).to receive(:has_login_element?).with(no_args).never
         end
         it { is_expected.to be_falsey }

@@ -97,7 +97,7 @@ module Howitzer
 
         def validate_by_title(pattern)
           validations[:title] =
-            ->(web_page) { pattern === web_page.instance.title }
+            ->(web_page) { web_page.instance.has_title?(pattern) }
         end
 
         def validate_by_type(type, value, additional_value)
