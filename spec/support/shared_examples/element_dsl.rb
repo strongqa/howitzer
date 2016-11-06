@@ -14,6 +14,9 @@ RSpec.shared_examples :element_dsl do
       it 'should create private :foo_elements instance method' do
         expect(klass_object.private_methods(false)).to include(:foo_elements)
       end
+      it 'should create private :wait_for_foo_element instance method' do
+        expect(klass_object.private_methods(false)).to include(:wait_for_foo_element)
+      end
       it 'should create public :has_foo_element? instance method' do
         expect(klass_object.public_methods(false)).to include(:has_foo_element?)
       end
@@ -36,6 +39,9 @@ RSpec.shared_examples :element_dsl do
       end
       it 'should create private :foo_elements instance method' do
         expect(klass_object.private_methods(false)).to include(:foo_elements)
+      end
+      it 'should create private :wait_for_foo_element instance method' do
+        expect(klass_object.private_methods(false)).to include(:wait_for_foo_element)
       end
       it 'should create public :has_foo_element? instance method' do
         expect(klass_object.public_methods(false)).to include(:has_foo_element?)
@@ -73,9 +79,9 @@ RSpec.shared_examples :element_dsl do
         element :bar, '.someclass'
       end
     end
-    after { subject }
 
     describe '#name_element' do
+      after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:bar_element, wait: 10) }
         it { expect(kontext).to receive(:find).with('.someclass', wait: 10) }
@@ -86,6 +92,7 @@ RSpec.shared_examples :element_dsl do
       end
     end
     describe '#name_elements' do
+      after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:bar_elements, wait: 10) }
         it { expect(kontext).to receive(:all).with('.someclass', wait: 10) }
@@ -95,7 +102,24 @@ RSpec.shared_examples :element_dsl do
         it { expect(kontext).to receive(:all).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10) }
       end
     end
+    describe '#wait_for_name_element' do
+      context 'when simple selector' do
+        subject { klass_object.send(:wait_for_bar_element, wait: 10) }
+        it do
+          expect(kontext).to receive(:find).with('.someclass', wait: 10)
+          is_expected.to eq(nil)
+        end
+      end
+      context 'when lambda selector' do
+        subject { klass_object.send(:wait_for_foo_element, 'Hello', 'super', wait: 10) }
+        it do
+          expect(kontext).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+          is_expected.to eq(nil)
+        end
+      end
+    end
     describe '#has_name_element?' do
+      after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:has_bar_element?, wait: 10) }
         it { expect(kontext).to receive(:has_selector?).with('.someclass', wait: 10) }
@@ -106,6 +130,7 @@ RSpec.shared_examples :element_dsl do
       end
     end
     describe '#has_no_name_element?' do
+      after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:has_no_bar_element?, wait: 10) }
         it { expect(kontext).to receive(:has_no_selector?).with('.someclass', wait: 10) }

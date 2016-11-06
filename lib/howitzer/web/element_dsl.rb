@@ -38,6 +38,8 @@ module Howitzer
         #
         #   <b><em>element_name</em>_elements.first</b> - equals capybara #first(...) method
         #
+        #   <b>wait_for_<em>element_name</em>_element</b> - equals capybara #find(...) method but returns nil
+        #
         #   <b>has_<em>element_name</em>_element?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>element_name</em>_element?</b> - equals capybara #has_no_selector(...) method
@@ -70,6 +72,7 @@ module Howitzer
           validate_arguments!(args)
           define_element(name, args)
           define_elements(name, args)
+          define_wait_for_element(name, args)
           define_has_element(name, args)
           define_has_no_element(name, args)
         end
@@ -94,6 +97,14 @@ module Howitzer
             capybara_context.all(*convert_arguments(args, block_args))
           end
           private "#{name}_elements"
+        end
+
+        def define_wait_for_element(name, args)
+          define_method("wait_for_#{name}_element") do |*block_args|
+            capybara_context.find(*convert_arguments(args, block_args))
+            return nil
+          end
+          private "wait_for_#{name}_element"
         end
 
         def define_has_element(name, args)
