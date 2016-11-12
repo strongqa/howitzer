@@ -8,6 +8,7 @@ module Howitzer
         [
           { source: 'common_steps.rb', destination: 'features/step_definitions/common_steps.rb' },
           { source: 'env.rb', destination: 'features/support/env.rb' },
+          { source: 'hooks.rb', destination: 'features/support/hooks.rb' },
           { source: 'transformers.rb', destination: 'features/support/transformers.rb' },
           { source: 'example.feature', destination: 'features/example.feature' },
           { source: 'cucumber.rake', destination: 'tasks/cucumber.rake' }

@@ -1,4 +1,3 @@
-require 'capybara-screenshot/rspec'
 require_relative '../config/boot'
 require_relative '../config/capybara'
 
@@ -54,3 +53,11 @@ RSpec.configure do |config|
     end
   end
 end
+
+# We include Capybara::DSL in Howitzer::Web::Page, but capybara-screenshot hooks rely on this mixin.
+RSpec::Core::ExampleGroup.instance_eval do
+  def include?(value)
+    value == Capybara::DSL ? true : super
+  end
+end
+require 'capybara-screenshot/rspec'

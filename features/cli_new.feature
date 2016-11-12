@@ -141,6 +141,7 @@ Feature: Howitzer CLI New Project Creation
       * Cucumber integration to the framework ...
           Added 'features/step_definitions/common_steps.rb' file
           Added 'features/support/env.rb' file
+          Added 'features/support/hooks.rb' file
           Added 'features/support/transformers.rb' file
           Added 'features/example.feature' file
           Added 'tasks/cucumber.rake' file

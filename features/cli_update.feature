@@ -107,6 +107,7 @@ Feature: Howitzer CLI Update Existing Project
       * Cucumber integration to the framework ...
           Identical 'features/step_definitions/common_steps.rb' file
           Identical 'features/support/env.rb' file
+          Identical 'features/support/hooks.rb' file
           Identical 'features/support/transformers.rb' file
           Identical 'features/example.feature' file
           Identical 'tasks/cucumber.rake' file
