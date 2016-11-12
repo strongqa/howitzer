@@ -28,6 +28,7 @@ RSpec.describe 'Generators' do
         },
         { name: '/features/support', is_directory: true },
         { name: '/features/support/env.rb', is_directory: false, size: template_file_size('cucumber', 'env.rb') },
+        { name: '/features/support/hooks.rb', is_directory: false, size: template_file_size('cucumber', 'hooks.rb') },
         {
           name: '/features/support/transformers.rb',
           is_directory: false,
@@ -43,6 +44,7 @@ RSpec.describe 'Generators' do
         "  * Cucumber integration to the framework ...
       Added 'features/step_definitions/common_steps.rb' file
       Added 'features/support/env.rb' file
+      Added 'features/support/hooks.rb' file
       Added 'features/support/transformers.rb' file
       Added 'features/example.feature' file
       Added 'tasks/cucumber.rake' file\n"
