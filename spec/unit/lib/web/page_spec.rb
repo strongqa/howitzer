@@ -307,21 +307,6 @@ RSpec.describe Howitzer::Web::Page do
 
   describe 'inherited callback' do
     let(:page_class) { Class.new(described_class) }
-    context 'when abstract class without validations' do
-      let!(:page_class) do
-        Howitzer::Web::PageValidator.instance_variable_set(:@pages, [])
-        Class.new(described_class)
-      end
-      it { expect(Howitzer::Web::PageValidator.pages).to eq([]) }
-    end
-    context 'when class has validations' do
-      let!(:page_class) do
-        allow(described_class).to receive(:validations) { { title: /some text/ } }
-        Howitzer::Web::PageValidator.instance_variable_set(:@pages, [])
-        Class.new(described_class)
-      end
-      it { expect(Howitzer::Web::PageValidator.pages).to eq([page_class]) }
-    end
     it 'can not be instantiated with new' do
       expect { page_class.new }.to raise_error(NoMethodError, "private method `new' called for #{page_class}")
     end
