@@ -58,7 +58,7 @@ RSpec.describe Howitzer::Web::PageValidator do
 
   describe '.validate' do
     before do
-      described_class.validations[web_page.class.name] = nil
+      described_class.validations[web_page.class] = nil
     end
     let(:additional_value) { nil }
     subject { web_page.class.validate(name, *[value, additional_value].compact) }
@@ -69,14 +69,14 @@ RSpec.describe Howitzer::Web::PageValidator do
           let(:value) { /foo/ }
           it do
             is_expected.to be_a(Proc)
-            expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
+            expect(described_class.validations[web_page.class][:url]).to be_a Proc
           end
         end
         context '(as symbol)' do
           let(:value) { /foo/ }
           it do
             is_expected.to be_a(Proc)
-            expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
+            expect(described_class.validations[web_page.class][:url]).to be_a Proc
           end
         end
       end
@@ -85,7 +85,7 @@ RSpec.describe Howitzer::Web::PageValidator do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class.name][:url]).to be_a Proc
+          expect(described_class.validations[web_page.class][:url]).to be_a Proc
         end
       end
     end
@@ -96,14 +96,14 @@ RSpec.describe Howitzer::Web::PageValidator do
         let(:additional_value) { 'some string' }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class.name][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page.class][:element_presence]).to eql(subject)
         end
       end
       context '(as symbol)' do
         let(:value) { :test_locator }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class.name][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page.class][:element_presence]).to eql(subject)
         end
       end
     end
@@ -113,14 +113,14 @@ RSpec.describe Howitzer::Web::PageValidator do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class.name][:title]).to be_a Proc
+          expect(described_class.validations[web_page.class][:title]).to be_a Proc
         end
       end
       context '(as symbol)' do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class.name][:title]).to be_a Proc
+          expect(described_class.validations[web_page.class][:title]).to be_a Proc
         end
       end
     end
@@ -133,18 +133,9 @@ RSpec.describe Howitzer::Web::PageValidator do
     end
   end
 
-  describe '.pages' do
-    subject { described_class.pages }
-    it do
-      expect(subject).not_to include(Symbol)
-      subject << Symbol
-      expect(subject).to include(Symbol)
-    end
-  end
-
   describe '.opened?' do
-    subject { web_page_class.opened? }
     context 'when no one validation is defined' do
+      subject { web_page_class.opened? }
       it do
         expect { subject }.to raise_error(
           Howitzer::NoValidationError,
@@ -153,30 +144,91 @@ RSpec.describe Howitzer::Web::PageValidator do
       end
     end
     context 'when all validations are defined' do
-      before do
-        web_page_class.class_eval do
-          include Singleton
-          element :login, '#id'
-          validate :url, /foo/
-          validate :title, /Foo page/
-          validate :element_presence, :login
+      context 'when sync is default' do
+        subject { web_page_class.opened? }
+        before do
+          web_page_class.class_eval do
+            include Singleton
+            element :login, '#id'
+            validate :url, /foo/
+            validate :title, /Foo page/
+            validate :element_presence, :login
+          end
+        end
+        context 'when all matches' do
+          before do
+            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
+            allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
+            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
+          end
+          it { is_expected.to be_truthy }
+        end
+        context 'when first validation fails' do
+          before do
+            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:has_title?).never
+            allow(web_page_class).to receive(:has_login_element?).with(no_args).never
+          end
+          it { is_expected.to be_falsey }
         end
       end
-      context 'when all matches' do
+
+      context 'when sync is true' do
+        subject { web_page_class.opened?(sync: true) }
         before do
-          allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
-          allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
-          allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
+          web_page_class.class_eval do
+            include Singleton
+            element :login, '#id'
+            validate :url, /foo/
+            validate :title, /Foo page/
+            validate :element_presence, :login
+          end
         end
-        it { is_expected.to be_truthy }
+        context 'when all matches' do
+          before do
+            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
+            allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
+            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
+          end
+          it { is_expected.to be_truthy }
+        end
+        context 'when first validation fails' do
+          before do
+            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:has_title?).never
+            allow(web_page_class).to receive(:has_login_element?).with(no_args).never
+          end
+          it { is_expected.to be_falsey }
+        end
       end
-      context 'when first validation fails' do
+
+      context 'when sync is false' do
+        subject { web_page_class.opened?(sync: false) }
         before do
-          expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
-          expect(web_page_class.instance).to receive(:has_title?).never
-          allow(web_page_class).to receive(:has_login_element?).with(no_args).never
+          web_page_class.class_eval do
+            include Singleton
+            element :login, '#id'
+            validate :url, /foo/
+            validate :title, /Foo page/
+            validate :element_presence, :login
+          end
         end
-        it { is_expected.to be_falsey }
+        context 'when all matches' do
+          before do
+            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
+            allow(web_page_class.instance).to receive(:title) { 'Foo page' }
+            allow(web_page_class.instance).to receive(:has_no_login_element?).with(no_args) { false }
+          end
+          it { is_expected.to be_truthy }
+        end
+        context 'when first validation fails' do
+          before do
+            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:title).never
+            allow(web_page_class).to receive(:has_no_login_element?).with(no_args).never
+          end
+          it { is_expected.to be_falsey }
+        end
       end
     end
   end
@@ -189,30 +241,21 @@ RSpec.describe Howitzer::Web::PageValidator do
     let!(:web_page1_class) do
       Class.new do
         include Howitzer::Web::PageValidator
-        def self.name
-          'TestWebPage1Class'
-        end
-
-        def self.opened?
-          true
-        end
       end
     end
-
     let!(:web_page2_class) do
       Class.new do
         include Howitzer::Web::PageValidator
-        def self.name
-          'TestWebPage2Class'
-        end
-
-        def self.opened?
-          false
-        end
       end
     end
     subject { web_page2_class.matched_pages }
-    before { described_class.instance_variable_set(:@pages, [web_page1_class, web_page2_class]) }
+    before do
+      allow(Howitzer::Web::PageValidator).to receive(:validations).with(no_args) do
+        { web_page1_class => 1, web_page2_class => 2 }
+      end
+      expect(web_page1_class).to receive(:opened?).with(sync: false) { true }
+      expect(web_page2_class).to receive(:opened?).with(sync: false) { false }
+    end
     it { is_expected.to eq([web_page1_class]) }
   end
 end

@@ -16,13 +16,6 @@ module Howitzer
         @validations ||= {}
       end
 
-      # Returns page list
-      # @return [Array]
-
-      def self.pages
-        @pages ||= []
-      end
-
       # Checks if any validations are defined for the page
       # @raise  [Howitzer::NoValidationError] if no one validation is defined for the page
 
@@ -60,13 +53,13 @@ module Howitzer
         end
 
         # Check whether current page is opened or no
+        # @param sync [Boolean] if true then waits until validation true during Howitzer.capybara_wait_time
+        #   or returns false. If false, returns result immediately
         # @return [Boolean]
         # @raise  [Howitzer::NoValidationError] if no one validation is defined for the page
 
-        def opened?
-          if validations.present?
-            return !validations.any? { |(_, validation)| !validation.call(self) }
-          end
+        def opened?(sync: true)
+          return validations.all? { |(_, validation)| validation.call(self, sync) } if validations.present?
           raise Howitzer::NoValidationError, "No any page validation was found for '#{name}' page"
         end
 
@@ -74,30 +67,36 @@ module Howitzer
         # @return [Array] page name list
 
         def matched_pages
-          PageValidator.pages.select(&:opened?)
+          PageValidator.validations.keys.select { |klass| klass.opened?(sync: false) }
         end
 
         # @return [Hash] defined validations for current page class
 
         def validations
-          PageValidator.validations[name] ||= {}
+          PageValidator.validations[self] ||= {}
         end
 
         private
 
         def validate_element(element_name, value = nil)
           validations[:element_presence] =
-            ->(web_page) { web_page.instance.public_send(*["has_#{element_name}_element?", value].compact) }
+            lambda do |web_page, sync|
+              if sync
+                web_page.instance.public_send(*["has_#{element_name}_element?", value].compact)
+              else
+                !web_page.instance.public_send(*["has_no_#{element_name}_element?", value].compact)
+              end
+            end
         end
 
         def validate_by_url(pattern)
           validations[:url] =
-            ->(web_page) { pattern === web_page.instance.current_url }
+            ->(web_page, _sync) { pattern === web_page.instance.current_url }
         end
 
         def validate_by_title(pattern)
           validations[:title] =
-            ->(web_page) { web_page.instance.has_title?(pattern) }
+            ->(web_page, sync) { sync ? web_page.instance.has_title?(pattern) : pattern === web_page.instance.title }
         end
 
         def validate_by_type(type, value, additional_value)
