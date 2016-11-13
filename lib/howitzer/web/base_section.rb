@@ -7,12 +7,12 @@ module Howitzer
   module Web
     # This class holds base functinality for sections
     class BaseSection
-      include CapybaraMethodsProxy
       include ElementDsl
       include SectionDsl
       include IframeDsl
+      include CapybaraMethodsProxy
 
-      attr_reader :parent, :capybara_context
+      attr_reader :parent
 
       class << self
         attr_reader :default_finder_args
@@ -20,7 +20,7 @@ module Howitzer
 
       def initialize(parent, context)
         @parent = parent
-        @capybara_context = context
+        capybara_scopes << context
       end
     end
   end

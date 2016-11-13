@@ -12,8 +12,8 @@ RSpec.shared_examples :capybara_context_holder do
     context 'when parent class has the method' do
       before do
         web_page_class.class_eval do
-          def capybara_context
-            true
+          def capybara_scopes
+            @_scopes ||= [true]
           end
         end
       end
@@ -25,7 +25,7 @@ RSpec.shared_examples :capybara_context_holder do
       it 'should raise error' do
         expect { subject }.to raise_error(
           NotImplementedError,
-          "Please define 'capybara_context' method for class holder"
+          "Please define 'capybara_scopes' method for class holder"
         )
       end
     end

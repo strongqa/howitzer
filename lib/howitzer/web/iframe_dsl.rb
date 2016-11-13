@@ -1,16 +1,12 @@
+require 'howitzer/web/capybara_context_holder'
 module Howitzer
   module Web
     # This module combines iframe dsl methods
     module IframeDsl
+      include CapybaraContextHolder
+
       def self.included(base) #:nodoc:
         base.extend(ClassMethods)
-      end
-
-      # Returns capybara context. For example, capybara session, parent element, etc.
-      # @abstract should be defined in parent context
-
-      def capybara_context
-        raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
 
       private

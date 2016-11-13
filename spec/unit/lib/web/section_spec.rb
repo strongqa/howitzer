@@ -1,7 +1,6 @@
 require 'spec_helper'
 require 'howitzer/web/section_dsl'
 require 'howitzer/web/section'
-require 'howitzer/web/element_dsl'
 RSpec.describe Howitzer::Web::Section do
   describe 'element dsl methods' do
     let(:parent) { double }
@@ -9,7 +8,10 @@ RSpec.describe Howitzer::Web::Section do
 
     let(:klass) { Class.new(described_class) }
     let(:klass_object) { klass.new(parent, capybara_context) }
-    before { allow(klass_object).to receive(:capybara_context) { kontext } }
+
+    it 'returns correct capybara context' do
+      expect(klass_object.capybara_context).to eq(capybara_context)
+    end
 
     include_examples :element_dsl
   end

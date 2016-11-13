@@ -77,6 +77,7 @@ RSpec.shared_examples :element_dsl do
       klass.class_eval do
         element :foo, :xpath, ->(title, name) { "//a[.='#{title}']/*[@name='#{name}']" }
         element :bar, '.someclass'
+        element :top_panel, '.top'
       end
     end
 
@@ -84,37 +85,98 @@ RSpec.shared_examples :element_dsl do
       after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:bar_element, wait: 10) }
-        it { expect(kontext).to receive(:find).with('.someclass', wait: 10) }
+        it { expect(klass_object.capybara_context).to receive(:find).with('.someclass', wait: 10) }
       end
       context 'when lambda selector' do
         subject { klass_object.send(:foo_element, 'Hello', 'super', wait: 10) }
-        it { expect(kontext).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10) }
+        it do
+          expect(
+            klass_object.capybara_context
+          ).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+        end
       end
     end
     describe '#name_elements' do
       after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:bar_elements, wait: 10) }
-        it { expect(kontext).to receive(:all).with('.someclass', wait: 10) }
+        it { expect(klass_object.capybara_context).to receive(:all).with('.someclass', wait: 10) }
       end
       context 'when lambda selector' do
         subject { klass_object.send(:foo_elements, 'Hello', 'super', wait: 10) }
-        it { expect(kontext).to receive(:all).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10) }
+        it do
+          expect(
+            klass_object.capybara_context
+          ).to receive(:all).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+        end
       end
     end
     describe '#wait_for_name_element' do
       context 'when simple selector' do
         subject { klass_object.send(:wait_for_bar_element, wait: 10) }
         it do
-          expect(kontext).to receive(:find).with('.someclass', wait: 10)
+          expect(klass_object.capybara_context).to receive(:find).with('.someclass', wait: 10)
           is_expected.to eq(nil)
         end
       end
       context 'when lambda selector' do
         subject { klass_object.send(:wait_for_foo_element, 'Hello', 'super', wait: 10) }
         it do
-          expect(kontext).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+          expect(
+            klass_object.capybara_context
+          ).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
           is_expected.to eq(nil)
+        end
+      end
+    end
+    describe '#within_name_element' do
+      let(:within_scope) { double }
+      after { subject }
+      context 'not nested' do
+        context 'when simple selector' do
+          subject do
+            klass_object.instance_eval do
+              within_bar_element(wait: 10) do
+                foo_element('Hello', 'super', wait: 10)
+              end
+            end
+          end
+          it do
+            expect(klass_object.capybara_context).to receive(:find).with('.someclass', wait: 10) { within_scope }
+            expect(within_scope).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+          end
+        end
+        context 'when lambda selector' do
+          subject do
+            klass_object.instance_eval do
+              within_foo_element('Hello', 'super', wait: 10) do
+                bar_element(wait: 10)
+              end
+            end
+          end
+          it do
+            expect(
+              klass_object.capybara_context
+            ).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10) { within_scope }
+            expect(within_scope).to receive(:find).with('.someclass', wait: 10)
+          end
+        end
+      end
+      context 'nested' do
+        let(:nested_within_scope) { double }
+        subject do
+          klass_object.instance_eval do
+            within_top_panel_element(wait: 10) do
+              within_bar_element(wait: 10) do
+                foo_element('Hello', 'super', wait: 10)
+              end
+            end
+          end
+        end
+        it do
+          expect(klass_object.capybara_context).to receive(:find).with('.top', wait: 10) { within_scope }
+          expect(within_scope).to receive(:find).with('.someclass', wait: 10) { nested_within_scope }
+          expect(nested_within_scope).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
         end
       end
     end
@@ -122,23 +184,29 @@ RSpec.shared_examples :element_dsl do
       after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:has_bar_element?, wait: 10) }
-        it { expect(kontext).to receive(:has_selector?).with('.someclass', wait: 10) }
+        it { expect(klass_object.capybara_context).to receive(:has_selector?).with('.someclass', wait: 10) }
       end
       context 'when lambda selector' do
         subject { klass_object.send(:has_foo_element?, 'Hello', 'super', wait: 10) }
-        it { expect(kontext).to receive(:has_selector?).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10) }
+        it do
+          expect(
+            klass_object.capybara_context
+          ).to receive(:has_selector?).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+        end
       end
     end
     describe '#has_no_name_element?' do
       after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:has_no_bar_element?, wait: 10) }
-        it { expect(kontext).to receive(:has_no_selector?).with('.someclass', wait: 10) }
+        it { expect(klass_object.capybara_context).to receive(:has_no_selector?).with('.someclass', wait: 10) }
       end
       context 'when lambda selector' do
         subject { klass_object.send(:has_no_foo_element?, 'Hello', 'super', wait: 10) }
         it do
-          expect(kontext).to receive(:has_no_selector?).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+          expect(
+            klass_object.capybara_context
+          ).to receive(:has_no_selector?).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
         end
       end
     end
