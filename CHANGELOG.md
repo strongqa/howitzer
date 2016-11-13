@@ -16,10 +16,10 @@
 - Implement within_xxx_element method like Capybara.within
 
 ### Bugfixes
-- #188 Page validation by element presence does not work properly
-- #191 Generated project is broken
-- #195 Incorrect parameters passing in lambda locators
-- #200 capybara-screenshot does not work
+- [#188](https://github.com/strongqa/howitzer/issues/188) Page validation by element presence does not work properly
+- [#191](https://github.com/strongqa/howitzer/issues/191) Generated project is broken
+- [#195](https://github.com/strongqa/howitzer/issues/195) Incorrect parameters passing in lambda locators
+- [#200](https://github.com/strongqa/howitzer/issues/200) capybara-screenshot does not work
 - Fix issue for IE in configs
 
 ## [v2.0.0](https://github.com/strongqa/howitzer/compare/v1.1.1...v2.0.0)
