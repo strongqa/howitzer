@@ -1,16 +1,12 @@
+require 'howitzer/web/capybara_context_holder'
 module Howitzer
   module Web
     # This module combines element dsl methods
     module ElementDsl
+      include CapybaraContextHolder
+
       def self.included(base) #:nodoc:
         base.extend(ClassMethods)
-      end
-
-      # Returns capybara context. For example, capybara session, parent element, etc.
-      # @abstract should be defined in parent context
-
-      def capybara_context
-        raise NotImplementedError, "Please define 'capybara_context' method for class holder"
       end
 
       private
@@ -40,6 +36,8 @@ module Howitzer
         #
         #   <b>wait_for_<em>element_name</em>_element</b> - equals capybara #find(...) method but returns nil
         #
+        #   <b>within_<em>element_name</em>_element</b> - equals capybara #within(...) method
+        #
         #   <b>has_<em>element_name</em>_element?</b> - equals capybara #has_selector(...) method
         #
         #   <b>has_no_<em>element_name</em>_element?</b> - equals capybara #has_no_selector(...) method
@@ -47,15 +45,28 @@ module Howitzer
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
         # @example Using in a page class
         #   class HomePage < Howitzer::Web::Page
+        #     element :top_panel, '.top'
+        #     element :bottom_panel, '.bottom'
         #     element :new_button, :xpath, ".//*[@name='New']"
         #
-        #     def press_new_button
-        #       new_button_element.click
+        #     def press_top_new_button
+        #       within_top_panel_element do
+        #         new_button_element.click
+        #       end
+        #     end
+        #
+        #     def press_bottom_new_button
+        #       within_bottom_panel_element do
+        #         new_button_element.click
+        #       end
         #     end
         #   end
         #
-        #   HomePage.on { is_expected.to have_new_button_element }
-        #   HomePage.on { is_expected.to have_no_new_button_element }
+        #   HomePage.on do
+        #     is_expected.to have_top_panel_element
+        #     press_top_new_element
+        #     is_expected.to have_no_new_button_element(match: :first)
+        #   end
         # @example Using in a section class
         #   class MenuSection < Howitzer::Web::Section
         #     me '.main-menu'
@@ -73,6 +84,7 @@ module Howitzer
           define_element(name, args)
           define_elements(name, args)
           define_wait_for_element(name, args)
+          define_within_element(name, args)
           define_has_element(name, args)
           define_has_no_element(name, args)
         end
@@ -105,6 +117,18 @@ module Howitzer
             return nil
           end
           private "wait_for_#{name}_element"
+        end
+
+        def define_within_element(name, args)
+          define_method("within_#{name}_element") do |*block_args, &block|
+            new_scope = capybara_context.find(*convert_arguments(args, block_args))
+            begin
+              capybara_scopes.push(new_scope)
+              block.call
+            ensure
+              capybara_scopes.pop
+            end
+          end
         end
 
         def define_has_element(name, args)

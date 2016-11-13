@@ -1,5 +1,4 @@
 require 'singleton'
-require 'capybara'
 require 'rspec/expectations'
 require 'addressable/template'
 require 'howitzer/web/capybara_methods_proxy'
@@ -164,12 +163,6 @@ module Howitzer
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      # Returns capybara context as current session
-
-      def capybara_context
-        Capybara.current_session
       end
     end
   end

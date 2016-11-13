@@ -9,7 +9,9 @@ RSpec.describe Howitzer::Web::BaseSection do
 
     let(:klass) { Class.new(described_class) }
     let(:klass_object) { klass.new(parent, capybara_context) }
-    before { allow(klass_object).to receive(:capybara_context) { kontext } }
+    it 'returns correct capybara context' do
+      expect(klass_object.capybara_context).to eq(capybara_context)
+    end
 
     include_examples :element_dsl
   end
