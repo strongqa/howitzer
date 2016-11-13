@@ -24,12 +24,9 @@ module Howitzer
       include ::RSpec::Matchers
 
       # This Ruby callback makes all inherited classes as singleton classes.
-      # In additional it addes current page to page validator pages in case
-      # if it has any defined validations.
 
       def self.inherited(subclass)
         subclass.class_eval { include Singleton }
-        PageValidator.pages << subclass if subclass.validations.present?
       end
 
       # Opens a web page in browser
