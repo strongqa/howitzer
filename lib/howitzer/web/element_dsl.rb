@@ -12,8 +12,8 @@ module Howitzer
       private
 
       def convert_arguments(args, params)
-        hash = params.pop if params.last.is_a?(Hash)
-        args.map! do |el|
+        hash = params.deep_dup.pop if params.last.is_a?(Hash)
+        args = args.map do |el|
           next(el) unless el.is_a?(Proc)
           el.call(*params.shift(el.arity))
         end

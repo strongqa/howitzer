@@ -82,17 +82,32 @@ RSpec.shared_examples :element_dsl do
     end
 
     describe '#name_element' do
-      after { subject }
       context 'when simple selector' do
         subject { klass_object.send(:bar_element, wait: 10) }
+        after { subject }
         it { expect(klass_object.capybara_context).to receive(:find).with('.someclass', wait: 10) }
       end
       context 'when lambda selector' do
         subject { klass_object.send(:foo_element, 'Hello', 'super', wait: 10) }
+        after { subject }
         it do
           expect(
             klass_object.capybara_context
           ).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10)
+        end
+
+        context 'when several execution with different data' do
+          it 'does not cache previous data' do
+            expect(
+              klass_object.capybara_context
+            ).to receive(:find).with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10).at_least(:once)
+            klass_object.send(:foo_element, 'Hello', 'super', wait: 10)
+
+            expect(
+              klass_object.capybara_context
+            ).to receive(:find).with(:xpath, "//a[.='Bye']/*[@name='puper']", wait: 15).at_least(:once)
+            klass_object.send(:foo_element, 'Bye', 'puper', wait: 15)
+          end
         end
       end
     end
