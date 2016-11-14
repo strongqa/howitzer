@@ -19,6 +19,8 @@ module Howitzer
       define_method(key) { value }
     end
 
+    # @deprecated
+
     def mailgun_idle_timeout
       puts "WARNING! 'mailgun_idle_timeout' setting is deprecated. Please replace with 'mail_wait_time' setting."
       ::SexySettings::Base.instance.all['mailgun_idle_timeout']

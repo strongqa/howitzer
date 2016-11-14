@@ -4,7 +4,7 @@ module Howitzer
   module Web
     # This module proxies required original capybara methods to recipient
     module CapybaraMethodsProxy
-      PROXIED_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS +
+      PROXIED_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS + #:nodoc:
                                  Capybara::Session::MODAL_METHODS +
                                  [:driver, :text]
 

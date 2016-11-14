@@ -4,7 +4,7 @@ require 'howitzer/exceptions'
 module Howitzer
   # This module holds capybara helpers methods
   module CapybaraHelpers
-    CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze
+    CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze #:nodoc:
 
     # @return [Boolean] true if current driver related with SauceLab,
     #   Testingbot or Browserstack cloud service
