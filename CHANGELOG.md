@@ -22,6 +22,7 @@
 - [#200](https://github.com/strongqa/howitzer/issues/200) capybara-screenshot does not work
 - [#205](https://github.com/strongqa/howitzer/issues/205) Fix incorrect page identification on failed test
 - Fix issue for IE in configs
+- Fix issue found in generated prerequisites
 
 ## [v2.0.0](https://github.com/strongqa/howitzer/compare/v1.1.1...v2.0.0)
 
