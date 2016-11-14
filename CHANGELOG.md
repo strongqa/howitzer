@@ -1,8 +1,28 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.0.0...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.0.1...master)
 
 ### New Features
 
 ### Bugfixes
+
+## [v2.0.1](https://github.com/strongqa/howitzer/compare/v2.0.0...v2.0.1)
+
+### New Features
+- New rubocop changes supporting
+- Add custom page url processor supporting
+- Limited Selenium to v2.x
+- Add ability to use instance variables and methods from outer cotext in page dsl
+- Add wait time dsl method for particular email
+- Implement wait_for_xxx_element method for sync
+- Implement within_xxx_element method like Capybara.within
+
+### Bugfixes
+- [#188](https://github.com/strongqa/howitzer/issues/188) Page validation by element presence does not work properly
+- [#191](https://github.com/strongqa/howitzer/issues/191) Generated project is broken
+- [#195](https://github.com/strongqa/howitzer/issues/195) Incorrect parameters passing in lambda locators
+- [#200](https://github.com/strongqa/howitzer/issues/200) capybara-screenshot does not work
+- [#205](https://github.com/strongqa/howitzer/issues/205) Fix incorrect page identification on failed test
+- Fix issue for IE in configs
+- Fix issue found in generated prerequisites
 
 ## [v2.0.0](https://github.com/strongqa/howitzer/compare/v1.1.1...v2.0.0)
 
