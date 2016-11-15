@@ -1,4 +1,4 @@
 # This module holds howitzer version
 module Howitzer
-  VERSION = '2.0.0'.freeze #:nodoc:
+  VERSION = '2.0.1'.freeze #:nodoc:
 end
