@@ -4,7 +4,7 @@ module Howitzer
   # Data can be stored in memory using this class
   #
   module Cache
-    SPECIAL_NS_LIST = [:cloud].freeze
+    SPECIAL_NS_LIST = [:cloud].freeze #:nodoc:
     @data ||= {}
 
     class << self
