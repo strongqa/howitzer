@@ -4,6 +4,7 @@ require_relative '../../config/boot'
 require_relative '../../config/capybara'
 
 World(FactoryGirl::Syntax::Methods)
+World(RSpec::Wait)
 
 FileUtils.mkdir_p(Howitzer.log_dir)
 
