@@ -5,6 +5,7 @@ module Howitzer
       # This class is for private usage only
       class PageScope
         include RSpec::Matchers
+        include RSpec::Wait
 
         def initialize(page_klass, &block)
           self.page_klass = page_klass

@@ -22,6 +22,7 @@ module Howitzer
       include SectionDsl
       include PageValidator
       include ::RSpec::Matchers
+      include RSpec::Wait
 
       # This Ruby callback makes all inherited classes as singleton classes.
 

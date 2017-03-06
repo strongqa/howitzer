@@ -1,6 +1,7 @@
 require 'selenium-webdriver'
 require 'capybara'
 require 'sexy_settings'
+require 'rspec/wait'
 
 SexySettings.configure do |config|
   config.path_to_default_settings = File.expand_path('config/default.yml', Dir.pwd)

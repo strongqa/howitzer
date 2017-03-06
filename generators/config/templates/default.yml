@@ -36,6 +36,8 @@
  phantom_ignore_js_errors: false
  phantom_ignore_ssl_errors: true
 
+ rspec_wait_timeout: 10
+
 ###########################################################
 # Cloud-based Cross-browser Services                      #
 ###########################################################
