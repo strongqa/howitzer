@@ -11,7 +11,8 @@ module Howitzer
           { source: 'hooks.rb', destination: 'features/support/hooks.rb' },
           { source: 'transformers.rb', destination: 'features/support/transformers.rb' },
           { source: 'example.feature', destination: 'features/example.feature' },
-          { source: 'cucumber.rake', destination: 'tasks/cucumber.rake' }
+          { source: 'cucumber.rake', destination: 'tasks/cucumber.rake' },
+          { source: 'cuke_sniffer.rake', destination: 'tasks/cuke_sniffer.rake' }
         ] }
     end
 

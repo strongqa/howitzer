@@ -35,7 +35,12 @@ RSpec.describe 'Generators' do
           size: template_file_size('cucumber', 'transformers.rb')
         },
         { name: '/tasks', is_directory: true },
-        { name: '/tasks/cucumber.rake', is_directory: false, size: template_file_size('cucumber', 'cucumber.rake') }
+        { name: '/tasks/cucumber.rake', is_directory: false, size: template_file_size('cucumber', 'cucumber.rake') },
+        {
+          name: '/tasks/cuke_sniffer.rake',
+          is_directory: false,
+          size: template_file_size('cucumber', 'cuke_sniffer.rake')
+        }
       ]
     end
     it { is_expected.to eql(expected_result) }
@@ -47,7 +52,8 @@ RSpec.describe 'Generators' do
       Added 'features/support/hooks.rb' file
       Added 'features/support/transformers.rb' file
       Added 'features/example.feature' file
-      Added 'tasks/cucumber.rake' file\n"
+      Added 'tasks/cucumber.rake' file
+      Added 'tasks/cuke_sniffer.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

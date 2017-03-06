@@ -145,6 +145,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'features/support/transformers.rb' file
           Added 'features/example.feature' file
           Added 'tasks/cucumber.rake' file
+          Added 'tasks/cuke_sniffer.rake' file
 
     """
     Then a directory named "test_automation" should exist
@@ -166,6 +167,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/prerequisites/models/user.rb              |
       | test_automation/tasks/common.rake                         |
       | test_automation/tasks/cucumber.rake                       |
+      | test_automation/tasks/cuke_sniffer.rake                   |
       | test_automation/Gemfile                                   |
       | test_automation/Rakefile                                  |
       | test_automation/.gitignore                                |
