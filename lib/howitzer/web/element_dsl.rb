@@ -1,5 +1,3 @@
-require 'pry'
-require 'pry-byebug'
 require 'howitzer/web/capybara_context_holder'
 module Howitzer
   module Web
