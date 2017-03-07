@@ -1,3 +1,5 @@
+require 'pry'
+require 'pry-byebug'
 require 'howitzer/web/capybara_context_holder'
 module Howitzer
   module Web
@@ -12,13 +14,26 @@ module Howitzer
       private
 
       def convert_arguments(args, params)
-        hash = params.deep_dup.pop if params.last.is_a?(Hash)
+        args, params, options = merge_element_options(args, params)
         args = args.map do |el|
           next(el) unless el.is_a?(Proc)
           el.call(*params.shift(el.arity))
         end
-        args << hash unless hash.nil?
+        args << options unless options.blank?
         args
+      end
+
+      def merge_element_options(args, params)
+        new_args, args_hash = extract_element_options(args)
+        new_params, params_hash = extract_element_options(params)
+        [new_args, new_params, args_hash.merge(params_hash)]
+      end
+
+      def extract_element_options(args)
+        new_args = args.deep_dup
+        args_hash = {}
+        args_hash = new_args.pop if new_args.last.is_a?(Hash)
+        [new_args, args_hash]
       end
 
       # This module holds element dsl methods methods
@@ -42,7 +57,7 @@ module Howitzer
         #
         #   <b>has_no_<em>element_name</em>_element?</b> - equals capybara #has_no_selector(...) method
         # @param name [Symbol, String] an unique element name
-        # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
+        # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all`.
         # @example Using in a page class
         #   class HomePage < Howitzer::Web::Page
         #     element :top_panel, '.top'
