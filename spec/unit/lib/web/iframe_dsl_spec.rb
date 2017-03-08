@@ -57,42 +57,61 @@ RSpec.describe Howitzer::Web::IframeDsl do
 
     describe '#name_iframe' do
       let(:block) { proc {} }
-      subject { web_page_object.send(:fb_iframe, &block) }
-      context 'when integer selector' do
-        before { web_page_class.class_eval { iframe :fb, 1 } }
-        it do
-          expect(kontext).to receive(:within_frame).with(1) { |&block| block.call }
-          expect(block).to receive(:call).with(fb_page_class.instance)
-        end
-      end
-      context 'when string selector' do
-        before { web_page_class.class_eval { iframe :fb, 'loko' } }
-        it do
-          expect(kontext).to receive(:within_frame).with('loko') { |&block| block.call }
-          expect(block).to receive(:call).with(fb_page_class.instance)
-        end
+      subject { web_page_object.fb_iframe(wait: 10, text: 'new', &block) }
+      before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
+      it do
+        expect(kontext).to receive(:within_frame)
+          .with(:xpath, './/foo', match: :first, wait: 10, text: 'new') { |&block| block.call }
+        expect(block).to receive(:call).with(fb_page_class.instance)
       end
     end
     describe '#has_name_iframe?' do
-      subject { web_page_object.has_fb_iframe? }
-      context 'when integer selector' do
-        before { web_page_class.class_eval { iframe :fb, 1 } }
-        it { expect(kontext).to receive(:has_selector?).with('iframe:nth-of-type(2)') }
+      subject { web_page_object.has_fb_iframe?(wait: 1, text: 'new') }
+      context 'when first argument is integer' do
+        before { web_page_class.class_eval { iframe :fb, 1, match: :first, text: 'origin' } }
+        it do
+          expect(kontext).to receive(:has_selector?)
+            .with('iframe:nth-of-type(2)', match: :first, wait: 1, text: 'new')
+        end
       end
-      context 'when string selector' do
-        before { web_page_class.class_eval { iframe :fb, 'loko' } }
-        it { expect(kontext).to receive(:has_selector?).with(:frame, 'loko') }
+      context 'when first argument is string' do
+        before { web_page_class.class_eval { iframe :fb, 'loko', match: :first, text: 'origin' } }
+        it { expect(kontext).to receive(:has_selector?).with(:frame, 'loko', match: :first, wait: 1, text: 'new') }
+      end
+      context 'when first argument is hash' do
+        before { web_page_class.class_eval { iframe :fb, name: 'loko', match: :first, text: 'origin' } }
+        it do
+          expect(kontext).to receive(:has_selector?)
+            .with(:frame, name: 'loko', match: :first, wait: 1, text: 'new')
+        end
+      end
+      context 'when first argument is symbol' do
+        before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
+        it { expect(kontext).to receive(:has_selector?).with(:xpath, './/foo', match: :first, wait: 1, text: 'new') }
       end
     end
     describe '#has_no_name_iframe?' do
-      subject { web_page_object.has_no_fb_iframe? }
-      context 'when integer selector' do
-        before { web_page_class.class_eval { iframe :fb, 1 } }
-        it { expect(kontext).to receive(:has_no_selector?).with('iframe:nth-of-type(2)') }
+      subject { web_page_object.has_no_fb_iframe?(wait: 1, text: 'new') }
+      context 'when first argument is integer' do
+        before { web_page_class.class_eval { iframe :fb, 1, match: :first, text: 'origin' } }
+        it do
+          expect(kontext).to receive(:has_no_selector?)
+            .with('iframe:nth-of-type(2)', match: :first, wait: 1, text: 'new')
+        end
       end
-      context 'when string selector' do
-        before { web_page_class.class_eval { iframe :fb, 'loko' } }
-        it { expect(kontext).to receive(:has_no_selector?).with(:frame, 'loko') }
+      context 'when first argument is string' do
+        before { web_page_class.class_eval { iframe :fb, 'loko', match: :first, text: 'origin' } }
+        it { expect(kontext).to receive(:has_no_selector?).with(:frame, 'loko', match: :first, wait: 1, text: 'new') }
+      end
+      context 'when first argument is hash' do
+        before { web_page_class.class_eval { iframe :fb, name: 'loko', match: :first, text: 'origin' } }
+        it do
+          expect(kontext).to receive(:has_no_selector?).with(:frame, name: 'loko', match: :first, wait: 1, text: 'new')
+        end
+      end
+      context 'when first argument is symbol' do
+        before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
+        it { expect(kontext).to receive(:has_no_selector?).with(:xpath, './/foo', match: :first, wait: 1, text: 'new') }
       end
     end
   end
