@@ -27,7 +27,7 @@ module Howitzer
       def convert_iframe_arguments(args, params)
         new_args = args.deep_dup
         hash = new_args.pop.merge(params) if new_args.last.is_a?(Hash)
-        new_args << hash
+        new_args << hash if hash.present?
         new_args
       end
 
