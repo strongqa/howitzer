@@ -1,5 +1,28 @@
 require 'capybara'
 
+# Remove this monkey patch after fixing the bugs in selenium-webdriver / capybara
+class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
+  #
+  # https://github.com/teamcapybara/capybara/issues/1845
+  def title
+    return browser.title unless within_frame?
+    find_xpath('/html/head/title').map { |n| n[:text] }.first
+  end
+
+  # Known issue, works differently for phantomjs and real browsers
+  # https://github.com/seleniumhq/selenium/issues/1727
+  def current_url
+    return browser.current_url unless within_frame?
+    execute_script('return document.location.href')
+  end
+
+  private
+
+  def within_frame?
+    !(@frame_handles.empty? || @frame_handles[browser.window_handle].empty?)
+  end
+end
+
 module Howitzer
   module Web
     # This module proxies required original capybara methods to recipient
