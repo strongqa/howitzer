@@ -64,6 +64,7 @@ RSpec.describe Howitzer::Web::IframeDsl do
           expect(kontext).to receive(:within_frame)
             .with('foo') { |&block| block.call }
           expect(block).to receive(:call).with(fb_page_class.instance)
+          expect(fb_page_class).to receive(:displayed?).with(no_args)
         end
       end
       context 'when all possible options' do
@@ -73,6 +74,7 @@ RSpec.describe Howitzer::Web::IframeDsl do
           expect(kontext).to receive(:within_frame)
             .with(:xpath, './/foo', match: :first, wait: 10, text: 'new') { |&block| block.call }
           expect(block).to receive(:call).with(fb_page_class.instance)
+          expect(fb_page_class).to receive(:displayed?).with(no_args)
         end
       end
     end
