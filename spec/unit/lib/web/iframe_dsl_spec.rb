@@ -57,12 +57,23 @@ RSpec.describe Howitzer::Web::IframeDsl do
 
     describe '#name_iframe' do
       let(:block) { proc {} }
-      subject { web_page_object.fb_iframe(wait: 10, text: 'new', &block) }
-      before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
-      it do
-        expect(kontext).to receive(:within_frame)
-          .with(:xpath, './/foo', match: :first, wait: 10, text: 'new') { |&block| block.call }
-        expect(block).to receive(:call).with(fb_page_class.instance)
+      context 'when no options' do
+        subject { web_page_object.fb_iframe(&block) }
+        before { web_page_class.class_eval { iframe :fb, 'foo' } }
+        it do
+          expect(kontext).to receive(:within_frame)
+            .with('foo') { |&block| block.call }
+          expect(block).to receive(:call).with(fb_page_class.instance)
+        end
+      end
+      context 'when all possible options' do
+        subject { web_page_object.fb_iframe(wait: 10, text: 'new', &block) }
+        before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
+        it do
+          expect(kontext).to receive(:within_frame)
+            .with(:xpath, './/foo', match: :first, wait: 10, text: 'new') { |&block| block.call }
+          expect(block).to receive(:call).with(fb_page_class.instance)
+        end
       end
     end
     describe '#has_name_iframe?' do
