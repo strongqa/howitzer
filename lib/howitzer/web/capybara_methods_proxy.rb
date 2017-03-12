@@ -1,6 +1,7 @@
 require 'capybara'
 
 # Remove this monkey patch after fixing the bugs in selenium-webdriver / capybara
+#:nocov:
 class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   #
   # https://github.com/teamcapybara/capybara/issues/1845
@@ -22,6 +23,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
     !(@frame_handles.empty? || @frame_handles[browser.window_handle].empty?)
   end
 end
+#:nocov:
 
 module Howitzer
   module Web
