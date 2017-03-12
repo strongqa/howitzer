@@ -82,6 +82,7 @@ module Howitzer
         def define_iframe(klass, name, args)
           define_method "#{name}_iframe" do |**params, &block|
             capybara_context.within_frame(*convert_iframe_arguments(args, params)) do
+              klass.displayed?
               block.call klass.instance
             end
           end
