@@ -71,6 +71,7 @@ module Howitzer
         # @!visibility public
 
         def iframe(name, *args)
+          raise ArgumentError, 'iframe selector arguments must be specified' if args.blank?
           klass = "#{name}_page".classify.constantize
           define_iframe(klass, name, args)
           define_has_iframe(name, args)
