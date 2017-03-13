@@ -43,6 +43,19 @@ RSpec.describe Howitzer::Web::IframeDsl do
         expect(subject.protected_methods(true)).to include(:iframe)
       end
     end
+
+    context 'when selector is not specified' do
+      subject do
+        web_page_class.class_eval do
+          iframe :fb
+        end
+        web_page_class
+      end
+
+      it 'should raise error' do
+        expect { subject }.to raise_error(ArgumentError, 'iframe selector arguments must be specified')
+      end
+    end
   end
 
   include_examples :capybara_context_holder
