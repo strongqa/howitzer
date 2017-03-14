@@ -83,7 +83,9 @@ Capybara.register_driver :phantomjs do |app|
          desired_capabilities: {
            javascript_enabled: !Howitzer.phantom_ignore_js_errors
          },
-         args: ["--ignore-ssl-errors=#{Howitzer.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
+         driver_opts: {
+           args: ["--ignore-ssl-errors=#{Howitzer.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
+         }
   )
 end
 
