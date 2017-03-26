@@ -11,6 +11,8 @@ RSpec.describe Howitzer::Web::PageValidator do
     Class.new do
       include Howitzer::Web::ElementDsl
       include Howitzer::Web::PageValidator
+      element :foo, 'a'
+      element :bar, :xpath, ->(v) { v }
       def self.name
         'TestWebPageClass'
       end
@@ -42,14 +44,14 @@ RSpec.describe Howitzer::Web::PageValidator do
     context 'when element_presence validation is specified' do
       context 'when simple selector' do
         before do
-          web_page.class.validate :element_presence, :test_locator
+          web_page.class.validate :element_presence, :foo
         end
         it { expect { subject }.to_not raise_error }
       end
 
       context 'when lambda selector' do
         before do
-          web_page.class.validate :element_presence, :test_locator, 'some_text'
+          web_page.class.validate :element_presence, :bar, 'some_text'
         end
         it { expect { subject }.to_not raise_error }
       end
@@ -66,13 +68,13 @@ RSpec.describe Howitzer::Web::PageValidator do
       context 'as string' do
         let(:name) { 'url' }
         context '(as string)' do
-          let(:value) { /foo/ }
+          let(:value) { 'foo' }
           it do
             is_expected.to be_a(Proc)
             expect(described_class.validations[web_page.class][:url]).to be_a Proc
           end
         end
-        context '(as symbol)' do
+        context '(as regexp)' do
           let(:value) { /foo/ }
           it do
             is_expected.to be_a(Proc)
@@ -92,7 +94,7 @@ RSpec.describe Howitzer::Web::PageValidator do
     context 'when name = :element_presence' do
       let(:name) { :element_presence }
       context '(as string)' do
-        let(:value) { 'test_locator' }
+        let(:value) { 'bar' }
         let(:additional_value) { 'some string' }
         it do
           is_expected.to be_a(Proc)
@@ -100,23 +102,33 @@ RSpec.describe Howitzer::Web::PageValidator do
         end
       end
       context '(as symbol)' do
-        let(:value) { :test_locator }
+        let(:value) { :foo }
         it do
           is_expected.to be_a(Proc)
           expect(described_class.validations[web_page.class][:element_presence]).to eql(subject)
+        end
+      end
+
+      context 'when refers to unknown element' do
+        let(:value) { :unknown }
+        it do
+          expect { subject }.to raise_error(
+            Howitzer::UndefinedElementError,
+            ":element_presence validation refers to undefined 'unknown' element on 'TestWebPageClass' page."
+          )
         end
       end
     end
     context 'when name = :title' do
       let(:name) { :title }
       context '(as string)' do
-        let(:value) { /foo/ }
+        let(:value) { 'foo' }
         it do
           is_expected.to be_a(Proc)
           expect(described_class.validations[web_page.class][:title]).to be_a Proc
         end
       end
-      context '(as symbol)' do
+      context '(as regexp)' do
         let(:value) { /foo/ }
         it do
           is_expected.to be_a(Proc)
