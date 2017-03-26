@@ -7,7 +7,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   # https://github.com/teamcapybara/capybara/issues/1845
   def title
     return browser.title unless within_frame?
-    find_xpath('/html/head/title').map { |n| n[:text] }.first
+    find_xpath('/html/head/title').map { |n| n[:text] }.first.to_s
   end
 
   # Known issue, works differently for phantomjs and real browsers
