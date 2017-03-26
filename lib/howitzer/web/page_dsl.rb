@@ -30,7 +30,7 @@ module Howitzer
         #    Otherwise it executes a method from an original context
 
         def method_missing(name, *args, &block)
-          return super if name.match?(/\A(?:be|have)_/)
+          return super if name =~ /\A(?:be|have)_/
           return eval_in_out_context(*args, &block) if name == :out
           page_klass.given.send(name, *args, &block)
         end
