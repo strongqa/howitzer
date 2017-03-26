@@ -13,13 +13,13 @@ module HowitzerCli
   arg_name '<PROJECT NAME>'
   command :new do |c|
     c.desc 'Integrate Cucumber'
-    c.switch [:c, :cucumber], negatable: false
+    c.switch %i(c cucumber), negatable: false
 
     c.desc 'Integrate Rspec'
-    c.switch [:r, :rspec], negatable: false
+    c.switch %i(r rspec), negatable: false
 
     c.desc 'Integrate Turnip'
-    c.switch [:t, :turnip], negatable: false
+    c.switch %i(t turnip), negatable: false
 
     c.action do |_global_options, options, args|
       if !args.empty?

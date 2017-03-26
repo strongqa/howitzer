@@ -2,7 +2,8 @@
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.4
+  DisplayCopNames: true
 
 LineLength:
   Max: 120
@@ -33,3 +34,8 @@ Metrics/ModuleLength:
 
 Metrics/BlockLength:
   Enabled: false
+
+Style/MixinGrouping:
+  EnforcedStyle: separated
+  Exclude:
+    - '**/*_steps.rb'

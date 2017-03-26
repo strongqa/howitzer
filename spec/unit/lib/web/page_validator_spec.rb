@@ -157,15 +157,15 @@ RSpec.describe Howitzer::Web::PageValidator do
         end
         context 'when all matches' do
           before do
-            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
-            allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
-            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
+            allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
+            allow(web_page_class.instance).to receive(:has_title?).and_return('Foo page')
+            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args).and_return(true)
           end
           it { is_expected.to be_truthy }
         end
         context 'when first validation fails' do
           before do
-            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:has_title?).never
             allow(web_page_class).to receive(:has_login_element?).with(no_args).never
           end
@@ -186,15 +186,15 @@ RSpec.describe Howitzer::Web::PageValidator do
         end
         context 'when all matches' do
           before do
-            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
-            allow(web_page_class.instance).to receive(:has_title?) { 'Foo page' }
-            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args) { true }
+            allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
+            allow(web_page_class.instance).to receive(:has_title?).and_return('Foo page')
+            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args).and_return(true)
           end
           it { is_expected.to be_truthy }
         end
         context 'when first validation fails' do
           before do
-            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:has_title?).never
             allow(web_page_class).to receive(:has_login_element?).with(no_args).never
           end
@@ -215,15 +215,15 @@ RSpec.describe Howitzer::Web::PageValidator do
         end
         context 'when all matches' do
           before do
-            allow(web_page_class.instance).to receive(:current_url) { 'http://test.com/foo' }
-            allow(web_page_class.instance).to receive(:title) { 'Foo page' }
-            allow(web_page_class.instance).to receive(:has_no_login_element?).with(no_args) { false }
+            allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
+            allow(web_page_class.instance).to receive(:title).and_return('Foo page')
+            allow(web_page_class.instance).to receive(:has_no_login_element?).with(no_args).and_return(false)
           end
           it { is_expected.to be_truthy }
         end
         context 'when first validation fails' do
           before do
-            expect(web_page_class.instance).to receive(:current_url).once { 'http://test.com/bar' }
+            expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:title).never
             allow(web_page_class).to receive(:has_no_login_element?).with(no_args).never
           end
@@ -253,8 +253,8 @@ RSpec.describe Howitzer::Web::PageValidator do
       allow(Howitzer::Web::PageValidator).to receive(:validations).with(no_args) do
         { web_page1_class => 1, web_page2_class => 2 }
       end
-      expect(web_page1_class).to receive(:opened?).with(sync: false) { true }
-      expect(web_page2_class).to receive(:opened?).with(sync: false) { false }
+      expect(web_page1_class).to receive(:opened?).with(sync: false).and_return(true)
+      expect(web_page2_class).to receive(:opened?).with(sync: false).and_return(false)
     end
     it { is_expected.to eq([web_page1_class]) }
   end

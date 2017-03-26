@@ -19,7 +19,7 @@ RSpec.describe Howitzer::Web::Page do
             .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
           expect(session).to receive(:visit).with(url_value).once.ordered
-          expect(described_class).to receive(:given).once.ordered { true }
+          expect(described_class).to receive(:given).once.ordered.and_return(true)
           expect(subject).to eq(true)
         end
       end
@@ -33,7 +33,7 @@ RSpec.describe Howitzer::Web::Page do
             .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
           expect(session).to receive(:visit).with(url_value).once.ordered
-          expect(described_class).to receive(:given).once.ordered { true }
+          expect(described_class).to receive(:given).once.ordered.and_return(true)
           expect(subject).to eq(true)
         end
       end
@@ -41,12 +41,12 @@ RSpec.describe Howitzer::Web::Page do
         let(:url_value) { 'http://example.com/users' }
         subject { described_class.open }
         it do
-          expect(described_class).to receive(:expanded_url).with({}, nil) { url_value }.once.ordered
+          expect(described_class).to receive(:expanded_url).with({}, nil).and_return(url_value).once.ordered
           expect(Howitzer::Log).to receive(:info)
             .with("Open #{described_class} page by '#{url_value}' url").once.ordered
           expect(described_class).to receive(:retryable).ordered.once.and_call_original
           expect(session).to receive(:visit).with(url_value).once.ordered
-          expect(described_class).to receive(:given).once.ordered { true }
+          expect(described_class).to receive(:given).once.ordered.and_return(true)
           expect(subject).to eq(true)
         end
       end
@@ -55,7 +55,7 @@ RSpec.describe Howitzer::Web::Page do
       let(:url_value) { 'http://example.com/users' }
       subject { described_class.open(validate: false) }
       it do
-        expect(described_class).to receive(:expanded_url).with({}, nil) { url_value }.once.ordered
+        expect(described_class).to receive(:expanded_url).with({}, nil).and_return(url_value).once.ordered
         expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
@@ -67,11 +67,11 @@ RSpec.describe Howitzer::Web::Page do
       let(:url_value) { 'http://example.com/users/1' }
       subject { described_class.open(validate: true, id: 1) }
       it do
-        expect(described_class).to receive(:expanded_url).with({ id: 1 }, nil) { url_value }.once.ordered
+        expect(described_class).to receive(:expanded_url).with({ id: 1 }, nil).and_return(url_value).once.ordered
         expect(Howitzer::Log).to receive(:info).with("Open #{described_class} page by '#{url_value}' url").once.ordered
         expect(described_class).to receive(:retryable).ordered.once.and_call_original
         expect(session).to receive(:visit).with(url_value).once.ordered
-        expect(described_class).to receive(:given).once.ordered { true }
+        expect(described_class).to receive(:given).once.ordered.and_return(true)
         expect(subject).to eq(true)
       end
     end
@@ -81,7 +81,7 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.given }
     before do
       expect(described_class).to receive(:displayed?).with(no_args).once
-      expect(described_class).to receive(:instance) { true }
+      expect(described_class).to receive(:instance).and_return(true)
     end
     it { is_expected.to be_truthy }
   end
@@ -90,8 +90,8 @@ RSpec.describe Howitzer::Web::Page do
     let(:page) { double }
     subject { described_class.instance.title }
     before do
-      allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
-      allow(session).to receive(:current_url) { 'google.com' }
+      allow_any_instance_of(described_class).to receive(:check_validations_are_defined!).and_return(true)
+      allow(session).to receive(:current_url).and_return('google.com')
     end
     it do
       expect(session).to receive(:title)
@@ -102,17 +102,17 @@ RSpec.describe Howitzer::Web::Page do
   describe '.current_page' do
     subject { described_class.current_page }
     context 'when matched_pages has no pages' do
-      before { allow(described_class).to receive(:matched_pages) { [] } }
+      before { allow(described_class).to receive(:matched_pages).and_return([]) }
       it { is_expected.to eq(described_class::UnknownPage) }
     end
     context 'when matched_pages has more than 1 page' do
       let(:foo_page) { double(inspect: 'FooPage') }
       let(:bar_page) { double(inspect: 'BarPage') }
       before do
-        allow_any_instance_of(described_class).to receive(:check_validations_are_defined!) { true }
-        allow(session).to receive(:current_url) { 'http://test.com' }
+        allow_any_instance_of(described_class).to receive(:check_validations_are_defined!).and_return(true)
+        allow(session).to receive(:current_url).and_return('http://test.com')
         allow(session).to receive(:title) { 'Test site' }
-        allow(described_class).to receive(:matched_pages) { [foo_page, bar_page] }
+        allow(described_class).to receive(:matched_pages).and_return([foo_page, bar_page])
       end
       it do
         expect { subject }.to raise_error(
@@ -124,7 +124,7 @@ RSpec.describe Howitzer::Web::Page do
     end
     context 'when matched_pages has only 1 page' do
       let(:foo_page) { double(to_s: 'FooPage') }
-      before { allow(described_class).to receive(:matched_pages) { [foo_page] } }
+      before { allow(described_class).to receive(:matched_pages).and_return([foo_page]) }
       it { is_expected.to eq(foo_page) }
     end
   end
@@ -132,15 +132,15 @@ RSpec.describe Howitzer::Web::Page do
   describe '.displayed?' do
     subject { described_class.displayed? }
     context 'when page is opened' do
-      before { allow(described_class).to receive(:opened?) { true } }
+      before { allow(described_class).to receive(:opened?).and_return(true) }
       it { is_expected.to eq(true) }
     end
     context 'when page is not opened' do
       before do
-        allow(described_class).to receive(:current_page) { 'FooPage' }
-        allow(session).to receive(:current_url) { 'http://test.com' }
-        allow(session).to receive(:title) { 'Test site' }
-        allow(described_class).to receive(:opened?) { false }
+        allow(described_class).to receive(:current_page).and_return('FooPage')
+        allow(session).to receive(:current_url).and_return('http://test.com')
+        allow(session).to receive(:title).and_return('Test site')
+        allow(described_class).to receive(:opened?).and_return(false)
       end
       it do
         expect { subject }.to raise_error(
@@ -153,7 +153,7 @@ RSpec.describe Howitzer::Web::Page do
   end
 
   describe '.current_url' do
-    before { allow(Capybara).to receive_message_chain(:current_session, :current_url) { 'http://example.com' } }
+    before { allow(Capybara).to receive_message_chain(:current_session, :current_url).and_return('http://example.com') }
     it 'should return current url page' do
       expect(Howitzer::Web::Page.current_url).to eq('http://example.com')
     end
@@ -286,7 +286,7 @@ RSpec.describe Howitzer::Web::Page do
   describe '#initialize' do
     subject { described_class.send(:new) }
     before do
-      expect_any_instance_of(described_class).to receive(:check_validations_are_defined!).once { true }
+      expect_any_instance_of(described_class).to receive(:check_validations_are_defined!).once.and_return(true)
     end
     context 'when maximized_window is true' do
       let(:driver) { double }
@@ -317,10 +317,10 @@ RSpec.describe Howitzer::Web::Page do
     subject { described_class.instance.reload }
     let(:visit) { double }
     before do
-      allow(session).to receive(:current_url) { 'google.com' }
+      allow(session).to receive(:current_url).and_return('google.com')
     end
     it do
-      expect(Howitzer::Log).to receive(:info) { "Reload 'google.com'" }
+      expect(Howitzer::Log).to receive(:info).and_return("Reload 'google.com'")
       expect(session).to receive(:visit).with('google.com')
       subject
     end
@@ -328,7 +328,7 @@ RSpec.describe Howitzer::Web::Page do
 
   describe '#capybara_context' do
     subject { described_class.instance.capybara_context }
-    before { expect(Capybara).to receive(:current_session) { :context } }
+    before { expect(Capybara).to receive(:current_session).and_return(:context) }
     it { is_expected.to eq(:context) }
   end
 

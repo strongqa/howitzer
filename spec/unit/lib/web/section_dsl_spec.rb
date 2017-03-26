@@ -148,9 +148,9 @@ RSpec.describe Howitzer::Web::SectionDsl do
         let(:context3) { double }
         let(:capybara_element) { double }
         before do
-          expect(session).to receive(:find).with(*finder_args).once { context2 }
-          expect(context2).to receive(:find).with('#klass') { context3 }
-          expect(context3).to receive(:find).with(:xpath, './/a') { capybara_element }
+          expect(session).to receive(:find).with(*finder_args).once.and_return(context2)
+          expect(context2).to receive(:find).with('#klass').and_return(context3)
+          expect(context3).to receive(:find).with(:xpath, './/a').and_return(capybara_element)
         end
 
         it 'can work with nested section' do

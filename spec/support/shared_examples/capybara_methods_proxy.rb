@@ -47,10 +47,10 @@ RSpec.shared_examples :capybara_methods_proxy do
       let(:switch_to) { double }
       let(:driver_name) { 'selenium' }
       it do
-        expect(session).to receive(:driver).ordered { driver }
-        expect(driver).to receive(:browser).ordered { browser }
-        expect(browser).to receive(:switch_to).ordered { switch_to }
-        expect(switch_to).to receive(:alert).ordered { alert }
+        expect(session).to receive(:driver).ordered.and_return(driver)
+        expect(driver).to receive(:browser).ordered.and_return(browser)
+        expect(browser).to receive(:switch_to).ordered.and_return(switch_to)
+        expect(switch_to).to receive(:alert).ordered.and_return(alert)
         expect(alert).to receive(:accept).once
         subject
       end
@@ -64,10 +64,10 @@ RSpec.shared_examples :capybara_methods_proxy do
       let(:switch_to) { double }
       let(:driver_name) { 'selenium' }
       it do
-        expect(session).to receive(:driver).ordered { driver }
-        expect(driver).to receive(:browser).ordered { browser }
-        expect(browser).to receive(:switch_to).ordered { switch_to }
-        expect(switch_to).to receive(:alert).ordered { alert }
+        expect(session).to receive(:driver).ordered.and_return(driver)
+        expect(driver).to receive(:browser).ordered.and_return(browser)
+        expect(browser).to receive(:switch_to).ordered.and_return(switch_to)
+        expect(switch_to).to receive(:alert).ordered.and_return(alert)
         expect(alert).to receive(:dismiss).once
         subject
       end

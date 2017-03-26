@@ -1,13 +1,13 @@
-HOWITZER_KNOWN_DRIVERS = [
-  :selenium,
-  :selenium_grid,
-  :webkit,
-  :poltergeist,
-  :phantomjs,
-  :sauce,
-  :testingbot,
-  :browserstack
-].freeze
+HOWITZER_KNOWN_DRIVERS = %i(
+  selenium
+  selenium_grid
+  webkit
+  poltergeist
+  phantomjs
+  sauce
+  testingbot
+  browserstack
+).freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
   raise Howitzer::UnknownDriverError, "Unknown '#{Howitzer.driver}' driver." \

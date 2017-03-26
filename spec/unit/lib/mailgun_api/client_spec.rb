@@ -14,7 +14,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
     context 'when simulation of client' do
       before do
         expect(RestClient::Resource).to receive(:new)
-          .once { Howitzer::MailgunApi::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2') }
+          .once.and_return(Howitzer::MailgunApi::UnitClient.new('Fake-API-Key', 'api.mailgun.net', 'v2'))
       end
       it do
         expect(subject.body).to include('total_count')
@@ -24,9 +24,9 @@ RSpec.describe Howitzer::MailgunApi::Client do
     context 'when real client' do
       let(:resource) { double }
       before do
-        allow(resource).to receive('[]') { resource }
+        allow(resource).to receive('[]').and_return(resource)
         allow(resource).to receive(:get).and_raise(StandardError, '401 Unauthorized: Forbidden')
-        allow(RestClient::Resource).to receive(:new) { resource }
+        allow(RestClient::Resource).to receive(:new).and_return(resource)
       end
       it do
         expect { subject }.to raise_error(Howitzer::CommunicationError, '401 Unauthorized: Forbidden')
@@ -41,14 +41,14 @@ RSpec.describe Howitzer::MailgunApi::Client do
       let(:response_raw) { double }
       let(:response_real) { double }
       before do
-        allow(RestClient::Request).to receive(:execute).with(any_args) { response_raw }
-        allow(Howitzer::MailgunApi::Response).to receive(:new).with(response_raw) { response_real }
+        allow(RestClient::Request).to receive(:execute).with(any_args).and_return(response_raw)
+        allow(Howitzer::MailgunApi::Response).to receive(:new).with(response_raw).and_return(response_real)
       end
       it { is_expected.to eq(response_real) }
     end
     context 'when error happens' do
       before do
-        allow(RestClient::Resource).to receive(:new).with(any_args) { response_raw }
+        allow(RestClient::Resource).to receive(:new).with(any_args).and_return(response_raw)
         mg_obj
         allow(RestClient::Request).to receive(:execute).with(any_args).and_raise(StandardError, 'Some message')
       end
