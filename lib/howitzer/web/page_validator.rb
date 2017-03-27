@@ -16,7 +16,7 @@ module Howitzer
         @validations ||= {}
       end
 
-      # Checks if any validations are defined for the page and correct
+      # Checks if any validations are defined for the page
       # @raise  [Howitzer::NoValidationError] if no one validation is defined for the page
 
       def check_validations_are_defined!

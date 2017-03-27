@@ -1,8 +1,25 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.0.1...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.0.2...master)
 
 ### New Features
 
 ### Bugfixes
+
+## [v2.0.2](https://github.com/strongqa/howitzer/compare/v2.0.1...v2.0.2)
+
+### New Features
+- Integrate rspec-wait gem
+- Support Ruby 2.4.0
+- Support Selenium 3
+- Integrate cuke-sniffer gem
+- Activate rspec disable_monkey_patching! mode by default
+- Support capybara frame options
+- Add element_presence argument validation
+- Review and improve tests quality
+
+### Bugfixes
+- Fix element capybara options merging
+- [#211](https://github.com/strongqa/howitzer/issues/211) Validation for iframe does not operate as intended
+- [#210](https://github.com/strongqa/howitzer/issues/210) Options like "wait" can not be used with iframe methods
 
 ## [v2.0.1](https://github.com/strongqa/howitzer/compare/v2.0.0...v2.0.1)
 
