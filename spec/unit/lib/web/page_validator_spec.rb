@@ -112,7 +112,10 @@ RSpec.describe Howitzer::Web::PageValidator do
       context 'when refers to unknown element' do
         let(:value) { :unknown }
         it do
-          expect { subject }.to raise_error(
+          subject
+          expect do
+            described_class.validations[web_page.class][:element_presence].call(web_page, false)
+          end.to raise_error(
             Howitzer::UndefinedElementError,
             ":element_presence validation refers to undefined 'unknown' element on 'TestWebPageClass' page."
           )

@@ -18,7 +18,6 @@ module Howitzer
 
       # Checks if any validations are defined for the page and correct
       # @raise  [Howitzer::NoValidationError] if no one validation is defined for the page
-      # @raise  [Howitzer::UndefinedPageElement] if :element_presence validations refers to undefined element name
 
       def check_validations_are_defined!
         return if self.class.validations.present?
@@ -34,6 +33,7 @@ module Howitzer
         #   For :element_presence must be one of element names described for page
         # @param additional_value [Object, nil] any value required to pass for a labmda selector
         # @raise  [Howitzer::UnknownValidationError] if unknown validation type
+        # @raise  [Howitzer::UndefinedElementError] if :element_presence validations refers to undefined element name
         # @example
         #   class ArticleListPage < Howitzer::Web::Page
         #     validate :title, /\ADemo web application - Listing Articles\z/
@@ -79,13 +79,12 @@ module Howitzer
         private
 
         def validate_element(element_name, value = nil)
-          if element_name.present? && !private_method_defined?("#{element_name}_element")
-            raise(Howitzer::UndefinedElementError, ':element_presence validation refers to ' \
-                 "undefined '#{element_name}' element on '#{name}' page.")
-          end
-
           validations[:element_presence] =
             lambda do |web_page, sync|
+              if element_name.present? && !private_method_defined?("#{element_name}_element")
+                raise(Howitzer::UndefinedElementError, ':element_presence validation refers to ' \
+                     "undefined '#{element_name}' element on '#{name}' page.")
+              end
               if sync
                 web_page.instance.public_send(*["has_#{element_name}_element?", value].compact)
               else
