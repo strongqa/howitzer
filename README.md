@@ -141,7 +141,7 @@ community](https://github.com/strongqa/howitzer/graphs/contributors).
 License
 -------
 
-howitzer is Copyright © 2012-2016 Roman Parashchenko and StrongQA Ltd. It is free
+howitzer is Copyright © 2012-2017 Roman Parashchenko and StrongQA Ltd. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](LICENSE) file.
 
