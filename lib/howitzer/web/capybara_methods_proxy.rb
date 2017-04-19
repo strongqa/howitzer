@@ -1,4 +1,6 @@
 require 'capybara'
+require 'active_support'
+require 'active_support/core_ext'
 
 # Remove this monkey patch after fixing the bugs in selenium-webdriver / capybara
 #:nocov:
@@ -20,7 +22,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   private
 
   def within_frame?
-    !(@frame_handles.empty? || @frame_handles[browser.window_handle].empty?)
+    !(@frame_handles.blank? || @frame_handles[browser.window_handle].blank?)
   end
 end
 #:nocov:
