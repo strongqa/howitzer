@@ -19,4 +19,4 @@ YARD::Rake::YardocTask.new { |_t| }
 
 RuboCop::RakeTask.new
 
-task default: %i(rubocop spec cucumber)
+task default: %i[rubocop spec cucumber]

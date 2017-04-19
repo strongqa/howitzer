@@ -70,7 +70,7 @@ RSpec.describe Howitzer::Cache do
       it { expect(described_class.data).to eq(cloud: { status: false }, foo: {}, bar: {}, baz: {}) }
     end
     context 'when custom argument' do
-      let(:exception_list) { %i(foo bar) }
+      let(:exception_list) { %i[foo bar] }
       before { described_class.clear_all_ns(exception_list) }
       it do
         expect(described_class.data).to eq(

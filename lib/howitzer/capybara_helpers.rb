@@ -10,7 +10,7 @@ module Howitzer
     #   Testingbot or Browserstack cloud service
 
     def cloud_driver?
-      %i(sauce testingbot browserstack).include?(Howitzer.driver.to_sym)
+      %i[sauce testingbot browserstack].include?(Howitzer.driver.to_sym)
     end
 
     # @return [Boolean] whether or not current browser is
