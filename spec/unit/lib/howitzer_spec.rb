@@ -35,6 +35,6 @@ RSpec.describe 'Howitzer' do
         "WARNING! 'mailgun_idle_timeout' setting is deprecated. Please replace with 'mail_wait_time' setting."
       )
     end
-    it { is_expected.to eq(0.5) }
+    it { is_expected.to be_nil }
   end
 end
