@@ -17,6 +17,9 @@ Style/EmptyElse:
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
+Lint/AmbiguousBlockAssociation:
+  Enabled: false  
+
 Style/CaseEquality:
   Enabled: false
 

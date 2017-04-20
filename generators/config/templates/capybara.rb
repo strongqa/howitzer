@@ -1,4 +1,4 @@
-HOWITZER_KNOWN_DRIVERS = %i(
+HOWITZER_KNOWN_DRIVERS = %i[
   selenium
   selenium_grid
   webkit
@@ -7,7 +7,7 @@ HOWITZER_KNOWN_DRIVERS = %i(
   sauce
   testingbot
   browserstack
-).freeze
+].freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
   raise Howitzer::UnknownDriverError, "Unknown '#{Howitzer.driver}' driver." \

@@ -1,4 +1,6 @@
 require 'capybara'
+require 'active_support'
+require 'active_support/core_ext'
 
 # Remove this monkey patch after fixing the bugs in selenium-webdriver / capybara
 #:nocov:
@@ -20,7 +22,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   private
 
   def within_frame?
-    !(@frame_handles.empty? || @frame_handles[browser.window_handle].empty?)
+    !(@frame_handles.blank? || @frame_handles[browser.window_handle].blank?)
   end
 end
 #:nocov:
@@ -31,7 +33,7 @@ module Howitzer
     module CapybaraMethodsProxy
       PROXIED_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS + #:nodoc:
                                  Capybara::Session::MODAL_METHODS +
-                                 %i(driver text)
+                                 %i[driver text]
 
       # Capybara form dsl methods are not compatible with page object pattern and Howitzer gem.
       # Instead of including Capybara::DSL module, we proxy most interesting Capybara methods and
@@ -44,7 +46,7 @@ module Howitzer
       # @param flag [Boolean] Determines accept or decline alert box
 
       def click_alert_box(flag)
-        if %w(selenium sauce).include? Howitzer.driver
+        if %w[selenium sauce].include? Howitzer.driver
           alert = driver.browser.switch_to.alert
           flag ? alert.accept : alert.dismiss
         else
