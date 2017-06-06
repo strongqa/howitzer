@@ -39,6 +39,9 @@ end
 
 Capybara.register_driver :selenium do |app|
   params = { browser: Howitzer.selenium_browser.to_s.to_sym }
+  if CapybaraHelpers.chrome_browser? && Howitzer.chrome_headless_mode
+    params[:switches] = %w[--headless --disable-gpu -start-maximized]
+  end
   if CapybaraHelpers.ff_browser?
     ff_profile = Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
       profile['network.http.phishy-userpass-length'] = 255
