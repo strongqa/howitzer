@@ -18,7 +18,7 @@
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
  page_load_idle_timeout: 20
-   maximized_window: true # Specify maximized browser window size
+ maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
  # testingbot, browserstack
