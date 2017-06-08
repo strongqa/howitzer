@@ -153,7 +153,7 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if Howitzer.maximized_window
+        current_window.maximize if Howitzer.maximized_window && Howitzer.driver != 'headless_chrome'
       end
 
       # Reloads current page in a browser

@@ -7,6 +7,7 @@ HOWITZER_KNOWN_DRIVERS = %i[
   sauce
   testingbot
   browserstack
+  headless_chrome
 ].freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
@@ -39,9 +40,6 @@ end
 
 Capybara.register_driver :selenium do |app|
   params = { browser: Howitzer.selenium_browser.to_s.to_sym }
-  if CapybaraHelpers.chrome_browser? && Howitzer.chrome_headless_mode
-    params[:switches] = %w[--headless --disable-gpu -start-maximized]
-  end
   if CapybaraHelpers.ff_browser?
     ff_profile = Selenium::WebDriver::Firefox::Profile.new.tap do |profile|
       profile['network.http.phishy-userpass-length'] = 255
@@ -52,6 +50,16 @@ Capybara.register_driver :selenium do |app|
     end
     params[:profile] = ff_profile
   end
+  Capybara::Selenium::Driver.new app, params
+end
+
+# :headless_chrome driver
+
+Capybara.register_driver :headless_chrome do |app|
+  startup_flags = ['--headless']
+  startup_flags << '-start-maximized' if Howitzer.maximized_window
+  startup_flags.concat(Howitzer.flags) if Howitzer.flags
+  params = { browser: :chrome, switches: startup_flags }
   Capybara::Selenium::Driver.new app, params
 end
 
@@ -152,6 +160,9 @@ end
 
 Capybara.save_path = Howitzer.log_dir
 Capybara::Screenshot.register_driver(:phantomjs) do |driver, path|
+  driver.browser.save_screenshot path
+end
+Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
   driver.browser.save_screenshot path
 end
 Capybara::Screenshot.append_timestamp = false
