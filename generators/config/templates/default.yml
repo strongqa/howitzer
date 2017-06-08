@@ -30,7 +30,7 @@
 
  # -Headless Chrome-
  # List of available flags (http://peter.sh/experiments/chromium-command-line-switches/)
- flags: [--window-size=1920x1080, --disable-gpu]
+ headless_chrome_flags: "--window-size=1920x1080, --disable-gpu"
 
  # -Selenium Grid-
  selenium_hub_url: "http://example.com:4444/wd/hub"

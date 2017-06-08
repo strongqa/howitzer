@@ -296,6 +296,16 @@ RSpec.describe Howitzer::Web::Page do
         subject
       end
     end
+    context 'when maximized_window is true and driver is headless_chrome' do
+      before do
+        allow(Howitzer).to receive(:maximized_window) { true }
+        allow(Howitzer).to receive(:driver) { 'headless_chrome' }
+      end
+      it do
+        expect_any_instance_of(described_class).not_to receive('current_window.maximize')
+        subject
+      end
+    end
     context 'when maximized_window is false' do
       before { allow(Howitzer).to receive(:maximized_window) { false } }
       it do
