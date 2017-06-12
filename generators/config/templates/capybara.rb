@@ -7,6 +7,7 @@ HOWITZER_KNOWN_DRIVERS = %i[
   sauce
   testingbot
   browserstack
+  headless_chrome
 ].freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
@@ -49,6 +50,16 @@ Capybara.register_driver :selenium do |app|
     end
     params[:profile] = ff_profile
   end
+  Capybara::Selenium::Driver.new app, params
+end
+
+# :headless_chrome driver
+
+Capybara.register_driver :headless_chrome do |app|
+  startup_flags = ['--headless']
+  startup_flags << '-start-maximized' if Howitzer.maximized_window
+  startup_flags.concat(Howitzer.headless_chrome_flags.split(/\s*,\s*/)) if Howitzer.headless_chrome_flags
+  params = { browser: :chrome, switches: startup_flags }
   Capybara::Selenium::Driver.new app, params
 end
 
@@ -149,6 +160,9 @@ end
 
 Capybara.save_path = Howitzer.log_dir
 Capybara::Screenshot.register_driver(:phantomjs) do |driver, path|
+  driver.browser.save_screenshot path
+end
+Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
   driver.browser.save_screenshot path
 end
 Capybara::Screenshot.append_timestamp = false

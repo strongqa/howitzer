@@ -21,12 +21,16 @@
  maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
- # testingbot, browserstack
+ # testingbot, browserstack, headless_chrome
  driver: phantomjs
 
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, safari
  selenium_browser: ff
+
+ # -Headless Chrome-
+ # List of available flags (http://peter.sh/experiments/chromium-command-line-switches/)
+ headless_chrome_flags: "--window-size=1920x1080, --disable-gpu"
 
  # -Selenium Grid-
  selenium_hub_url: "http://example.com:4444/wd/hub"

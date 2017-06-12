@@ -44,11 +44,11 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [Ruby](https://www.ruby-lang.org/en/downloads/) 2.2.2+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
 * [PhantomJS](http://phantomjs.org/download.html) (For **phantomjs** and **poltergeist** drivers only)
-* [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (For **chrome** selenium browser)
+* [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (For **chrome** selenium browser, 2.29+ for headless mode)
 * [GeckoDriver](https://github.com/mozilla/geckodriver/releases) (For **firefox** selenium browser)
 * [SafariDriver](https://webkit.org/blog/6900/webdriver-support-in-safari-10/) (For **safari** selenium browser)
 * [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For **webkit** driver only)
-
+* [Chrome](https://www.google.com/chrome/browser/desktop/index.html) v.59+ (For **headless chrome** support)
 ## Setup
 To install, type
 
