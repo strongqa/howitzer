@@ -1,8 +1,18 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.0.2...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.0.3...master)
 
 ### New Features
 
 ### Bugfixes
+
+## [v2.0.3](https://github.com/strongqa/howitzer/compare/v2.0.2...v2.0.3)
+
+### New Features
+- Integrate Google Chrome Headless
+- Stop supported **mailgun_idle_timeout** deprecated setting
+- Added maintenance instructions for releasing
+
+### Bugfixes
+- [#222](https://github.com/strongqa/howitzer/issues/222) fix issue with incorrect iframe scope identifying
 
 ## [v2.0.2](https://github.com/strongqa/howitzer/compare/v2.0.1...v2.0.2)
 
