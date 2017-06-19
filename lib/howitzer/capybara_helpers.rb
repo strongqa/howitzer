@@ -102,7 +102,8 @@ module Howitzer
 
     def cloud_driver(app, caps, url)
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
-      http_client.timeout = Howitzer.cloud_http_idle_timeout
+      http_client.read_timeout = Howitzer.cloud_http_idle_timeout
+      http_client.open_timeout = Howitzer.cloud_http_idle_timeout
 
       options = {
         url: url,
