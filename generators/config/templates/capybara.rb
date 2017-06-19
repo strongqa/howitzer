@@ -7,6 +7,7 @@ HOWITZER_KNOWN_DRIVERS = %i[
   sauce
   testingbot
   browserstack
+  crossbrowsertesting
   headless_chrome
 ].freeze
 
@@ -156,6 +157,22 @@ Capybara.register_driver :selenium_grid do |app|
          end
 
   Capybara::Selenium::Driver.new(app, browser: :remote, url: Howitzer.selenium_hub_url, desired_capabilities: caps)
+end
+
+# :crossbrowsertesting driver
+
+Capybara.register_driver :crossbrowsertesting do |app|
+  cap = {}
+  cap['name'] = Howitzer.cloud_cbt_name
+  cap['build'] = Howitzer.cloud_cbt_build
+  cap['browser_api_name'] = Howitzer.cloud_browser_name + Howitzer.cloud_browser_version
+  cap['os_api_name'] = Howitzer.cloud_platform
+  cap['screen_resolution'] = Howitzer.cloud_cbt_screen_resolution
+  cap['record_video'] = Howitzer.cloud_cbt_record_video
+  cap['record_network'] = Howitzer.cloud_cbt_record_network
+  url = "http://#{URI.escape(Howitzer.cloud_auth_login, /@/)}:#{Howitzer.cloud_auth_pass}"\
+        '@hub.crossbrowsertesting.com/wd/hub'
+  CapybaraHelpers.cloud_driver(app, cap, url)
 end
 
 Capybara.save_path = Howitzer.log_dir
