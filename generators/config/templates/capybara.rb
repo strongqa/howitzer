@@ -170,6 +170,7 @@ Capybara.register_driver :crossbrowsertesting do |app|
   cap['screen_resolution'] = Howitzer.cloud_cbt_screen_resolution
   cap['record_video'] = Howitzer.cloud_cbt_record_video
   cap['record_network'] = Howitzer.cloud_cbt_record_network
+  cap['max_duration'] = Howitzer.cloud_max_duration
   url = "http://#{URI.escape(Howitzer.cloud_auth_login, /@/)}:#{Howitzer.cloud_auth_pass}"\
         '@hub.crossbrowsertesting.com/wd/hub'
   CapybaraHelpers.cloud_driver(app, cap, url)
