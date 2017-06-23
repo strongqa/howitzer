@@ -643,8 +643,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       allow(cap_class).to receive(:new).with(caps) { des_caps }
       stub_const('Selenium::WebDriver::Remote::Http::Default', http_class)
       allow(http_class).to receive(:new).with(no_args) { http_client }
-      expect(http_client).to receive(:read_timeout=).with(10)
-      expect(http_client).to receive(:open_timeout=).with(10)
+      expect(http_client).to receive(:timeout=).with(10)
       allow(Capybara::Selenium::Driver).to receive(:new).with(app, kind_of(Hash)) { driver }
       expect(driver).to receive(:browser) { driver_browser }
       expect(driver_browser).to receive(:file_detector=).with(file_detector)
