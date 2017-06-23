@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.0.3...master)
 
 ### New Features
+- Integrate CrossBrowserTesting
 
 ### Bugfixes
 
