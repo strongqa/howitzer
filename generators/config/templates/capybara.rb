@@ -49,7 +49,8 @@ Capybara.register_driver :selenium do |app|
       profile['network.ntlm.send-lm-response'] = true
       profile['network.automatic-ntlm-auth.trusted-uris'] = Howitzer.app_host
     end
-    params[:profile] = ff_profile
+    options = Selenium::WebDriver::Firefox::Options.new(profile: ff_profile)
+    params[:options] = options
   end
   Capybara::Selenium::Driver.new app, params
 end
