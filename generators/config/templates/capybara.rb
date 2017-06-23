@@ -166,7 +166,7 @@ Capybara.register_driver :crossbrowsertesting do |app|
   cap['name'] = Howitzer.cloud_cbt_name
   cap['build'] = Howitzer.cloud_cbt_build
   cap['browser_api_name'] = Howitzer.cloud_browser_name + Howitzer.cloud_browser_version
-  cap['os_api_name'] = Howitzer.cloud_platform
+  cap['os_api_name'] = Howitzer.cloud_cbt_os_api_name
   cap['screen_resolution'] = Howitzer.cloud_cbt_screen_resolution
   cap['record_video'] = Howitzer.cloud_cbt_record_video
   cap['record_network'] = Howitzer.cloud_cbt_record_network
