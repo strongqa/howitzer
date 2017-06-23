@@ -23,6 +23,9 @@ Lint/AmbiguousBlockAssociation:
 Style/CaseEquality:
   Enabled: false
 
+Style/YodaCondition:
+  Enabled: false
+
 MethodLength:
   Max: 30
 

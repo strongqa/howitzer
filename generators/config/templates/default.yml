@@ -21,7 +21,7 @@
  maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
- # testingbot, browserstack, headless_chrome
+ # testingbot, browserstack, crossbrowsertesting, headless_chrome
  driver: phantomjs
 
  # -Selenium-
@@ -67,6 +67,14 @@
  cloud_bstack_project: 'Howitzer Example'
  cloud_bstack_build: 'v1'
  cloud_bstack_mobile_device:
+
+ # -CrossBrowserTesting (https://app.crossbrowsertesting.com/selenium/run)
+ cloud_cbt_name: 'Howitzer Example'
+ cloud_cbt_build: '1.0'
+ cloud_cbt_os_api_name: 'Win7x64-C1'
+ cloud_cbt_screen_resolution: '1024x768'
+ cloud_cbt_record_video: 'true'
+ cloud_cbt_record_network: 'true'
 
 ###########################################################
 # CAPYBARA SETTINGS                                       #
