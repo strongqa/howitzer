@@ -49,7 +49,8 @@ Capybara.register_driver :selenium do |app|
       profile['network.ntlm.send-lm-response'] = true
       profile['network.automatic-ntlm-auth.trusted-uris'] = Howitzer.app_host
     end
-    params[:profile] = ff_profile
+    options = Selenium::WebDriver::Firefox::Options.new(profile: ff_profile)
+    params[:options] = options
   end
   Capybara::Selenium::Driver.new app, params
 end
@@ -57,10 +58,11 @@ end
 # :headless_chrome driver
 
 Capybara.register_driver :headless_chrome do |app|
-  startup_flags = ['--headless']
-  startup_flags << '-start-maximized' if Howitzer.maximized_window
+  startup_flags = ['headless']
+  startup_flags << 'start-maximized' if Howitzer.maximized_window
   startup_flags.concat(Howitzer.headless_chrome_flags.split(/\s*,\s*/)) if Howitzer.headless_chrome_flags
-  params = { browser: :chrome, switches: startup_flags }
+  options = Selenium::WebDriver::Chrome::Options.new(args: startup_flags)
+  params = { browser: :chrome, options: options }
   Capybara::Selenium::Driver.new app, params
 end
 
