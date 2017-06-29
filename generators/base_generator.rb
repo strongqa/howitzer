@@ -1,3 +1,4 @@
+require 'colorize'
 require 'fileutils'
 require 'erb'
 require 'ostruct'
@@ -29,7 +30,7 @@ module Howitzer
     end
 
     def print_banner
-      logger.puts banner unless banner.empty?
+      logger.puts banner.chomp.colorize(:light_cyan) unless banner.empty?
     end
 
     def print_info(data)
@@ -41,7 +42,7 @@ module Howitzer
     end
 
     def puts_error(data)
-      logger.puts "      ERROR: #{data}"
+      logger.puts "      ERROR: #{data}".colorize(:red)
     end
   end
 
@@ -88,7 +89,7 @@ module Howitzer
           copy_templates_file_exist(data, destination_path, source_path)
         else
           write_template(destination_path, source_path)
-          puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
+          puts_info "#{'Added'.colorize(:light_green)} template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
         end
       end
     end
@@ -110,7 +111,7 @@ module Howitzer
         copy_with_path_file_exist(data, src, dst)
       else
         FileUtils.cp(src, dst)
-        puts_info("Added '#{data[:destination]}' file")
+        puts_info("#{'Added'.colorize(:light_green)} '#{data[:destination]}' file")
       end
     rescue => e
       puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
@@ -125,17 +126,17 @@ module Howitzer
     private
 
     def copy_templates_file_exist(data, destination_path, source_path)
-      puts_info("Conflict with '#{data[:destination]}' template")
-      print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
+      puts_info("Conflict with '#{data[:destination]}' template".colorize(:yellow))
+      print_info("  Overwrite '#{data[:destination]}' template? [Yn]:".colorize(:yellow))
       copy_templates_overwrite(gets.strip.downcase, data, destination_path, source_path)
     end
 
     def copy_with_path_file_exist(data, source, destination)
       if FileUtils.identical?(source, destination)
-        puts_info("Identical '#{data[:destination]}' file")
+        puts_info("#{'Identical'.colorize(:light_green)} '#{data[:destination]}' file")
       else
-        puts_info("Conflict with '#{data[:destination]}' file")
-        print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
+        puts_info("Conflict with '#{data[:destination]}' file".colorize(:yellow))
+        print_info("  Overwrite '#{data[:destination]}' file? [Yn]:".colorize(:yellow))
         copy_with_path_overwrite(gets.strip.downcase, data, source, destination)
       end
     end
@@ -144,9 +145,9 @@ module Howitzer
       case answer
         when 'y'
           write_template(destination_path, source_path)
-          puts_info("    Forced '#{data[:destination]}' template")
+          puts_info("    #{'Forced'.colorize(:light_green)} '#{data[:destination]}' template")
         when 'n'
-          puts_info("    Skipped '#{data[:destination]}' template")
+          puts_info("    #{'Skipped'.colorize(:light_black)} '#{data[:destination]}' template")
         else nil
       end
     end
@@ -155,9 +156,9 @@ module Howitzer
       case answer
         when 'y'
           FileUtils.cp(source, destination)
-          puts_info("    Forced '#{data[:destination]}' file")
+          puts_info("    #{'Forced'.colorize(:light_green)} '#{data[:destination]}' file")
         when 'n' then
-          puts_info("    Skipped '#{data[:destination]}' file")
+          puts_info("    #{'Skipped'.colorize(:light_black)} '#{data[:destination]}' file")
         else nil
       end
     end
