@@ -25,11 +25,11 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "  * Config files generation ...
-      Added 'config/boot.rb' file
-      Added 'config/custom.yml' file
-      Added 'config/capybara.rb' file
-      Added 'config/default.yml' file\n"
+        "#{'  * Config files generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} 'config/boot.rb' file
+      #{'Added'.colorize(:light_green)} 'config/custom.yml' file
+      #{'Added'.colorize(:light_green)} 'config/capybara.rb' file
+      #{'Added'.colorize(:light_green)} 'config/default.yml' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

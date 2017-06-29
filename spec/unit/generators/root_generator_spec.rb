@@ -26,43 +26,44 @@ RSpec.describe 'Generators' do
       subject { output.string }
       context 'when options is empty' do
         let(:expected_output) do
-          "  * Root files generation ...
-      Added '.gitignore' file
-      Added '.rubocop.yml' file
-      Added 'Rakefile' file
-      Added template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
+          "#{'  * Root files generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} '.gitignore' file
+      #{'Added'.colorize(:light_green)} '.rubocop.yml' file
+      #{'Added'.colorize(:light_green)} 'Rakefile' file
+      #{'Added'.colorize(:light_green)} template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
         end
         it { is_expected.to eql(expected_output) }
       end
       context 'when options is rspec => true' do
         let(:expected_output) do
-          "  * Root files generation ...
-      Added '.gitignore' file
-      Added '.rubocop.yml' file
-      Added 'Rakefile' file
-      Added template 'Gemfile.erb' with params '{:rspec=>true}' to destination 'Gemfile'\n"
+          "#{'  * Root files generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} '.gitignore' file
+      #{'Added'.colorize(:light_green)} '.rubocop.yml' file
+      #{'Added'.colorize(:light_green)} 'Rakefile' file
+      #{'Added'.colorize(:light_green)} template 'Gemfile.erb' with params '{:rspec=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { rspec: true } }
         it { is_expected.to eql(expected_output) }
       end
       context 'when options is cucumber => cucumber' do
         let(:expected_output) do
-          "  * Root files generation ...
-      Added '.gitignore' file
-      Added '.rubocop.yml' file
-      Added 'Rakefile' file
-      Added template 'Gemfile.erb' with params '{:cucumber=>true}' to destination 'Gemfile'\n"
+          "#{'  * Root files generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} '.gitignore' file
+      #{'Added'.colorize(:light_green)} '.rubocop.yml' file
+      #{'Added'.colorize(:light_green)} 'Rakefile' file
+      #{'Added'.colorize(:light_green)} template 'Gemfile.erb' with params '{:cucumber=>true}'"\
+      " to destination 'Gemfile'\n"
         end
         let(:options) { { cucumber: true } }
         it { is_expected.to eql(expected_output) }
       end
       context 'when options is turnip => true' do
         let(:expected_output) do
-          "  * Root files generation ...
-      Added '.gitignore' file
-      Added '.rubocop.yml' file
-      Added 'Rakefile' file
-      Added template 'Gemfile.erb' with params '{:turnip=>true}' to destination 'Gemfile'\n"
+          "#{'  * Root files generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} '.gitignore' file
+      #{'Added'.colorize(:light_green)} '.rubocop.yml' file
+      #{'Added'.colorize(:light_green)} 'Rakefile' file
+      #{'Added'.colorize(:light_green)} template 'Gemfile.erb' with params '{:turnip=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { turnip: true } }
         it { is_expected.to eql(expected_output) }

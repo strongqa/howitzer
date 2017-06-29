@@ -25,8 +25,8 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "  * Email example generation ...
-      Added '/emails/example_email.rb' file\n"
+        "#{'  * Email example generation ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} '/emails/example_email.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

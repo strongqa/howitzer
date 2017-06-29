@@ -121,10 +121,14 @@ RSpec.describe Howitzer::BaseGenerator do
     after { subject }
     context 'when destination file exists' do
       before { allow(File).to receive(:exist?).with(destination_path) { true } }
-      it { expect(generator).to receive(:puts_info).with("Conflict with '#{list.first[:destination]}' template").once }
+      it do
+        expect(generator).to receive(:puts_info).with(
+          "Conflict with '#{list.first[:destination]}' template".colorize(:yellow)
+        ).once
+      end
       it do
         expect(generator).to receive(:print_info).with(
-          "  Overwrite '#{list.first[:destination]}' template? [Yn]:"
+          "  Overwrite '#{list.first[:destination]}' template? [Yn]:".colorize(:yellow)
         ).once
       end
       context 'and answer is yes' do
@@ -152,7 +156,7 @@ RSpec.describe Howitzer::BaseGenerator do
     after { subject }
     context 'when banner present' do
       let(:banner) { 'banner' }
-      it { expect(described_class.logger).to receive(:puts).with(banner).twice }
+      it { expect(described_class.logger).to receive(:puts).with(banner.chomp.colorize(:light_cyan)).twice }
     end
     context 'when banner blank' do
       let(:banner) { '' }
@@ -178,7 +182,7 @@ RSpec.describe Howitzer::BaseGenerator do
     subject { described_class.new({}).send(:puts_error, 'data') }
     before { allow_any_instance_of(described_class).to receive(:print_banner) { nil } }
     after { subject }
-    it { expect(described_class.logger).to receive(:puts).with('      ERROR: data') }
+    it { expect(described_class.logger).to receive(:puts).with('      ERROR: data'.colorize(:red)) }
   end
 
   describe '#source_path' do
@@ -212,39 +216,39 @@ RSpec.describe Howitzer::BaseGenerator do
       before { allow(File).to receive(:exist?).with(dst) { true } }
       context 'when identical with source file' do
         before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
-        it { expect(generator).to receive(:puts_info).with("Identical 'd.txt' file").once }
+        it { expect(generator).to receive(:puts_info).with("#{'Identical'.colorize(:light_green)} 'd.txt' file").once }
       end
       context 'when not identical with source file' do
         before do
           allow(FileUtils).to receive(:identical?).with(src, dst) { false }
-          expect(generator).to receive(:puts_info).with("Conflict with 'd.txt' file")
-          expect(generator).to receive(:print_info).with("  Overwrite 'd.txt' file? [Yn]:")
+          expect(generator).to receive(:puts_info).with("Conflict with 'd.txt' file".colorize(:yellow))
+          expect(generator).to receive(:print_info).with("  Overwrite 'd.txt' file? [Yn]:".colorize(:yellow))
         end
         context 'when user typed Y' do
           before { allow(generator).to receive(:gets) { 'Y' } }
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
-            expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{'Forced'.colorize(:light_green)} 'd.txt' file")
           end
         end
         context 'when user typed y' do
           before { allow(generator).to receive(:gets) { 'y' } }
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
-            expect(generator).to receive(:puts_info).with("    Forced 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{'Forced'.colorize(:light_green)} 'd.txt' file")
           end
         end
         context 'when user typed N' do
           before { allow(generator).to receive(:gets) { 'N' } }
           it do
-            expect(generator).to receive(:puts_info).with("    Skipped 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{'Skipped'.colorize(:light_black)} 'd.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end
         context 'when user typed n' do
           before { allow(generator).to receive(:gets) { 'n' } }
           it do
-            expect(generator).to receive(:puts_info).with("    Skipped 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{'Skipped'.colorize(:light_black)} 'd.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end
@@ -260,7 +264,7 @@ RSpec.describe Howitzer::BaseGenerator do
     context 'when destination file missing' do
       before { allow(File).to receive(:exist?).with(dst) { false } }
       it do
-        expect(generator).to receive(:puts_info).with("Added 'd.txt' file")
+        expect(generator).to receive(:puts_info).with("#{'Added'.colorize(:light_green)} 'd.txt' file")
         expect(FileUtils).to receive(:cp).with(src, dst).once
       end
     end

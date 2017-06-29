@@ -40,11 +40,11 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "  * Pre-requisites integration to the framework ...
-      Added 'prerequisites/factory_girl.rb' file
-      Added 'prerequisites/factories/users.rb' file
-      Added 'prerequisites/models/base.rb' file
-      Added 'prerequisites/models/user.rb' file\n"
+        "#{'  * Pre-requisites integration to the framework ...'.colorize(:light_cyan)}
+      #{'Added'.colorize(:light_green)} 'prerequisites/factory_girl.rb' file
+      #{'Added'.colorize(:light_green)} 'prerequisites/factories/users.rb' file
+      #{'Added'.colorize(:light_green)} 'prerequisites/models/base.rb' file
+      #{'Added'.colorize(:light_green)} 'prerequisites/models/user.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }
