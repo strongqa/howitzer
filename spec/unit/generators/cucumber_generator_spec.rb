@@ -46,14 +46,14 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "#{'  * Cucumber integration to the framework ...'.colorize(:light_cyan)}
-      #{'Added'.colorize(:light_green)} 'features/step_definitions/common_steps.rb' file
-      #{'Added'.colorize(:light_green)} 'features/support/env.rb' file
-      #{'Added'.colorize(:light_green)} 'features/support/hooks.rb' file
-      #{'Added'.colorize(:light_green)} 'features/support/transformers.rb' file
-      #{'Added'.colorize(:light_green)} 'features/example.feature' file
-      #{'Added'.colorize(:light_green)} 'tasks/cucumber.rake' file
-      #{'Added'.colorize(:light_green)} 'tasks/cuke_sniffer.rake' file\n"
+        "#{ColorizedString.new('  * Cucumber integration to the framework ...').light_cyan}
+      #{ColorizedString.new('Added').light_green} 'features/step_definitions/common_steps.rb' file
+      #{ColorizedString.new('Added').light_green} 'features/support/env.rb' file
+      #{ColorizedString.new('Added').light_green} 'features/support/hooks.rb' file
+      #{ColorizedString.new('Added').light_green} 'features/support/transformers.rb' file
+      #{ColorizedString.new('Added').light_green} 'features/example.feature' file
+      #{ColorizedString.new('Added').light_green} 'tasks/cucumber.rake' file
+      #{ColorizedString.new('Added').light_green} 'tasks/cuke_sniffer.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

@@ -41,9 +41,6 @@ Metrics/ModuleLength:
 Metrics/BlockLength:
   Enabled: false
 
-Metrics/AbcSize:
-  Max: 16
-
 Style/MixinGrouping:
   EnforcedStyle: separated
   Exclude:

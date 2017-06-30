@@ -41,9 +41,9 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "#{'  * PageOriented pattern structure generation ...'.colorize(:light_cyan)}
-      #{'Added'.colorize(:light_green)} 'web/pages/example_page.rb' file
-      #{'Added'.colorize(:light_green)} 'web/sections/menu_section.rb' file\n"
+        "#{ColorizedString.new('  * PageOriented pattern structure generation ...').light_cyan}
+      #{ColorizedString.new('Added').light_green} 'web/pages/example_page.rb' file
+      #{ColorizedString.new('Added').light_green} 'web/sections/menu_section.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

@@ -37,13 +37,13 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "#{'  * Turnip integration to the framework ...'.colorize(:light_cyan)}
-      #{'Added'.colorize(:light_green)} '.rspec' file
-      #{'Added'.colorize(:light_green)} 'spec/spec_helper.rb' file
-      #{'Added'.colorize(:light_green)} 'spec/turnip_helper.rb' file
-      #{'Added'.colorize(:light_green)} 'spec/acceptance/example.feature' file
-      #{'Added'.colorize(:light_green)} 'spec/steps/common_steps.rb' file
-      #{'Added'.colorize(:light_green)} 'tasks/turnip.rake' file\n"
+        "#{ColorizedString.new('  * Turnip integration to the framework ...').light_cyan}
+      #{ColorizedString.new('Added').light_green} '.rspec' file
+      #{ColorizedString.new('Added').light_green} 'spec/spec_helper.rb' file
+      #{ColorizedString.new('Added').light_green} 'spec/turnip_helper.rb' file
+      #{ColorizedString.new('Added').light_green} 'spec/acceptance/example.feature' file
+      #{ColorizedString.new('Added').light_green} 'spec/steps/common_steps.rb' file
+      #{ColorizedString.new('Added').light_green} 'tasks/turnip.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

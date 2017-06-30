@@ -21,8 +21,8 @@ RSpec.describe 'Generators' do
     it { is_expected.to eql(expected_result) }
     describe 'output' do
       let(:expected_output) do
-        "#{'  * Base rake task generation ...'.colorize(:light_cyan)}
-      #{'Added'.colorize(:light_green)} 'tasks/common.rake' file\n"
+        "#{ColorizedString.new('  * Base rake task generation ...').light_cyan}
+      #{ColorizedString.new('Added').light_green} 'tasks/common.rake' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }
