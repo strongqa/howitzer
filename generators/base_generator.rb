@@ -125,16 +125,16 @@ module Howitzer
 
     private
 
-    def conflict_file_msg
+    def get_source_and_destination(data)
+      [source_path(data[:source]), dest_path(data[:destination])]
+    end
+
+    def conflict_file_msg(data)
       ColorizedString.new("Conflict with '#{data[:destination]}' file").yellow
     end
 
-    def overwrite_file_msg
+    def overwrite_file_msg(data)
       ColorizedString.new("  Overwrite '#{data[:destination]}' file? [Yn]:").yellow
-    end
-
-    def get_source_and_destination(data)
-      [source_path(data[:source]), dest_path(data[:destination])]
     end
 
     def copy_templates_file_exist(data, destination_path, source_path)
@@ -147,8 +147,8 @@ module Howitzer
       if FileUtils.identical?(source, destination)
         puts_info("#{ColorizedString.new('Identical').light_green} '#{data[:destination]}' file")
       else
-        puts_info(conflict_file_msg)
-        print_info(overwrite_file_msg)
+        puts_info(conflict_file_msg(data))
+        print_info(overwrite_file_msg(data))
         copy_with_path_overwrite(gets.strip.downcase, data, source, destination)
       end
     end
