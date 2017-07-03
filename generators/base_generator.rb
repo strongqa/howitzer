@@ -1,3 +1,4 @@
+require 'colorized_string'
 require 'fileutils'
 require 'erb'
 require 'ostruct'
@@ -29,7 +30,7 @@ module Howitzer
     end
 
     def print_banner
-      logger.puts banner unless banner.empty?
+      logger.puts ColorizedString.new(banner.chomp).light_cyan unless banner.empty?
     end
 
     def print_info(data)
@@ -41,7 +42,7 @@ module Howitzer
     end
 
     def puts_error(data)
-      logger.puts "      ERROR: #{data}"
+      logger.puts ColorizedString.new("      ERROR: #{data}").red
     end
   end
 
@@ -88,7 +89,8 @@ module Howitzer
           copy_templates_file_exist(data, destination_path, source_path)
         else
           write_template(destination_path, source_path)
-          puts_info "Added template '#{data[:source]}' with params '#{@options}' to destination '#{data[:destination]}'"
+          puts_info "#{ColorizedString.new('Added').light_green} template '#{data[:source]}' with"\
+                    " params '#{@options}' to destination '#{data[:destination]}'"
         end
       end
     end
@@ -103,14 +105,13 @@ module Howitzer
     end
 
     def copy_with_path(data)
-      src = source_path(data[:source])
-      dst = dest_path(data[:destination])
+      src, dst = get_source_and_destination(data)
       FileUtils.mkdir_p(File.dirname(dst))
       if File.exist?(dst)
         copy_with_path_file_exist(data, src, dst)
       else
         FileUtils.cp(src, dst)
-        puts_info("Added '#{data[:destination]}' file")
+        puts_info("#{ColorizedString.new('Added').light_green} '#{data[:destination]}' file")
       end
     rescue => e
       puts_error("Impossible to create '#{data[:destination]}' file. Reason: #{e.message}")
@@ -124,18 +125,30 @@ module Howitzer
 
     private
 
+    def get_source_and_destination(data)
+      [source_path(data[:source]), dest_path(data[:destination])]
+    end
+
+    def conflict_file_msg(data)
+      ColorizedString.new("Conflict with '#{data[:destination]}' file").yellow
+    end
+
+    def overwrite_file_msg(data)
+      ColorizedString.new("  Overwrite '#{data[:destination]}' file? [Yn]:").yellow
+    end
+
     def copy_templates_file_exist(data, destination_path, source_path)
-      puts_info("Conflict with '#{data[:destination]}' template")
-      print_info("  Overwrite '#{data[:destination]}' template? [Yn]:")
+      puts_info(ColorizedString.new("Conflict with '#{data[:destination]}' template").yellow)
+      print_info(ColorizedString.new("  Overwrite '#{data[:destination]}' template? [Yn]:").yellow)
       copy_templates_overwrite(gets.strip.downcase, data, destination_path, source_path)
     end
 
     def copy_with_path_file_exist(data, source, destination)
       if FileUtils.identical?(source, destination)
-        puts_info("Identical '#{data[:destination]}' file")
+        puts_info("#{ColorizedString.new('Identical').light_green} '#{data[:destination]}' file")
       else
-        puts_info("Conflict with '#{data[:destination]}' file")
-        print_info("  Overwrite '#{data[:destination]}' file? [Yn]:")
+        puts_info(conflict_file_msg(data))
+        print_info(overwrite_file_msg(data))
         copy_with_path_overwrite(gets.strip.downcase, data, source, destination)
       end
     end
@@ -144,9 +157,9 @@ module Howitzer
       case answer
         when 'y'
           write_template(destination_path, source_path)
-          puts_info("    Forced '#{data[:destination]}' template")
+          puts_info("    #{ColorizedString.new('Forced').light_green} '#{data[:destination]}' template")
         when 'n'
-          puts_info("    Skipped '#{data[:destination]}' template")
+          puts_info("    #{ColorizedString.new('Skipped').light_black} '#{data[:destination]}' template")
         else nil
       end
     end
@@ -155,9 +168,9 @@ module Howitzer
       case answer
         when 'y'
           FileUtils.cp(source, destination)
-          puts_info("    Forced '#{data[:destination]}' file")
+          puts_info("    #{ColorizedString.new('Forced').light_green} '#{data[:destination]}' file")
         when 'n' then
-          puts_info("    Skipped '#{data[:destination]}' file")
+          puts_info("    #{ColorizedString.new('Skipped').light_black} '#{data[:destination]}' file")
         else nil
       end
     end

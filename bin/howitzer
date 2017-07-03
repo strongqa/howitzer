@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+require 'colorized_string'
 require 'gli'
 require_relative '../lib/howitzer/version'
 
@@ -26,9 +27,9 @@ module HowitzerCli
         validate_options(options)
         load_generators
         path_to_dir = File.join(Dir.pwd, args.first)
-        puts '  * New project directory creation ...'
+        puts ColorizedString.new('  * New project directory creation ...').light_cyan
         Dir.mkdir(path_to_dir)
-        puts "      Created new './#{args.first}' folder"
+        puts "      #{ColorizedString.new('Created').light_green} './#{args.first}' folder"
         Dir.chdir(path_to_dir)
         Howitzer::ConfigGenerator.new(options)
         Howitzer::WebGenerator.new(options)
@@ -43,9 +44,9 @@ module HowitzerCli
         elsif options['turnip']
           Howitzer::TurnipGenerator.new(options)
         end
-        puts '[WARN] Extra parameters were skipped' if args.size > 1
+        puts ColorizedString.new('[WARN] Extra parameters were skipped').yellow if args.size > 1
       elsif args.size.zero?
-        exit_now!('Please specify <PROJECT NAME>', 64)
+        exit_now!(ColorizedString.new('Please specify <PROJECT NAME>').red, 64)
       end
     end
   end
@@ -80,11 +81,11 @@ module HowitzerCli
     def validate_options(options)
       return if [options[:cucumber], options[:rspec], options[:turnip]].count { |el| el } == 1
 
-      exit_now!('Provide --cucumber, --rspec or --turnip option', 64)
+      exit_now!(ColorizedString.new('Provide --cucumber, --rspec or --turnip option').red, 64)
     end
 
     def check_project_presence
-      exit_now!('Current directory is not Howitzer project', 126) unless howitzer_project?
+      exit_now!(ColorizedString.new('Current directory is not Howitzer project').red, 126) unless howitzer_project?
     end
 
     def howitzer_project?

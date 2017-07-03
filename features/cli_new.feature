@@ -54,7 +54,7 @@ Feature: Howitzer CLI New Project Creation
     Then the output should contain exactly:
     """
       * New project directory creation ...
-          Created new './test_automation' folder
+          Created './test_automation' folder
       * Config files generation ...
           Added 'config/boot.rb' file
           Added 'config/custom.yml' file
@@ -115,7 +115,7 @@ Feature: Howitzer CLI New Project Creation
     Then the output should contain exactly:
     """
       * New project directory creation ...
-          Created new './test_automation' folder
+          Created './test_automation' folder
       * Config files generation ...
           Added 'config/boot.rb' file
           Added 'config/custom.yml' file
@@ -183,7 +183,7 @@ Feature: Howitzer CLI New Project Creation
     Then the output should contain exactly:
     """
       * New project directory creation ...
-          Created new './test_automation' folder
+          Created './test_automation' folder
       * Config files generation ...
           Added 'config/boot.rb' file
           Added 'config/custom.yml' file
@@ -293,7 +293,7 @@ Feature: Howitzer CLI New Project Creation
     Then the output should contain exactly:
     """
       * New project directory creation ...
-          Created new './test_automation' folder
+          Created './test_automation' folder
       * Config files generation ...
           Added 'config/boot.rb' file
           Added 'config/custom.yml' file
