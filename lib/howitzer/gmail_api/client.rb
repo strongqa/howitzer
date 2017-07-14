@@ -15,6 +15,8 @@ module Howitzer
                                    'howitzer-gmail.yaml')
       SCOPE = [Google::Apis::GmailV1::AUTH_GMAIL_MODIFY].freeze
       USER_ID = 'me'.freeze
+      MESSAGE = ColorizedString.new('Open the following URL in the browser and enter the ' \
+               'resulting code after authorization').yellow
 
       def initialize
         @service = Google::Apis::GmailV1::GmailService.new
@@ -57,8 +59,7 @@ module Howitzer
           url = authorizer.get_authorization_url(
             base_url: OOB_URI
           )
-          puts ColorizedString.new('Open the following URL in the browser and enter the ' \
-               'resulting code after authorization').yellow
+          puts MESSAGE
           puts url
           code = $stdin.gets
           credentials = authorizer.get_and_store_credentials_from_code(
