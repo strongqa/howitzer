@@ -110,4 +110,5 @@
  gmail_mail_prefix: test.email
  gmail_idle_timeout: 15
  gmail_sleep_time: 3
+ gmail_app_name: howitzer_test
  client_secret_path: '/test_path/client_secret.json'

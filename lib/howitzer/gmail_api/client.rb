@@ -2,13 +2,14 @@ require 'google/api_client/client_secrets'
 require 'google/apis/gmail_v1'
 require 'googleauth'
 require 'googleauth/stores/file_token_store'
+require 'colorized_string'
 
 module Howitzer
   module GmailApi
     # A GmailApi::Client object is used to communicate with the Gmail API.
     class Client
       OOB_URI = 'urn:ietf:wg:oauth:2.0:oob'.freeze
-      APPLICATION_NAME = 'Howitzer_test'.freeze
+      APPLICATION_NAME = Howitzer.gmail_app_name
       CLIENT_SECRETS_PATH = Howitzer.client_secret_path
       CREDENTIALS_PATH = File.join(Howitzer.log_dir, '.credentials',
                                    'howitzer-gmail.yaml')
@@ -24,8 +25,8 @@ module Howitzer
       def find_message(recipient, subject)
         message_list = @service.list_user_messages(USER_ID, q: "to:#{recipient} subject:#{subject}")
         raise Howitzer::EmailNotFoundError, 'Message not received yet, retry...' if message_list.messages.nil?
-        messageid = message_list.messages[0].id
-        message = @service.get_user_message(USER_ID, messageid, format: 'full')
+        message_id = message_list.messages[0].id
+        message = @service.get_user_message(USER_ID, message_id, format: 'full')
         message
       end
 
@@ -56,8 +57,8 @@ module Howitzer
           url = authorizer.get_authorization_url(
             base_url: OOB_URI
           )
-          puts 'Open the following URL in the browser and enter the ' \
-               'resulting code after authorization'
+          puts ColorizedString.new('Open the following URL in the browser and enter the ' \
+               'resulting code after authorization').yellow
           puts url
           code = $stdin.gets
           credentials = authorizer.get_and_store_credentials_from_code(
