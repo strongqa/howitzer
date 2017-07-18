@@ -6,8 +6,8 @@ module Howitzer
     # A Mailtrap::Client object is used to communicate with the Mailtrap API. It is a
     class Client
       def initialize
-        @base_url = "https://mailtrap.io/api/v1/inboxes/#{Howitzer.inbox_id}"
-        @api_token = Howitzer.api_token
+        @base_url = "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}"
+        @api_token = Howitzer.mailtrap_api_token
       end
 
       def find_message(recipient, subject)

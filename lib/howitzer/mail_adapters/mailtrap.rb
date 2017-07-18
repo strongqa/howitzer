@@ -95,6 +95,8 @@ module Howitzer
       end
       private_class_method :retrieve_message
 
+      private
+
       def retrieve_attachments(message)
         Howitzer::MailtrapApi::Client.new.find_attachments(message)
       end
