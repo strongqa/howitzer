@@ -31,6 +31,7 @@ require 'active_support/deprecation/method_wrappers'
 require 'active_support/core_ext'
 require 'repeater'
 require 'sexy_settings'
+require 'fake_web'
 
 SexySettings.configure do |config|
   config.path_to_default_settings = File.expand_path(
