@@ -32,7 +32,7 @@ module Howitzer
 
       def filter_by_subject(messages, subject)
         result_messages = []
-        messages.each { |msg| result_messages << msg if msg['subject'].match?(subject) }
+        messages.each { |msg| result_messages << msg if msg['subject'] == subject }
         result_messages
       end
     end
