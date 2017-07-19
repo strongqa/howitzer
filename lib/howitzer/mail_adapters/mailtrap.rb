@@ -74,7 +74,7 @@ module Howitzer
       def mime_part!
         files = mime_part
         return files if files.present?
-        raise Howitzer::NoAttachmentsError, 'No attachments where found.'
+        raise Howitzer::NoAttachmentsError, 'No attachments were found.'
       end
 
       def self.find_retry_params(wait)
