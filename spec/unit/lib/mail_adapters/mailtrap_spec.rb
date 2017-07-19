@@ -3,10 +3,16 @@ require 'howitzer/email'
 require 'howitzer/log'
 require 'howitzer/exceptions'
 RSpec.describe 'Mailtrap Email Adapter' do
-  before { allow(Howitzer).to receive(:mail_adapter) { 'mailtrap' } }
-  before { Howitzer::Email.adapter = 'mailtrap' }
-  before { allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 } }
-  before { allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' } }
+  before do
+    allow(Howitzer).to receive(:mail_adapter) { 'mailtrap' }
+    Howitzer::Email.adapter = 'mailtrap'
+    allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 }
+    allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' }
+    base_url = 'https://mailtrap.io/api/v1/inboxes/777777/messages'
+    FakeWeb.register_uri(:get, "#{base_url}/475265146/attachments", body: attachment.to_s)
+    FakeWeb.register_uri(:get, "#{base_url}/32/attachments", body: '[]')
+    FakeWeb.register_uri(:get, "#{base_url}?search=#{recipient}", body: "[#{message.to_s.gsub('=>', ':')}]")
+  end
   let(:recipient) { 'test@mail.com' }
   let(:mail_subject) { 'Confirmation instructions' }
   let(:message) do
@@ -35,15 +41,6 @@ RSpec.describe 'Mailtrap Email Adapter' do
      }]'
   end
   let(:email_object) { Howitzer::Email.adapter.new(message) }
-  before do
-    FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/777777/'\
-                               'messages/475265146/attachments', body: attachment.to_s)
-    FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/777777/'\
-                                      'messages/32/attachments', body: '[]')
-    FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/777777/'\
-                                        "messages?search=#{recipient}", body: "[#{message.to_s.gsub('=>', ':')}]")
-  end
-
   describe '.find' do
     subject { Howitzer::MailAdapters::Mailtrap.find(recipient, mail_subject, wait: 0.01) }
     context 'when message is found' do

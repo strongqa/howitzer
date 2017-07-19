@@ -3,7 +3,7 @@ require 'rest-client'
 
 module Howitzer
   module MailtrapApi
-    # A Mailtrap::Client object is used to communicate with the Mailtrap API. It is a
+    # A Mailtrap::Client object is used to communicate with the Mailtrap API.
     class Client
       def initialize
         @base_url = "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}"
