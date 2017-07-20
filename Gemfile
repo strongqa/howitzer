@@ -9,6 +9,6 @@ end
 gemspec
 
 group :development do
-  gem 'fakeweb', github: 'chrisk/fakeweb', branch: 'master'
+  gem 'fakeweb', git: 'https://github.com/chrisk/fakeweb.git', branch: 'master'
   gem 'rubocop'
 end

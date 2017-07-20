@@ -95,7 +95,7 @@ module Howitzer
       def self.find_retry_params(wait)
         {
           timeout: wait || Howitzer.try(:mailgun_idle_timeout),
-          sleep: Howitzer.mailgun_sleep_time,
+          sleep: Howitzer.mail_sleep_time,
           silent: true,
           logger: Howitzer::Log,
           on: Howitzer::EmailNotFoundError
