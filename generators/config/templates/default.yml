@@ -96,7 +96,6 @@
 ###########################################################
  mail_adapter: mailgun
  mail_wait_time: 60
- mail_idle_timeout: 15
  mail_sleep_time: 3
 
 # -Mailgun- (http://www.mailgun.com/)
@@ -105,4 +104,4 @@
 
  # -Mailtrap- (https://mailtrap.io/)
  mailtrap_api_token: private_api_key
- mailtrap_inbox_id: inbox_id
+ mailtrap_inbox_id: 777777

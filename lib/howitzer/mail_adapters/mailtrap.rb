@@ -79,7 +79,7 @@ module Howitzer
 
       def self.find_retry_params(wait)
         {
-          timeout: wait || Howitzer.try(:mail_idle_timeout),
+          timeout: wait,
           sleep: Howitzer.mail_sleep_time,
           silent: true,
           logger: Howitzer::Log,
