@@ -156,7 +156,7 @@ RSpec.describe 'Mailgun Email Adapter' do
 
     context 'when no attachments' do
       it do
-        expect { subject }.to raise_error(Howitzer::NoAttachmentsError, 'No attachments where found.')
+        expect { subject }.to raise_error(Howitzer::NoAttachmentsError, 'No attachments were found.')
       end
     end
   end

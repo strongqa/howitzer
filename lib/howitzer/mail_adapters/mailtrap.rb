@@ -1,13 +1,12 @@
-require 'howitzer/mailgun_api/connector'
 require 'howitzer/exceptions'
 require 'howitzer/mail_adapters/abstract'
+require 'howitzer/mailtrap_api/client'
 
 module Howitzer
   module MailAdapters
-    # This class represents Mailgun mail adapter
-    class Mailgun < Abstract
+    # This class represents mailtrap mail adapter
+    class Mailtrap < Abstract
       # Finds an email in storage
-      # @note emails are stored for 3 days only!
       # @param recipient [String] an email
       # @param subject [String]
       # @param wait [Integer] how much time is required to wait an email
@@ -24,49 +23,49 @@ module Howitzer
       # @return [String] plain text body of the email message
 
       def plain_text_body
-        message['body-plain']
+        message['text_body']
       end
 
       # @return [String] html body of the email message
 
       def html_body
-        message['stripped-html']
+        message['html_body']
       end
 
       # @return [String] stripped text
 
       def text
-        message['stripped-text']
+        message['text_body']
       end
 
       # @return [String] an email address specified in `From` field
 
       def mail_from
-        message['From']
+        message['from_email']
       end
 
       # @return [String] recipient emails separated with `, `
 
       def recipients
-        message['To'].split ', '
+        message['to_email'].split ', '
       end
 
       # @return [String] when email was received
 
       def received_time
-        message['Received'][/\w+, \d+ \w+ \d+ \d+:\d+:\d+ -\d+ \(\w+\)$/]
+        Time.parse(message['created_at']).to_s
       end
 
       # @return [String] a real sender email address
 
       def sender_email
-        message['sender']
+        message['from_email']
       end
 
       # @return [Array] attachments
 
       def mime_part
-        message['attachments']
+        retrieve_attachments(message)
       end
 
       # @raise [NoAttachmentsError] if no attachments present
@@ -78,24 +77,10 @@ module Howitzer
         raise Howitzer::NoAttachmentsError, 'No attachments were found.'
       end
 
-      def self.events
-        MailgunApi::Connector.instance.client.get(
-          "#{MailgunApi::Connector.instance.domain}/events", params: { event: 'stored' }
-        )
-      end
-      private_class_method :events
-
-      def self.event_by(recipient, subject)
-        events.to_h['items'].find do |hash|
-          hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
-        end
-      end
-      private_class_method :event_by
-
       def self.find_retry_params(wait)
         {
-          timeout: wait || Howitzer.try(:mailgun_idle_timeout),
-          sleep: Howitzer.mail_sleep_time || Howitzer.mailgun_sleep_time,
+          timeout: wait,
+          sleep: Howitzer.mail_sleep_time,
           silent: true,
           logger: Howitzer::Log,
           on: Howitzer::EmailNotFoundError
@@ -104,13 +89,17 @@ module Howitzer
       private_class_method :find_retry_params
 
       def self.retrieve_message(recipient, subject)
-        event = event_by(recipient, subject)
-        raise Howitzer::EmailNotFoundError, 'Message not received yet, retry...' unless event
-
-        message_url = event['storage']['url']
-        MailgunApi::Connector.instance.client.get_url(message_url).to_h
+        message = Howitzer::MailtrapApi::Client.new.find_message(recipient, subject)
+        raise Howitzer::EmailNotFoundError, 'Message not received yet, retry...' unless message
+        message
       end
       private_class_method :retrieve_message
+
+      private
+
+      def retrieve_attachments(message)
+        Howitzer::MailtrapApi::Client.new.find_attachments(message)
+      end
     end
   end
 end
