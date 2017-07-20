@@ -25,8 +25,11 @@ RSpec.describe Howitzer::MailtrapApi::Client do
     "content_type": "image/png"
      }]'
   end
-  before { allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 } }
-  before { allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' } }
+  before do
+    allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 }
+    allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' }
+    stub_const('Howitzer::MailtrapApi::Client::BASE_URL', 'https://mailtrap.io/api/v1/inboxes/777777')
+  end
 
   describe '.new' do
     subject { mailtrap_obj }

@@ -9,6 +9,7 @@ RSpec.describe 'Mailtrap Email Adapter' do
     allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 }
     allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' }
     base_url = 'https://mailtrap.io/api/v1/inboxes/777777/messages'
+    stub_const('Howitzer::MailtrapApi::Client::BASE_URL', base_url.gsub('/messages', ''))
     FakeWeb.register_uri(:get, "#{base_url}/475265146/attachments", body: attachment.to_s)
     FakeWeb.register_uri(:get, "#{base_url}/32/attachments", body: '[]')
     FakeWeb.register_uri(:get, "#{base_url}?search=#{recipient}", body: "[#{message.to_s.gsub('=>', ':')}]")

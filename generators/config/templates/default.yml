@@ -104,4 +104,4 @@
 
  # -Mailtrap- (https://mailtrap.io/)
  mailtrap_api_token: private_api_key
- mailtrap_inbox_id: 777777
+ mailtrap_inbox_id: inbox_id
