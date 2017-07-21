@@ -23,55 +23,45 @@ module Howitzer
       # @return [String] plain text body of the email message
 
       def plain_text_body
-        if message.payload.parts.nil?
-          message.payload.body.data
-        else
-          message.payload.parts[0].body.data
-        end
+        message.body.to_s
       end
 
       # @return [String] html body of the email message
 
       def html_body
-        if message.payload.parts.nil?
-          message.payload.body.data
-        else
-          message.payload.parts[1].body.data
-        end
+        message.html_part.to_s
       end
 
       # @return [String] stripped text
 
       def text
-        if message.payload.parts.nil?
-          message.payload.body.data
-        else
-          message.payload.parts[0].body.data
-        end
+        message.text_part.to_s
       end
 
       # @return [String] an email address specified in `From` field
 
       def mail_from
-        get_field_value('From')
+        "#{message.from[0]['mailbox']}@#{message.from[0]['host']}"
       end
 
       # @return [Array] recipient emails
 
       def recipients
-        get_field_value('To').split ', '
+        res = []
+        message.to.each { |to| res << "#{to['mailbox']}@#{to['host']}" }
+        res
       end
 
       # @return [String] when email was received
 
       def received_time
-        get_field_value('Date')
+        Time.parse(message.date).strftime('%F %T')
       end
 
       # @return [Array] attachments
 
       def mime_part
-        attachment_list
+        message.attachments
       end
 
       # @raise [NoAttachmentsError] if no attachments present
@@ -84,25 +74,16 @@ module Howitzer
       end
 
       def self.get_message(recipient, subject)
-        client = Howitzer::GmailApi::Client.new
-        client.find_message(recipient, subject)
+        message = Howitzer::GmailApi::Client.new.find_message(recipient, subject)
+        raise Howitzer::EmailNotFoundError if message.blank?
+        message
       end
       private_class_method :get_message
 
-      def get_field_value(fieldname)
-        client = Howitzer::GmailApi::Client.new
-        client.field_value(@message, fieldname)
-      end
-
-      def attachment_list
-        client = Howitzer::GmailApi::Client.new
-        client.get_attachments(@message)
-      end
-
       def self.find_retry_params(wait)
         {
-          timeout: wait || Howitzer.try(:gmail_idle_timeout),
-          sleep: Howitzer.gmail_sleep_time,
+          timeout: wait,
+          sleep: Howitzer.mail_sleep_time,
           silent: true,
           logger: Howitzer::Log,
           on: Howitzer::EmailNotFoundError
