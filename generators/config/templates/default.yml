@@ -105,3 +105,7 @@
  # -Mailtrap- (https://mailtrap.io/)
  mailtrap_api_token: private_api_key
  mailtrap_inbox_id: inbox_id
+
+# -Gmail-
+ gmail_login: gmail_address
+ gmail_password: gmail_password

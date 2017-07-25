@@ -30,6 +30,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'selenium-webdriver', ['>= 3.4.1', '< 4.0']
   gem.add_runtime_dependency 'sexy_settings'
   gem.add_runtime_dependency 'colorize'
+  gem.add_runtime_dependency 'gmail'
 
   gem.add_development_dependency('aruba')
   gem.add_development_dependency('ffaker')

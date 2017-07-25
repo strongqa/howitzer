@@ -5,6 +5,10 @@ require 'howitzer/exceptions'
 require 'howitzer/mailgun_api/connector'
 
 RSpec.describe 'Mailgun Email Adapter' do
+  before do
+    allow(Howitzer).to receive(:mail_adapter) { 'mailgun' }
+    Howitzer::Email.adapter = 'mailgun'
+  end
   let(:recipient) { 'first_tester@gmail.com' }
   let(:message) do
     {
