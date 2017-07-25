@@ -3,6 +3,7 @@
 ### New Features
 - Integrate CrossBrowserTesting
 - Mailtrap support added
+- Gmail support added
 - Colorized output added
 - **mailgun_sleep_time** deprecated, **mail_sleep_time** used instead for all mail adapters
 

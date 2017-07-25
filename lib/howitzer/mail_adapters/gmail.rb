@@ -47,9 +47,7 @@ module Howitzer
       # @return [Array] recipient emails
 
       def recipients
-        res = []
-        message.to.each { |to| res << "#{to['mailbox']}@#{to['host']}" }
-        res
+        message.to.inject([]) { |ar, to| ar << "#{to['mailbox']}@#{to['host']}" }
       end
 
       # @return [String] when email was received
