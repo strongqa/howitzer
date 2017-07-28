@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'howitzer/mailgun_api/client'
 
 RSpec.describe Howitzer::MailgunApi::Client do
-  before { FakeWeb.allow_net_connect = false }
   let(:mg_obj) { described_class.new(api_key: 'Fake-API-Key') }
   let(:bounce_msg) do
     JSON.generate(
