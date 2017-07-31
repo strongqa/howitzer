@@ -31,8 +31,14 @@ RSpec.describe 'Mailgun Email Adapter' do
   end
 
   describe '.find' do
-    let(:mailgun_message) { double(to_h: message) }
-    let(:events) { double(to_h: { 'items' => [event] }) }
+    let(:mailgun_message) { JSON.generate(message) }
+    let(:events) { JSON.generate('items' => [event]) }
+    before do
+      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@api.mailgun.net/v3/'\
+                                        'mailgun@test.domain/events?event=stored', body: events.to_s)
+      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@si.api.mailgun.net/v3/'\
+                                  'domains/mg.strongqa.com/messages/1234567890', body: mailgun_message.to_s)
+    end
     subject { Howitzer::MailAdapters::Mailgun.find(recipient, message_subject, wait: 0.01) }
 
     context 'when message is found' do
@@ -49,15 +55,6 @@ RSpec.describe 'Mailgun Email Adapter' do
             'url' => 'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
           }
         }
-      end
-      before do
-        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
-          'mailgun@test.domain/events',
-          params: { event: 'stored' }
-        ) { events }
-        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get_url).with(
-          'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
-        ) { mailgun_message }
       end
       it do
         expect(Howitzer::Email.adapter).to receive(:new).with(message).once
@@ -79,12 +76,6 @@ RSpec.describe 'Mailgun Email Adapter' do
             'url' => 'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
           }
         }
-      end
-      before do
-        allow(Howitzer::MailgunApi::Connector.instance.client).to receive(:get).with(
-          'mailgun@test.domain/events',
-          params: { event: 'stored' }
-        ) { events }
       end
       it do
         expect { subject }.to raise_error(
