@@ -52,6 +52,9 @@ Capybara.register_driver :selenium do |app|
     options = Selenium::WebDriver::Firefox::Options.new(profile: ff_profile)
     params[:options] = options
   end
+  if CapybaraHelpers.chrome_browser?
+    params[:options] = Selenium::WebDriver::Chrome::Options.new(args: ['start-fullscreen']) if Howitzer.maximized_window
+  end
   Capybara::Selenium::Driver.new app, params
 end
 
