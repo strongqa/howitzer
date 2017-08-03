@@ -62,7 +62,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   startup_flags = ['headless']
-  startup_flags << 'start-maximized' if Howitzer.maximized_window
+  startup_flags << 'start-fullscreen' if Howitzer.maximized_window
   startup_flags.concat(Howitzer.headless_chrome_flags.split(/\s*,\s*/)) if Howitzer.headless_chrome_flags
   options = Selenium::WebDriver::Chrome::Options.new(args: startup_flags)
   params = { browser: :chrome, options: options }
