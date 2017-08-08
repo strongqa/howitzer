@@ -23,6 +23,12 @@ RSpec.configure do |config|
         RSpec.current_example.description
       end
     Howitzer::Log.print_scenario_name(scenario_name)
+    driver = Capybara.current_session.driver
+    if driver.respond_to?(:add_headers)
+      driver.add_headers('User-Agent' => Howitzer.user_agent)
+    elsif driver.respond_to?(:header)
+      driver.header('User-Agent', Howitzer.user_agent)
+    end
     @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
   end
 
