@@ -105,6 +105,8 @@ module Howitzer
       http_client.read_timeout = Howitzer.cloud_http_idle_timeout
       http_client.open_timeout = Howitzer.cloud_http_idle_timeout
 
+      apply_user_agent(caps) if Howitzer.user_agent
+
       options = {
         url: url,
         desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),
@@ -129,6 +131,17 @@ module Howitzer
     end
 
     private
+
+    def apply_user_agent(caps)
+      browser = Howitzer.cloud_browser_name
+      if browser.casecmp('chrome').zero?
+        caps['chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
+        return
+      end
+      profile = Selenium::WebDriver::Firefox::Profile.new
+      profile['general.useragent.override'] = Howitzer.user_agent
+      caps[:firefox_profile] = profile
+    end
 
     def browser?(*browser_aliases)
       return cloud_browser?(*browser_aliases) if cloud_driver?
