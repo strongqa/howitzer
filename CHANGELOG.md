@@ -5,10 +5,12 @@
 - Mailtrap support added
 - Gmail support added
 - Colorized output added
+- New option **user_agent**, allows custom user agent setup 
 - **mailgun_sleep_time** deprecated, **mail_sleep_time** used instead for all mail adapters
 
 
 ### Bugfixes
+- **window_maximized** option fixed for chrome browser on MacOS
 
 ## [v2.0.3](https://github.com/strongqa/howitzer/compare/v2.0.2...v2.0.3)
 
