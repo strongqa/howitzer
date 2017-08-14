@@ -153,7 +153,7 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if Howitzer.maximized_window && Howitzer.driver != 'headless_chrome'
+        current_window.maximize if Howitzer.maximized_window && !chrome_browser?
       end
 
       # Reloads current page in a browser
@@ -161,6 +161,12 @@ module Howitzer
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
+      end
+
+      private
+
+      def chrome_browser?
+        Howitzer.driver == 'headless_chrome' || Howitzer.selenium_browser == 'chrome'
       end
     end
   end

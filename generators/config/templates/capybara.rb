@@ -52,6 +52,9 @@ Capybara.register_driver :selenium do |app|
     options = Selenium::WebDriver::Firefox::Options.new(profile: ff_profile)
     params[:options] = options
   end
+  if CapybaraHelpers.chrome_browser?
+    params[:options] = Selenium::WebDriver::Chrome::Options.new(args: ['start-fullscreen']) if Howitzer.maximized_window
+  end
   Capybara::Selenium::Driver.new app, params
 end
 
@@ -59,7 +62,7 @@ end
 
 Capybara.register_driver :headless_chrome do |app|
   startup_flags = ['headless']
-  startup_flags << 'start-maximized' if Howitzer.maximized_window
+  startup_flags << 'start-fullscreen' if Howitzer.maximized_window
   startup_flags.concat(Howitzer.headless_chrome_flags.split(/\s*,\s*/)) if Howitzer.headless_chrome_flags
   options = Selenium::WebDriver::Chrome::Options.new(args: startup_flags)
   params = { browser: :chrome, options: options }
