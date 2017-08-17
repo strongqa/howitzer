@@ -67,7 +67,7 @@ Capybara.register_driver :selenium do |app|
     args = []
     args << 'start-fullscreen' if Howitzer.maximized_window
     args << "user-agent=#{Howitzer.user_agent}" if Howitzer.user_agent.present?
-    params[:options] = Selenium::WebDriver::Chrome::Options.new(args: args) if Howitzer.maximized_window
+    params[:options] = Selenium::WebDriver::Chrome::Options.new(args: args)
   end
   Capybara::Selenium::Driver.new app, params
 end
