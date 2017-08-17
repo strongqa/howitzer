@@ -694,24 +694,4 @@ RSpec.describe Howitzer::CapybaraHelpers do
       end
     end
   end
-
-  describe '.apply_user_agent' do
-    let(:caps) { {} }
-    before { allow(Howitzer).to receive(:user_agent) { 'test_user_agent' } }
-    subject { apply_user_agent(caps) }
-    context 'when chrome browser' do
-      before { allow(Howitzer).to receive(:cloud_browser_name) { 'chrome' } }
-      it do
-        subject
-        expect(caps['chromeOptions']['args'].join).to include(Howitzer.user_agent)
-      end
-    end
-    context 'when firefox browser' do
-      before { allow(Howitzer).to receive(:cloud_browser_name) { 'firefox' } }
-      it do
-        subject
-        expect(caps[:firefox_profile]).not_to be_nil
-      end
-    end
-  end
 end

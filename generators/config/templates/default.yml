@@ -17,7 +17,7 @@
 ###########################################################
 # TEST ENVIRONMENTS SETTINGS                              #
 ###########################################################
- user_agent:
+ user_agent: # if blank, then default agent
  page_load_idle_timeout: 20
  maximized_window: true # Specify maximized browser window size
 

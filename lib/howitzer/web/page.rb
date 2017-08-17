@@ -1,6 +1,7 @@
 require 'singleton'
 require 'rspec/expectations'
 require 'addressable/template'
+require 'howitzer/capybara_helpers'
 require 'howitzer/web/capybara_methods_proxy'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
@@ -23,6 +24,7 @@ module Howitzer
       include PageValidator
       include ::RSpec::Matchers
       include RSpec::Wait
+      include CapybaraHelpers
 
       # This Ruby callback makes all inherited classes as singleton classes.
 
@@ -161,12 +163,6 @@ module Howitzer
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      private
-
-      def chrome_browser?
-        Howitzer.driver == 'headless_chrome' || Howitzer.selenium_browser == 'chrome'
       end
     end
   end

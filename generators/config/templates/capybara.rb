@@ -37,6 +37,16 @@ module CapybaraHelpers
   extend Howitzer::CapybaraHelpers
 end
 
+def cloud_user_agent(caps)
+  if CapybaraHelpers.chrome_browser?
+    caps['chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
+  elsif CapybaraHelpers.ff_browser?
+    profile = Selenium::WebDriver::Firefox::Profile.new
+    profile['general.useragent.override'] = Howitzer.user_agent
+    caps[:firefox_profile] = profile
+  end
+end
+
 # :selenium driver
 
 Capybara.register_driver :selenium do |app|
@@ -48,7 +58,7 @@ Capybara.register_driver :selenium do |app|
       profile['network.automatic-ntlm-auth.allow-non-fqdn'] = true
       profile['network.ntlm.send-lm-response'] = true
       profile['network.automatic-ntlm-auth.trusted-uris'] = Howitzer.app_host
-      profile['general.useragent.override'] = Howitzer.user_agent if Howitzer.user_agent
+      profile['general.useragent.override'] = Howitzer.user_agent if Howitzer.user_agent.present?
     end
     options = Selenium::WebDriver::Firefox::Options.new(profile: ff_profile)
     params[:options] = options
@@ -56,7 +66,7 @@ Capybara.register_driver :selenium do |app|
   if CapybaraHelpers.chrome_browser?
     args = []
     args << 'start-fullscreen' if Howitzer.maximized_window
-    args << "user-agent=#{Howitzer.user_agent}" if Howitzer.user_agent
+    args << "user-agent=#{Howitzer.user_agent}" if Howitzer.user_agent.present?
     params[:options] = Selenium::WebDriver::Chrome::Options.new(args: args) if Howitzer.maximized_window
   end
   Capybara::Selenium::Driver.new app, params
@@ -67,7 +77,7 @@ end
 Capybara.register_driver :headless_chrome do |app|
   startup_flags = ['headless']
   startup_flags << 'start-fullscreen' if Howitzer.maximized_window
-  startup_flags << "user-agent=#{Howitzer.user_agent}" if Howitzer.user_agent
+  startup_flags << "user-agent=#{Howitzer.user_agent}" if Howitzer.user_agent.present?
   startup_flags.concat(Howitzer.headless_chrome_flags.split(/\s*,\s*/)) if Howitzer.headless_chrome_flags
   options = Selenium::WebDriver::Chrome::Options.new(args: startup_flags)
   params = { browser: :chrome, options: options }
@@ -103,7 +113,7 @@ Capybara.register_driver :phantomjs do |app|
   caps = {
     javascript_enabled: !Howitzer.phantom_ignore_js_errors
   }
-  caps['phantomjs.page.settings.userAgent'] = "WebKit #{Howitzer.user_agent}" if Howitzer.user_agent
+  caps['phantomjs.page.settings.userAgent'] = "WebKit #{Howitzer.user_agent}" if Howitzer.user_agent.present?
   Capybara::Selenium::Driver.new(
     app, browser: :phantomjs,
          desired_capabilities: caps,
@@ -122,6 +132,7 @@ Capybara.register_driver :sauce do |app|
     recordScreenshots: Howitzer.cloud_sauce_record_screenshots,
     videoUploadOnPass: Howitzer.cloud_sauce_video_upload_on_pass
   )
+  cloud_user_agent(caps) if Howitzer.user_agent.present?
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
@@ -134,6 +145,7 @@ Capybara.register_driver :testingbot do |app|
     idletimeout: Howitzer.cloud_testingbot_idle_timeout,
     screenshot: Howitzer.cloud_testingbot_screenshots
   )
+  cloud_user_agent(caps) if Howitzer.user_agent.present?
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.testingbot.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
@@ -147,6 +159,7 @@ Capybara.register_driver :browserstack do |app|
   )
   caps[:resolution] = Howitzer.cloud_bstack_resolution if Howitzer.cloud_bstack_resolution.present?
   caps[:device] = Howitzer.cloud_bstack_mobile_device if Howitzer.cloud_bstack_mobile_device.present?
+  cloud_user_agent(caps) if Howitzer.user_agent.present?
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.browserstack.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
@@ -167,7 +180,7 @@ Capybara.register_driver :selenium_grid do |app|
                      ' Check your settings, it should be one of' \
                      ' [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
          end
-
+  cloud_user_agent(caps) if Howitzer.user_agent.present?
   Capybara::Selenium::Driver.new(app, browser: :remote, url: Howitzer.selenium_hub_url, desired_capabilities: caps)
 end
 
@@ -183,6 +196,7 @@ Capybara.register_driver :crossbrowsertesting do |app|
   cap['record_video'] = Howitzer.cloud_cbt_record_video
   cap['record_network'] = Howitzer.cloud_cbt_record_network
   cap['max_duration'] = Howitzer.cloud_max_duration
+  cloud_user_agent(cap) if Howitzer.user_agent.present?
   url = "http://#{URI.escape(Howitzer.cloud_auth_login, /@/)}:#{Howitzer.cloud_auth_pass}"\
         '@hub.crossbrowsertesting.com/wd/hub'
   CapybaraHelpers.cloud_driver(app, cap, url)
@@ -200,3 +214,12 @@ Capybara::Screenshot.register_filename_prefix_formatter(:default) do
   "capybara-screenshot-#{Gen.serial}"
 end
 Capybara::Screenshot.prune_strategy = :keep_all
+
+if Howitzer.user_agent.present?
+  driver = Capybara.current_session.driver
+  if driver.respond_to?(:add_headers)
+    driver.add_headers('User-Agent' => Howitzer.user_agent)
+  elsif driver.respond_to?(:header)
+    driver.header('User-Agent', Howitzer.user_agent)
+  end
+end
