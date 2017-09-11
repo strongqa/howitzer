@@ -1,14 +1,13 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.0.3...master)
 
 ### New Features
-- Each driver was moved to separate file
 - Integrate CrossBrowserTesting
 - Mailtrap support added
 - Gmail support added
 - Colorized output added
 - New option **user_agent**, allows custom user agent setup 
 - **mailgun_sleep_time** deprecated, **mail_sleep_time** used instead for all mail adapters
-
+- Capybara drivers configuration were split to separate files
 
 ### Bugfixes
 - **window_maximized** option fixed for chrome browser on MacOS
