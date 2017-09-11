@@ -283,6 +283,28 @@ RSpec.describe Howitzer::Web::Page do
     end
   end
 
+  describe '.set_user_agent' do
+    let(:driver) { double }
+    subject { described_class.send(:set_user_agent) }
+    before { allow(Howitzer).to receive(:user_agent) { 'user_agent' } }
+    context 'with webkit driver' do
+      before { allow(Howitzer).to receive(:driver) { 'webkit' } }
+      it do
+        expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
+        expect(driver).to receive(:header).with('User-Agent', Howitzer.user_agent)
+        subject
+      end
+    end
+    context 'with poltergeist driver' do
+      before { allow(Howitzer).to receive(:driver) { 'poltergeist' } }
+      it do
+        expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
+        expect(driver).to receive(:add_headers).with('User-Agent' => Howitzer.user_agent)
+        subject
+      end
+    end
+  end
+
   describe '#initialize' do
     subject { described_class.send(:new) }
     before do

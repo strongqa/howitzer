@@ -13,16 +13,16 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Identical 'config/drivers/browserstack_driver.rb' file
-          Identical 'config/drivers/crossbrowsertesting_driver.rb' file
-          Identical 'config/drivers/headless_chrome_driver.rb' file
-          Identical 'config/drivers/phantomjs_driver.rb' file
-          Identical 'config/drivers/poltergeist_driver.rb' file
-          Identical 'config/drivers/sauce_driver.rb' file
-          Identical 'config/drivers/selenium_driver.rb' file
-          Identical 'config/drivers/selenium_grid_driver.rb' file
-          Identical 'config/drivers/testingbot_driver.rb' file
-          Identical 'config/drivers/webkit_driver.rb' file
+          Identical 'config/drivers/browserstack.rb' file
+          Identical 'config/drivers/crossbrowsertesting.rb' file
+          Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/phantomjs.rb' file
+          Identical 'config/drivers/poltergeist.rb' file
+          Identical 'config/drivers/sauce.rb' file
+          Identical 'config/drivers/selenium.rb' file
+          Identical 'config/drivers/selenium_grid.rb' file
+          Identical 'config/drivers/testingbot.rb' file
+          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -57,16 +57,16 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
-          Identical 'config/drivers/browserstack_driver.rb' file
-          Identical 'config/drivers/crossbrowsertesting_driver.rb' file
-          Identical 'config/drivers/headless_chrome_driver.rb' file
-          Identical 'config/drivers/phantomjs_driver.rb' file
-          Identical 'config/drivers/poltergeist_driver.rb' file
-          Identical 'config/drivers/sauce_driver.rb' file
-          Identical 'config/drivers/selenium_driver.rb' file
-          Identical 'config/drivers/selenium_grid_driver.rb' file
-          Identical 'config/drivers/testingbot_driver.rb' file
-          Identical 'config/drivers/webkit_driver.rb' file
+          Identical 'config/drivers/browserstack.rb' file
+          Identical 'config/drivers/crossbrowsertesting.rb' file
+          Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/phantomjs.rb' file
+          Identical 'config/drivers/poltergeist.rb' file
+          Identical 'config/drivers/sauce.rb' file
+          Identical 'config/drivers/selenium.rb' file
+          Identical 'config/drivers/selenium_grid.rb' file
+          Identical 'config/drivers/testingbot.rb' file
+          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -105,16 +105,16 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Identical 'config/drivers/browserstack_driver.rb' file
-          Identical 'config/drivers/crossbrowsertesting_driver.rb' file
-          Identical 'config/drivers/headless_chrome_driver.rb' file
-          Identical 'config/drivers/phantomjs_driver.rb' file
-          Identical 'config/drivers/poltergeist_driver.rb' file
-          Identical 'config/drivers/sauce_driver.rb' file
-          Identical 'config/drivers/selenium_driver.rb' file
-          Identical 'config/drivers/selenium_grid_driver.rb' file
-          Identical 'config/drivers/testingbot_driver.rb' file
-          Identical 'config/drivers/webkit_driver.rb' file
+          Identical 'config/drivers/browserstack.rb' file
+          Identical 'config/drivers/crossbrowsertesting.rb' file
+          Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/phantomjs.rb' file
+          Identical 'config/drivers/poltergeist.rb' file
+          Identical 'config/drivers/sauce.rb' file
+          Identical 'config/drivers/selenium.rb' file
+          Identical 'config/drivers/selenium_grid.rb' file
+          Identical 'config/drivers/testingbot.rb' file
+          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -155,16 +155,16 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
-          Identical 'config/drivers/browserstack_driver.rb' file
-          Identical 'config/drivers/crossbrowsertesting_driver.rb' file
-          Identical 'config/drivers/headless_chrome_driver.rb' file
-          Identical 'config/drivers/phantomjs_driver.rb' file
-          Identical 'config/drivers/poltergeist_driver.rb' file
-          Identical 'config/drivers/sauce_driver.rb' file
-          Identical 'config/drivers/selenium_driver.rb' file
-          Identical 'config/drivers/selenium_grid_driver.rb' file
-          Identical 'config/drivers/testingbot_driver.rb' file
-          Identical 'config/drivers/webkit_driver.rb' file
+          Identical 'config/drivers/browserstack.rb' file
+          Identical 'config/drivers/crossbrowsertesting.rb' file
+          Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/phantomjs.rb' file
+          Identical 'config/drivers/poltergeist.rb' file
+          Identical 'config/drivers/sauce.rb' file
+          Identical 'config/drivers/selenium.rb' file
+          Identical 'config/drivers/selenium_grid.rb' file
+          Identical 'config/drivers/testingbot.rb' file
+          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file

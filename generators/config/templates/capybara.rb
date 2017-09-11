@@ -37,7 +37,7 @@ module CapybaraHelpers
   extend Howitzer::CapybaraHelpers
 end
 
-require_relative "drivers/#{Howitzer.driver}_driver"
+require_relative "drivers/#{Howitzer.driver}"
 
 Capybara::Screenshot.append_timestamp = false
 Capybara::Screenshot.register_filename_prefix_formatter(:default) do

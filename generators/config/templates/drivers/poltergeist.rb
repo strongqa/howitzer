@@ -9,4 +9,3 @@ Capybara.register_driver :poltergeist do |app|
     phantomjs_options: ["--ignore-ssl-errors=#{Howitzer.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
   )
 end
-Capybara.current_session.driver.add_headers('User-Agent' => Howitzer.user_agent)

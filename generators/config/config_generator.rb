@@ -9,17 +9,16 @@ module Howitzer
           { source: 'custom.yml', destination: 'config/custom.yml' },
           { source: 'capybara.rb', destination: 'config/capybara.rb' },
           { source: 'default.yml', destination: 'config/default.yml' },
-          { source: 'drivers/browserstack_driver.rb', destination: 'config/drivers/browserstack_driver.rb' },
-          { source: 'drivers/crossbrowsertesting_driver.rb',
-            destination: 'config/drivers/crossbrowsertesting_driver.rb' },
-          { source: 'drivers/headless_chrome_driver.rb', destination: 'config/drivers/headless_chrome_driver.rb' },
-          { source: 'drivers/phantomjs_driver.rb', destination: 'config/drivers/phantomjs_driver.rb' },
-          { source: 'drivers/poltergeist_driver.rb', destination: 'config/drivers/poltergeist_driver.rb' },
-          { source: 'drivers/sauce_driver.rb', destination: 'config/drivers/sauce_driver.rb' },
-          { source: 'drivers/selenium_driver.rb', destination: 'config/drivers/selenium_driver.rb' },
-          { source: 'drivers/selenium_grid_driver.rb', destination: 'config/drivers/selenium_grid_driver.rb' },
-          { source: 'drivers/testingbot_driver.rb', destination: 'config/drivers/testingbot_driver.rb' },
-          { source: 'drivers/webkit_driver.rb', destination: 'config/drivers/webkit_driver.rb' }
+          { source: 'drivers/browserstack.rb', destination: 'config/drivers/browserstack.rb' },
+          { source: 'drivers/crossbrowsertesting.rb', destination: 'config/drivers/crossbrowsertesting.rb' },
+          { source: 'drivers/headless_chrome.rb', destination: 'config/drivers/headless_chrome.rb' },
+          { source: 'drivers/phantomjs.rb', destination: 'config/drivers/phantomjs.rb' },
+          { source: 'drivers/poltergeist.rb', destination: 'config/drivers/poltergeist.rb' },
+          { source: 'drivers/sauce.rb', destination: 'config/drivers/sauce.rb' },
+          { source: 'drivers/selenium.rb', destination: 'config/drivers/selenium.rb' },
+          { source: 'drivers/selenium_grid.rb', destination: 'config/drivers/selenium_grid.rb' },
+          { source: 'drivers/testingbot.rb', destination: 'config/drivers/testingbot.rb' },
+          { source: 'drivers/webkit.rb', destination: 'config/drivers/webkit.rb' }
         ] }
     end
 

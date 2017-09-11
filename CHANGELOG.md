@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.0.3...master)
 
 ### New Features
+- Each driver was moved to separate file
 - Integrate CrossBrowserTesting
 - Mailtrap support added
 - Gmail support added
