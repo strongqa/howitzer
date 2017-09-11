@@ -5,12 +5,28 @@ module Howitzer
   # This module holds capybara helpers methods
   module CapybaraHelpers
     CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze #:nodoc:
+    HOWITZER_KNOWN_BROWSERS = [
+      CLOUD_BROWSERS = [
+        SAUCE = :sauce,
+        TESTINGBOT = :testingbot,
+        BROWSERSTACK = :browserstack,
+        CROSSBROWSERTESTING = :crossbrowsertesting,
+        SELENIUM_GRID = :selenium_grid
+      ].freeze,
+      LOCAL_BROWSERS = [
+        HEADLESS_CHROME = :headless_chrome,
+        PHANTOMJS = :phantomjs,
+        POLTERGEIST = :poltergeist,
+        SELENIUM = :selenium,
+        WEBKIT = :webkit
+      ].freeze
+    ].freeze
 
     # @return [Boolean] true if current driver related with SauceLab,
     #   Testingbot or Browserstack cloud service
 
     def cloud_driver?
-      %i[sauce testingbot browserstack crossbrowsertesting].include?(Howitzer.driver.to_sym)
+      CLOUD_BROWSERS.include?(Howitzer.driver.to_sym)
     end
 
     # @return [Boolean] whether or not current browser is
@@ -35,7 +51,7 @@ module Howitzer
     # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def chrome_browser?
-      browser?(:chrome) || Howitzer.driver == 'headless_chrome'
+      browser?(:chrome) || Howitzer.driver == HEADLESS_CHROME.to_s
     end
 
     # @return [Boolean] whether or not current browser is Safari.
@@ -64,7 +80,7 @@ module Howitzer
 
     def update_cloud_job_status(json_data = {})
       case Howitzer.driver.to_sym
-      when :sauce then update_sauce_job_status(json_data)
+      when SAUCE then update_sauce_job_status(json_data)
       else
         '[NOT IMPLEMENTED]'
       end
@@ -122,7 +138,7 @@ module Howitzer
 
     def cloud_resource_path(kind)
       case Howitzer.driver.to_sym
-      when :sauce then sauce_resource_path(kind)
+      when SAUCE then sauce_resource_path(kind)
       else
         '[NOT IMPLEMENTED]'
       end
@@ -150,11 +166,11 @@ module Howitzer
     end
 
     def selenium_driver?
-      Howitzer.driver.to_sym == :selenium
+      Howitzer.driver.to_sym == SELENIUM
     end
 
     def selenium_grid_driver?
-      Howitzer.driver.to_sym == :selenium_grid
+      Howitzer.driver.to_sym == SELENIUM_GRID
     end
 
     def prefix_name
