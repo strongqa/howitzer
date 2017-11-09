@@ -12,7 +12,7 @@ Capybara.register_driver :selenium_grid do |app|
          else
            raise Howitzer::UnknownBrowserError, "Unknown '#{Howitzer.selenium_browser}' selenium_browser." \
                      ' Check your settings, it should be one of' \
-                     ' [:ie, :iexplore, :ff, :firefox, :chrome, safari]'
+                     ' [:ie, :iexplore, :ff, :firefox, :chrome, :safari]'
          end
   if Howitzer.user_agent.present?
     if CapybaraHelpers.chrome_browser?

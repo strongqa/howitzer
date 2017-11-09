@@ -1,7 +1,6 @@
 require 'singleton'
 require 'rspec/expectations'
 require 'addressable/template'
-require 'howitzer/capybara_helpers'
 require 'howitzer/web/capybara_methods_proxy'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
@@ -24,7 +23,6 @@ module Howitzer
       include PageValidator
       include ::RSpec::Matchers
       include RSpec::Wait
-      include CapybaraHelpers
 
       # This Ruby callback makes all inherited classes as singleton classes.
 
@@ -166,7 +164,8 @@ module Howitzer
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if Howitzer.maximized_window && !chrome_browser?
+        current_window.maximize if Howitzer.maximized_window &&
+                                   !%w[chrome headless_chrome].include?(Capybara.current_driver)
       end
 
       # Reloads current page in a browser

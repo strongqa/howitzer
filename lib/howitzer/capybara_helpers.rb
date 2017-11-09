@@ -10,14 +10,14 @@ module Howitzer
         SAUCE = :sauce,
         TESTINGBOT = :testingbot,
         BROWSERSTACK = :browserstack,
-        CROSSBROWSERTESTING = :crossbrowsertesting,
-        SELENIUM_GRID = :selenium_grid
+        CROSSBROWSERTESTING = :crossbrowsertesting
       ].freeze,
       LOCAL_BROWSERS = [
         HEADLESS_CHROME = :headless_chrome,
         PHANTOMJS = :phantomjs,
         POLTERGEIST = :poltergeist,
         SELENIUM = :selenium,
+        SELENIUM_GRID = :selenium_grid,
         WEBKIT = :webkit
       ].freeze
     ].freeze
@@ -153,7 +153,7 @@ module Howitzer
 
     def cloud_browser?(*browser_aliases)
       unless Howitzer.cloud_browser_name.nil?
-        return browser_aliases.include?(Howitzer.cloud_browser_name.to_s.to_sym)
+        return browser_aliases.include?(Howitzer.cloud_browser_name.to_s.downcase.to_sym)
       end
       raise Howitzer::CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
