@@ -17,7 +17,7 @@ module Howitzer
       # @return [Hash] json message parsed to ruby hash
 
       def find_message(recipient, subject)
-        recipient = URI.escape(recipient, '+')
+        recipient = recipient.gsub('+', '%2B')
         messages = filter_by_subject(messages(recipient), subject)
         latest_message(messages)
       end

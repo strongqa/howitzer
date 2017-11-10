@@ -21,7 +21,7 @@ RSpec.describe 'Generators' do
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
         { name: '/config/drivers/browserstack.rb', is_directory: false, size: 914 },
-        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1131 },
+        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1126 },
         { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 696 },
         { name: '/config/drivers/phantomjs.rb', is_directory: false, size: 636 },
         { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 362 },

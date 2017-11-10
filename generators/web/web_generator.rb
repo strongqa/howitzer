@@ -14,9 +14,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOS
+      <<-MSG
   * PageOriented pattern structure generation ...
-      EOS
+      MSG
     end
   end
 end
