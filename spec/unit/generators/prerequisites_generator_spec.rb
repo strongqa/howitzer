@@ -21,8 +21,8 @@ RSpec.describe 'Generators' do
           is_directory: false, size: template_file_size('prerequisites', 'users.rb')
         },
         {
-          name: '/prerequisites/factory_girl.rb',
-          is_directory: false, size: template_file_size('prerequisites', 'factory_girl.rb')
+          name: '/prerequisites/factory_bot.rb',
+          is_directory: false, size: template_file_size('prerequisites', 'factory_bot.rb')
         },
         { name: '/prerequisites/models', is_directory: true },
         {
@@ -41,7 +41,7 @@ RSpec.describe 'Generators' do
     describe 'output' do
       let(:expected_output) do
         "#{ColorizedString.new('  * Pre-requisites integration to the framework ...').light_cyan}
-      #{ColorizedString.new('Added').light_green} 'prerequisites/factory_girl.rb' file
+      #{ColorizedString.new('Added').light_green} 'prerequisites/factory_bot.rb' file
       #{ColorizedString.new('Added').light_green} 'prerequisites/factories/users.rb' file
       #{ColorizedString.new('Added').light_green} 'prerequisites/models/base.rb' file
       #{ColorizedString.new('Added').light_green} 'prerequisites/models/user.rb' file\n"

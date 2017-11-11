@@ -31,7 +31,7 @@ Feature: Howitzer CLI Update Existing Project
       * Email example generation ...
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
-          Identical 'prerequisites/factory_girl.rb' file
+          Identical 'prerequisites/factory_bot.rb' file
           Identical 'prerequisites/factories/users.rb' file
           Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
@@ -75,7 +75,7 @@ Feature: Howitzer CLI Update Existing Project
       * Email example generation ...
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
-          Identical 'prerequisites/factory_girl.rb' file
+          Identical 'prerequisites/factory_bot.rb' file
           Identical 'prerequisites/factories/users.rb' file
           Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
@@ -123,7 +123,7 @@ Feature: Howitzer CLI Update Existing Project
       * Email example generation ...
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
-          Identical 'prerequisites/factory_girl.rb' file
+          Identical 'prerequisites/factory_bot.rb' file
           Identical 'prerequisites/factories/users.rb' file
           Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file
@@ -173,7 +173,7 @@ Feature: Howitzer CLI Update Existing Project
       * Email example generation ...
           Identical '/emails/example_email.rb' file
       * Pre-requisites integration to the framework ...
-          Identical 'prerequisites/factory_girl.rb' file
+          Identical 'prerequisites/factory_bot.rb' file
           Identical 'prerequisites/factories/users.rb' file
           Identical 'prerequisites/models/base.rb' file
           Identical 'prerequisites/models/user.rb' file

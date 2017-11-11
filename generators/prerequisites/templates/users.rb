@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :user do
     email { "u#{Gen.serial}@#{Howitzer.mailgun_domain}" }
     name { "FirstName LastName #{Gen.serial}" }

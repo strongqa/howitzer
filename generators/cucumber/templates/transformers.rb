@@ -11,7 +11,7 @@
 #  'When I fill first name field with FACTORY_USER1[:first_name] value'
 #  #=> build(:user).first_name
 Transform /FACTORY_([a-z_]+)(\d*)(?:\[\:(.+)\])?/i do |factory, num, property|
-  res = FactoryGirl.given_by_number(factory.downcase, num)
+  res = FactoryBot.given_by_number(factory.downcase, num)
   res = res.send(property) if property
   res
 end
@@ -27,7 +27,7 @@ Transform /^table:.*$/ do |table|
     array.map do |el|
       data = /FACTORY_(?<factory>[a-z_]+)(?<num>\d*)(?:\[\:(?<property>.+)\])?/i.match(el)
       next(el) unless data
-      res = FactoryGirl.given_by_number(data[:factory].downcase, data[:num])
+      res = FactoryBot.given_by_number(data[:factory].downcase, data[:num])
       next(res) if data[:property].blank?
       res.send(data[:property])
     end

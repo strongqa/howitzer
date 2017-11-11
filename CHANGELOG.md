@@ -62,7 +62,7 @@
 ## [v2.0.0](https://github.com/strongqa/howitzer/compare/v1.1.1...v2.0.0)
 
 ### New Features
-- Added REST API prerequisites with FactoryGirl
+- Added REST API prerequisites with FactoryBot
 - Added Turnip supporting
 - Restricted using several bdd frameworks at the same time
 - Removed Opera browser supporting

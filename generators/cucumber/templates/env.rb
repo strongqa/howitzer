@@ -2,7 +2,7 @@ require 'cucumber'
 require_relative '../../config/boot'
 require_relative '../../config/capybara'
 
-World(FactoryGirl::Syntax::Methods)
+World(FactoryBot::Syntax::Methods)
 World(RSpec::Wait)
 
 RSpec.configure do |config|
