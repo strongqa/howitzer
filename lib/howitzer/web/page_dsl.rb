@@ -18,7 +18,7 @@ module Howitzer
         #  HomePage.on { expect(HomePage.given).to have_menu_section } # Bad
         #  HomePage.on { is_expected.to have_menu_section } # Good
 
-        def is_expected # rubocop:disable Style/PredicateName
+        def is_expected # rubocop:disable Naming/PredicateName
           expect(page_klass.given)
         end
 

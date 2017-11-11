@@ -10,7 +10,7 @@ AllCops:
 LineLength:
   Max: 120
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   Enabled: false
 
 Style/EmptyElse:
@@ -20,7 +20,7 @@ Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
-  Enabled: false  
+  Enabled: false
 
 Style/CaseEquality:
   Enabled: false

@@ -20,7 +20,9 @@ Gem::Specification.new do |gem|
 
   gem.add_runtime_dependency 'activesupport', '~>5.0'
   gem.add_runtime_dependency 'capybara', ['>= 2.1', '< 3.0']
+  gem.add_runtime_dependency 'colorize'
   gem.add_runtime_dependency 'gli'
+  gem.add_runtime_dependency 'gmail'
   gem.add_runtime_dependency 'launchy'
   gem.add_runtime_dependency 'log4r', '~>1.1.10'
   gem.add_runtime_dependency 'nokogiri', '~> 1.6' if gem.platform.to_s =~ /mswin|mingw/
@@ -29,10 +31,9 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rspec-wait'
   gem.add_runtime_dependency 'selenium-webdriver', ['>= 3.4.1', '< 4.0']
   gem.add_runtime_dependency 'sexy_settings'
-  gem.add_runtime_dependency 'colorize'
-  gem.add_runtime_dependency 'gmail'
 
   gem.add_development_dependency('aruba')
+  gem.add_development_dependency('cucumber', '~>2')
   gem.add_development_dependency('ffaker')
   gem.add_development_dependency('fuubar')
   gem.add_development_dependency('yard')

@@ -19,9 +19,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOS
+      <<-MSG
   * Cucumber integration to the framework ...
-      EOS
+      MSG
     end
   end
 end

@@ -9,6 +9,35 @@ RSpec.describe Howitzer::Web::Page do
     let(:retryable) { double }
     let(:check_correct_page_loaded) { double }
     let(:other_instance) { described_class.instance }
+
+    context 'when custom user_agent specified' do
+      let(:url_value) { 'http://example.com/users' }
+      let(:driver) { double }
+      subject { described_class.open(validate: false) }
+      before do
+        allow(Howitzer).to receive(:user_agent) { 'user_agent' }
+        allow(described_class).to receive(:retryable)
+        allow(described_class).to receive(:expanded_url)
+        allow(Howitzer::Log).to receive(:info)
+      end
+      context 'with webkit driver' do
+        before { allow(Howitzer).to receive(:driver) { 'webkit' } }
+        it do
+          expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
+          expect(driver).to receive(:header).with('User-Agent', Howitzer.user_agent)
+          subject
+        end
+      end
+      context 'with poltergeist driver' do
+        before { allow(Howitzer).to receive(:driver) { 'poltergeist' } }
+        it do
+          expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
+          expect(driver).to receive(:add_headers).with('User-Agent' => Howitzer.user_agent)
+          subject
+        end
+      end
+    end
+
     context 'when validate missing' do
       context 'when params present' do
         let(:url_value) { 'http://example.com/users/1' }
@@ -299,7 +328,7 @@ RSpec.describe Howitzer::Web::Page do
     context 'when maximized_window is true and driver is headless_chrome' do
       before do
         allow(Howitzer).to receive(:maximized_window) { true }
-        allow(Howitzer).to receive(:driver) { 'headless_chrome' }
+        allow(Capybara).to receive(:current_driver) { 'headless_chrome' }
       end
       it do
         expect_any_instance_of(described_class).not_to receive('current_window.maximize')

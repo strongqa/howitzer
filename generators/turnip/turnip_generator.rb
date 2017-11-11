@@ -18,9 +18,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOS
+      <<-MSG
   * Turnip integration to the framework ...
-      EOS
+      MSG
     end
   end
 end

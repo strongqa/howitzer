@@ -39,6 +39,7 @@ module Howitzer
 
       def self.open(validate: true, url_processor: nil, **params)
         url = expanded_url(params, url_processor)
+        modify_user_agent if Howitzer.user_agent.present?
         Howitzer::Log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
           Howitzer::Log.info 'Retry...' unless retries.zero?
@@ -147,13 +148,24 @@ module Howitzer
           "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
                     "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
+
+        def modify_user_agent
+          driver = Capybara.current_session.driver
+          case Howitzer.driver.to_sym
+            when CapybaraHelpers::POLTERGEIST
+              driver.add_headers('User-Agent' => Howitzer.user_agent)
+            when CapybaraHelpers::WEBKIT
+              driver.header('User-Agent', Howitzer.user_agent)
+          end
+        end
       end
 
       site Howitzer.app_uri.site
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if Howitzer.maximized_window && !chrome_browser?
+        current_window.maximize if Howitzer.maximized_window &&
+                                   !%w[chrome headless_chrome].include?(Capybara.current_driver)
       end
 
       # Reloads current page in a browser
@@ -161,12 +173,6 @@ module Howitzer
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      private
-
-      def chrome_browser?
-        Howitzer.driver == 'headless_chrome' || Howitzer.selenium_browser == 'chrome'
       end
     end
   end
