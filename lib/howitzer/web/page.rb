@@ -164,6 +164,12 @@ module Howitzer
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
       end
+
+      private
+
+      def chrome_browser?
+        Howitzer.driver == 'headless_chrome' || Howitzer.selenium_browser == 'chrome'
+      end
     end
   end
 end
