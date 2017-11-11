@@ -1,11 +1,11 @@
-# @see http://www.rubydoc.info/gems/factory_girl/file/GETTING_STARTED.md
-require 'factory_girl'
+# @see http://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+require 'factory_bot'
 
-FactoryGirl.definition_file_paths = [File.join(__dir__, 'factories')]
-FactoryGirl.find_definitions
+FactoryBot.definition_file_paths = [File.join(__dir__, 'factories')]
+FactoryBot.find_definitions
 
-# This module holds custom FactoryGirl methods
-module FactoryGirl
+# This module holds custom FactoryBot methods
+module FactoryBot
   # Fetches data from the cache, using factory name and number.
   # If there is data in the cache with the given name and number,
   # then that data is returned. Otherwise it stores firstly and then returns

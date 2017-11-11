@@ -83,7 +83,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'Rakefile' file
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
-          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/base.rb' file
           Added 'prerequisites/models/user.rb' file
@@ -102,7 +102,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/emails/example_email.rb          |
       | test_automation/web/sections/menu_section.rb     |
       | test_automation/web/pages/example_page.rb        |
-      | test_automation/prerequisites/factory_girl.rb    |
+      | test_automation/prerequisites/factory_bot.rb    |
       | test_automation/prerequisites/factories/users.rb |
       | test_automation/prerequisites/models/base.rb     |
       | test_automation/prerequisites/models/user.rb     |
@@ -154,7 +154,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'Rakefile' file
           Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
-          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/base.rb' file
           Added 'prerequisites/models/user.rb' file
@@ -181,7 +181,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/features/example.feature                  |
       | test_automation/web/sections/menu_section.rb              |
       | test_automation/web/pages/example_page.rb                 |
-      | test_automation/prerequisites/factory_girl.rb             |
+      | test_automation/prerequisites/factory_bot.rb             |
       | test_automation/prerequisites/factories/users.rb          |
       | test_automation/prerequisites/models/base.rb              |
       | test_automation/prerequisites/models/user.rb              |
@@ -232,7 +232,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'Rakefile' file
           Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
-          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/base.rb' file
           Added 'prerequisites/models/user.rb' file
@@ -352,7 +352,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'Rakefile' file
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
       * Pre-requisites integration to the framework ...
-          Added 'prerequisites/factory_girl.rb' file
+          Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
           Added 'prerequisites/models/base.rb' file
           Added 'prerequisites/models/user.rb' file
@@ -371,7 +371,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/emails/example_email.rb          |
       | test_automation/web/sections/menu_section.rb     |
       | test_automation/web/pages/example_page.rb        |
-      | test_automation/prerequisites/factory_girl.rb    |
+      | test_automation/prerequisites/factory_bot.rb    |
       | test_automation/prerequisites/factories/users.rb |
       | test_automation/prerequisites/models/base.rb     |
       | test_automation/prerequisites/models/user.rb     |

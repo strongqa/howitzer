@@ -6,7 +6,7 @@ module Howitzer
     def manifest
       { files:
           [
-            { source: 'factory_girl.rb', destination: 'prerequisites/factory_girl.rb' },
+            { source: 'factory_bot.rb', destination: 'prerequisites/factory_bot.rb' },
             { source: 'users.rb', destination: 'prerequisites/factories/users.rb' },
             { source: 'base.rb', destination: 'prerequisites/models/base.rb' },
             { source: 'user.rb', destination: 'prerequisites/models/user.rb' }
