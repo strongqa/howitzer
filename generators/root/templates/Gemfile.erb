@@ -1,28 +1,24 @@
 source 'https://rubygems.org'
 
+gem 'capybara-screenshot'
+<%= "gem 'cucumber', '~>2.0'\n" if cucumber -%>
+<%= "gem 'cuke_sniffer', require: false\n" if cucumber -%>
+gem 'factory_girl', '4.8.0'
+gem 'howitzer'
+gem 'pry'
+gem 'pry-byebug'
+gem 'repeater'
+gem 'rest-client'
+<%= "gem 'rspec', '~>3.2'\n" if rspec || turnip -%>
+gem 'rubocop'
+<%= "gem 'turnip'\n" if turnip -%>
+<%= "gem 'syntax'\n" if cucumber -%>
+
 # Uncomment it if you are going to use 'webkit' driver. QT library should be installed.
 # See https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit
 #
 # gem 'capybara-webkit'
 
-gem 'howitzer'
 # Uncomment it if you are going to use 'poltergeist' driver. PhantomJS should be installed.
 # See https://github.com/jnicklas/capybara#poltergeist
 # gem 'poltergeist', git: 'https://github.com/teampoltergeist/poltergeist.git', branch: :master
-gem 'rest-client'
-gem 'repeater'
-gem 'factory_girl', '4.8.0'
-gem 'capybara-screenshot'
-<% if cucumber %>
-gem 'syntax'
-gem 'cucumber', '~>2.0'
-gem 'cuke_sniffer', require: false
-<% elsif rspec %>
-gem 'rspec', '~>3.2'
-<% elsif turnip %>
-gem 'rspec', '~>3.2'
-gem 'turnip'
-<% end %>
-gem 'rubocop'
-gem 'pry'
-gem 'pry-byebug'

@@ -8,7 +8,7 @@ AllCops:
 LineLength:
   Max: 120
 
-Style/CaseIndentation:
+Layout/CaseIndentation:
   Enabled: false
 
 Style/EmptyElse:
