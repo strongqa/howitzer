@@ -18,7 +18,10 @@ Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
 Lint/AmbiguousBlockAssociation:
-  Enabled: false  
+  Enabled: false
+
+Lint/RescueWithoutErrorClass:
+  Enabled: false
 
 Style/CaseEquality:
   Enabled: false

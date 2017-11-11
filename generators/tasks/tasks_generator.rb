@@ -10,9 +10,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOF
+      <<-MSG
   * Base rake task generation ...
-      EOF
+      MSG
     end
   end
 end

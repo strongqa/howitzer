@@ -19,9 +19,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOF
+      <<-MSG
   * Root files generation ...
-      EOF
+      MSG
     end
   end
 end

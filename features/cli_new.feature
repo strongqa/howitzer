@@ -60,6 +60,16 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
+          Added 'config/drivers/browserstack.rb' file
+          Added 'config/drivers/crossbrowsertesting.rb' file
+          Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/phantomjs.rb' file
+          Added 'config/drivers/poltergeist.rb' file
+          Added 'config/drivers/sauce.rb' file
+          Added 'config/drivers/selenium.rb' file
+          Added 'config/drivers/selenium_grid.rb' file
+          Added 'config/drivers/testingbot.rb' file
+          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -121,6 +131,16 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
+          Added 'config/drivers/browserstack.rb' file
+          Added 'config/drivers/crossbrowsertesting.rb' file
+          Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/phantomjs.rb' file
+          Added 'config/drivers/poltergeist.rb' file
+          Added 'config/drivers/sauce.rb' file
+          Added 'config/drivers/selenium.rb' file
+          Added 'config/drivers/selenium_grid.rb' file
+          Added 'config/drivers/testingbot.rb' file
+          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -189,6 +209,16 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
+          Added 'config/drivers/browserstack.rb' file
+          Added 'config/drivers/crossbrowsertesting.rb' file
+          Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/phantomjs.rb' file
+          Added 'config/drivers/poltergeist.rb' file
+          Added 'config/drivers/sauce.rb' file
+          Added 'config/drivers/selenium.rb' file
+          Added 'config/drivers/selenium_grid.rb' file
+          Added 'config/drivers/testingbot.rb' file
+          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -299,6 +329,16 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
+          Added 'config/drivers/browserstack.rb' file
+          Added 'config/drivers/crossbrowsertesting.rb' file
+          Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/phantomjs.rb' file
+          Added 'config/drivers/poltergeist.rb' file
+          Added 'config/drivers/sauce.rb' file
+          Added 'config/drivers/selenium.rb' file
+          Added 'config/drivers/selenium_grid.rb' file
+          Added 'config/drivers/testingbot.rb' file
+          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file

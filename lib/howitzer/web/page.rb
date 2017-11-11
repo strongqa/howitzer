@@ -1,7 +1,6 @@
 require 'singleton'
 require 'rspec/expectations'
 require 'addressable/template'
-require 'howitzer/capybara_helpers'
 require 'howitzer/web/capybara_methods_proxy'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
@@ -24,7 +23,6 @@ module Howitzer
       include PageValidator
       include ::RSpec::Matchers
       include RSpec::Wait
-      include CapybaraHelpers
 
       # This Ruby callback makes all inherited classes as singleton classes.
 
@@ -41,6 +39,7 @@ module Howitzer
 
       def self.open(validate: true, url_processor: nil, **params)
         url = expanded_url(params, url_processor)
+        set_user_agent if Howitzer.user_agent.present?
         Howitzer::Log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
           Howitzer::Log.info 'Retry...' unless retries.zero?
@@ -149,13 +148,24 @@ module Howitzer
           "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
                     "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
+
+        def set_user_agent
+          driver = Capybara.current_session.driver
+          case Howitzer.driver.to_sym
+            when CapybaraHelpers::POLTERGEIST
+              driver.add_headers('User-Agent' => Howitzer.user_agent)
+            when CapybaraHelpers::WEBKIT
+              driver.header('User-Agent', Howitzer.user_agent)
+          end
+        end
       end
 
       site Howitzer.app_uri.site
 
       def initialize
         check_validations_are_defined!
-        current_window.maximize if Howitzer.maximized_window && !chrome_browser?
+        current_window.maximize if Howitzer.maximized_window &&
+                                   !%w[chrome headless_chrome].include?(Capybara.current_driver)
       end
 
       # Reloads current page in a browser

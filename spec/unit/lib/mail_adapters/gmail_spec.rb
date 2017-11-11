@@ -57,12 +57,12 @@ X-Attachment-Id: f_j5iaurws0'
 
   describe '#html_body' do
     before do
-      html_part = <<-html
+      html_part = <<-HTML
       Content-Type: text/html;
         charset=UTF-8
       Content-Transfer-Encoding: 7bit
       <p>test body</p>
-      html
+      HTML
       allow(message).to receive(:html_part) { Mail::Part.new(html_part) }
     end
     it { expect(email_object.html_body).to include('<p>test body</p>') }

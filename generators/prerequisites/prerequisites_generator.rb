@@ -16,9 +16,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOS
+      <<-MSG
   * Pre-requisites integration to the framework ...
-      EOS
+      MSG
     end
   end
 end

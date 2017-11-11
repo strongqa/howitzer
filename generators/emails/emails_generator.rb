@@ -10,9 +10,9 @@ module Howitzer
     protected
 
     def banner
-      <<-EOS
+      <<-MSG
   * Email example generation ...
-      EOS
+      MSG
     end
   end
 end
