@@ -39,7 +39,7 @@ module Howitzer
 
       def self.open(validate: true, url_processor: nil, **params)
         url = expanded_url(params, url_processor)
-        set_user_agent if Howitzer.user_agent.present?
+        modify_user_agent if Howitzer.user_agent.present?
         Howitzer::Log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
           Howitzer::Log.info 'Retry...' unless retries.zero?
@@ -149,7 +149,7 @@ module Howitzer
                     "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
 
-        def set_user_agent
+        def modify_user_agent
           driver = Capybara.current_session.driver
           case Howitzer.driver.to_sym
             when CapybaraHelpers::POLTERGEIST
@@ -173,12 +173,6 @@ module Howitzer
       def reload
         Howitzer::Log.info "Reload '#{current_url}'"
         visit current_url
-      end
-
-      private
-
-      def chrome_browser?
-        Howitzer.driver == 'headless_chrome' || Howitzer.selenium_browser == 'chrome'
       end
     end
   end
