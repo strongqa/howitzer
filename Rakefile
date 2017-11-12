@@ -15,8 +15,25 @@ Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber features') do |t|
   t.fork = false
 end
 
-YARD::Rake::YardocTask.new { |_t| }
-
 RuboCop::RakeTask.new
 
-task default: %i[rubocop spec cucumber]
+YARD::Rake::YardocTask.new { |_t| }
+
+namespace :yard do
+  desc 'Validate yard coverage'
+  task :validate do
+    log = StringIO.new
+    YARD::Logger.instance(log)
+    doc = YARD::CLI::Yardoc.new
+    doc.use_document_file = false
+    doc.use_yardopts_file = false
+    doc.generate = false
+    doc.run('--list-undoc')
+    output = log.string
+    puts output
+    return if output.include?('100.00% documented')
+    exit(-1)
+  end
+end
+
+task default: %i[rubocop yard:validate spec cucumber]
