@@ -31,8 +31,7 @@ namespace :yard do
     doc.run('--list-undoc')
     output = log.string
     puts output
-    return if output.include?('100.00% documented')
-    exit 1
+    exit(1) unless output.include?('100.00% documented')
   end
 end
 

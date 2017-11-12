@@ -2,6 +2,11 @@ module Howitzer
   module Utils
     # This module extends standard String class with useful methods for Cucumber step definitions
     module StringExtensions
+      # Opens a page by name
+      # @example
+      #   'home'.open #=> HomePage.open
+      # @see Howitzer::Web::Page.open
+
       def open(*args)
         as_page_class.open(*args)
       end
