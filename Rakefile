@@ -32,7 +32,7 @@ namespace :yard do
     output = log.string
     puts output
     return if output.include?('100.00% documented')
-    exit(-1)
+    exit 1
   end
 end
 
