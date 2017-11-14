@@ -4,7 +4,7 @@ Feature: Howitzer CLI Version
     When I run `howitzer <option>`
     Then the output should contain exactly:
     """
-    howitzer version <HOWITZER_VERSION>
+    howitzer version 2.0.3
 
     """
     And the exit status should be 0

@@ -11,7 +11,7 @@ Feature: Howitzer CLI Help
         howitzer [global options] command [command options] [arguments...]
 
     VERSION
-        <HOWITZER_VERSION>
+        2.0.3
 
     GLOBAL OPTIONS
         --help    - Show this message

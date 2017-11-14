@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'sexy_settings'
 
   gem.add_development_dependency('aruba')
-  gem.add_development_dependency('cucumber', '~>2')
+  gem.add_development_dependency('cucumber')
   gem.add_development_dependency('ffaker')
   gem.add_development_dependency('fuubar')
   gem.add_development_dependency('yard')

@@ -10,29 +10,15 @@
 # @example
 #  'When I fill first name field with FACTORY_USER1[:first_name] value'
 #  #=> build(:user).first_name
-Transform /FACTORY_([a-z_]+)(\d*)(?:\[\:(.+)\])?/i do |factory, num, property|
-  res = FactoryBot.given_by_number(factory.downcase, num)
-  res = res.send(property) if property
-  res
-end
-
-# Revives factories or factory properties from table to real values
-# @example
-#  When I sign up with following data:
-#   | name                 | email                 |
-#   | FACTORY_USER1[:name] | FACTORY_USER1[:email] |
-#  #=> build(:user).name and build(:user).email
-Transform /^table:.*$/ do |table|
-  raw = table.raw.map do |array|
-    array.map do |el|
-      data = /FACTORY_(?<factory>[a-z_]+)(?<num>\d*)(?:\[\:(?<property>.+)\])?/i.match(el)
-      next(el) unless data
-      res = FactoryBot.given_by_number(data[:factory].downcase, data[:num])
-      next(res) if data[:property].blank?
-      res.send(data[:property])
-    end
+#  When 'I fill first name field with {factory} value' do |name|
+#     ...
+#  end
+ParameterType(
+  name: 'factory',
+  regexp: /[Ff][Aa][Cc][Tt][Oo][Rr][Yy]_([A-Za-z_]+)(\d*)(?:\[\:(.+)\])?/,
+  transformer: lambda do |factory, num, property|
+    res = FactoryGirl.given_by_number(factory.downcase, num)
+    res = res.send(property) if property
+    res
   end
-  location = Cucumber::Core::Ast::Location.of_caller
-  ast_table = Cucumber::Core::Ast::DataTable.new(raw, location)
-  Cucumber::MultilineArgument::DataTable.new(ast_table)
-end
+)
