@@ -1,11 +1,9 @@
 require 'cucumber'
-require 'howitzer/utils/transformers'
 require_relative '../../config/boot'
 require_relative '../../config/capybara'
 
 World(FactoryBot::Syntax::Methods)
 World(RSpec::Wait)
-World(Howitzer::Utils::Transformers)
 
 RSpec.configure do |config|
   config.wait_timeout = Howitzer.rspec_wait_timeout
