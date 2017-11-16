@@ -2,7 +2,7 @@ Feature: Howitzer CLI Version
 
   Scenario Outline: Run with version global option
     When I run `howitzer <option>`
-    Then the output should contain exactly:
+    Then the output should be exactly:
     """
     howitzer version <HOWITZER_VERSION>
 

@@ -2,7 +2,7 @@ Feature: Howitzer CLI Help
 
   Scenario Outline: Run with help global option
     When I run `howitzer <option>`
-    Then the output should contain exactly:
+    Then the output should be exactly:
     """
     NAME
         howitzer - Ruby based framework for acceptance testing
