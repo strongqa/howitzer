@@ -1,16 +1,24 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.0.3...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.1.0...master)
+
+### New Features
+
+### Bug-fixes
+
+## [v2.1.0](https://github.com/strongqa/howitzer/compare/v2.0.3...v2.1.0)
 
 ### New Features
 - Integrate CrossBrowserTesting
-- Mailtrap support added
-- Gmail support added
-- Colorized output added
-- New option **user_agent**, allows custom user agent setup 
+- Add Mailtrap support
+- Add Gmail support
+- Add Colorized output
+- Add new option **user_agent** to allow custom user agent setup
 - **mailgun_sleep_time** deprecated, **mail_sleep_time** used instead for all mail adapters
-- Capybara drivers configuration were split to separate files
+- Split Capybara drivers configuration to separate files
+- Migrate FactoryGirl to FactoryBot
+- Support Cucumber 3
 
-### Bugfixes
-- **window_maximized** option fixed for chrome browser on MacOS
+### Bug-fixes
+- [#231](https://github.com/strongqa/howitzer/issues/231) **window_maximized** option fixed for chrome browser on MacOS
 
 ## [v2.0.3](https://github.com/strongqa/howitzer/compare/v2.0.2...v2.0.3)
 
@@ -19,7 +27,7 @@
 - Stop supported **mailgun_idle_timeout** deprecated setting
 - Added maintenance instructions for releasing
 
-### Bugfixes
+### Bug-fixes
 - [#222](https://github.com/strongqa/howitzer/issues/222) fix issue with incorrect iframe scope identifying
 
 ## [v2.0.2](https://github.com/strongqa/howitzer/compare/v2.0.1...v2.0.2)
@@ -34,7 +42,7 @@
 - Add element_presence argument validation
 - Review and improve tests quality
 
-### Bugfixes
+### Bug-fixes
 - Fix element capybara options merging
 - [#211](https://github.com/strongqa/howitzer/issues/211) Validation for iframe does not operate as intended
 - [#210](https://github.com/strongqa/howitzer/issues/210) Options like "wait" can not be used with iframe methods
@@ -50,7 +58,7 @@
 - Implement wait_for_xxx_element method for sync
 - Implement within_xxx_element method like Capybara.within
 
-### Bugfixes
+### Bug-fixes
 - [#188](https://github.com/strongqa/howitzer/issues/188) Page validation by element presence does not work properly
 - [#191](https://github.com/strongqa/howitzer/issues/191) Generated project is broken
 - [#195](https://github.com/strongqa/howitzer/issues/195) Incorrect parameters passing in lambda locators
@@ -88,7 +96,7 @@
 
 ## [v1.1.1](https://github.com/strongqa/howitzer/compare/v1.1.0...v1.1.1)
 
-### Bugfixes
+### Bug-fixes
 - fixed problem with Mailgun
 - fixed problems with gems
 
@@ -111,7 +119,7 @@
 - Integrated YardDoc
 - Integrated Gitter
 
-### Bugfixes
+### Bug-fixes
 - Fixed issue with loading ActiveSupport
 
 ## [v1.0.2](https://github.com/strongqa/howitzer/compare/v1.0.1...v1.0.2)
@@ -129,14 +137,14 @@
 - Rewritten command line interface and covered by acceptance tests fully
 - Simplified DataStorage clearing after each tests
 
-### Bugfixes
+### Bug-fixes
 - Fixed reset session after each scenario against to IE
 - Corrected default Cucumber and Rspec formatters
 - Minor bug fixing and code refactoring
 
 ## [v1.0.1](https://github.com/strongqa/howitzer/compare/v1.0...v1.0.1)
 
-### Bugfixes
+### Bug-fixes
 - Fixed unit tests
 - Fixed correct Ruby version supporting
 
@@ -153,7 +161,7 @@ It is major release, so there are many new features, refactoring, unit tests, co
 
 * Added supporting poltergeist driver
 
-### Bugfixes
+### Bug-fixes
 
 * Fixed problem with dependencies
 
