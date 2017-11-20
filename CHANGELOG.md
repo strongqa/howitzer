@@ -3,7 +3,7 @@
 ### New Features
 
 ### Bug-fixes
-- FactoryGirl renamed to FactoryBot in cucumber transformation.
+- [#248](https://github.com/strongqa/howitzer/issues/248)FactoryGirl renamed to FactoryBot in cucumber transformation.
 
 ## [v2.1.0](https://github.com/strongqa/howitzer/compare/v2.0.3...v2.1.0)
 
