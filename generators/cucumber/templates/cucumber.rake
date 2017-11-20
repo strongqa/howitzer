@@ -19,7 +19,7 @@ end
 
 Cucumber::Rake::Task.new(:features, 'Run all workable scenarios (without @wip and @bug tags)') do |t|
   Howitzer.current_rake_task = t.instance_variable_get :@task_name
-  t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags ~@wip --tags ~@bug"
+  t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags 'not @wip and not @bug'"
 end
 
 namespace :features do
@@ -35,23 +35,23 @@ namespace :features do
 
   Cucumber::Rake::Task.new(:smoke, 'Run workable smoke scenarios (with @smoke tag)') do |t|
     Howitzer.current_rake_task = t.instance_variable_get :@task_name
-    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags @smoke --tags ~@wip --tags ~@bug"
+    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags '@smoke and not @wip and not @bug'"
   end
 
   Cucumber::Rake::Task.new(:bvt, 'Run workable build verification test scenarios') do |t|
     Howitzer.current_rake_task = t.instance_variable_get :@task_name
     t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))}
-    --tags ~@wip --tags ~@bug --tags ~@smoke --tags ~@p1 --tags ~@p2"
+    --tags 'not @wip and not @bug and not @smoke and not @p1 and not @p2'"
   end
 
   Cucumber::Rake::Task.new(:p1, 'Run workable scenarios with normal priority (with @p1 tag)') do |t|
     Howitzer.current_rake_task = t.instance_variable_get :@task_name
-    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags ~@wip --tags ~@bug --tags @p1"
+    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags 'not @wip and not @bug and @p1'"
   end
 
   Cucumber::Rake::Task.new(:p2, 'Run workable scenarios with low priority (with @p2 tag)') do |t|
     Howitzer.current_rake_task = t.instance_variable_get :@task_name
-    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags ~@wip --tags ~@bug --tags @p2"
+    t.cucumber_opts = "#{opts.call(t.instance_variable_get(:@task_name))} --tags 'not @wip and not @bug and @p2'"
   end
 end
 
