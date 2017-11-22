@@ -10,7 +10,6 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new app, params
 end
 
-Capybara.save_path = Howitzer.log_dir
 Capybara::Screenshot.register_driver(:headless_chrome) do |driver, path|
   driver.browser.save_screenshot path
 end

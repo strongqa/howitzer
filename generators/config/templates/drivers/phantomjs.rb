@@ -14,7 +14,6 @@ Capybara.register_driver :phantomjs do |app|
   )
 end
 
-Capybara.save_path = Howitzer.log_dir
 Capybara::Screenshot.register_driver(:phantomjs) do |driver, path|
   driver.browser.save_screenshot path
 end
