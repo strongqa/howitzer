@@ -2,7 +2,7 @@
 #                      PREREQUISITES                        #
 #############################################################
 
-Given /^I have entered (.*) into the calculator$/ do |_input|
+Given 'I have entered {float} into the calculator' do |_input|
   pending
 end
 
@@ -10,7 +10,7 @@ end
 #              ACTIONS             #
 ####################################
 
-When /^I press (.*)$/ do |_button|
+When 'I press {word}' do |_button|
   pending
 end
 
@@ -18,6 +18,6 @@ end
 #              CHECKS              #
 ####################################
 
-Then /^the result should be (.*) on the screen$/ do |_output|
+Then 'the result should be {float} on the screen' do |_output|
   pending
 end
