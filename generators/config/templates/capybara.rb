@@ -39,6 +39,8 @@ end
 
 require_relative "drivers/#{Howitzer.driver}"
 
+Capybara.save_path = Howitzer.log_dir
+
 Capybara::Screenshot.append_timestamp = false
 Capybara::Screenshot.register_filename_prefix_formatter(:default) do
   "capybara-screenshot-#{Gen.serial}"
