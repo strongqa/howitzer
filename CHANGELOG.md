@@ -3,6 +3,7 @@
 ### New Features
 - Cucumber rake tasks minor updates
 ### Bug-fixes
+- [#252](https://github.com/strongqa/howitzer/issues/252) Wrong location of log files fixed
 - [#248](https://github.com/strongqa/howitzer/issues/248) FactoryGirl renamed to FactoryBot in cucumber transformation.
 - [#246](https://github.com/strongqa/howitzer/issues/246) Options fixed for rspec rake tasks
 ## [v2.1.0](https://github.com/strongqa/howitzer/compare/v2.0.3...v2.1.0)
