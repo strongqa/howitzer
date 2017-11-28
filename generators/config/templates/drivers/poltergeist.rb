@@ -9,11 +9,3 @@ Capybara.register_driver :poltergeist do |app|
     phantomjs_options: ["--ignore-ssl-errors=#{Howitzer.phantom_ignore_ssl_errors ? 'yes' : 'no'}"]
   )
 end
-
-Capybara::Screenshot.register_driver(:poltergeist) do |driver, path|
-  if driver.respond_to?(:save_screenshot)
-    driver.save_screenshot(path)
-  else
-    driver.render(path)
-  end
-end

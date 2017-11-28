@@ -20,6 +20,4 @@ Capybara.register_driver :sauce do |app|
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
-Capybara::Screenshot.register_driver(:sauce) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
+Capybara::Screenshot.register_driver :sauce, &SELENIUM_BLOCK

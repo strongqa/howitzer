@@ -24,6 +24,4 @@ Capybara.register_driver :crossbrowsertesting do |app|
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
-Capybara::Screenshot.register_driver(:crossbrowsertesting) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
+Capybara::Screenshot.register_driver :crossbrowsertesting, &SELENIUM_BLOCK

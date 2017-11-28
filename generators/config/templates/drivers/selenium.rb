@@ -22,7 +22,3 @@ Capybara.register_driver :selenium do |app|
   end
   Capybara::Selenium::Driver.new app, params
 end
-
-Capybara::Screenshot.register_driver(:selenium) do |driver, path|
-  driver.browser.save_screenshot(path)
-end
