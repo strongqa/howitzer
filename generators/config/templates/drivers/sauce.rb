@@ -20,4 +20,6 @@ Capybara.register_driver :sauce do |app|
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
-Capybara::Screenshot.register_driver :sauce, &SELENIUM_BLOCK
+Capybara::Screenshot.class_eval do
+  register_driver :sauce, &registered_drivers[:selenium]
+end

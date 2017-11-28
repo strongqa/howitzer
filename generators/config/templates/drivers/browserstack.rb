@@ -18,4 +18,6 @@ Capybara.register_driver :browserstack do |app|
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
-Capybara::Screenshot.register_driver :browserstack, &SELENIUM_BLOCK
+Capybara::Screenshot.class_eval do
+  register_driver :browserstack, &registered_drivers[:selenium]
+end

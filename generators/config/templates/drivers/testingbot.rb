@@ -19,4 +19,6 @@ Capybara.register_driver :testingbot do |app|
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
-Capybara::Screenshot.register_driver :testingbot, &SELENIUM_BLOCK
+Capybara::Screenshot.class_eval do
+  register_driver :testingbot, &registered_drivers[:selenium]
+end

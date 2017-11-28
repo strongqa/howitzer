@@ -26,4 +26,6 @@ Capybara.register_driver :selenium_grid do |app|
   Capybara::Selenium::Driver.new(app, browser: :remote, url: Howitzer.selenium_hub_url, desired_capabilities: caps)
 end
 
-Capybara::Screenshot.register_driver :selenium_grid, &SELENIUM_BLOCK
+Capybara::Screenshot.class_eval do
+  register_driver :selenium_grid, &registered_drivers[:selenium]
+end

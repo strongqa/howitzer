@@ -30,10 +30,6 @@ Capybara.configure do |config|
   config.javascript_driver = Howitzer.driver.to_s.to_sym
 end
 
-SELENIUM_BLOCK = proc do |driver, path|
-  driver.browser.save_screenshot(path)
-end
-
 require 'howitzer/capybara_helpers'
 
 # namespace for capybara helpers

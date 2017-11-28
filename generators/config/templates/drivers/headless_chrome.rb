@@ -10,4 +10,6 @@ Capybara.register_driver :headless_chrome do |app|
   Capybara::Selenium::Driver.new app, params
 end
 
-Capybara::Screenshot.register_driver :headless_chrome, &SELENIUM_BLOCK
+Capybara::Screenshot.class_eval do
+  register_driver :headless_chrome, &registered_drivers[:selenium]
+end
