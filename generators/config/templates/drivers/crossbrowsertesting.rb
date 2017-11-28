@@ -23,3 +23,7 @@ Capybara.register_driver :crossbrowsertesting do |app|
         '@hub.crossbrowsertesting.com/wd/hub'
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
+
+Capybara::Screenshot.register_driver(:crossbrowsertesting) do |driver, path|
+  driver.browser.save_screenshot(path)
+end

@@ -41,10 +41,6 @@ require_relative "drivers/#{Howitzer.driver}"
 
 Capybara.save_path = Howitzer.log_dir
 
-Capybara::Screenshot.register_driver(Howitzer.driver.to_sym) do |driver, path|
-  driver.browser.save_screenshot path
-end
-
 Capybara::Screenshot.append_timestamp = false
 Capybara::Screenshot.register_filename_prefix_formatter(:default) do
   "capybara-screenshot-#{Gen.serial}"

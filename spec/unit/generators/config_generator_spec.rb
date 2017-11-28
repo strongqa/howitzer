@@ -20,16 +20,16 @@ RSpec.describe 'Generators' do
         { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
-        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 914 },
-        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1126 },
-        { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 542 },
-        { name: '/config/drivers/phantomjs.rb', is_directory: false, size: 488 },
-        { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 362 },
-        { name: '/config/drivers/sauce.rb', is_directory: false, size: 871 },
-        { name: '/config/drivers/selenium.rb', is_directory: false, size: 1097 },
-        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1272 },
-        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 804 },
-        { name: '/config/drivers/webkit.rb', is_directory: false, size: 179 }
+        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1028 },
+        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1247 },
+        { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 659 },
+        { name: '/config/drivers/phantomjs.rb', is_directory: false, size: 599 },
+        { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 548 },
+        { name: '/config/drivers/sauce.rb', is_directory: false, size: 978 },
+        { name: '/config/drivers/selenium.rb', is_directory: false, size: 1207 },
+        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1387 },
+        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 916 },
+        { name: '/config/drivers/webkit.rb', is_directory: false, size: 360 }
       ]
     end
 

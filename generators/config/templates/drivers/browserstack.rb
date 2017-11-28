@@ -17,3 +17,7 @@ Capybara.register_driver :browserstack do |app|
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.browserstack.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
+
+Capybara::Screenshot.register_driver(:browserstack) do |driver, path|
+  driver.browser.save_screenshot(path)
+end
