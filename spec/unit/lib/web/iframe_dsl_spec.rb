@@ -18,6 +18,7 @@ RSpec.describe Howitzer::Web::IframeDsl do
     allow_any_instance_of(fb_page_class).to receive(:check_validations_are_defined!)
     allow_any_instance_of(web_page_class).to receive(:check_validations_are_defined!)
     stub_const('FbPage', fb_page_class)
+    stub_const('Foo::FbPage', fb_page_class)
   end
 
   describe '.iframe' do
@@ -54,6 +55,18 @@ RSpec.describe Howitzer::Web::IframeDsl do
 
       it 'should raise error' do
         expect { subject }.to raise_error(ArgumentError, 'iframe selector arguments must be specified')
+      end
+    end
+
+    context 'when frame nested in module' do
+      subject do
+        web_page_class.class_eval do
+          iframe :foo_fb, 1
+        end
+        web_page_class
+      end
+      it 'should create page class nested in module' do
+        expect(subject).to eql(web_page_class)
       end
     end
   end
