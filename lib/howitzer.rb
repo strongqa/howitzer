@@ -37,12 +37,13 @@ module Howitzer
   # @example returns url without auth
   #  app_uri.origin
 
-  def self.app_uri
+  def self.app_uri(name = nil)
+    prefix = "#{name}_" if name.present?
     ::Addressable::URI.new(
-      user: Howitzer.app_base_auth_login,
-      password: Howitzer.app_base_auth_pass,
-      host: Howitzer.app_host,
-      scheme: Howitzer.app_protocol || 'http'
+      user: Howitzer.public_send("#{prefix}app_base_auth_login"),
+      password: Howitzer.public_send("#{prefix}app_base_auth_pass"),
+      host: Howitzer.public_send("#{prefix}app_host"),
+      scheme: Howitzer.public_send("#{prefix}app_protocol") || 'http'
     )
   end
 end
