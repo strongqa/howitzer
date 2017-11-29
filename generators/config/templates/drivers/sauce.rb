@@ -19,3 +19,7 @@ Capybara.register_driver :sauce do |app|
   url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
+
+Capybara::Screenshot.class_eval do
+  register_driver :sauce, &registered_drivers[:selenium]
+end

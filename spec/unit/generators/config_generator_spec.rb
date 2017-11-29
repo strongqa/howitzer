@@ -20,15 +20,15 @@ RSpec.describe 'Generators' do
         { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
-        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 914 },
-        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1126 },
-        { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 658 },
-        { name: '/config/drivers/phantomjs.rb', is_directory: false, size: 598 },
+        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1018 },
+        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1237 },
+        { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 649 },
+        { name: '/config/drivers/phantomjs.rb', is_directory: false, size: 589 },
         { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 362 },
-        { name: '/config/drivers/sauce.rb', is_directory: false, size: 871 },
+        { name: '/config/drivers/sauce.rb', is_directory: false, size: 968 },
         { name: '/config/drivers/selenium.rb', is_directory: false, size: 1097 },
-        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1272 },
-        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 804 },
+        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1377 },
+        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 906 },
         { name: '/config/drivers/webkit.rb', is_directory: false, size: 179 }
       ]
     end
