@@ -72,7 +72,7 @@ module Howitzer
 
         def iframe(name, *args)
           raise ArgumentError, 'iframe selector arguments must be specified' if args.blank?
-          klass = "#{name.to_s.split('_').collect(&:capitalize).join('::')}Page".constantize
+          klass = transform_name(name)
           define_iframe(klass, name, args)
           define_has_iframe(name, args)
           define_has_no_iframe(name, args)
@@ -99,6 +99,12 @@ module Howitzer
           define_method("has_no_#{name}_iframe?") do |**params|
             capybara_context.has_no_selector?(*iframe_element_selector(args, params))
           end
+        end
+
+        def transform_name(name)
+          "#{name}_page".classify.constantize
+        rescue NameError
+          "#{name.to_s.split('_').collect(&:capitalize).join('::')}Page".constantize
         end
       end
     end
