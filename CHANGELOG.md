@@ -3,6 +3,7 @@
 ### New Features
 - Cucumber rake tasks minor updates
 ### Bug-fixes
+- [#225](https://github.com/strongqa/howitzer/issues/225) Frames under namespace support
 - [#254](https://github.com/strongqa/howitzer/issues/254) Screenshot driver now created for the active driver
 - [#252](https://github.com/strongqa/howitzer/issues/252) Wrong location of log files fixed
 - [#248](https://github.com/strongqa/howitzer/issues/248) FactoryGirl renamed to FactoryBot in cucumber transformation.
