@@ -72,7 +72,8 @@ module Howitzer
 
         def iframe(name, *args)
           raise ArgumentError, 'iframe selector arguments must be specified' if args.blank?
-          klass = transform_name(name)
+          klass = args.first.is_a?(Class) ? args.shift : find_matching_class(name)
+          raise NameError, "class can not be found for #{name} iframe" if klass.blank?
           define_iframe(klass, name, args)
           define_has_iframe(name, args)
           define_has_no_iframe(name, args)
@@ -101,10 +102,9 @@ module Howitzer
           end
         end
 
-        def transform_name(name)
-          "#{name}_page".classify.constantize
-        rescue NameError
-          "#{name.to_s.split('_').collect(&:capitalize).join('::')}Page".constantize
+        def find_matching_class(name)
+          Howitzer::Web::Page.descendants.select { |el| el.name.underscore.tr('/', '_') == "#{name}_page" }
+                             .max_by { |el| el.name.count('::') }
         end
       end
     end

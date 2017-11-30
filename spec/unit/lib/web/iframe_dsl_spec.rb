@@ -9,6 +9,26 @@ RSpec.describe Howitzer::Web::IframeDsl do
       end
     end
   end
+  let(:nested_class) do
+    module Foo
+      Class.new(Howitzer::Web::Page) do
+        section :navbar, :xpath, './body' do
+          element :like_button, '#foo_id'
+        end
+      end
+    end
+  end
+  let(:double_nested_class) do
+    module Foo
+      module Bar
+        Class.new(Howitzer::Web::Page) do
+          section :navbar, :xpath, './body' do
+            element :like_button, '#foo_id'
+          end
+        end
+      end
+    end
+  end
 
   let(:web_page_class) do
     Class.new(Howitzer::Web::Page)
@@ -18,7 +38,9 @@ RSpec.describe Howitzer::Web::IframeDsl do
     allow_any_instance_of(fb_page_class).to receive(:check_validations_are_defined!)
     allow_any_instance_of(web_page_class).to receive(:check_validations_are_defined!)
     stub_const('FbPage', fb_page_class)
-    stub_const('Foo::FbPage', fb_page_class)
+    stub_const('Foo::FbPage', nested_class)
+    stub_const('Foo::Bar::FbHomePage', double_nested_class)
+    allow(Howitzer::Web::Page).to receive(:descendants) { [FbPage, Foo::FbPage, Foo::Bar::FbHomePage] }
   end
 
   describe '.iframe' do
@@ -58,6 +80,18 @@ RSpec.describe Howitzer::Web::IframeDsl do
       end
     end
 
+    context 'when class defined explicity' do
+      subject do
+        web_page_class.class_eval do
+          iframe :fb, FbPage, 1
+        end
+        web_page_class
+      end
+      it 'should find page class specified' do
+        expect(subject).to eql(web_page_class)
+      end
+    end
+
     context 'when frame nested in module' do
       subject do
         web_page_class.class_eval do
@@ -65,7 +99,19 @@ RSpec.describe Howitzer::Web::IframeDsl do
         end
         web_page_class
       end
-      it 'should create page class nested in module' do
+      it 'should find page class nested in module' do
+        expect(subject).to eql(web_page_class)
+      end
+    end
+
+    context 'when frame nested in module nested in module' do
+      subject do
+        web_page_class.class_eval do
+          iframe :foo_bar_fb_home, 1
+        end
+        web_page_class
+      end
+      it 'should find class nested in modules' do
         expect(subject).to eql(web_page_class)
       end
     end
