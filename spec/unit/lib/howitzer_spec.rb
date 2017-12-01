@@ -48,14 +48,7 @@ RSpec.describe 'Howitzer' do
       end
     end
     context 'when config is not specified for custom host' do
-      let(:error_message) do
-        "config is missing for custom host test, please add to config:
-test_app_base_auth_login
-test_app_base_auth_pass
-test_app_host
-test_app_protocol"
-      end
-      it { expect { Howitzer.app_uri(:test).site }.to raise_error(NoMethodError, error_message) }
+      it { expect { Howitzer.app_uri(:test).site }.to raise_error(NoMethodError) }
     end
   end
   describe '.mailgun_idle_timeout' do

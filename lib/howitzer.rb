@@ -36,10 +36,8 @@ module Howitzer
   #  app_uri.site
   # @example returns url without auth
   #  app_uri.origin
-  # @example returns url for custom host(should be specified in config)
-  #  #config
-  #  example_app_host: 'example.com'
-  #  app_uri(:example).site
+  # @example returns url for custom host
+  # app_uri(:example).site
 
   def self.app_uri(name = nil)
     prefix = "#{name}_" if name.present?
@@ -49,12 +47,6 @@ module Howitzer
       host: Howitzer.public_send("#{prefix}app_host"),
       scheme: Howitzer.public_send("#{prefix}app_protocol") || 'http'
     )
-  rescue NoMethodError
-    raise NoMethodError, "config is missing for custom host #{name}, please add to config:
-#{name}_app_base_auth_login
-#{name}_app_base_auth_pass
-#{name}_app_host
-#{name}_app_protocol"
   end
 end
 
