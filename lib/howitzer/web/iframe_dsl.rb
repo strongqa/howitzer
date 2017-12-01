@@ -45,6 +45,7 @@ module Howitzer
         #   <b>has_no_<em>frame_name</em>_iframe?</b> - equals capybara #has_no_selector(...) method
         # @param name [Symbol, String] an unique iframe name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Session#within_frame`.
+        # @raise [NameError] if page class can not be found
         # @example Using in a page class
         #   class FbPage < Howitzer::Web::Page
         #     element :like, :xpath, ".//*[text()='Like']"
@@ -57,8 +58,19 @@ module Howitzer
         #     end
         #   end
         #
+        #   module Utils
+        #     class GroupFbPage < Howitzer::Web::Page
+        #     end
+        #   end
+        #
         #   class HomePage < Howitzer::Web::Page
         #     iframe :fb, 1
+        #
+        #    # frame with explicit class declaration
+        #    # iframe :fb, FbPage, 1
+        #
+        #    # frame with namespace
+        #     iframe :utils_group_fb
         #   end
         #
         #   HomePage.on do
@@ -72,7 +84,8 @@ module Howitzer
 
         def iframe(name, *args)
           raise ArgumentError, 'iframe selector arguments must be specified' if args.blank?
-          klass = "#{name}_page".classify.constantize
+          klass = args.first.is_a?(Class) ? args.shift : find_matching_class(name)
+          raise NameError, "class can not be found for #{name} iframe" if klass.blank?
           define_iframe(klass, name, args)
           define_has_iframe(name, args)
           define_has_no_iframe(name, args)
@@ -99,6 +112,11 @@ module Howitzer
           define_method("has_no_#{name}_iframe?") do |**params|
             capybara_context.has_no_selector?(*iframe_element_selector(args, params))
           end
+        end
+
+        def find_matching_class(name)
+          Howitzer::Web::Page.descendants.select { |el| el.name.underscore.tr('/', '_') == "#{name}_page" }
+                             .max_by { |el| el.name.count('::') }
         end
       end
     end
