@@ -47,8 +47,14 @@ RSpec.describe 'Howitzer' do
         it { expect(Howitzer.app_uri(:test).site).to eq('http://test.strongqa.com') }
       end
     end
-    context 'when config is not specified for custom host' do
-      it { expect { Howitzer.app_uri(:test).site }.to raise_error(NoMethodError) }
+    context 'when configuration settings are not specified for particular application' do
+      it do
+        expect { Howitzer.app_uri(:test).site }.to raise_error(
+          Howitzer::UndefinedSexySettingError,
+          "Undefined 'test_app_base_auth_login' setting. Please add the setting to config/default.yml:\n " \
+            "test_app_base_auth_login: some_value\n"
+        )
+      end
     end
   end
   describe '.mailgun_idle_timeout' do

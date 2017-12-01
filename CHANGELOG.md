@@ -2,7 +2,8 @@
 
 ### New Features
 - Cucumber rake tasks minor updates
-- [#257](https://github.com/strongqa/howitzer/issues/257) Add multiple domain support
+- [#257](https://github.com/strongqa/howitzer/issues/257) Simplify working with multiple domains
+
 ### Bug-fixes
 - [#254](https://github.com/strongqa/howitzer/issues/254) Screenshot driver now created for the active driver
 - [#252](https://github.com/strongqa/howitzer/issues/252) Wrong location of log files fixed
