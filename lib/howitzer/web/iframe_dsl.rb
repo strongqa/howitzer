@@ -45,6 +45,7 @@ module Howitzer
         #   <b>has_no_<em>frame_name</em>_iframe?</b> - equals capybara #has_no_selector(...) method
         # @param name [Symbol, String] an unique iframe name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Session#within_frame`.
+        # @raise [NameError] if page class can not be found
         # @example Using in a page class
         #   class FbPage < Howitzer::Web::Page
         #     element :like, :xpath, ".//*[text()='Like']"
@@ -57,8 +58,19 @@ module Howitzer
         #     end
         #   end
         #
+        #   module Utils
+        #     class GroupFbPage < Howitzer::Web::Page
+        #     end
+        #   end
+        #
         #   class HomePage < Howitzer::Web::Page
         #     iframe :fb, 1
+        #
+        #    # frame with explicit class declaration
+        #    # iframe :fb, FbPage, 1
+        #
+        #    # frame with namespace
+        #     iframe :utils_group_fb
         #   end
         #
         #   HomePage.on do
