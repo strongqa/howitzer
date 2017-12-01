@@ -2,6 +2,8 @@ require 'selenium-webdriver'
 require 'capybara'
 require 'sexy_settings'
 require 'rspec/wait'
+require 'howitzer/version'
+require 'howitzer/exceptions'
 
 SexySettings.configure do |config|
   config.path_to_default_settings = File.expand_path('config/default.yml', Dir.pwd)
@@ -30,25 +32,39 @@ module Howitzer
     attr_accessor :current_rake_task
   end
 
-  # @return an application uri
+  # @return an application uri for particular application name
   #
-  # @example returns url with auth
+  # @param name [Symbol, String] an application name from framework settings
+  #
+  # @example returns default application url with auth
   #  app_uri.site
-  # @example returns url without auth
+  # @example returns example application url with auth
+  #  app_uri(:example).site
+  # @example returns default application url without auth
   #  app_uri.origin
 
-  def self.app_uri
+  def self.app_uri(name = nil)
+    prefix = "#{name}_" if name.present?
     ::Addressable::URI.new(
-      user: Howitzer.app_base_auth_login,
-      password: Howitzer.app_base_auth_pass,
-      host: Howitzer.app_host,
-      scheme: Howitzer.app_protocol || 'http'
+      user: Howitzer.sexy_setting!("#{prefix}app_base_auth_login"),
+      password: Howitzer.sexy_setting!("#{prefix}app_base_auth_pass"),
+      host: Howitzer.sexy_setting!("#{prefix}app_host"),
+      scheme: Howitzer.sexy_setting!("#{prefix}app_protocol") || 'http'
     )
+  end
+
+  # @return an setting value or raise error
+  #
+  # @param name [Symbol, String] an setting name
+  # @raise [Howitzer::UndefinedSexySettingError] when the setting is not specified
+
+  def self.sexy_setting!(name)
+    return Howitzer.public_send(name) if Howitzer.respond_to?(name)
+    raise UndefinedSexySettingError,
+          "Undefined '#{name}' setting. Please add the setting to config/default.yml:\n #{name}: some_value\n"
   end
 end
 
-require 'howitzer/version'
-require 'howitzer/exceptions'
 require 'howitzer/log'
 require 'howitzer/utils'
 require 'howitzer/cache'

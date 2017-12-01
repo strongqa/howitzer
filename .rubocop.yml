@@ -48,3 +48,4 @@ Style/MixinGrouping:
   EnforcedStyle: separated
   Exclude:
     - '**/*_steps.rb'
+    - 'tmp/**'

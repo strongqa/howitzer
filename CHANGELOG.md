@@ -2,6 +2,8 @@
 
 ### New Features
 - Cucumber rake tasks minor updates
+- [#257](https://github.com/strongqa/howitzer/issues/257) Simplify working with multiple domains
+
 ### Bug-fixes
 - [#225](https://github.com/strongqa/howitzer/issues/225) Frames under namespace support
 - [#254](https://github.com/strongqa/howitzer/issues/254) Screenshot driver now created for the active driver

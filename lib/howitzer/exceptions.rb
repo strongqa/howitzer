@@ -20,4 +20,5 @@ module Howitzer
   NoEmailSubjectError = Class.new(StandardError) #:nodoc:
   NoDataError = Class.new(StandardError) #:nodoc:
   UndefinedElementError = Class.new(StandardError) #:nodoc:
+  UndefinedSexySettingError = Class.new(StandardError) #:nodoc:
 end
