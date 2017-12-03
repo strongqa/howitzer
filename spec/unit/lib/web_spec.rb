@@ -2,7 +2,6 @@ require 'spec_helper'
 require 'howitzer/web'
 
 RSpec.describe Howitzer::Web do
-
   context '.within_session' do
     it do
       expect(Howitzer::Web.current_session_name).to eq(:default)
