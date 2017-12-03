@@ -30,6 +30,8 @@ Capybara.configure do |config|
   config.javascript_driver = Howitzer.driver.to_s.to_sym
 end
 
+Capybara.threadsafe = true
+
 require 'howitzer/capybara_helpers'
 
 # namespace for capybara helpers
