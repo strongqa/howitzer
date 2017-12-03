@@ -1,7 +1,7 @@
 module Howitzer
   # This class holds everything related with web GUI
   module Web
-    # method which specifies to work with a given session
+    # Execute the given block within a given session
     # @param name [String, Symbol] a session name
 
     def self.within_session(name, &block)
@@ -14,7 +14,7 @@ module Howitzer
       Capybara.session_name
     end
 
-    # Specifies a session with which need to work now
+    # Set a session to use
     # @param value [String, Symbol] a session name
 
     def self.current_session_name=(value)
