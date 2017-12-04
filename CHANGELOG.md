@@ -1,4 +1,10 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.1.0...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.1.1...master)
+
+### New Features
+
+### Bug-fixes
+
+## [v2.1.1](https://github.com/strongqa/howitzer/compare/v2.1.0...v2.1.1)
 
 ### New Features
 - Cucumber rake tasks minor updates
@@ -10,6 +16,7 @@
 - [#252](https://github.com/strongqa/howitzer/issues/252) Wrong location of log files fixed
 - [#248](https://github.com/strongqa/howitzer/issues/248) FactoryGirl renamed to FactoryBot in cucumber transformation.
 - [#246](https://github.com/strongqa/howitzer/issues/246) Options fixed for rspec rake tasks
+
 ## [v2.1.0](https://github.com/strongqa/howitzer/compare/v2.0.3...v2.1.0)
 
 ### New Features
