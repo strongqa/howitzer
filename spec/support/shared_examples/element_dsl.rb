@@ -238,5 +238,29 @@ RSpec.shared_examples :element_dsl do
         end
       end
     end
+
+    describe 'name_element_path' do
+      let(:element_stub) { double }
+      context 'when simple selector' do
+        subject { klass_object.send(:bar_element_path) }
+        it do
+          expect(klass_object.capybara_context).to receive(:find).with(
+            '.someclass', text: 'origin', match: :first
+          ) { element_stub }
+          expect(element_stub).to receive(:path)
+          subject
+        end
+      end
+      context 'when lambda selector' do
+        subject { klass_object.send(:foo_element_path, 'Hello', 'super') }
+        it do
+          expect(klass_object.capybara_context).to receive(:find).with(
+            :xpath, "//a[.='Hello']/*[@name='super']", text: 'original', match: :first
+          ) { element_stub }
+          expect(element_stub).to receive(:path)
+          subject
+        end
+      end
+    end
   end
 end
