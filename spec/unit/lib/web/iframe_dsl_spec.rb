@@ -128,7 +128,7 @@ RSpec.describe Howitzer::Web::IframeDsl do
     after { subject }
 
     describe '#name_iframe' do
-      let(:block) { proc {} }
+      let(:block) { proc{} }
       context 'when no options' do
         subject { web_page_object.fb_iframe(&block) }
         before { web_page_class.class_eval { iframe :fb, 'foo' } }
