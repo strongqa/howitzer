@@ -107,7 +107,7 @@ module Howitzer
       params = if Howitzer.hide_datetime_from_log
                  { pattern: '[%l] %m' }
                else
-                 { pattern: '%d [%l] :: %m', date_pattern: '%Y/%m/%d %H:%M:%S' }
+                 { pattern: '%<day>d [%l] :: %m', date_pattern: '%Y/%m/%<day>d %H:%M:%S' }
                end
       PatternFormatter.new(params)
     end

@@ -1,8 +1,9 @@
 require 'spec_helper'
 require 'howitzer/log'
-include Howitzer::LoggerHelper
 
 RSpec.describe Howitzer::Log do
+  include Howitzer::LoggerHelper
+
   context '.instance' do
     subject { described_class.instance }
     let(:other_log) { described_class.instance }

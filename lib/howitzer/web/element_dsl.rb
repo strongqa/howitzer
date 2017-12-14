@@ -100,6 +100,7 @@ module Howitzer
           define_within_element(name, args)
           define_has_element(name, args)
           define_has_no_element(name, args)
+          define_element_path(name, args)
         end
 
         private
@@ -153,6 +154,12 @@ module Howitzer
         def define_has_no_element(name, args)
           define_method("has_no_#{name}_element?") do |*block_args|
             capybara_context.has_no_selector?(*convert_arguments(args, block_args))
+          end
+        end
+
+        def define_element_path(name, args)
+          define_method("#{name}_element_path") do |*block_args|
+            capybara_context.find(*convert_arguments(args, block_args)).path
           end
         end
       end
