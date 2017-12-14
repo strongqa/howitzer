@@ -138,9 +138,9 @@ module Howitzer
 
     def cloud_resource_path(kind)
       case Howitzer.driver.to_sym
-      when SAUCE then sauce_resource_path(kind)
-      else
-        '[NOT IMPLEMENTED]'
+        when SAUCE then sauce_resource_path(kind)
+        else
+          '[NOT IMPLEMENTED]'
       end
     end
 
@@ -159,9 +159,7 @@ module Howitzer
     end
 
     def selenium_browser?(*browser_aliases)
-      unless Howitzer.selenium_browser.nil?
-        return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
-      end
+      return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym) unless Howitzer.selenium_browser.nil?
       raise Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 
