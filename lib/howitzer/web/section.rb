@@ -1,9 +1,14 @@
 require 'howitzer/web/base_section'
+require 'howitzer/meta'
 
 module Howitzer
   module Web
     # This class uses for named sections which possible to reuse in different pages
     class Section < BaseSection
+      def meta
+        @meta ||= Meta::Entry.new(self)
+      end
+
       class << self
         protected
 
