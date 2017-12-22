@@ -1,5 +1,6 @@
 module Howitzer
   module Meta
+    # This class represents element entity within howitzer meta information interface
     class Element
       attr_reader :name, :context
 
@@ -12,8 +13,8 @@ module Howitzer
         context.send("#{name}_elements")
       end
 
-      def capybara_element(wait: 0)
-        context.send("#{name}_element", match: :first, wait: wait)
+      def capybara_element(*args, wait: 0)
+        context.send("#{name}_element", *args, match: :first, wait: wait)
       rescue Capybara::ElementNotFound
         nil
       end

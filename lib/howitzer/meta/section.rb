@@ -1,5 +1,6 @@
 module Howitzer
   module Meta
+    # This class represents section entity within howitzer meta information interface
     class Section
       attr_reader :name, :context
 
@@ -9,14 +10,12 @@ module Howitzer
       end
 
       def capybara_elements
-        context.send("#{name}_sections")
+        context.send("#{name}_sections").map(&:capybara_context)
       end
 
       def capybara_element
         section = context.send("#{name}_sections").first
         section.nil? ? nil : section.capybara_context
-      rescue Capybara::ElementNotFound
-        nil
       end
 
       def highlight

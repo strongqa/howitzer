@@ -1,5 +1,6 @@
 module Howitzer
   module Meta
+    # This class provides access to meta information entities
     class Entry
       attr_reader :context
 
