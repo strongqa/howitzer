@@ -102,6 +102,8 @@ module Howitzer
         raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
       end
 
+      # Provides access to meta information about entities on the page
+      # @return [Meta::Entry]
       def meta
         @meta ||= Meta::Entry.new(self)
       end
