@@ -10,7 +10,7 @@ RSpec.shared_examples :meta_highlight_xpath do
       end
     end
     context 'when element is blank' do
-      before { allow(element).to receive(:capybara_element){} }
+      before { allow(element).to receive(:capybara_element) {} }
       it do
         expect(capybara_element).not_to receive(:path)
         element.xpath

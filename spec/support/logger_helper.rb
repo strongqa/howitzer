@@ -7,7 +7,7 @@ module Howitzer
 
     def clear_file(file)
       path = File.expand_path(file, __FILE__)
-      File.open(path, 'w'){}
+      File.open(path, 'w') {}
     end
   end
 end

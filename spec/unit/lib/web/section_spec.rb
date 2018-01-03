@@ -60,4 +60,9 @@ RSpec.describe Howitzer::Web::Section do
     subject { described_class.new(1, :test).capybara_context }
     it { is_expected.to eq(:test) }
   end
+
+  describe '#meta' do
+    subject { described_class.new(1, :test).meta }
+    it { is_expected.to be_an_instance_of(Howitzer::Meta::Entry) }
+  end
 end

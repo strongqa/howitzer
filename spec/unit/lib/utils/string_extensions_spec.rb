@@ -66,7 +66,7 @@ RSpec.describe Howitzer::Utils::StringExtensions do
     end
   end
   describe '#on' do
-    let(:block) { ->{} }
+    let(:block) { -> {} }
     subject { page_name.on(&block) }
     before do
       allow(page_name).to receive(:as_page_class) { page_object }

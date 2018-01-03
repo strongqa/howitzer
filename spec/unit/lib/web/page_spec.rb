@@ -371,6 +371,11 @@ RSpec.describe Howitzer::Web::Page do
     it { is_expected.to eq(:context) }
   end
 
+  describe '#meta' do
+    subject { described_class.instance.meta }
+    it { is_expected.to be_an_instance_of(Howitzer::Meta::Entry) }
+  end
+
   describe 'includes proxied capybara methods' do
     let(:reciever) { described_class.instance }
     include_examples :capybara_methods_proxy
