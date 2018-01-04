@@ -15,8 +15,7 @@ module Howitzer
       # Returns xpath for the element
       # @return [String, nil]
       def xpath
-        element = capybara_element
-        element.path unless element.blank?
+        capybara_element.try(:path)
       end
 
       private
