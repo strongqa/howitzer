@@ -1,7 +1,9 @@
+require 'howitzer/meta/base'
+
 module Howitzer
   module Meta
     # This class represents section entity within howitzer meta information interface
-    class Section
+    class Section < Base
       attr_reader :name, :context
 
       def initialize(name, context)
@@ -20,23 +22,6 @@ module Howitzer
       def capybara_element
         section = context.send("#{name}_sections").first
         section.nil? ? nil : section.capybara_context
-      end
-
-      # Highlights element with red border on the page
-      def highlight
-        if xpath.blank?
-          Howitzer::Log.info("Element #{@name} not found on the page")
-          return
-        end
-        context.execute_script("document.evaluate('#{xpath}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE,"\
-                               ' null).singleNodeValue.style.border = "thick solid red"')
-      end
-
-      # Returns xpath for the element
-      # @return [String, nil]
-      def xpath
-        element = capybara_element
-        element.path unless element.blank?
       end
     end
   end

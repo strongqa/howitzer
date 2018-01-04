@@ -11,9 +11,10 @@ module Howitzer
       # Returns array of elements
       # @return [Array]
       def elements
-        elements_names = context.private_methods
-                                .select { |el| el[/_element$/] }.delete_if { |el| el.to_s.start_with?('wait') }
-        elements_names.map! { |el| Meta::Element.new(el.to_s.gsub('_element', ''), @context) }
+        @elements ||= context
+                      .private_methods
+                      .grep(/\A(?!wait_)\w+_element\z/)
+                      .map { |el| Meta::Element.new(el.to_s.gsub('_element', ''), @context) }
       end
 
       # Finds element by name
@@ -26,9 +27,10 @@ module Howitzer
       # Returns array of sections
       # @return [Array]
       def sections
-        sections_names = context.public_methods
-                                .select { |el| el[/_section$/] }.delete_if { |el| el.to_s.start_with?('wait') }
-        sections_names.map! { |el| Meta::Section.new(el.to_s.gsub('_section', ''), @context) }
+        @sections ||= context
+                      .public_methods
+                      .grep(/\A(?!wait_)\w+_section$\z/)
+                      .map { |el| Meta::Section.new(el.to_s.gsub('_section', ''), @context) }
       end
 
       # Finds section by name
@@ -41,9 +43,10 @@ module Howitzer
       # Returns array of iframes
       # @return [Array]
       def iframes
-        iframes_names = context.public_methods
-                               .select { |el| el[/_iframe$/] }.delete_if { |el| el.to_s.start_with?('wait') }
-        iframes_names.map! { |el| Meta::Iframe.new(el.to_s.gsub('_iframe', ''), @context) }
+        @iframes ||= context
+                     .public_methods
+                     .grep(/\A(?!wait_)\w+_iframe$\z/)
+                     .map { |el| Meta::Iframe.new(el.to_s.gsub('_iframe', ''), @context) }
       end
 
       # Finds iframe by name
