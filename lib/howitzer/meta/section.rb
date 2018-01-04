@@ -1,5 +1,3 @@
-require 'howitzer/meta/base'
-
 module Howitzer
   module Meta
     # This class represents section entity within howitzer meta information interface

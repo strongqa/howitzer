@@ -14,7 +14,7 @@ RSpec.describe Howitzer::Meta::Iframe do
   describe '#capybara_elements' do
     subject { iframe.capybara_elements }
     it do
-      expect(context).to receive(:send).with("#{name}_iframe")
+      expect(iframe).to receive(:site_value)
       expect(context).to receive_message_chain(:capybara_context, :all)
       subject
     end
@@ -25,7 +25,7 @@ RSpec.describe Howitzer::Meta::Iframe do
     context 'when element is present' do
       context 'with default arguments' do
         it do
-          expect(context).to receive(:send).with("#{name}_iframe")
+          expect(iframe).to receive(:site_value)
           expect(context).to receive_message_chain(:capybara_context, :find)
           subject
         end
@@ -33,7 +33,7 @@ RSpec.describe Howitzer::Meta::Iframe do
       context 'with custom arguments' do
         subject { iframe.capybara_element(wait: 5) }
         it do
-          expect(context).to receive(:send).with("#{name}_iframe")
+          expect(iframe).to receive(:site_value)
           expect(context).to receive_message_chain(:capybara_context, :find)
           subject
         end
@@ -41,10 +41,24 @@ RSpec.describe Howitzer::Meta::Iframe do
     end
     context 'when element is not found' do
       before do
-        allow(context).to receive(:send).with("#{name}_iframe")
+        allow(iframe).to receive(:site_value)
         allow(context).to receive_message_chain(:capybara_context, :find) { raise Capybara::ElementNotFound }
       end
       it { is_expected.to be_nil }
+    end
+  end
+
+  describe '#site_value' do
+    subject { iframe.site_value }
+    context 'when site value is present' do
+      before { iframe.instance_variable_set(:@site_value, 'test') }
+      it { is_expected.to eq('test') }
+    end
+    context 'when site value is blank' do
+      it do
+        expect(context).to receive(:send).with("#{name}_iframe")
+        subject
+      end
     end
   end
 

@@ -21,7 +21,7 @@ module Howitzer
       private
 
       def escape(xpath)
-        xpath.gsub("'", '\\\\\'').gsub('"', '\"')
+        xpath.gsub(/(['"])/, '\\\\\\1')
       end
     end
   end
