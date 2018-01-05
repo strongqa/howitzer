@@ -4,7 +4,7 @@ module Howitzer
   end
 end
 
-require 'howitzer/meta/base'
+require 'howitzer/meta/actions'
 require 'howitzer/meta/element'
 require 'howitzer/meta/section'
 require 'howitzer/meta/iframe'

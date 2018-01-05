@@ -62,7 +62,9 @@ RSpec.describe Howitzer::Web::Section do
   end
 
   describe '#meta' do
-    subject { described_class.new(1, :test).meta }
-    it { is_expected.to be_an_instance_of(Howitzer::Meta::Entry) }
+    let(:section) { described_class.new(1, :test) }
+    it { expect(section.meta).to be_an_instance_of(Howitzer::Meta::Entry) }
+    it { expect(section.meta.context).to eq(section) }
+    it { expect(section.instance_variable_get(:@meta)).to be_nil }
   end
 end

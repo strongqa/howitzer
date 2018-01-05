@@ -1,8 +1,10 @@
 module Howitzer
   module Meta
     # This class represents section entity within howitzer meta information interface
-    class Section < Base
+    class Section
       attr_reader :name, :context
+
+      include Howitzer::Meta::Actions
 
       def initialize(name, context)
         @name = name
@@ -19,7 +21,7 @@ module Howitzer
       # @return [Capybara::Node::Element, nil]
       def capybara_element
         section = context.send("#{name}_sections").first
-        section.nil? ? nil : section.capybara_context
+        section.try(:capybara_context)
       end
     end
   end

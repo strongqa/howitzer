@@ -22,7 +22,7 @@ RSpec.shared_examples :meta_highlight_xpath do
     context 'when xpath blank' do
       before { allow(element).to receive(:xpath) { nil } }
       it do
-        expect(Howitzer::Log).to receive(:info).with("Element #{name} not found on the page")
+        expect(Howitzer::Log).to receive(:debug).with("Element #{name} not found on the page")
         expect(context).not_to receive(:execute_script)
         element.highlight
       end

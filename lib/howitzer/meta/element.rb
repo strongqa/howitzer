@@ -1,8 +1,10 @@
 module Howitzer
   module Meta
     # This class represents element entity within howitzer meta information interface
-    class Element < Base
+    class Element
       attr_reader :name, :context
+
+      include Howitzer::Meta::Actions
 
       def initialize(name, context)
         @name = name
@@ -11,8 +13,8 @@ module Howitzer
 
       # Finds all instances of element on the page and returns them as array of capybara elements
       # @return [Array]
-      def capybara_elements
-        context.send("#{name}_elements")
+      def capybara_elements(*args)
+        context.send("#{name}_elements", *args)
       end
 
       # Finds element on the page and returns as a capybara element

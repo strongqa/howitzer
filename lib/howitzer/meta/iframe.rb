@@ -1,8 +1,10 @@
 module Howitzer
   module Meta
     # This class represents iframe entity within howitzer meta information interface
-    class Iframe < Base
+    class Iframe
       attr_reader :name, :context
+
+      include Howitzer::Meta::Actions
 
       def initialize(name, context)
         @name = name
