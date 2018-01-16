@@ -6,6 +6,9 @@ module Howitzer
 
       include Howitzer::Meta::Actions
 
+      # Creates new meta iframe element with meta information and utility actions
+      # @param name [String] name of the iframe
+      # @param context [Howitzer::Web::Page] page which has this iframe
       def initialize(name, context)
         @name = name
         @context = context

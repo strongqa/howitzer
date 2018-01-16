@@ -4,6 +4,8 @@ module Howitzer
     class Entry
       attr_reader :context
 
+      # Creates new meta entry instance for the page which provides access to elements, iframes and sections
+      # @param context [Howitzer::Web::Page] page for which entry is created
       def initialize(context)
         @context = context
       end

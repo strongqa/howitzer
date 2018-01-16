@@ -3,6 +3,7 @@ module Howitzer
     # Module with utility actions for elements
     module Actions
       # Highlights element with red border on the page
+      # @param *args [Array] arguments for elements described with lambda locators
       def highlight(*args)
         if xpath(*args).blank?
           Howitzer::Log.debug("Element #{name} not found on the page")
@@ -13,6 +14,7 @@ module Howitzer
       end
 
       # Returns xpath for the element
+      # @param *args [Array] arguments for elements described with lambda locators
       # @return [String, nil]
       def xpath(*args)
         capybara_element(*args).try(:path)

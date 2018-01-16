@@ -5,7 +5,9 @@ module Howitzer
       attr_reader :name, :context
 
       include Howitzer::Meta::Actions
-
+      # Creates meta section element with meta information and utility actions
+      # @param name [String] name of the section
+      # @param context [Howitzer::Web::Page] page which has this section
       def initialize(name, context)
         @name = name
         @context = context
