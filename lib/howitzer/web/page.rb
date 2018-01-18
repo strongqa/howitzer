@@ -1,6 +1,7 @@
 require 'singleton'
 require 'rspec/expectations'
 require 'addressable/template'
+require 'howitzer/meta'
 require 'howitzer/web/capybara_methods_proxy'
 require 'howitzer/web/page_validator'
 require 'howitzer/web/element_dsl'
@@ -99,6 +100,12 @@ module Howitzer
           return "#{site_value}#{Addressable::Template.new(path_value).expand(params, url_processor)}"
         end
         raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
+      end
+
+      # Provides access to meta information about entities on the page
+      # @return [Meta::Entry]
+      def meta
+        @meta ||= Meta::Entry.new(self)
       end
 
       class << self

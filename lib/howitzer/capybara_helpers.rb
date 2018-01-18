@@ -159,9 +159,7 @@ module Howitzer
     end
 
     def selenium_browser?(*browser_aliases)
-      unless Howitzer.selenium_browser.nil?
-        return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym)
-      end
+      return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym) unless Howitzer.selenium_browser.nil?
       raise Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 
