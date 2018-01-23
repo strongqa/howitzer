@@ -41,7 +41,7 @@
  phantom_ignore_js_errors: false
  phantom_ignore_ssl_errors: true
 
- # -Appium-
+ # -Appium- (https://appium.io/docs/en/writing-running-appium/caps/)
  appium_url: "http://localhost:80/wd/hub"
  appium_platform_name: "iOS"
  appium_platform_version: "10.0"
