@@ -3,6 +3,7 @@
 ### New Features
 - [#241](https://github.com/strongqa/howitzer/issues/241) meta interface added. Allows tracking elements,sections, iframes on the page.
 - [#266](https://github.com/strongqa/howitzer/issues/266) ruby 2.2 no longer supported
+- [#265](https://github.com/strongqa/howitzer/issues/265) Add Appium driver
 ### Bug-fixes
 
 ## [v2.1.1](https://github.com/strongqa/howitzer/compare/v2.1.0...v2.1.1)

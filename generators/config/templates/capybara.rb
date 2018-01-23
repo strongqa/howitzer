@@ -1,4 +1,5 @@
 HOWITZER_KNOWN_DRIVERS = %i[
+  appium
   selenium
   selenium_grid
   webkit

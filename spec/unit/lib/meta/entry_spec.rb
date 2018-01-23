@@ -43,7 +43,7 @@ RSpec.describe Howitzer::Meta::Entry do
 
   describe '#elements' do
     subject { described_class.new(klass.new).elements }
-    it { expect(subject.map(&:name)).to eq(%w[foo bar]) }
+    it { expect(subject.map(&:name)).to contain_exactly('foo', 'bar') }
     it { expect(subject.count).to eq(2) }
   end
 
@@ -54,7 +54,7 @@ RSpec.describe Howitzer::Meta::Entry do
 
   describe '#sections' do
     subject { described_class.new(klass.new).sections }
-    it { expect(subject.map(&:name)).to eq(%w[foo bar]) }
+    it { expect(subject.map(&:name)).to contain_exactly('foo', 'bar') }
     it { expect(subject.count).to eq(2) }
   end
 
