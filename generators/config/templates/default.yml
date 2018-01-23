@@ -22,7 +22,7 @@
  maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
- # testingbot, browserstack, crossbrowsertesting, headless_chrome
+ # testingbot, browserstack, crossbrowsertesting, headless_chrome, appium
  driver: phantomjs
 
  # -Selenium-
@@ -42,7 +42,7 @@
  phantom_ignore_ssl_errors: true
 
  # -Appium-
- appium_url:
+ appium_url: "http://localhost:80/wd/hub"
  appium_platform_name: "iOS"
  appium_platform_version: "10.0"
  appium_browser_name: "Safari"
