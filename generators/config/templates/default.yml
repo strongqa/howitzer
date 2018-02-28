@@ -21,9 +21,9 @@
  page_load_idle_timeout: 20
  maximized_window: true # Specify maximized browser window size
 
- # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, phantomjs, sauce,
+ # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, sauce,
  # testingbot, browserstack, crossbrowsertesting, headless_chrome, appium
- driver: phantomjs
+ driver: selenium
 
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, safari
@@ -36,7 +36,7 @@
  # -Selenium Grid-
  selenium_hub_url: "http://example.com:4444/wd/hub"
 
- # -PhantomJS/Poltergeist-
+ # -Poltergeist-
  # specify settings for poltergeist
  phantom_ignore_js_errors: false
  phantom_ignore_ssl_errors: true
