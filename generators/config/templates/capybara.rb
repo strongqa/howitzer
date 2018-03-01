@@ -4,7 +4,6 @@ HOWITZER_KNOWN_DRIVERS = %i[
   selenium_grid
   webkit
   poltergeist
-  phantomjs
   sauce
   testingbot
   browserstack

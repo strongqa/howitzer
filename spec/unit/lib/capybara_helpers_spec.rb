@@ -6,7 +6,6 @@ RSpec.describe Howitzer::CapybaraHelpers do
 
   let(:selenium_driver) { false }
   let(:selenium_grid_driver) { false }
-  let(:phantomjs_driver) { false }
   let(:sauce_driver) { false }
   let(:test_object) { described_class }
 
@@ -26,7 +25,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_truthy }
     end
     context 'when not cloud driver' do
-      let(:driver_setting) { :phantomjs }
+      let(:driver_setting) { :poltergeist }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
@@ -47,7 +46,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) { :phantomjs }
+      let(:driver_setting) { :poltergeist }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
@@ -68,7 +67,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) { :phantomjs }
+      let(:driver_setting) { :poltergeist }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
