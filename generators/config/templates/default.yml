@@ -23,7 +23,7 @@
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, sauce,
  # testingbot, browserstack, crossbrowsertesting, headless_chrome, appium
- driver: selenium
+ driver: poltergeist
 
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, safari
