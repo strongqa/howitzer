@@ -12,7 +12,6 @@
   <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
   <a href="https://rubygems.org/gems/howitzer"><img src="http://img.shields.io/gem/v/howitzer.svg" /></a>
   <a href="https://travis-ci.org/strongqa/howitzer"><img src="https://travis-ci.org/strongqa/howitzer.svg?branch=master" /></a>
-  <a href='https://gemnasium.com/strongqa/howitzer'><img src="https://gemnasium.com/strongqa/howitzer.svg" /></a>
   <a href="https://codeclimate.com/github/strongqa/howitzer"><img src="https://codeclimate.com/github/strongqa/howitzer.png" /></a>
   <a href='https://coveralls.io/github/strongqa/howitzer?branch=master'><img src='https://coveralls.io/repos/github/strongqa/howitzer/badge.svg?branch=master' alt='Coverage Status' /></a>
   <a href="https://github.com/strongqa/howitzer/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg" /></a>
