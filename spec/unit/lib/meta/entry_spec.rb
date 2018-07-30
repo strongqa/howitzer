@@ -6,7 +6,7 @@ RSpec.describe Howitzer::Meta::Entry do
     Class.new do
       include Howitzer::Web::ElementDsl
       def capybara_scopes
-        @_scopes ||= [Capybara.current_session]
+        @capybara_scopes ||= [Capybara.current_session]
       end
 
       def foo_section; end

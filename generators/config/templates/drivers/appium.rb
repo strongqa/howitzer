@@ -1,4 +1,3 @@
-
 CapybaraHelpers.load_driver_gem!(:appium, 'appium_capybara', 'appium_capybara')
 
 Capybara.register_driver(:appium) do |app|

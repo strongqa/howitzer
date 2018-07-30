@@ -1,4 +1,4 @@
-require File.expand_path('../lib/howitzer/version', __FILE__)
+require File.expand_path('lib/howitzer/version', __dir__)
 
 Gem::Specification.new do |gem|
   gem.author        = 'Roman Parashchenko'

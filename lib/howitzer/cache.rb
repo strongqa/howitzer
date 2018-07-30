@@ -12,35 +12,35 @@ module Howitzer
 
       # Saves data into memory. Marking by a namespace and a key
       #
-      # @param ns [String] a namespace
+      # @param namespace [String] a namespace
       # @param key [String] a key that should be uniq within the namespace
       # @param value [Object] everything you want to store in Memory
       # @raise [NoDataError] if the namespace missing
 
-      def store(ns, key, value)
-        check_ns(ns)
-        @data[ns][key] = value
+      def store(namespace, key, value)
+        check_ns(namespace)
+        @data[namespace][key] = value
       end
 
       # Gets data from memory. Can get all namespace or single data value in namespace using key
       #
-      # @param ns [String] a namespace
+      # @param namespace [String] a namespace
       # @param key [String] key that isn't necessary required
       # @return [Object, Hash] all data from the namespace if the key is ommited, otherwise returs
       #   all data for the namespace
       # @raise [NoDataError] if the namespace missing
 
-      def extract(ns, key = nil)
-        check_ns(ns)
-        key ? @data[ns][key] : @data[ns]
+      def extract(namespace, key = nil)
+        check_ns(namespace)
+        key ? @data[namespace][key] : @data[namespace]
       end
 
       # Deletes all data from a namespace
       #
-      # @param ns [String] a namespace
+      # @param namespace [String] a namespace
 
-      def clear_ns(ns)
-        init_ns(ns)
+      def clear_ns(namespace)
+        init_ns(namespace)
       end
 
       # Deletes all namespaces with data
@@ -53,17 +53,17 @@ module Howitzer
 
       private
 
-      def check_ns(ns)
-        raise Howitzer::NoDataError, 'Data storage namespace can not be empty' unless ns
-        init_ns(ns) if ns_absent?(ns)
+      def check_ns(namespace)
+        raise Howitzer::NoDataError, 'Data storage namespace can not be empty' unless namespace
+        init_ns(namespace) if ns_absent?(namespace)
       end
 
-      def ns_absent?(ns)
-        !@data.key?(ns)
+      def ns_absent?(namespace)
+        !@data.key?(namespace)
       end
 
-      def init_ns(ns)
-        @data[ns] = {}
+      def init_ns(namespace)
+        @data[namespace] = {}
       end
     end
   end

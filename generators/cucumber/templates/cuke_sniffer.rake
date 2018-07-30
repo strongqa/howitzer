@@ -1,11 +1,11 @@
 require 'cuke_sniffer'
 
 def path_to_features
-  @_path_to_features ||= File.expand_path(File.join(__dir__, '..', 'features'))
+  @path_to_features ||= File.expand_path(File.join(__dir__, '..', 'features'))
 end
 
 def cuke_sniffer
-  @_cuke_sniffer ||= CukeSniffer::CLI.new(
+  @cuke_sniffer ||= CukeSniffer::CLI.new(
     features_location: path_to_features,
     step_definitions_location: File.join(path_to_features, 'step_definitions'),
     hooks_location: File.join(path_to_features, 'support'),
