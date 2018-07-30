@@ -52,6 +52,9 @@ Metrics/ModuleLength:
 Metrics/BlockLength:
   Enabled: false
 
+Naming/UncommunicativeMethodParamName:
+  Enabled: false
+
 Style/MixinGrouping:
   EnforcedStyle: separated
   Exclude:

@@ -13,7 +13,7 @@ RSpec.shared_examples :capybara_context_holder do
       before do
         web_page_class.class_eval do
           def capybara_scopes
-            @_scopes ||= [true]
+            @capybara_scopes ||= [true]
           end
         end
       end

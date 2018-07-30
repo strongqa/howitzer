@@ -57,7 +57,7 @@ module Howitzer
       private
 
       def capybara_scopes
-        @_scopes ||= [Capybara.current_session]
+        @capybara_scopes ||= [Capybara.current_session]
       end
     end
   end
