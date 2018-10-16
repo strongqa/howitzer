@@ -134,6 +134,8 @@ Don't forget to review the difference, to see if there were any unexpected chang
 Contributing
 ------------
 
+[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/0)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/0)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/1)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/1)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/2)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/2)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/3)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/3)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/4)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/4)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/5)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/5)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/6)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/6)[![](https://sourcerer.io/fame/romikoops/strongqa/howitzer/images/7)](https://sourcerer.io/fame/romikoops/strongqa/howitzer/links/7)
+
 Please see [CONTRIBUTING.md](CONTRIBUTING.md).
 
 howitzer was originally designed by Roman Parashchenko and is now maintained by StrongQA team. You can find list of contributors here [open source
