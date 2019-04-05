@@ -84,8 +84,10 @@ module Howitzer
 
         def iframe(name, *args)
           raise ArgumentError, 'iframe selector arguments must be specified' if args.blank?
+
           klass = args.first.is_a?(Class) ? args.shift : find_matching_class(name)
           raise NameError, "class can not be found for #{name} iframe" if klass.blank?
+
           define_iframe(klass, name, args)
           define_has_iframe(name, args)
           define_has_no_iframe(name, args)

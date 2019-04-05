@@ -26,6 +26,7 @@ module Howitzer
 
         def me(*args)
           raise ArgumentError, 'Finder arguments are missing' if args.blank?
+
           @default_finder_args = args
         end
       end

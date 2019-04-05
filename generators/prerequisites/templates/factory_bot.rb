@@ -15,6 +15,7 @@ module FactoryBot
   def self.given_by_number(factory, num)
     data = Howitzer::Cache.extract(factory, num.to_i)
     return data if data.present?
+
     Howitzer::Cache.store(factory, num.to_i, build(factory))
   end
 end

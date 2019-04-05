@@ -9,6 +9,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   # https://github.com/teamcapybara/capybara/issues/1845
   def title
     return browser.title unless within_frame?
+
     find_xpath('/html/head/title').map { |n| n[:text] }.first.to_s
   end
 
@@ -16,6 +17,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   # https://github.com/seleniumhq/selenium/issues/1727
   def current_url
     return browser.current_url unless within_frame?
+
     execute_script('return document.location.href')
   end
 

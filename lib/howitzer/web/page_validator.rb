@@ -21,6 +21,7 @@ module Howitzer
 
       def check_validations_are_defined!
         return if self.class.validations.present?
+
         raise Howitzer::NoValidationError, "No any page validation was found for '#{self.class.name}' page"
       end
 
@@ -60,6 +61,7 @@ module Howitzer
 
         def opened?(sync: true)
           return validations.all? { |(_, validation)| validation.call(self, sync) } if validations.present?
+
           raise Howitzer::NoValidationError, "No any page validation was found for '#{name}' page"
         end
 

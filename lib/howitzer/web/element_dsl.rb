@@ -15,6 +15,7 @@ module Howitzer
         args, params, options = merge_element_options(args, params)
         args = args.map do |el|
           next(el) unless el.is_a?(Proc)
+
           el.call(*params.shift(el.arity))
         end
         args << options unless options.blank?

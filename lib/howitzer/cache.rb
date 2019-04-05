@@ -55,6 +55,7 @@ module Howitzer
 
       def check_ns(namespace)
         raise Howitzer::NoDataError, 'Data storage namespace can not be empty' unless namespace
+
         init_ns(namespace) if ns_absent?(namespace)
       end
 

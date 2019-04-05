@@ -17,6 +17,7 @@ module Howitzer
         message = {}
         retryable(find_retry_params(wait)) { message = retrieve_message(recipient, subject) }
         return new(message) if message.present?
+
         raise Howitzer::EmailNotFoundError,
               "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
       end
@@ -75,6 +76,7 @@ module Howitzer
       def mime_part!
         files = mime_part
         return files if files.present?
+
         raise Howitzer::NoAttachmentsError, 'No attachments were found.'
       end
 

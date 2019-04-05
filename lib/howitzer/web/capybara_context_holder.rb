@@ -12,6 +12,7 @@ module Howitzer
 
       def capybara_scopes
         return super if defined?(super)
+
         raise NotImplementedError, "Please define 'capybara_scopes' method for class holder"
       end
     end

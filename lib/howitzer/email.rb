@@ -12,6 +12,7 @@ module Howitzer
 
     def self.adapter
       return @adapter if @adapter
+
       self.adapter = Howitzer.mail_adapter.to_sym
       @adapter
     end
