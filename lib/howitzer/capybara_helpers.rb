@@ -154,11 +154,13 @@ module Howitzer
       unless Howitzer.cloud_browser_name.nil?
         return browser_aliases.include?(Howitzer.cloud_browser_name.to_s.downcase.to_sym)
       end
+
       raise Howitzer::CloudBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 
     def selenium_browser?(*browser_aliases)
       return browser_aliases.include?(Howitzer.selenium_browser.to_s.to_sym) unless Howitzer.selenium_browser.nil?
+
       raise Howitzer::SelBrowserNotSpecifiedError, CHECK_YOUR_SETTINGS_MSG
     end
 

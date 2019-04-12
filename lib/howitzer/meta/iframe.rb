@@ -33,6 +33,7 @@ module Howitzer
       # @return [String]
       def site_value
         return @site_value if @site_value.present?
+
         context.send("#{name}_iframe") { |frame| @site_value = frame.class.send(:site_value) }
       end
     end

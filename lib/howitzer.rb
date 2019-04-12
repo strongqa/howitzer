@@ -60,6 +60,7 @@ module Howitzer
 
   def self.sexy_setting!(name)
     return Howitzer.public_send(name) if Howitzer.respond_to?(name)
+
     raise UndefinedSexySettingError,
           "Undefined '#{name}' setting. Please add the setting to config/default.yml:\n #{name}: some_value\n"
   end

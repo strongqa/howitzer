@@ -23,6 +23,7 @@ module Howitzer
       def client(api_key = Howitzer.mailgun_key)
         check_api_key(api_key)
         return @client if @api_key == api_key && @api_key
+
         @api_key = api_key
         @client = Client.new(api_key: @api_key)
       end

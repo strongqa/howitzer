@@ -16,6 +16,7 @@ module Howitzer
         message = {}
         retryable(find_retry_params(wait)) { message = retrieve_message(recipient, subject) }
         return new(message) if message.present?
+
         raise Howitzer::EmailNotFoundError,
               "Message with subject '#{subject}' for recipient '#{recipient}' was not found."
       end
@@ -74,6 +75,7 @@ module Howitzer
       def mime_part!
         files = mime_part
         return files if files.present?
+
         raise Howitzer::NoAttachmentsError, 'No attachments were found.'
       end
 
@@ -91,6 +93,7 @@ module Howitzer
       def self.retrieve_message(recipient, subject)
         message = Howitzer::MailtrapApi::Client.new.find_message(recipient, subject)
         raise Howitzer::EmailNotFoundError, 'Message not received yet, retry...' unless message
+
         message
       end
       private_class_method :retrieve_message

@@ -66,6 +66,7 @@ module Howitzer
         page_list = matched_pages
         return UnknownPage if page_list.count.zero?
         return page_list.first if page_list.count == 1
+
         raise Howitzer::AmbiguousPageMatchingError, ambiguous_page_msg(page_list)
       end
 
@@ -78,6 +79,7 @@ module Howitzer
         end_time = ::Time.now + timeout
         until ::Time.now > end_time
           return true if opened?
+
           sleep(0.5)
         end
         raise Howitzer::IncorrectPageError, incorrect_page_msg
@@ -99,6 +101,7 @@ module Howitzer
         if defined?(path_value)
           return "#{site_value}#{Addressable::Template.new(path_value).expand(params, url_processor)}"
         end
+
         raise Howitzer::NoPathForPageError, "Please specify path for '#{self}' page. Example: path '/home'"
       end
 
