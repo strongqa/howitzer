@@ -59,7 +59,8 @@ module Howitzer
       private
 
       def capybara_scopes
-        @capybara_scopes ||= [Capybara.current_session]
+        @capybara_scopes ||= Hash.new { |hash, key| hash[key] = [Capybara.current_session] }
+        @capybara_scopes[Howitzer.session_name]
       end
     end
   end

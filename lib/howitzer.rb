@@ -29,6 +29,19 @@ module Howitzer
       ::SexySettings::Base.instance.all['mailgun_idle_timeout']
     end
 
+    def session_name
+      @session_name ||= 'default'
+    end
+
+    def session_name=(name)
+      @session_name = name
+      Capybara.session_name = @session_name
+    end
+
+    def using_session(name)
+      Capybara.using_session(name) { yield }
+    end
+
     attr_accessor :current_rake_task
   end
 
