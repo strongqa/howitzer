@@ -29,14 +29,24 @@ module Howitzer
       ::SexySettings::Base.instance.all['mailgun_idle_timeout']
     end
 
+    # @return active session name
+
     def session_name
       @session_name ||= 'default'
     end
+
+    # Sets new session name
+    #
+    # @param name [String] string identifier for the session
 
     def session_name=(name)
       @session_name = name
       Capybara.session_name = @session_name
     end
+
+    # Yield a block using a specific session name
+    #
+    # @param name [String] string identifier for the session
 
     def using_session(name)
       Capybara.using_session(name) { yield }
