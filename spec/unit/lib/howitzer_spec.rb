@@ -66,4 +66,27 @@ RSpec.describe 'Howitzer' do
     end
     it { is_expected.to be_nil }
   end
+  describe '.session_name' do
+    context 'when default' do
+      subject { Howitzer.session_name }
+      it do
+        is_expected.to be_eql('default')
+      end
+    end
+    context 'when set' do
+      subject { Howitzer.session_name = 'another' }
+      it do
+        expect(Capybara).to receive(:session_name=).with('another')
+        is_expected.to be_eql('another')
+      end
+    end
+  end
+  describe 'using_session' do
+    before { Howitzer.session_name = 'default' }
+    it do
+      expect(Capybara).to receive(:using_session).with('another')
+      Howitzer.using_session('another') {}
+      expect(Howitzer.session_name).to be_eql('default')
+    end
+  end
 end

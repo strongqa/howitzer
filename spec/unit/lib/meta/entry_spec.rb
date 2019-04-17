@@ -6,7 +6,8 @@ RSpec.describe Howitzer::Meta::Entry do
     Class.new do
       include Howitzer::Web::ElementDsl
       def capybara_scopes
-        @capybara_scopes ||= [Capybara.current_session]
+        @capybara_scopes ||= Hash.new { |hash, key| hash[key] = [Capybara.current_session] }
+        @capybara_scopes[Howitzer.session_name]
       end
 
       def foo_section; end
@@ -65,7 +66,8 @@ RSpec.describe Howitzer::Meta::Entry do
 
   describe '#iframes' do
     subject { described_class.new(klass.new).iframes }
-    it { expect(subject.map(&:name)).to eq(%w[foo bar]) }
+    it { expect(subject.map(&:name)).to contain_exactly('foo', 'bar') }
+    it { expect(subject.count).to eq(2) }
   end
 
   describe '#iframe' do
