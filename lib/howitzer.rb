@@ -38,6 +38,15 @@ module Howitzer
     # Sets new session name
     #
     # @param name [String] string identifier for the session
+    #
+    # @example Executing code in another browser
+    # Howitzer.session_name = 'browser2'
+    # LoginPage.on do
+    #   expect(title).to eq('Login Page')
+    # end
+    #
+    # # Switching back to main browser
+    # Howitzer.session_name = 'default'
 
     def session_name=(name)
       @session_name = name
@@ -47,6 +56,13 @@ module Howitzer
     # Yield a block using a specific session name
     #
     # @param name [String] string identifier for the session
+    #
+    # @example Opening page in another browser
+    # Howitzer.using_session('browser2') do
+    #   LoginPage.on do
+    #     expect(title).to eq('Login Page')
+    #   end
+    # end
 
     def using_session(name)
       Capybara.using_session(name) { yield }
