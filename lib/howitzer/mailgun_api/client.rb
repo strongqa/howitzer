@@ -17,7 +17,7 @@ module Howitzer
         @api_host = api_host
         @api_version = api_version
         @ssl = ssl
-        @http_client = ::RestClient::Resource.new(endpoint, user: api_user, password: api_key, user_agent: USER_AGENT)
+        @http_client = ::RestClient::Resource.new(endpoint, user: api_user, password: api_key, user_agent: USER_AGENT, verify_ssl: Howitzer.mailgun_ssl)
       end
 
       # Generic Mailgun GET Handler
@@ -49,7 +49,7 @@ module Howitzer
       # @raise [CommunicationError] if something went wrong
       # @return [Mailgun::Response] a Mailgun::Response object.
 
-      def get_url(resource_url, params: nil, accept: '*/*')
+      def get_url(resource_url, params: { verify_ssl: Howitzer.mailgun_ssl }, accept: '*/*')
         response = ::RestClient::Request.execute(
           method: :get,
           url: resource_url,
