@@ -13,6 +13,7 @@ module Howitzer
           { source: 'drivers/browserstack.rb', destination: 'config/drivers/browserstack.rb' },
           { source: 'drivers/crossbrowsertesting.rb', destination: 'config/drivers/crossbrowsertesting.rb' },
           { source: 'drivers/headless_chrome.rb', destination: 'config/drivers/headless_chrome.rb' },
+          { source: 'drivers/headless_firefox.rb', destination: 'config/drivers/headless_firefox.rb' },
           { source: 'drivers/poltergeist.rb', destination: 'config/drivers/poltergeist.rb' },
           { source: 'drivers/sauce.rb', destination: 'config/drivers/sauce.rb' },
           { source: 'drivers/selenium.rb', destination: 'config/drivers/selenium.rb' },

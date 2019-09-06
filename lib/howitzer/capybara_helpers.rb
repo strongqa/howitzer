@@ -14,6 +14,7 @@ module Howitzer
       ].freeze,
       LOCAL_BROWSERS = [
         HEADLESS_CHROME = :headless_chrome,
+        HEADLESS_FIREFOX = :headless_firefox,
         POLTERGEIST = :poltergeist,
         SELENIUM = :selenium,
         SELENIUM_GRID = :selenium_grid,
@@ -42,7 +43,7 @@ module Howitzer
     # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def ff_browser?
-      browser? :ff, :firefox
+      browser?(:ff, :firefox) || Howitzer.driver == HEADLESS_FIREFOX.to_s
     end
 
     # @return [Boolean] whether or not current browser is Google Chrome.
