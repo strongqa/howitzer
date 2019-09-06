@@ -22,7 +22,7 @@
  maximized_window: true # Specify maximized browser window size
 
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, sauce,
- # testingbot, browserstack, crossbrowsertesting, headless_chrome, headless_chrome, appium
+ # testingbot, browserstack, crossbrowsertesting, headless_chrome, headless_firefox, appium
  driver: poltergeist
 
  # -Selenium-
