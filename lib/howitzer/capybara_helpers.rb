@@ -43,7 +43,7 @@ module Howitzer
     # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def ff_browser?
-      browser?(:ff, :firefox) || Howitzer.driver == HEADLESS_FIREFOX.to_s
+      browser? :ff, :firefox
     end
 
     # @return [Boolean] whether or not current browser is Google Chrome.
@@ -51,7 +51,7 @@ module Howitzer
     # @raise [SelBrowserNotSpecifiedError] if selenium driver and missing browser name
 
     def chrome_browser?
-      browser?(:chrome) || Howitzer.driver == HEADLESS_CHROME.to_s
+      browser? :chrome
     end
 
     # @return [Boolean] whether or not current browser is Safari.
