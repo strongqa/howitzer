@@ -17,6 +17,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/headless_firefox.rb' file
           Identical 'config/drivers/poltergeist.rb' file
           Identical 'config/drivers/sauce.rb' file
           Identical 'config/drivers/selenium.rb' file
@@ -61,6 +62,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/headless_firefox.rb' file
           Identical 'config/drivers/poltergeist.rb' file
           Identical 'config/drivers/sauce.rb' file
           Identical 'config/drivers/selenium.rb' file
@@ -109,6 +111,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/headless_firefox.rb' file
           Identical 'config/drivers/poltergeist.rb' file
           Identical 'config/drivers/sauce.rb' file
           Identical 'config/drivers/selenium.rb' file
@@ -159,6 +162,7 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
+          Identical 'config/drivers/headless_firefox.rb' file
           Identical 'config/drivers/poltergeist.rb' file
           Identical 'config/drivers/sauce.rb' file
           Identical 'config/drivers/selenium.rb' file

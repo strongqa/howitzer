@@ -9,6 +9,7 @@ HOWITZER_KNOWN_DRIVERS = %i[
   browserstack
   crossbrowsertesting
   headless_chrome
+  headless_firefox
 ].freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)

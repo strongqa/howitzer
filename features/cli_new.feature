@@ -64,6 +64,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/headless_firefox.rb' file
           Added 'config/drivers/poltergeist.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
@@ -135,6 +136,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/headless_firefox.rb' file
           Added 'config/drivers/poltergeist.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
@@ -213,6 +215,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/headless_firefox.rb' file
           Added 'config/drivers/poltergeist.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
@@ -333,6 +336,7 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
+          Added 'config/drivers/headless_firefox.rb' file
           Added 'config/drivers/poltergeist.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
