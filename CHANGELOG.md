@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.1.1...master)
 
 ### New Features
+- [#280](https://github.com/strongqa/howitzer/issues/280) Add support Firefox Headless
 - [#241](https://github.com/strongqa/howitzer/issues/241) meta interface added. Allows tracking elements,sections, iframes on the page.
 - [#266](https://github.com/strongqa/howitzer/issues/266) ruby 2.2 no longer supported
 - [#265](https://github.com/strongqa/howitzer/issues/265) Add Appium driver
