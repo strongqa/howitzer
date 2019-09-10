@@ -24,7 +24,7 @@ RSpec.describe 'Generators' do
         { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1018 },
         { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1237 },
         { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 649 },
-        { name: '/config/drivers/headless_firefox.rb', is_directory: false, size: 552 },
+        { name: '/config/drivers/headless_firefox.rb', is_directory: false, size: 1059 },
         { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 362 },
         { name: '/config/drivers/sauce.rb', is_directory: false, size: 968 },
         { name: '/config/drivers/selenium.rb', is_directory: false, size: 1097 },

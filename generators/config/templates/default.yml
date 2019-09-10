@@ -34,7 +34,7 @@
  headless_chrome_flags: "window-size=1920x1080, disable-gpu"
 
  # -Headless Firefox-
- # For use custom screen size maximized_window should be false
+ # For use custom screen size "maximized_window" should be false
  headless_firefox_flags: "-height=1920, -width=1080"
 
  # -Selenium Grid-

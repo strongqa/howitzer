@@ -115,14 +115,14 @@ module Howitzer
           define_method("#{name}_element") do |*block_args|
             capybara_context.find(*convert_arguments(args, block_args))
           end
-          private "#{name}_element"
+          private "#{name}_element" # rubocop:disable Style/AccessModifierDeclarations
         end
 
         def define_elements(name, args)
           define_method("#{name}_elements") do |*block_args|
             capybara_context.all(*convert_arguments(args, block_args))
           end
-          private "#{name}_elements"
+          private "#{name}_elements" # rubocop:disable Style/AccessModifierDeclarations
         end
 
         def define_wait_for_element(name, args)
@@ -130,7 +130,7 @@ module Howitzer
             capybara_context.find(*convert_arguments(args, block_args))
             return nil
           end
-          private "wait_for_#{name}_element"
+          private "wait_for_#{name}_element" # rubocop:disable Style/AccessModifierDeclarations
         end
 
         def define_within_element(name, args)

@@ -55,6 +55,40 @@ RSpec.describe Howitzer::CapybaraHelpers do
     end
   end
 
+  describe '#headless_chrome_driver?' do
+    subject { headless_chrome_driver? }
+    before { allow(Howitzer).to receive(:driver) { driver_setting } }
+    context 'when :headless_chrome' do
+      let(:driver_setting) { :headless_chrome }
+      it { is_expected.to be_truthy }
+    end
+    context 'when not :headless_chrome' do
+      let(:driver_setting) { :selenium }
+      it { is_expected.to be_falsey }
+    end
+    context 'when driver specified as String' do
+      let(:driver_setting) { 'headless_chrome' }
+      it { is_expected.to be_truthy }
+    end
+  end
+
+  describe '#headless_firefox_driver?' do
+    subject { headless_firefox_driver? }
+    before { allow(Howitzer).to receive(:driver) { driver_setting } }
+    context 'when :headless_firefox_driver' do
+      let(:driver_setting) { :headless_firefox }
+      it { is_expected.to be_truthy }
+    end
+    context 'when not :headless_firefox' do
+      let(:driver_setting) { :selenium }
+      it { is_expected.to be_falsey }
+    end
+    context 'when driver specified as String' do
+      let(:driver_setting) { 'headless_firefox' }
+      it { is_expected.to be_truthy }
+    end
+  end
+
   describe '#selenium_grid_driver?' do
     subject { selenium_grid_driver? }
     before { allow(Howitzer).to receive(:driver) { driver_setting } }

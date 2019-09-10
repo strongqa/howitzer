@@ -170,7 +170,7 @@ module Howitzer
         when 'y'
           FileUtils.cp(source, destination)
           puts_info("    #{ColorizedString.new('Forced').light_green} '#{data[:destination]}' file")
-        when 'n' then
+        when 'n'
           puts_info("    #{ColorizedString.new('Skipped').light_black} '#{data[:destination]}' file")
         else nil
       end

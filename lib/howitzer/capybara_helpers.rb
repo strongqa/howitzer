@@ -169,6 +169,14 @@ module Howitzer
       Howitzer.driver.to_sym == SELENIUM
     end
 
+    def headless_chrome_driver?
+      Howitzer.driver.to_sym == HEADLESS_CHROME
+    end
+
+    def headless_firefox_driver?
+      Howitzer.driver.to_sym == HEADLESS_FIREFOX
+    end
+
     def selenium_grid_driver?
       Howitzer.driver.to_sym == SELENIUM_GRID
     end
