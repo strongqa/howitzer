@@ -15,7 +15,10 @@ module Howitzer
 
       def self.find(recipient, subject, wait:)
         message = {}
-        retryable(find_retry_params(wait)) { message = retrieve_message(recipient, subject) }
+        retryable(find_retry_params(wait)) do
+          message = retrieve_message(recipient, subject)
+          Capybara.current_session.driver.browser.action.send_keys(:shift).perform
+        end
         return new(message) if message.present?
 
         raise Howitzer::EmailNotFoundError,
