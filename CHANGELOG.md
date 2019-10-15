@@ -1,4 +1,9 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.1.1...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.1.2...master)
+
+### New Features
+- [#276](https://github.com/strongqa/howitzer/issues/276) Add support Capybara v3
+
+## [v2.1.2](https://github.com/strongqa/howitzer/compare/v2.1.1...v2.1.2)
 
 ### New Features
 - [#280](https://github.com/strongqa/howitzer/issues/280) Add support Firefox Headless
