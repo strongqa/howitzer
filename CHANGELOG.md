@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.1.1...master)
 
 ### New Features
+- [#276](https://github.com/strongqa/howitzer/issues/276) Add support Capybara v3
 - [#280](https://github.com/strongqa/howitzer/issues/280) Add support Firefox Headless
 - [#241](https://github.com/strongqa/howitzer/issues/241) meta interface added. Allows tracking elements,sections, iframes on the page.
 - [#266](https://github.com/strongqa/howitzer/issues/266) ruby 2.2 no longer supported
