@@ -21,6 +21,11 @@
  page_load_idle_timeout: 20
  maximized_window: true # Specify maximized browser window size
 
+ # Run scenarios in the order they were 'defined' (default).
+ # 'random' - shuffle scenarios before running.
+ # Specify SEED to reproduce the shuffling from a previous run. e.g. 'random:5738'
+ test_order: defined
+
  # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, sauce,
  # testingbot, browserstack, crossbrowsertesting, headless_chrome, headless_firefox, appium
  driver: poltergeist
