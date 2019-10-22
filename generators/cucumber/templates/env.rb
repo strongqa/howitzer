@@ -10,6 +10,14 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 end
 
+AfterConfiguration do |config|
+  if Howitzer.test_order.present?
+    order, seed = Howitzer.test_order.split(':')
+    config.instance_variable_get(:@options)[:order] = order
+    config.instance_variable_get(:@options)[:seed] = seed
+  end
+end
+
 FileUtils.mkdir_p(Howitzer.log_dir)
 
 Howitzer::Log.settings_as_formatted_text
