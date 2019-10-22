@@ -15,6 +15,7 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
   config.color = true
   config.wait_timeout = Howitzer.rspec_wait_timeout
+  config.order = Howitzer.test_order.presence || :defined
 
   config.before(:each) do
     scenario_name =

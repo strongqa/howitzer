@@ -10,6 +10,16 @@ RSpec.configure do |config|
   config.disable_monkey_patching!
 end
 
+AfterConfiguration do |config|
+  orders = %w[defined random]
+  order = Howitzer.test_order.split(':')[0] if Howitzer.test_order.present?
+  config.instance_variable_get(:@options)[:order] = order if Howitzer.test_order.present?
+  config.instance_variable_get(:@options)[:seed] = Howitzer.test_order.split(':')[1] if Howitzer.test_order.present?
+  unless orders.include?(order) || order.nil?
+    raise "'#{order}' is not a recognised order type. Please use one of #{orders.join(', ')}."
+  end
+end
+
 FileUtils.mkdir_p(Howitzer.log_dir)
 
 Howitzer::Log.settings_as_formatted_text
