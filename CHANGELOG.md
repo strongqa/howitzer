@@ -1,4 +1,10 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.1.1...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.2.0...master)
+
+### New Features
+
+### Bug-fixes
+
+## [v2.2.0](https://github.com/strongqa/howitzer/compare/v2.1.1...v2.2.0)
 
 ### New Features
 - [#293](https://github.com/strongqa/howitzer/issues/293) add support ordering for run tests
@@ -10,6 +16,7 @@
 ### Bug-fixes
 - [#286](https://github.com/strongqa/howitzer/issues/286) [Installation] generated rubocop.yml doesn't cover ruby sources
 - [#274](https://github.com/strongqa/howitzer/issues/274) Stopped PhantomJS supporting
+- [#282](https://github.com/strongqa/howitzer/issues/282) Multiple sessions don't work properly
 
 ## [v2.1.1](https://github.com/strongqa/howitzer/compare/v2.1.0...v2.1.1)
 
