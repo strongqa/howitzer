@@ -3,7 +3,7 @@ module Howitzer
     # Module with utility actions for elements
     module Actions
       # Highlights element with red border on the page
-      # @param *args [Array] arguments for elements described with lambda locators and
+      # @param args [Array] arguments for elements described with lambda locators and
       # inline options for element/s as a hash
       def highlight(*args)
         if xpath(*args).blank?
@@ -15,7 +15,7 @@ module Howitzer
       end
 
       # Returns xpath for the element
-      # @param *args [Array] arguments for elements described with lambda locators and
+      # @param args [Array] arguments for elements described with lambda locators and
       # inline options for element/s as a hash
       # @return [String, nil]
       def xpath(*args)

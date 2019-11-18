@@ -38,9 +38,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added '.rubocop.yml' file
           Conflict with 'Rakefile' file
             Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
+          Added template '.rubocop.yml.erb' with params '{:rspec=>true}' to destination '.rubocop.yml'
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * RSpec integration to the framework ...
@@ -50,6 +50,7 @@ Feature: Howitzer CLI Update Existing Project
     """
     And the exit status should be 0
     When I run `howitzer update` interactively
+    And I type "y"
     And I type "y"
     Then the output should contain:
     """
@@ -83,8 +84,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Identical '.gitignore' file
-          Identical '.rubocop.yml' file
           Identical 'Rakefile' file
+          Conflict with '.rubocop.yml' template
+            Overwrite '.rubocop.yml' template? [Yn]:          Forced '.rubocop.yml' template
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * RSpec integration to the framework ...
@@ -132,9 +134,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added '.rubocop.yml' file
           Conflict with 'Rakefile' file
             Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
+          Added template '.rubocop.yml.erb' with params '{:cucumber=>true}' to destination '.rubocop.yml'
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Skipped 'Gemfile' template
       * Cucumber integration to the framework ...
@@ -183,8 +185,8 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
-          Added '.rubocop.yml' file
           Identical 'Rakefile' file
+          Added template '.rubocop.yml.erb' with params '{:turnip=>true}' to destination '.rubocop.yml'
           Conflict with 'Gemfile' template
             Overwrite 'Gemfile' template? [Yn]:          Forced 'Gemfile' template
       * Turnip integration to the framework ...
