@@ -1,5 +1,5 @@
 Given /^created old howitzer project based on rspec$/ do
-  run_simple 'howitzer new test_automation --rspec'
+  run_command_and_stop 'howitzer new test_automation --rspec'
   all_commands.shift
 
   FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
@@ -10,7 +10,7 @@ Given /^created old howitzer project based on rspec$/ do
 end
 
 Given /^created old howitzer project based on cucumber$/ do
-  run_simple 'howitzer new test_automation --cucumber'
+  run_command_and_stop 'howitzer new test_automation --cucumber'
   all_commands.shift
 
   FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))
@@ -21,7 +21,7 @@ Given /^created old howitzer project based on cucumber$/ do
 end
 
 Given /^created old howitzer project based on turnip$/ do
-  run_simple 'howitzer new test_automation --turnip'
+  run_command_and_stop 'howitzer new test_automation --turnip'
   all_commands.shift
 
   FileUtils.move(Dir.glob("#{expand_path('.')}/test_automation/*"), expand_path('.'))

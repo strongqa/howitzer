@@ -28,7 +28,7 @@ namespace :yard do
     doc.use_document_file = false
     doc.use_yardopts_file = false
     doc.generate = false
-    doc.run('--list-undoc')
+    doc.run('stats --list-undoc')
     output = log.string
     puts output
     exit(1) unless output.include?('100.00% documented')

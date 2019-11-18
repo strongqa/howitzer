@@ -2,14 +2,16 @@
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
   DisplayCopNames: true
+  TargetRubyVersion: 2.4
 
 Layout/CaseIndentation:
   Enabled: false
+<% if cucumber -%>
 
 Lint/AmbiguousBlockAssociation:
   Enabled: false
+<% end -%>
 
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
@@ -20,41 +22,35 @@ Metrics/BlockLength:
 Metrics/LineLength:
   Max: 120
 
-Metrics/MethodLength:
-  Max: 30
-
 Metrics/ModuleLength:
   Max: 150
 
 Style/CaseEquality:
   Enabled: false
 
+Style/Documentation:
+  Enabled: false
+
 Style/EmptyElse:
-  Enabled: false
-
-Style/EvalWithLocation:
-  Enabled: false
-
-Style/FormatStringToken:
   Enabled: false
 
 Style/FrozenStringLiteralComment:
   Enabled: false
+<% if turnip -%>
 
 Style/MixinGrouping:
   EnforcedStyle: separated
   Exclude:
     - '**/*_steps.rb'
-    - 'tmp/**'
+<% end -%>
+<% if cucumber || turnip -%>
 
-Style/MixinUsage:
-  Enabled: false
-
-Style/RescueStandardError:
-  Enabled: false
-
-Style/TrivialAccessors:
-  AllowDSLWriters: true
-
-Style/YodaCondition:
-  Enabled: false
+Style/SymbolProc:
+  Exclude:
+<% if cucumber -%>
+    - 'features/step_definitions/**/*.rb'
+<%- end -%>
+<% if turnip -%>
+    - 'spec/steps/**/*.rb'
+<%- end -%>
+<% end -%>

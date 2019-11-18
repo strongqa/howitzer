@@ -14,7 +14,7 @@ module Howitzer
       end
 
       # Finds all instances of element on the page and returns them as array of capybara elements
-      # @param *args [Array] arguments for elements described with lambda locators and
+      # @param args [Array] arguments for elements described with lambda locators and
       # inline options for element/s as a hash
       # @return [Array]
       def capybara_elements(*args)
@@ -22,7 +22,7 @@ module Howitzer
       end
 
       # Finds element on the page and returns as a capybara element
-      # @param *args [Array] arguments for elements described with lambda locators and
+      # @param args [Array] arguments for elements described with lambda locators and
       # inline options for element/s as a hash
       # @param wait [Integer] wait time for element search
       # @return [Capybara::Node::Element, nil]

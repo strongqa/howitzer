@@ -7,11 +7,11 @@ module Howitzer
       { files:
         [
           { source: '.gitignore', destination: '.gitignore' },
-          { source: '.rubocop.yml', destination: '.rubocop.yml' },
           { source: 'Rakefile', destination: 'Rakefile' }
         ],
         templates:
         [
+          { source: '.rubocop.yml.erb', destination: '.rubocop.yml' },
           { source: 'Gemfile.erb', destination: 'Gemfile' }
         ] }
     end

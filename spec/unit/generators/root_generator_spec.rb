@@ -15,59 +15,70 @@ RSpec.describe 'Generators' do
     let(:expected_result) do
       [
         { name: '/.gitignore', is_directory: false, size: 196 },
-        { name: '/.rubocop.yml', is_directory: false, size: 633 },
+        { name: '/.rubocop.yml', is_directory: false, size: 616 },
         { name: '/Gemfile', is_directory: false, size: 811 },
         { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') }
       ]
     end
     let(:options) { {} }
+
     it { is_expected.to eql(expected_result) }
+
     describe 'output' do
       subject { output.string }
+
       context 'when options is empty' do
         let(:expected_output) do
+          added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
-      #{ColorizedString.new('Added').light_green} '.gitignore' file
-      #{ColorizedString.new('Added').light_green} '.rubocop.yml' file
-      #{ColorizedString.new('Added').light_green} 'Rakefile' file
-      #{ColorizedString.new('Added').light_green} template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
+      #{added_text} '.gitignore' file
+      #{added_text} 'Rakefile' file
+      #{added_text} template '.rubocop.yml.erb' with params '{}' to destination '.rubocop.yml'
+      #{added_text} template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
         end
+
         it { is_expected.to eql(expected_output) }
       end
+
       context 'when options is rspec => true' do
         let(:expected_output) do
+          added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
-      #{ColorizedString.new('Added').light_green} '.gitignore' file
-      #{ColorizedString.new('Added').light_green} '.rubocop.yml' file
-      #{ColorizedString.new('Added').light_green} 'Rakefile' file
-      #{ColorizedString.new('Added').light_green} template 'Gemfile.erb' with params '{:rspec=>true}' to"\
-      " destination 'Gemfile'\n"
+      #{added_text} '.gitignore' file
+      #{added_text} 'Rakefile' file
+      #{added_text} template '.rubocop.yml.erb' with params '{:rspec=>true}' to destination '.rubocop.yml'
+      #{added_text} template 'Gemfile.erb' with params '{:rspec=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { rspec: true } }
+
         it { is_expected.to eql(expected_output) }
       end
+
       context 'when options is cucumber => cucumber' do
         let(:expected_output) do
+          added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
-      #{ColorizedString.new('Added').light_green} '.gitignore' file
-      #{ColorizedString.new('Added').light_green} '.rubocop.yml' file
-      #{ColorizedString.new('Added').light_green} 'Rakefile' file
-      #{ColorizedString.new('Added').light_green} template 'Gemfile.erb' with params '{:cucumber=>true}'"\
-      " to destination 'Gemfile'\n"
+      #{added_text} '.gitignore' file
+      #{added_text} 'Rakefile' file
+      #{added_text} template '.rubocop.yml.erb' with params '{:cucumber=>true}' to destination '.rubocop.yml'
+      #{added_text} template 'Gemfile.erb' with params '{:cucumber=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { cucumber: true } }
+
         it { is_expected.to eql(expected_output) }
       end
+
       context 'when options is turnip => true' do
         let(:expected_output) do
+          added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
-      #{ColorizedString.new('Added').light_green} '.gitignore' file
-      #{ColorizedString.new('Added').light_green} '.rubocop.yml' file
-      #{ColorizedString.new('Added').light_green} 'Rakefile' file
-      #{ColorizedString.new('Added').light_green} template 'Gemfile.erb' with params '{:turnip=>true}' to"\
-      " destination 'Gemfile'\n"
+      #{added_text} '.gitignore' file
+      #{added_text} 'Rakefile' file
+      #{added_text} template '.rubocop.yml.erb' with params '{:turnip=>true}' to destination '.rubocop.yml'
+      #{added_text} template 'Gemfile.erb' with params '{:turnip=>true}' to destination 'Gemfile'\n"
         end
         let(:options) { { turnip: true } }
+
         it { is_expected.to eql(expected_output) }
       end
     end
