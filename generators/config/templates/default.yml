@@ -26,9 +26,9 @@
  # Specify SEED to reproduce the shuffling from a previous run. e.g. 'random:5738'
  test_order: defined
 
- # Specify one of the following drivers: selenium, selenium_grid, webkit, poltergeist, sauce,
+ # Specify one of the following drivers: selenium, selenium_grid, sauce,
  # testingbot, browserstack, crossbrowsertesting, headless_chrome, headless_firefox, appium
- driver: poltergeist
+ driver: headless_chrome
 
  # -Selenium-
  # specify one of next browsers: iexplore (ie), firefox (ff), chrome, safari
@@ -44,11 +44,6 @@
 
  # -Selenium Grid-
  selenium_hub_url: "http://example.com:4444/wd/hub"
-
- # -Poltergeist-
- # specify settings for poltergeist
- phantom_ignore_js_errors: false
- phantom_ignore_ssl_errors: true
 
  # -Appium- (https://appium.io/docs/en/writing-running-appium/caps/)
  appium_url: "http://localhost:80/wd/hub"

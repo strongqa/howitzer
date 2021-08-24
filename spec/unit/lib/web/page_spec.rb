@@ -20,22 +20,6 @@ RSpec.describe Howitzer::Web::Page do
         allow(described_class).to receive(:expanded_url)
         allow(Howitzer::Log).to receive(:info)
       end
-      context 'with webkit driver' do
-        before { allow(Howitzer).to receive(:driver) { 'webkit' } }
-        it do
-          expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
-          expect(driver).to receive(:header).with('User-Agent', Howitzer.user_agent)
-          subject
-        end
-      end
-      context 'with poltergeist driver' do
-        before { allow(Howitzer).to receive(:driver) { 'poltergeist' } }
-        it do
-          expect(Capybara).to receive_message_chain(:current_session, :driver) { driver }
-          expect(driver).to receive(:add_headers).with('User-Agent' => Howitzer.user_agent)
-          subject
-        end
-      end
     end
 
     context 'when validate missing' do

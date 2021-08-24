@@ -80,10 +80,6 @@ RSpec.describe Howitzer::BaseGenerator do
             # Uncomment it if you are going to use 'appium' driver. Appium and Android SDK should be installed.
             # See https://appium.io/docs/en/about-appium/getting-started/
             # gem 'appium_capybara'
-
-            # Uncomment it if you are going to use 'poltergeist' driver. PhantomJS should be installed.
-            # See https://github.com/jnicklas/capybara#poltergeist
-            # gem 'poltergeist', git: 'https://github.com/teampoltergeist/poltergeist.git', branch: :master
           EXPECTED_CONTENT
           is_expected.to eq(res)
         end

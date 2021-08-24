@@ -15,10 +15,8 @@ module Howitzer
       LOCAL_BROWSERS = [
         HEADLESS_CHROME = :headless_chrome,
         HEADLESS_FIREFOX = :headless_firefox,
-        POLTERGEIST = :poltergeist,
         SELENIUM = :selenium,
-        SELENIUM_GRID = :selenium_grid,
-        WEBKIT = :webkit
+        SELENIUM_GRID = :selenium_grid
       ].freeze
     ].freeze
 

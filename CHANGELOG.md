@@ -7,6 +7,7 @@
 - Unlock Activesupport 6.x
 - Use latest version Rubocop
 - Stop capybara-webkit support
+- Stop poltergeist support
 
 ### Bug-fixes
 
