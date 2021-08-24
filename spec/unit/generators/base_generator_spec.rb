@@ -218,7 +218,7 @@ RSpec.describe Howitzer::BaseGenerator do
         before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
         it do
           expect(generator).to receive(:puts_info).with("#{ColorizedString.new('Identical').light_green}"\
-          " 'd.txt' file").once
+                                                        " 'd.txt' file").once
         end
       end
       context 'when not identical with source file' do
@@ -232,7 +232,7 @@ RSpec.describe Howitzer::BaseGenerator do
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
             expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green}"\
-            " 'd.txt' file")
+                                                          " 'd.txt' file")
           end
         end
         context 'when user typed y' do
@@ -240,14 +240,14 @@ RSpec.describe Howitzer::BaseGenerator do
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
             expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green}"\
-            " 'd.txt' file")
+                                                          " 'd.txt' file")
           end
         end
         context 'when user typed N' do
           before { allow(generator).to receive(:gets) { 'N' } }
           it do
             expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black}"\
-            " 'd.txt' file")
+                                                          " 'd.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end
@@ -255,7 +255,7 @@ RSpec.describe Howitzer::BaseGenerator do
           before { allow(generator).to receive(:gets) { 'n' } }
           it do
             expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black}"\
-          " 'd.txt' file")
+                                                          " 'd.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end

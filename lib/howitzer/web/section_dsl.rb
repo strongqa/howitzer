@@ -48,11 +48,9 @@ module Howitzer
           # @raise [ArgumentError] when finder arguments were not specified
 
           def finder_args
-            @finder_args ||= begin
-              return @args if @args.present?
+            return @args if @args.present?
 
-              section_class.default_finder_args || raise(ArgumentError, 'Missing finder arguments')
-            end
+            @finder_args ||= (section_class.default_finder_args || raise(ArgumentError, 'Missing finder arguments'))
           end
         end
 

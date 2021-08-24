@@ -79,8 +79,8 @@ module Howitzer
     def self.find_by_recipient(recipient, params = {})
       if defined?(subject_value).nil? || subject_value.nil?
         raise Howitzer::NoEmailSubjectError, "Please specify email subject. For example:\n" \
-                                    "class SomeEmail < Howitzer::Email\n" \
-                                    "  subject ‘some subject text’\nend"
+                                             "class SomeEmail < Howitzer::Email\n" \
+                                             "  subject ‘some subject text’\nend"
       end
       new(adapter.find(recipient, expand_subject(params), wait: wait_time_value))
     end

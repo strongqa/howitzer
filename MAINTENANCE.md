@@ -7,14 +7,14 @@ To release a new Howitzer version:
 * Make sure all pull requests have been merged to master branch
 * Make sure last build is passed in [TravisCI](https://app.travis-ci.com/github/strongqa/howitzer)
 /jobs/533440061
-* Make sure the code is covered 100% in [Coveralls](https://coveralls.io/github/strongqa/howitzer?branch=master)
+* Make sure the code is covered 100% in [Codecov](https://codecov.io/gh/strongqa/howitzer/branch/master)
 * Make sure all gem dependencies are up-to-date with [Gemnasium](https://gemnasium.com/strongqa/howitzer)
 * Make sure the code is documented 100% with following command:
 ```
 rake yard
 ```
 * [Upgrade](https://github.com/strongqa/howitzer/wiki/Migration-to-new-version) Howitzer examples [Cucumber](https://github.com/strongqa/howitzer_example_cucumber), [Rspec](https://github.com/strongqa/howitzer_example_rspec) and [Turnip](https://github.com/strongqa/howitzer_example_turnip) to last version of code from master and make sure all builds are green
-* Bump [version](lib/howitzer/version.rb). Please note howitzer uses [semantic versioning](http://semver.org/)
+* Bump [version](lib/howitzer/version.rb). Please note howitzer uses [semantic versioning](https://semver.org/)
 * Verify and actualize [ChangeLog](CHANGELOG.md)
 * Commit all changes and push to origin master
 * Specify credentials for Rubygems.org (once only) with following commands:

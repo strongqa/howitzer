@@ -28,7 +28,7 @@ RSpec.describe 'Generators' do
         { name: '/config/drivers/poltergeist.rb', is_directory: false, size: 362 },
         { name: '/config/drivers/sauce.rb', is_directory: false, size: 968 },
         { name: '/config/drivers/selenium.rb', is_directory: false, size: 1097 },
-        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1377 },
+        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1431 },
         { name: '/config/drivers/testingbot.rb', is_directory: false, size: 906 },
         { name: '/config/drivers/webkit.rb', is_directory: false, size: 179 }
       ]

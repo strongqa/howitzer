@@ -52,7 +52,7 @@ RSpec.describe 'Howitzer' do
         expect { Howitzer.app_uri(:test).site }.to raise_error(
           Howitzer::UndefinedSexySettingError,
           "Undefined 'test_app_base_auth_login' setting. Please add the setting to config/default.yml:\n " \
-            "test_app_base_auth_login: some_value\n"
+          "test_app_base_auth_login: some_value\n"
         )
       end
     end
@@ -85,7 +85,7 @@ RSpec.describe 'Howitzer' do
     before { Howitzer.session_name = 'default' }
     it do
       expect(Capybara).to receive(:using_session).with('another')
-      Howitzer.using_session('another') {}
+      Howitzer.using_session('another') { nil }
       expect(Howitzer.session_name).to be_eql('default')
     end
   end

@@ -1,20 +1,22 @@
 <p align="center" style="overflow: hidden;">
-  <a href="http://howitzer-framework.io">
+  <a href="https://howitzer-framework.io">
     <img src="https://raw.githubusercontent.com/strongqa/howitzer/gh-pages/images/howitzer-logo.png" alt="Howitzer" />
   </a>
   <br/>
 
-  <p align="center"><b>Ruby-based framework for acceptance testing of web applications.</b></p>
+  <p align="center"><b>A Ruby-based framework for acceptance testing of web applications.</b></p>
 
   <p align="center">The framework was built with modern patterns, techniques, and tools in automated testing in order to speed up tests development and simplify supporting.</p>
 
   <p align="center">
   <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
-  <a href="https://rubygems.org/gems/howitzer"><img src="http://img.shields.io/gem/v/howitzer.svg" /></a>
+  <a href="https://rubygems.org/gems/howitzer"><img src="https://img.shields.io/gem/v/howitzer.svg" /></a>
   <a href="https://app.travis-ci.com/github/strongqa/howitzer"><img src="https://app.travis-ci.com/strongqa/howitzer.svg?branch=master" /></a>
   <a href="https://codeclimate.com/github/strongqa/howitzer"><img src="https://codeclimate.com/github/strongqa/howitzer.png" /></a>
-  <a href='https://coveralls.io/github/strongqa/howitzer?branch=master'><img src='https://coveralls.io/repos/github/strongqa/howitzer/badge.svg?branch=master' alt='Coverage Status' /></a>
-  <a href="https://github.com/strongqa/howitzer/blob/master/LICENSE"><img src="http://img.shields.io/badge/license-MIT-blue.svg" /></a>
+  <a href="https://codecov.io/gh/strongqa/howitzer">
+    <img src="https://codecov.io/gh/strongqa/howitzer/branch/master/graph/badge.svg?token=vB8DYQtmjA"/>
+  </a>
+  <a href="https://github.com/strongqa/howitzer/blob/master/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" /></a>
   </p>
 
 </p>
@@ -30,7 +32,7 @@
 - Ability to execute tests against to both browserless driver and actual browsers with no changes in your tests.
 
 ## Documentation
-Refer to the [GETTING STARTED](http://docs.howitzer-framework.io) document to start working with *Howitzer*.
+Refer to the [GETTING STARTED](https://docs.howitzer-framework.io) document to start working with *Howitzer*.
 
 You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems/howitzer).
 
@@ -41,16 +43,16 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 
 ## Requirements
 * Supported OS: Mac OS X, Linux, Windows
-* [Ruby](https://www.ruby-lang.org/en/downloads/) 2.3+
+* [Ruby](https://www.ruby-lang.org/en/downloads/) 2.5+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
-* [PhantomJS](http://phantomjs.org/download.html) (For **poltergeist** driver only)
+* [PhantomJS](https://phantomjs.org/download.html) (For **poltergeist** driver only)
 * [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (For **chrome** selenium browser, 2.29+ for headless mode)
 * [GeckoDriver](https://github.com/mozilla/geckodriver/releases) (For **firefox** selenium browser)
 * [SafariDriver](https://webkit.org/blog/6900/webdriver-support-in-safari-10/) (For **safari** selenium browser)
 * [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For **webkit** driver only)
 * [Chrome](https://www.google.com/chrome/browser/desktop/index.html) v.59+ (For **headless chrome** support)
 * [Firefox](https://www.mozilla.org/en-US/firefox/new/) v.56+ (For **headless firefox** support)
-* [Android SDK](https://developer.android.com/studio/index.html) and [Appium](http://appium.io/getting-started.html) (For Appium driver)
+* [Android SDK](https://developer.android.com/studio) and [Appium](https://appium.io/docs/en/about-appium/getting-started) (For Appium driver)
 ## Setup
 To install, type
 
@@ -67,7 +69,7 @@ To generate the project with [Cucumber](https://cucumber.io/), type:
 howitzer new <PROJECT NAME> --cucumber
 ```
 
-With [Rspec](http://rspec.info/):
+With [Rspec](https://rspec.info/):
 
 ```bash
 howitzer new <PROJECT NAME> --rspec
@@ -145,7 +147,7 @@ community](https://github.com/strongqa/howitzer/graphs/contributors).
 License
 -------
 
-howitzer is Copyright © 2012-2017 Roman Parashchenko and StrongQA Ltd. It is free
+howitzer is Copyright © 2012-2021 Roman Parashchenko and StrongQA LLC. It is free
 software, and may be redistributed under the terms specified in the
 [LICENSE](LICENSE) file.
 
@@ -154,11 +156,11 @@ About StrongQA
 
 ![StrongQA](https://github.com/strongqa/howitzer/blob/gh-pages/images/strongqa-logo.png)
 
-howitzer is maintained and funded by StrongQA, Ltd.
-The names and logos for StrongQA are trademarks of StrongQA, Ltd.
+howitzer is maintained and funded by StrongQA, LLC.
+The names and logos for StrongQA are trademarks of StrongQA, LLC.
 
 We love open source software!
 See [our other projects][testing_solutions] or [hire us][hire] to consult and develop testing solutions.
 
-[testing_solutions]: http://strongqa.com/testing_solutions/?utm_source=github
+[testing_solutions]: https://strongqa.com/services/testing-solutions?utm_source=github
 [hire]: https://strongqa.com?utm_source=github

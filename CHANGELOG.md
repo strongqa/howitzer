@@ -1,6 +1,7 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.2.0...master)
 
 ### New Features
+- Replaced abondoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
 
 ### Bug-fixes
 

@@ -152,12 +152,12 @@ module Howitzer
 
         def incorrect_page_msg
           "Current page: #{current_page}, expected: #{self}.\n" \
-                    "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
+            "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
 
         def ambiguous_page_msg(page_list)
           "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
-                    "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
+            "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
         end
 
         def modify_user_agent

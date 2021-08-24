@@ -39,7 +39,7 @@ RSpec.describe Howitzer::MailtrapApi::Client do
   describe '#find_message' do
     before do
       FakeWeb.register_uri(:get, "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/"\
-                                        "messages?search=#{recipient}", body: message.to_s)
+                                 "messages?search=#{recipient}", body: message.to_s)
     end
     subject { described_class.new.find_message(recipient, mail_subject) }
     it do
@@ -53,7 +53,7 @@ RSpec.describe Howitzer::MailtrapApi::Client do
       FakeWeb.register_uri(:get, "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/"\
                                  "messages?search=#{recipient}", body: message.to_s)
       FakeWeb.register_uri(:get, "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/"\
-                                  'messages/475265146/attachments', body: attachment.to_s)
+                                 'messages/475265146/attachments', body: attachment.to_s)
     end
     let(:found_message) { described_class.new.find_message(recipient, mail_subject) }
     subject { described_class.new.find_attachments(found_message) }

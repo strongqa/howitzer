@@ -9,15 +9,16 @@ require 'cucumber/rake/task'
 require 'rubocop/rake_task'
 
 Bundler::GemHelper.install_tasks
-RSpec::Core::RakeTask.new(:spec) { |_spec| }
+RSpec::Core::RakeTask.new(:spec) { |_spec| nil }
 
 Cucumber::Rake::Task.new(:cucumber, 'Run all cucumber features') do |t|
   t.fork = false
+  t.cucumber_opts = %w[--publish-quiet]
 end
 
 RuboCop::RakeTask.new
 
-YARD::Rake::YardocTask.new { |_t| }
+YARD::Rake::YardocTask.new { |_t| nil }
 
 namespace :yard do
   desc 'Validate yard coverage'
