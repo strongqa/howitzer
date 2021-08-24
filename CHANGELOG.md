@@ -1,7 +1,12 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.2.0...master)
 
 ### New Features
-- Replaced abondoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
+- Replace abandoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
+- Support Ruby 2.5+ only
+- Migrate to new Travis CI domain
+- Unlock Activesupport 6.x
+- Use latest version Rubocop
+
 
 ### Bug-fixes
 

@@ -6,7 +6,6 @@ To release a new Howitzer version:
 
 * Make sure all pull requests have been merged to master branch
 * Make sure last build is passed in [TravisCI](https://app.travis-ci.com/github/strongqa/howitzer)
-/jobs/533440061
 * Make sure the code is covered 100% in [Codecov](https://codecov.io/gh/strongqa/howitzer/branch/master)
 * Make sure all gem dependencies are up-to-date with [Gemnasium](https://gemnasium.com/strongqa/howitzer)
 * Make sure the code is documented 100% with following command:

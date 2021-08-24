@@ -1,14 +1,15 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
-require 'codecov'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(
-  [
-    SimpleCov::Formatter::HTMLFormatter,
-    SimpleCov::Formatter::Codecov
-  ]
-)
+code_formatters = [SimpleCov::Formatter::HTMLFormatter]
+
+if ENV['CI'] == 'true'
+  require 'codecov'
+  code_formatters << SimpleCov::Formatter::Codecov
+end
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new(code_formatters)
 
 SimpleCov.start do
   add_filter '/spec/'
