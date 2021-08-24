@@ -41,7 +41,6 @@ module Howitzer
 
       def self.open(validate: true, url_processor: nil, **params)
         url = expanded_url(params, url_processor)
-        modify_user_agent if Howitzer.user_agent.present?
         Howitzer::Log.info "Open #{name} page by '#{url}' url"
         retryable(tries: 2, logger: Howitzer::Log, trace: true, on: Exception) do |retries|
           Howitzer::Log.info 'Retry...' unless retries.zero?
@@ -158,16 +157,6 @@ module Howitzer
         def ambiguous_page_msg(page_list)
           "Current page matches more that one page class (#{page_list.join(', ')}).\n" \
             "\tCurrent url: #{current_url}\n\tCurrent title: #{instance.title}"
-        end
-
-        def modify_user_agent
-          driver = Capybara.current_session.driver
-          case Howitzer.driver.to_sym
-            when CapybaraHelpers::POLTERGEIST
-              driver.add_headers('User-Agent' => Howitzer.user_agent)
-            when CapybaraHelpers::WEBKIT
-              driver.header('User-Agent', Howitzer.user_agent)
-          end
         end
       end
 

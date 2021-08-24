@@ -25,7 +25,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_truthy }
     end
     context 'when not cloud driver' do
-      let(:driver_setting) { :poltergeist }
+      let(:driver_setting) { :selenium }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
@@ -46,7 +46,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) { :poltergeist }
+      let(:driver_setting) { :headless_chrome }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
@@ -101,7 +101,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to be_falsey }
     end
     context 'when not :selenium' do
-      let(:driver_setting) { :poltergeist }
+      let(:driver_setting) { :headless_chrome }
       it { is_expected.to be_falsey }
     end
     context 'when driver specified as String' do
@@ -713,17 +713,17 @@ RSpec.describe Howitzer::CapybaraHelpers do
   end
 
   describe '.load_driver_gem!' do
-    subject { load_driver_gem!(:poltergeist, 'capybara/poltergeist', 'poltergeist') }
+    subject { load_driver_gem!(:apium, 'appium_capybara', 'appium_capybara') }
     context 'when possible to require' do
-      before { allow(self).to receive(:require).with('capybara/poltergeist') { true } }
+      before { allow(self).to receive(:require).with('appium_capybara') { true } }
       it { expect { subject }.not_to raise_error }
     end
     context 'when impossible to require' do
       it do
         expect { subject }.to raise_error(
           LoadError,
-          '`:poltergeist` driver is unable to load `capybara/poltergeist`, ' \
-          "please add `gem 'poltergeist'` to your Gemfile."
+          '`:apium` driver is unable to load `appium_capybara`, ' \
+          "please add `gem 'appium_capybara'` to your Gemfile."
         )
       end
     end
