@@ -13,7 +13,7 @@ Capybara.register_driver :headless_firefox do |app|
   end
   options = Selenium::WebDriver::Firefox::Options.new(args: startup_flags, profile: ff_profile)
   params = { browser: :firefox, options: options }
-  Capybara::Selenium::Driver.new app, params
+  Capybara::Selenium::Driver.new app, **params
 end
 
 Capybara.javascript_driver = :headless_firefox
