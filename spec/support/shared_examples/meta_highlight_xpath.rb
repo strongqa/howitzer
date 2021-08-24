@@ -10,7 +10,7 @@ RSpec.shared_examples :meta_highlight_xpath do
       end
     end
     context 'when element is blank' do
-      before { allow(element).to receive(:capybara_element) {} }
+      before { allow(element).to receive(:capybara_element) { nil } }
       it do
         expect(capybara_element).not_to receive(:path)
         element.xpath
@@ -32,7 +32,7 @@ RSpec.shared_examples :meta_highlight_xpath do
       it do
         expect(context).to receive(:execute_script).with(
           "document.evaluate('//a', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE,"\
-                             ' null).singleNodeValue.style.border = "thick solid red"'
+          ' null).singleNodeValue.style.border = "thick solid red"'
         )
         element.highlight
       end

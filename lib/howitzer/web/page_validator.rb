@@ -85,7 +85,7 @@ module Howitzer
             lambda do |web_page, sync|
               if element_name.present? && !private_method_defined?("#{element_name}_element")
                 raise(Howitzer::UndefinedElementError, ':element_presence validation refers to ' \
-                     "undefined '#{element_name}' element on '#{name}' page.")
+                                                       "undefined '#{element_name}' element on '#{name}' page.")
               end
               if sync
                 web_page.instance.public_send(*["has_#{element_name}_element?", value].compact)

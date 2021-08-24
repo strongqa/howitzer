@@ -35,7 +35,7 @@
  selenium_browser: ff
 
  # -Headless Chrome-
- # List of available flags (http://peter.sh/experiments/chromium-command-line-switches/)
+ # List of available flags (https://peter.sh/experiments/chromium-command-line-switches/)
  headless_chrome_flags: "window-size=1920x1080, disable-gpu"
 
  # -Headless Firefox-
@@ -117,7 +117,7 @@
  mail_wait_time: 60
  mail_sleep_time: 3
 
-# -Mailgun- (http://www.mailgun.com/)
+# -Mailgun- (https://mailgun.com/)
  mailgun_key: mailgun_account_private_key
  mailgun_domain: mailgun_domain_with_stored_method
 

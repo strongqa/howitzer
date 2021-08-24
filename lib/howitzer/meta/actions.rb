@@ -10,8 +10,10 @@ module Howitzer
           Howitzer::Log.debug("Element #{name} not found on the page")
           return
         end
-        context.execute_script("document.evaluate('#{escape(xpath(*args))}', document, null, " \
-                          'XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue.style.border = "thick solid red"')
+        context.execute_script(
+          "document.evaluate('#{escape(xpath(*args))}', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)." \
+          'singleNodeValue.style.border = "thick solid red"'
+        )
       end
 
       # Returns xpath for the element

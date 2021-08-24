@@ -1,4 +1,4 @@
-# @see http://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
+# @see https://www.rubydoc.info/gems/factory_bot/file/GETTING_STARTED.md
 require 'factory_bot'
 
 FactoryBot.definition_file_paths = [File.join(__dir__, 'factories')]
