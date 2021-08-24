@@ -10,6 +10,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   def title
     return browser.title unless within_frame?
 
+    browser.frame_title if Howitzer.driver == 'webkit'
     find_xpath('/html/head/title').map { |n| n[:text] }.first.to_s
   end
 
@@ -18,6 +19,7 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   def current_url
     return browser.current_url unless within_frame?
 
+    browser.frame_url if Howitzer.driver == 'webkit'
     execute_script('return document.location.href')
   end
 
