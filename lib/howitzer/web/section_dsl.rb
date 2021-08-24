@@ -5,7 +5,7 @@ module Howitzer
     module SectionDsl
       include CapybaraContextHolder
 
-      def self.included(base) #:nodoc:
+      def self.included(base) # :nodoc:
         base.extend(ClassMethods)
       end
 

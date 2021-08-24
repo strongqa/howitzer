@@ -3,7 +3,7 @@ require 'active_support'
 require 'active_support/core_ext'
 
 # Remove this monkey patch after fixing the bugs in selenium-webdriver / capybara
-#:nocov:
+# :nocov:
 class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
   #
   # https://github.com/teamcapybara/capybara/issues/1845
@@ -27,13 +27,13 @@ class Capybara::Selenium::Driver # rubocop:disable Style/ClassAndModuleChildren
     !(@frame_handles.blank? || @frame_handles[browser.window_handle].blank?)
   end
 end
-#:nocov:
+# :nocov:
 
 module Howitzer
   module Web
     # This module proxies required original capybara methods to recipient
     module CapybaraMethodsProxy
-      PROXIED_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS + #:nodoc:
+      PROXIED_CAPYBARA_METHODS = Capybara::Session::SESSION_METHODS + # :nodoc:
                                  Capybara::Session::MODAL_METHODS +
                                  %i[driver text]
 

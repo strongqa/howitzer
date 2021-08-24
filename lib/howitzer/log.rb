@@ -80,13 +80,13 @@ module Howitzer
       Logger['ruby_log'].trace = true
     end
 
-    #:nocov:
+    # :nocov:
     def log_without_formatting
       self.base_formatter = blank_formatter
       yield
       self.base_formatter = default_formatter
     end
-    #:nocov:
+    # :nocov:
 
     def console_log
       StdoutOutputter.new(:console).tap { |o| o.only_at(INFO, DEBUG, WARN) }
@@ -96,13 +96,13 @@ module Howitzer
       StderrOutputter.new(:error, 'level' => ERROR)
     end
 
-    #:nocov:
+    # :nocov:
     def blank_formatter
       PatternFormatter.new(pattern: '%m')
     end
-    #:nocov:
+    # :nocov:
 
-    #:nocov:
+    # :nocov:
     def default_formatter
       params = if Howitzer.hide_datetime_from_log
                  { pattern: '[%l] %m' }
@@ -111,7 +111,7 @@ module Howitzer
                end
       PatternFormatter.new(params)
     end
-    #:nocov:
+    # :nocov:
 
     def base_formatter=(formatter)
       @logger.outputters.each { |outputter| outputter.formatter = formatter }

@@ -14,7 +14,7 @@ module Howitzer
   module Web
     # This class represents a single web page. This is a parent class for all web pages
     class Page
-      UnknownPage = Class.new #:nodoc:
+      UnknownPage = Class.new # :nodoc:
       include Singleton
       include CapybaraMethodsProxy
       include ElementDsl
@@ -28,6 +28,7 @@ module Howitzer
       # This Ruby callback makes all inherited classes as singleton classes.
 
       def self.inherited(subclass)
+        super
         subclass.class_eval { include Singleton }
       end
 

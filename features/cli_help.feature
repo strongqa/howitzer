@@ -7,15 +7,21 @@ Feature: Howitzer CLI Help
     NAME
         howitzer - Ruby based framework for acceptance testing
 
+
     SYNOPSIS
         howitzer [global options] command [command options] [arguments...]
+
 
     VERSION
         <HOWITZER_VERSION>
 
+
+
     GLOBAL OPTIONS
         --help    - Show this message
         --version - Display the program version
+
+
 
     COMMANDS
         help   - Shows a list of commands or help for one command

@@ -1,7 +1,7 @@
 # This class is example of web page
 class ExamplePage < Howitzer::Web::Page
   path '/'
-  validate :url, %r{\A(?:.*?:\/\/)?[^\/]*\/?\z}
+  validate :url, %r{\A(?:.*?://)?[^/]*/?\z}
 
   section :menu
 

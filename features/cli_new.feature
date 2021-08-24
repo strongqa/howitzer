@@ -35,12 +35,19 @@ Feature: Howitzer CLI New Project Creation
         new - Generate new project
 
     SYNOPSIS
+
         howitzer [global options] new [command options] <PROJECT NAME>
+
+
+
 
     COMMAND OPTIONS
         -c, --cucumber - Integrate Cucumber
         -r, --rspec    - Integrate Rspec
         -t, --turnip   - Integrate Turnip
+
+
+
 
     """
     And the exit status should be 0

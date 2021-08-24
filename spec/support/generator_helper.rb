@@ -18,4 +18,4 @@ module Howitzer
 end
 Howitzer::BaseGenerator.logger = StringIO.new
 Howitzer::BaseGenerator.destination = Dir.mktmpdir
-Dir[File.join(generators_path, '**', '*_generator.rb')].each { |f| require f }
+Dir[File.join(generators_path, '**', '*_generator.rb')].sort.each { |f| require f }

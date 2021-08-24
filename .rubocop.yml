@@ -2,11 +2,15 @@
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
 
 AllCops:
-  TargetRubyVersion: 2.3
+  TargetRubyVersion: 2.5
+  NewCops: disable
   DisplayCopNames: true
 
 Layout/CaseIndentation:
   Enabled: false
+
+Layout/LineLength:
+  Max: 120
 
 Lint/AmbiguousBlockAssociation:
   Enabled: false
@@ -14,11 +18,12 @@ Lint/AmbiguousBlockAssociation:
 Lint/AmbiguousRegexpLiteral:
   Enabled: false
 
+Lint/ConstantDefinitionInBlock:
+  Exclude:
+    - 'spec/unit/lib/web/iframe_dsl_spec.rb'
+
 Metrics/BlockLength:
   Enabled: false
-
-Metrics/LineLength:
-  Max: 120
 
 Metrics/MethodLength:
   Max: 30

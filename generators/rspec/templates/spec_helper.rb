@@ -2,7 +2,7 @@ require 'capybara/rspec/features'
 require_relative '../config/boot'
 require_relative '../config/capybara'
 
-Dir['./spec/support/**/*.rb'].each { |f| require f }
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
 RSpec.configure do |config|
   Howitzer::Log.settings_as_formatted_text

@@ -5,6 +5,8 @@ group :test do
   gem 'repeater', require: false
   gem 'rest-client', require: false
   gem 'simplecov', require: false
+  # gem 'pry'
+  # gem 'pry-byebug'
 end
 gemspec
 

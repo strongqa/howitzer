@@ -15,7 +15,7 @@
 #  end
 ParameterType(
   name: 'factory',
-  regexp: /(?:factory|FACTORY)_([A-Za-z_]+)(\d*)(?:\[\:(.+)\])?/,
+  regexp: /(?:factory|FACTORY)_([A-Za-z_]+)(\d*)(?:\[:(.+)\])?/,
   transformer: lambda do |_, factory, num, property|
     res = FactoryBot.given_by_number(factory.downcase, num)
     res = res.send(property) if property
