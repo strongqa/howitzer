@@ -6,8 +6,7 @@ module Howitzer
     # by the Client request. The Response object supports deserialization of
     # the JSON result.
     class Response
-      attr_accessor :body
-      attr_accessor :code
+      attr_accessor :body, :code
 
       def initialize(response)
         @body = response.body

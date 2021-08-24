@@ -9,9 +9,10 @@ module Howitzer
     # wrapper around RestClient so you don't have to worry about the HTTP aspect
     # of communicating with Mailgun API.
     class Client
-      USER_AGENT = 'mailgun-sdk-ruby'.freeze #:nodoc:
+      USER_AGENT = 'mailgun-sdk-ruby'.freeze # :nodoc:
       attr_reader :api_user, :api_key, :api_host, :api_version, :ssl
-      def initialize(api_user: 'api', api_key:, api_host: 'api.mailgun.net', api_version: 'v3', ssl: true)
+
+      def initialize(api_user: 'api', api_key: 'key', api_host: 'api.mailgun.net', api_version: 'v3', ssl: true)
         @api_user = api_user
         @api_key = api_key
         @api_host = api_host

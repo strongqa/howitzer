@@ -64,8 +64,8 @@ module Howitzer
     #   end
     # end
 
-    def using_session(name)
-      Capybara.using_session(name) { yield }
+    def using_session(name, &block)
+      Capybara.using_session(name, &block)
     end
 
     attr_accessor :current_rake_task

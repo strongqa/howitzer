@@ -65,7 +65,7 @@ def log_path
   File.join(project_path, 'spec/log')
 end
 
-Dir[File.join(__dir__, 'support', '**', '*.rb')].each { |f| require f }
+Dir[File.join(__dir__, 'support', '**', '*.rb')].sort.each { |f| require f }
 
 RSpec.configure do |config|
   config.include Howitzer::GeneratorHelper

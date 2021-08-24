@@ -61,9 +61,10 @@ module Howitzer
         attr_accessor :page_klass, :outer_context
       end
 
-      def self.included(base) #:nodoc:
+      def self.included(base) # :nodoc:
         base.extend(ClassMethods)
       end
+
       # This module holds page dsl class methods
       module ClassMethods
         # Allows to execute page methods in context of the page.

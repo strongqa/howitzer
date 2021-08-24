@@ -4,8 +4,8 @@ require 'howitzer/exceptions'
 module Howitzer
   # This module holds capybara helpers methods
   module CapybaraHelpers
-    CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze #:nodoc:
-    HOWITZER_KNOWN_BROWSERS = [ #:nodoc:
+    CHECK_YOUR_SETTINGS_MSG = 'Please check your settings'.freeze # :nodoc:
+    HOWITZER_KNOWN_BROWSERS = [ # :nodoc:
       CLOUD_BROWSERS = [
         SAUCE = :sauce,
         TESTINGBOT = :testingbot,
