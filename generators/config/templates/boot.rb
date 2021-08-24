@@ -9,6 +9,6 @@ Dir[ # rubocop:disable Lint/NonDeterministicRequireOrder
   './web/pages/**/*.rb',
   './prerequisites/models/**/*.rb',
   './prerequisites/factory_bot.rb'
-].sort.each { |f| require f }
+].each { |f| require f }
 
 String.include Howitzer::Utils::StringExtensions
