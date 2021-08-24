@@ -29,8 +29,7 @@ RSpec.describe 'Generators' do
         { name: '/config/drivers/sauce.rb', is_directory: false, size: 968 },
         { name: '/config/drivers/selenium.rb', is_directory: false, size: 1097 },
         { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1431 },
-        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 906 },
-        { name: '/config/drivers/webkit.rb', is_directory: false, size: 179 }
+        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 906 }
       ]
     end
 
@@ -51,8 +50,7 @@ RSpec.describe 'Generators' do
       #{ColorizedString.new('Added').light_green} 'config/drivers/sauce.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/selenium.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/selenium_grid.rb' file
-      #{ColorizedString.new('Added').light_green} 'config/drivers/testingbot.rb' file
-      #{ColorizedString.new('Added').light_green} 'config/drivers/webkit.rb' file\n"
+      #{ColorizedString.new('Added').light_green} 'config/drivers/testingbot.rb' file\n"
       end
       subject { output.string }
       it { is_expected.to eql(expected_output) }

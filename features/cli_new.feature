@@ -77,7 +77,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
           Added 'config/drivers/testingbot.rb' file
-          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -149,7 +148,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
           Added 'config/drivers/testingbot.rb' file
-          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -228,7 +226,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
           Added 'config/drivers/testingbot.rb' file
-          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file
@@ -349,7 +346,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
           Added 'config/drivers/testingbot.rb' file
-          Added 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Added 'web/pages/example_page.rb' file
           Added 'web/sections/menu_section.rb' file

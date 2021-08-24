@@ -23,7 +23,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/selenium.rb' file
           Identical 'config/drivers/selenium_grid.rb' file
           Identical 'config/drivers/testingbot.rb' file
-          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -69,7 +68,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/selenium.rb' file
           Identical 'config/drivers/selenium_grid.rb' file
           Identical 'config/drivers/testingbot.rb' file
-          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -119,7 +117,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/selenium.rb' file
           Identical 'config/drivers/selenium_grid.rb' file
           Identical 'config/drivers/testingbot.rb' file
-          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file
@@ -170,7 +167,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/drivers/selenium.rb' file
           Identical 'config/drivers/selenium_grid.rb' file
           Identical 'config/drivers/testingbot.rb' file
-          Identical 'config/drivers/webkit.rb' file
       * PageOriented pattern structure generation ...
           Identical 'web/pages/example_page.rb' file
           Identical 'web/sections/menu_section.rb' file

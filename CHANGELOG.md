@@ -6,7 +6,7 @@
 - Migrate to new Travis CI domain
 - Unlock Activesupport 6.x
 - Use latest version Rubocop
-
+- Stop capybara-webkit support
 
 ### Bug-fixes
 

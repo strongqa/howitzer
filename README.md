@@ -49,7 +49,6 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (For **chrome** selenium browser, 2.29+ for headless mode)
 * [GeckoDriver](https://github.com/mozilla/geckodriver/releases) (For **firefox** selenium browser)
 * [SafariDriver](https://webkit.org/blog/6900/webdriver-support-in-safari-10/) (For **safari** selenium browser)
-* [QT](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit) (For **webkit** driver only)
 * [Chrome](https://www.google.com/chrome/browser/desktop/index.html) v.59+ (For **headless chrome** support)
 * [Firefox](https://www.mozilla.org/en-US/firefox/new/) v.56+ (For **headless firefox** support)
 * [Android SDK](https://developer.android.com/studio) and [Appium](https://appium.io/docs/en/about-appium/getting-started) (For Appium driver)

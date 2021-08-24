@@ -713,16 +713,17 @@ RSpec.describe Howitzer::CapybaraHelpers do
   end
 
   describe '.load_driver_gem!' do
-    subject { load_driver_gem!(:webkit, 'capybara-webkit', 'capybara-webkit') }
+    subject { load_driver_gem!(:poltergeist, 'capybara/poltergeist', 'poltergeist') }
     context 'when possible to require' do
-      before { allow(self).to receive(:require).with('capybara-webkit') { true } }
+      before { allow(self).to receive(:require).with('capybara/poltergeist') { true } }
       it { expect { subject }.not_to raise_error }
     end
     context 'when impossible to require' do
       it do
         expect { subject }.to raise_error(
           LoadError,
-          "`:webkit` driver is unable to load `capybara-webkit`, please add `gem 'capybara-webkit'` to your Gemfile."
+          '`:poltergeist` driver is unable to load `capybara/poltergeist`, ' \
+          "please add `gem 'poltergeist'` to your Gemfile."
         )
       end
     end
