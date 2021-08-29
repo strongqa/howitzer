@@ -66,13 +66,17 @@ RSpec.describe Howitzer::Web::PageValidator do
           context 'when extra arguments' do
             let(:args) { ['extra'] }
             it do
-              expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+              expect { subject }.to raise_error(
+                ArgumentError, "Additional arguments and options are not supported by 'url' the validator"
+              )
             end
           end
           context 'when options specified' do
             let(:options) { { extra: :options } }
             it do
-              expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+              expect { subject }.to raise_error(
+                ArgumentError, "Additional arguments and options are not supported by 'url' the validator"
+              )
             end
           end
         end
@@ -138,13 +142,17 @@ RSpec.describe Howitzer::Web::PageValidator do
         context 'when extra arguments' do
           let(:args) { ['extra'] }
           it do
-            expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+            expect { subject }.to raise_error(
+              ArgumentError, "Additional arguments and options are not supported by 'title' the validator"
+            )
           end
         end
         context 'when options specified' do
           let(:options) { { extra: :options } }
           it do
-            expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+            expect { subject }.to raise_error(
+              ArgumentError, "Additional arguments and options are not supported by 'title' the validator"
+            )
           end
         end
       end

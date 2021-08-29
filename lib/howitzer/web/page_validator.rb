@@ -52,8 +52,14 @@ module Howitzer
 
         def validate(type, pattern_or_element_name, *args, **options)
           case type.to_s.to_sym
-          when :url, :title, :element_presence
-            send("validate_by_#{type}", pattern_or_element_name, *args, **options)
+          when :url, :title
+            if args.present? || options.present?
+              raise ArgumentError, "Additional arguments and options are not supported by '#{type}' the validator"
+            end
+
+            send("validate_by_#{type}", pattern_or_element_name)
+          when :element_presence
+            validate_by_element_presence(pattern_or_element_name, *args, **options)
           else
             raise Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
           end
