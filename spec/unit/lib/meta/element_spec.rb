@@ -40,7 +40,7 @@ RSpec.describe Howitzer::Meta::Element do
       context 'with custom arguments' do
         subject { element.capybara_element('test', { text: 'test' }, wait: 5) }
         it do
-          expect(context).to receive(:send).with("#{name}_element", 'test', text: 'test', match: :first, wait: 5)
+          expect(context).to receive(:send).with("#{name}_element", 'test', { text: 'test' }, match: :first, wait: 5)
           subject
         end
       end

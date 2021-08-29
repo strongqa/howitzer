@@ -7,8 +7,8 @@ module Howitzer
       #   'home'.open #=> HomePage.open
       # @see Howitzer::Web::Page.open
 
-      def open(*args)
-        as_page_class.open(*args)
+      def open(*args, **options)
+        as_page_class.open(*args, **options)
       end
 
       # Returns an instantiated page by name

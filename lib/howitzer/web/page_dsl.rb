@@ -29,11 +29,11 @@ module Howitzer
         #   * `out` method extracts an instance variable from an original context if starts from @.
         #    Otherwise it executes a method from an original context
 
-        def method_missing(name, *args, &block)
+        def method_missing(name, *args, **options, &block)
           return super if name =~ /\A(?:be|have)_/
-          return eval_in_out_context(*args, &block) if name == :out
+          return eval_in_out_context(*args, **options, &block) if name == :out
 
-          page_klass.given.send(name, *args, &block)
+          page_klass.given.send(name, *args, **options, &block)
         end
 
         # Makes proxied methods to be evaludated and returned as a proc
@@ -45,13 +45,13 @@ module Howitzer
 
         private
 
-        def eval_in_out_context(*args, &block)
+        def eval_in_out_context(*args, **options, &block)
           return nil if args.size.zero?
 
           name = args.shift
           return get_outer_instance_variable(name) if name.to_s.start_with?('@')
 
-          outer_context.send(name, *args, &block)
+          outer_context.send(name, *args, **options, &block)
         end
 
         def get_outer_instance_variable(name)

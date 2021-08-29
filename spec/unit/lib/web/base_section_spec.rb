@@ -26,6 +26,11 @@ RSpec.describe Howitzer::Web::BaseSection do
     it { is_expected.to be_nil }
   end
 
+  describe '.default_finder_options' do
+    subject { described_class.default_finder_options }
+    it { is_expected.to be_nil }
+  end
+
   describe '#parent' do
     subject { described_class.new(:test, 1).parent }
     it { is_expected.to eq(:test) }

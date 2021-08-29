@@ -3,40 +3,46 @@ module Howitzer
   module Web
     # This module combines element dsl methods
     module ElementDsl
+      # This module holds element helper methods
+      module Helpers
+        private
+
+        def lambda_args(*args, **keyword_args)
+          {
+            lambda_args: {
+              args: args,
+              keyword_args: keyword_args
+            }
+          }
+        end
+      end
+
       include CapybaraContextHolder
+      include Helpers
 
       def self.included(base) # :nodoc:
         base.extend(ClassMethods)
       end
 
-      private
-
       def convert_arguments(args, params)
-        args, params, options = merge_element_options(args, params)
-        args = args.map do |el|
+        args.map do |el|
           next(el) unless el.is_a?(Proc)
 
-          el.call(*params.shift(el.arity))
+          lambda_args = params.first.is_a?(Hash) && params.first[:lambda_args]
+          if lambda_args
+            el.call(*lambda_args[:args], **lambda_args[:keyword_args])
+          else
+            puts "WARNING! Passing lambda arguments with element options is deprecated.\n" \
+                 "Please use 'lambda_args' method, for example: foo_element(lambda_args(title: 'Example'), wait: 10)"
+            el.call(*params.shift(el.arity))
+          end
         end
-        args << options unless options.blank?
-        args
       end
 
-      def merge_element_options(args, params)
-        new_args, args_hash = extract_element_options(args)
-        new_params, params_hash = extract_element_options(params)
-        [new_args, new_params, args_hash.merge(params_hash)]
-      end
-
-      def extract_element_options(args)
-        new_args = args.deep_dup
-        args_hash = {}
-        args_hash = new_args.pop if new_args.last.is_a?(Hash)
-        [new_args, args_hash]
-      end
-
-      # This module holds element dsl methods methods
+      # This module holds element dsl methods
       module ClassMethods
+        include Helpers
+
         protected
 
         # Creates a group of methods to interact with described HTML element(s) on page
@@ -57,6 +63,7 @@ module Howitzer
         #   <b>has_no_<em>element_name</em>_element?</b> - equals capybara #has_no_selector(...) method
         # @param name [Symbol, String] an unique element name
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all`.
+        # @param options [Hash] original Capybara options. For details, see `Capybara::Node::Finders#all`.
         # @example Using in a page class
         #   class HomePage < Howitzer::Web::Page
         #     element :top_panel, '.top'
@@ -93,14 +100,14 @@ module Howitzer
         # @raise [BadElementParamsError] if wrong element arguments
         # @!visibility public
 
-        def element(name, *args)
+        def element(name, *args, **options)
           validate_arguments!(args)
-          define_element(name, args)
-          define_elements(name, args)
-          define_wait_for_element(name, args)
-          define_within_element(name, args)
-          define_has_element(name, args)
-          define_has_no_element(name, args)
+          define_element(name, args, options)
+          define_elements(name, args, options)
+          define_wait_for_element(name, args, options)
+          define_within_element(name, args, options)
+          define_has_element(name, args, options)
+          define_has_no_element(name, args, options)
         end
 
         private
@@ -111,31 +118,31 @@ module Howitzer
           raise Howitzer::BadElementParamsError, 'Using more than 1 proc in arguments is forbidden'
         end
 
-        def define_element(name, args)
-          define_method("#{name}_element") do |*block_args|
-            capybara_context.find(*convert_arguments(args, block_args))
+        def define_element(name, args, options)
+          define_method("#{name}_element") do |*block_args, **block_options|
+            capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
           end
           private "#{name}_element"
         end
 
-        def define_elements(name, args)
-          define_method("#{name}_elements") do |*block_args|
-            capybara_context.all(*convert_arguments(args, block_args))
+        def define_elements(name, args, options)
+          define_method("#{name}_elements") do |*block_args, **block_options|
+            capybara_context.all(*convert_arguments(args, block_args), **options.merge(block_options))
           end
           private "#{name}_elements"
         end
 
-        def define_wait_for_element(name, args)
-          define_method("wait_for_#{name}_element") do |*block_args|
-            capybara_context.find(*convert_arguments(args, block_args))
+        def define_wait_for_element(name, args, options)
+          define_method("wait_for_#{name}_element") do |*block_args, **block_options|
+            capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
             return nil
           end
           private "wait_for_#{name}_element"
         end
 
-        def define_within_element(name, args)
-          define_method("within_#{name}_element") do |*block_args, &block|
-            new_scope = capybara_context.find(*convert_arguments(args, block_args))
+        def define_within_element(name, args, options)
+          define_method("within_#{name}_element") do |*block_args, **block_options, &block|
+            new_scope = capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
             begin
               capybara_scopes.push(new_scope)
               block.call
@@ -145,15 +152,15 @@ module Howitzer
           end
         end
 
-        def define_has_element(name, args)
-          define_method("has_#{name}_element?") do |*block_args|
-            capybara_context.has_selector?(*convert_arguments(args, block_args))
+        def define_has_element(name, args, options)
+          define_method("has_#{name}_element?") do |*block_args, **block_options|
+            capybara_context.has_selector?(*convert_arguments(args, block_args), **options.merge(block_options))
           end
         end
 
-        def define_has_no_element(name, args)
-          define_method("has_no_#{name}_element?") do |*block_args|
-            capybara_context.has_no_selector?(*convert_arguments(args, block_args))
+        def define_has_no_element(name, args, options)
+          define_method("has_no_#{name}_element?") do |*block_args, **block_options|
+            capybara_context.has_no_selector?(*convert_arguments(args, block_args), **options.merge(block_options))
           end
         end
       end

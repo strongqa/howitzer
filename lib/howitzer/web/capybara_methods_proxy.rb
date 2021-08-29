@@ -41,7 +41,9 @@ module Howitzer
       # Instead of including Capybara::DSL module, we proxy most interesting Capybara methods and
       # prevent using extra methods which can potentially broke main principles and framework concept
       PROXIED_CAPYBARA_METHODS.each do |method|
-        define_method(method) { |*args, &block| Capybara.current_session.send(method, *args, &block) }
+        define_method(method) do |*args, **options, &block|
+          Capybara.current_session.send(method, *args, **options, &block)
+        end
       end
 
       # Accepts or declines JS alert box by given flag

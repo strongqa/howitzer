@@ -28,11 +28,12 @@ module Howitzer
       # This module holds page validation class methods
       module ClassMethods
         # Adds validation to validation list for current page
-        # @param name [Symbol, String] a validation type. Possible values [:url, :element_presence, :title]
-        # @param value [Symbol, String, Regexp]
+        # @param type [Symbol, String] a validation type. Possible values [:url, :element_presence, :title]
+        # @param pattern_or_element_name [Symbol, String, Regexp]
         #   For :url and :title validation types must be <b>Regexp</b>
-        #   For :element_presence must be one of element names described for page
-        # @param additional_value [Object, nil] any value required to pass for a labmda selector
+        #   For :element_presence must be one of element names described for the page
+        # @param args [Array] any arguments required to pass for a lambda selector (:element_presence type only)
+        # @param options [Hash] keyword arguments required to pass for a lambda selector (:element_presence type only)
         # @raise  [Howitzer::UnknownValidationError] if unknown validation type
         # @raise  [Howitzer::UndefinedElementError] if :element_presence validations refers to undefined element name
         # @example
@@ -45,12 +46,17 @@ module Howitzer
         #   end
         # @example
         #   class HomePage < Howitzer::Web::Page
-        #     validate :element_presence, :menu_item, 'Logout'
-        #     element :menu_item, :xpath, ->(name) { ".//a[.='#{name}']" }
+        #     validate :element_presence, :menu_item, lambda_args(text: 'Logout')
+        #     element :menu_item, :xpath, ->(text:) { ".//a[.='#{text}']" }
         #   end
 
-        def validate(name, value, additional_value = nil)
-          validate_by_type(name, value, additional_value)
+        def validate(type, pattern_or_element_name, *args, **options)
+          case type.to_s.to_sym
+          when :url, :title, :element_presence
+            send("validate_by_#{type}", pattern_or_element_name, *args, **options)
+          else
+            raise Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
+          end
         end
 
         # Check whether current page is opened or no
@@ -80,7 +86,7 @@ module Howitzer
 
         private
 
-        def validate_element(element_name, value = nil)
+        def validate_by_element_presence(element_name, *args, **options)
           validations[:element_presence] =
             lambda do |web_page, sync|
               if element_name.present? && !private_method_defined?("#{element_name}_element")
@@ -88,9 +94,9 @@ module Howitzer
                                                        "undefined '#{element_name}' element on '#{name}' page.")
               end
               if sync
-                web_page.instance.public_send(*["has_#{element_name}_element?", value].compact)
+                web_page.instance.public_send("has_#{element_name}_element?", *args, **options)
               else
-                !web_page.instance.public_send(*["has_no_#{element_name}_element?", value].compact)
+                !web_page.instance.public_send("has_no_#{element_name}_element?", *args, **options)
               end
             end
         end
@@ -103,19 +109,6 @@ module Howitzer
         def validate_by_title(pattern)
           validations[:title] =
             ->(web_page, sync) { sync ? web_page.instance.has_title?(pattern) : pattern === web_page.instance.title }
-        end
-
-        def validate_by_type(type, value, additional_value)
-          case type.to_s.to_sym
-            when :url
-              validate_by_url(value)
-            when :element_presence
-              validate_element(value, additional_value)
-            when :title
-              validate_by_title(value)
-            else
-              raise Howitzer::UnknownValidationError, "unknown '#{type}' validation type"
-          end
         end
       end
     end

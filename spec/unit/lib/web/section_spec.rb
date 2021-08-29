@@ -25,7 +25,7 @@ RSpec.describe Howitzer::Web::Section do
 
       context 'when args present' do
         subject { section_class.send(:me, '.foo') }
-        it { is_expected.to eq(['.foo']) }
+        it { is_expected.to eq(section_class) }
       end
 
       it 'should be private' do
@@ -48,6 +48,23 @@ RSpec.describe Howitzer::Web::Section do
       end
       subject { section_class.default_finder_args }
       it { is_expected.to eq([:xpath, './/div']) }
+    end
+  end
+
+  describe '.default_finder_options' do
+    context 'by default' do
+      subject { described_class.default_finder_options }
+      it { is_expected.to be_nil }
+    end
+
+    context 'when defined via dsl' do
+      let(:section_class) do
+        Class.new(described_class) do
+          me :xpath, './/div', wait: 1
+        end
+      end
+      subject { section_class.default_finder_options }
+      it { is_expected.to eq(wait: 1) }
     end
   end
 

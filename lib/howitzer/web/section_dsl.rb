@@ -17,8 +17,9 @@ module Howitzer
 
           # Instantiates an anynomous or named section and executes block code in the section scope
 
-          def initialize(name, *args, &block)
+          def initialize(name, *args, **options, &block)
             @args = args
+            @options = options
             self.section_class =
               if block
                 Class.new(Howitzer::Web::BaseSection)
@@ -29,19 +30,19 @@ module Howitzer
           end
 
           # # Defines an element on the section
-          # # @see Howitzer::PageDsl::ClassMethods#element
+          # # @see Howitzer::Web::ElementDsl::ClassMethods#element
 
-          def element(*args)
-            section_class.send(:element, *args)
+          def element(*args, **options)
+            section_class.send(:element, *args, **options)
           end
 
           # Delegates a section describing to the section class
 
-          def section(name, *args, &block)
-            section_class.send(:section, name, *args, &block)
+          def section(name, *args, **options, &block)
+            section_class.send(:section, name, *args, **options, &block)
           end
 
-          # Returns a selector for the section.
+          # Returns selector arguments for the section.
           # @note If anonymous section uses, then inline selector should be specified.
           #   Otherwise arguments should be defined with `.me` dsl method in named section
           # @return [Array]
@@ -51,6 +52,18 @@ module Howitzer
             return @args if @args.present?
 
             @finder_args ||= (section_class.default_finder_args || raise(ArgumentError, 'Missing finder arguments'))
+          end
+
+          # Returns selector options for the section.
+          # @note If anonymous section uses, then inline selector should be specified.
+          #   Otherwise arguments should be defined with `.me` dsl method in named section
+          # @return [Array]
+          # @raise [ArgumentError] when finder arguments were not specified
+
+          def finder_options
+            @options if @args.present? # it is ok to have blank options, so we rely here on the argments
+
+            @finder_options ||= (section_class.default_finder_options || {})
           end
         end
 
@@ -73,6 +86,9 @@ module Howitzer
         # @param args [Array] original Capybara arguments. For details, see `Capybara::Node::Finders#all.
         #  (In most cases should be ommited for named sections because the section selector is specified
         #  with `#me` method. But must be specified for anonymous sections)
+        # @param options [Hash] original Capybara options. For details, see `Capybara::Node::Finders#all.
+        #  (In most cases should be ommited for named sections because the section selector is specified
+        #  with `#me` method. But may be specified for anonymous sections)
         # @param block [Proc] this block can contain nested sections and elements
         # @example Named section
         #   class MenuSection < Howitzer::Web::Section
@@ -108,37 +124,37 @@ module Howitzer
         #   HomePage.on { info_panel_section.edit_info(title: 'Test Title') }
         # @!visibility public
 
-        def section(name, *args, &block)
-          scope = SectionScope.new(name, *args, &block)
-          define_section_method(scope.section_class, name, scope.finder_args)
-          define_sections_method(scope.section_class, name, scope.finder_args)
-          define_has_section_method(name, scope.finder_args)
-          define_has_no_section_method(name, scope.finder_args)
+        def section(name, *args, **options, &block)
+          scope = SectionScope.new(name, *args, **options, &block)
+          define_section_method(scope.section_class, name, *scope.finder_args, **scope.finder_options)
+          define_sections_method(scope.section_class, name, *scope.finder_args, **scope.finder_options)
+          define_has_section_method(name, *scope.finder_args, **scope.finder_options)
+          define_has_no_section_method(name, *scope.finder_args, **scope.finder_options)
         end
 
         private
 
-        def define_section_method(klass, name, args)
+        def define_section_method(klass, name, *args, **options)
           define_method("#{name}_section") do
-            klass.new(self, capybara_context.find(*args))
+            klass.new(self, capybara_context.find(*args, **options))
           end
         end
 
-        def define_sections_method(klass, name, args)
+        def define_sections_method(klass, name, *args, **options)
           define_method("#{name}_sections") do
-            capybara_context.all(*args).map { |el| klass.new(self, el) }
+            capybara_context.all(*args, **options).map { |el| klass.new(self, el) }
           end
         end
 
-        def define_has_section_method(name, args)
+        def define_has_section_method(name, *args, **options)
           define_method("has_#{name}_section?") do
-            capybara_context.has_selector?(*args)
+            capybara_context.has_selector?(*args, **options)
           end
         end
 
-        def define_has_no_section_method(name, args)
+        def define_has_no_section_method(name, *args, **options)
           define_method("has_no_#{name}_section?") do
-            capybara_context.has_no_selector?(*args)
+            capybara_context.has_no_selector?(*args, **options)
           end
         end
       end

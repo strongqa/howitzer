@@ -15,7 +15,7 @@ module Howitzer
       attr_reader :parent
 
       class << self
-        attr_reader :default_finder_args
+        attr_reader :default_finder_args, :default_finder_options
       end
 
       def initialize(parent, context)

@@ -12,7 +12,7 @@ RSpec.describe Howitzer::Web::PageValidator do
       include Howitzer::Web::ElementDsl
       include Howitzer::Web::PageValidator
       element :foo, 'a'
-      element :bar, :xpath, ->(v) { v }
+      element :bar, :xpath, ->(a, b, c:, d:) {}
       def self.name
         'TestWebPageClass'
       end
@@ -29,92 +29,87 @@ RSpec.describe Howitzer::Web::PageValidator do
         )
       end
     end
-    context 'when title validation is specified' do
+    context 'when at least 1 validation is specified' do
       before do
-        web_page.class.validate :title, /Foo/
+        web_page_class.validations[web_page_class] = { url: -> {} }
       end
       it { expect { subject }.to_not raise_error }
-    end
-    context 'when url validation is specified' do
-      before do
-        web_page.class.validate :url, /Foo/
-      end
-      it { expect { subject }.to_not raise_error }
-    end
-    context 'when element_presence validation is specified' do
-      context 'when simple selector' do
-        before do
-          web_page.class.validate :element_presence, :foo
-        end
-        it { expect { subject }.to_not raise_error }
-      end
-
-      context 'when lambda selector' do
-        before do
-          web_page.class.validate :element_presence, :bar, 'some_text'
-        end
-        it { expect { subject }.to_not raise_error }
-      end
     end
   end
 
   describe '.validate' do
     before do
-      described_class.validations[web_page.class] = nil
+      described_class.validations[web_page_class] = nil
     end
-    let(:additional_value) { nil }
-    subject { web_page.class.validate(name, *[value, additional_value].compact) }
-    context 'when name = :url' do
+    let(:args) { [] }
+    let(:options) { {} }
+    subject { web_page_class.validate(type, pattern, *args, **options) }
+    context 'when type is url' do
       context 'as string' do
-        let(:name) { 'url' }
-        context '(as string)' do
-          let(:value) { 'foo' }
+        let(:type) { 'url' }
+        context 'with string pattern' do
+          let(:pattern) { 'foo' }
           it do
             is_expected.to be_a(Proc)
-            expect(described_class.validations[web_page.class][:url]).to be_a Proc
+            expect(described_class.validations[web_page_class][:url]).to eql(subject)
           end
         end
-        context '(as regexp)' do
-          let(:value) { /foo/ }
+        context 'with regexp pattern' do
+          let(:pattern) { /foo/ }
           it do
             is_expected.to be_a(Proc)
-            expect(described_class.validations[web_page.class][:url]).to be_a Proc
+            expect(described_class.validations[web_page_class][:url]).to eql(subject)
+          end
+        end
+        context 'with incorrect arguments' do
+          let(:pattern) { 'foo' }
+          context 'when extra arguments' do
+            let(:args) { ['extra'] }
+            it do
+              expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+            end
+          end
+          context 'when options specified' do
+            let(:options) { { extra: :options } }
+            it do
+              expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+            end
           end
         end
       end
       context 'as symbol' do
-        let(:name) { :url }
-        let(:value) { /foo/ }
+        let(:type) { :url }
+        let(:pattern) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class][:url]).to be_a Proc
+          expect(described_class.validations[web_page_class][:url]).to eql(subject)
         end
       end
     end
-    context 'when name = :element_presence' do
-      let(:name) { :element_presence }
-      context '(as string)' do
-        let(:value) { 'bar' }
-        let(:additional_value) { 'some string' }
+    context 'when type is element_presence' do
+      let(:type) { :element_presence }
+      let(:args) { %w[a b] }
+      let(:options) { { c: 'c', d: 'd' } }
+      context 'with string element name' do
+        let(:pattern) { 'bar' }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page_class][:element_presence]).to eql(subject)
         end
       end
-      context '(as symbol)' do
-        let(:value) { :foo }
+      context 'with symbol element name' do
+        let(:pattern) { :foo }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class][:element_presence]).to eql(subject)
+          expect(described_class.validations[web_page_class][:element_presence]).to eql(subject)
         end
       end
-
       context 'when refers to unknown element' do
-        let(:value) { :unknown }
+        let(:pattern) { :unknown }
         it do
           subject
           expect do
-            described_class.validations[web_page.class][:element_presence].call(web_page, false)
+            described_class.validations[web_page_class][:element_presence].call(web_page, false)
           end.to raise_error(
             Howitzer::UndefinedElementError,
             ":element_presence validation refers to undefined 'unknown' element on 'TestWebPageClass' page."
@@ -122,26 +117,41 @@ RSpec.describe Howitzer::Web::PageValidator do
         end
       end
     end
-    context 'when name = :title' do
-      let(:name) { :title }
-      context '(as string)' do
-        let(:value) { 'foo' }
+    context 'when type is title' do
+      let(:type) { :title }
+      context 'with string pattern' do
+        let(:pattern) { 'foo' }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class][:title]).to be_a Proc
+          expect(described_class.validations[web_page_class][:title]).to eql(subject)
         end
       end
-      context '(as regexp)' do
-        let(:value) { /foo/ }
+      context 'with regexp pattern' do
+        let(:pattern) { /foo/ }
         it do
           is_expected.to be_a(Proc)
-          expect(described_class.validations[web_page.class][:title]).to be_a Proc
+          expect(described_class.validations[web_page_class][:title]).to eql(subject)
+        end
+      end
+      context 'with incorrect arguments' do
+        let(:pattern) { 'foo' }
+        context 'when extra arguments' do
+          let(:args) { ['extra'] }
+          it do
+            expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+          end
+        end
+        context 'when options specified' do
+          let(:options) { { extra: :options } }
+          it do
+            expect { subject }.to raise_error(ArgumentError, 'wrong number of arguments (given 2, expected 1)')
+          end
         end
       end
     end
-    context 'when other name' do
-      let(:name) { :unknown }
-      let(:value) { '' }
+    context 'when unknown type' do
+      let(:type) { :unknown }
+      let(:pattern) { '' }
       it do
         expect { subject }.to raise_error(Howitzer::UnknownValidationError, "unknown 'unknown' validation type")
       end
@@ -164,17 +174,18 @@ RSpec.describe Howitzer::Web::PageValidator do
         before do
           web_page_class.class_eval do
             include Singleton
-            element :login, '#id'
+            element :login, :xpath, ->(a, b, c:, d:) { ".//#{a}/#{b}[c='#{c}'][d='#{d}']" }
             validate :url, /foo/
             validate :title, /Foo page/
-            validate :element_presence, :login
+            validate :element_presence, :login, lambda_args('a', 'b', c: 'c', d: 'd'), wait: 10
           end
         end
         context 'when all matches' do
           before do
             allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
             allow(web_page_class.instance).to receive(:has_title?).and_return('Foo page')
-            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args).and_return(true)
+            allow(web_page_class.instance).to receive(:has_login_element?)
+              .with(web_page_class.send(:lambda_args, 'a', 'b', c: 'c', d: 'd'), wait: 10).and_return(true)
           end
           it { is_expected.to be_truthy }
         end
@@ -182,7 +193,7 @@ RSpec.describe Howitzer::Web::PageValidator do
           before do
             expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:has_title?).never
-            allow(web_page_class).to receive(:has_login_element?).with(no_args).never
+            allow(web_page_class).to receive(:has_login_element?).never
           end
           it { is_expected.to be_falsey }
         end
@@ -193,17 +204,18 @@ RSpec.describe Howitzer::Web::PageValidator do
         before do
           web_page_class.class_eval do
             include Singleton
-            element :login, '#id'
+            element :login, :xpath, ->(a, b, c:, d:) { ".//#{a}/#{b}[c='#{c}'][d='#{d}']" }
             validate :url, /foo/
             validate :title, /Foo page/
-            validate :element_presence, :login
+            validate :element_presence, :login, lambda_args('a', 'b', c: 'c', d: 'd'), wait: 10
           end
         end
         context 'when all matches' do
           before do
             allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
             allow(web_page_class.instance).to receive(:has_title?).and_return('Foo page')
-            allow(web_page_class.instance).to receive(:has_login_element?).with(no_args).and_return(true)
+            allow(web_page_class.instance).to receive(:has_login_element?)
+              .with(web_page_class.send(:lambda_args, 'a', 'b', c: 'c', d: 'd'), wait: 10).and_return(true)
           end
           it { is_expected.to be_truthy }
         end
@@ -211,7 +223,7 @@ RSpec.describe Howitzer::Web::PageValidator do
           before do
             expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:has_title?).never
-            allow(web_page_class).to receive(:has_login_element?).with(no_args).never
+            allow(web_page_class).to receive(:has_login_element?).never
           end
           it { is_expected.to be_falsey }
         end
@@ -222,17 +234,18 @@ RSpec.describe Howitzer::Web::PageValidator do
         before do
           web_page_class.class_eval do
             include Singleton
-            element :login, '#id'
+            element :login, :xpath, ->(a, b, c:, d:) { ".//#{a}/#{b}[c='#{c}'][d='#{d}']" }
             validate :url, /foo/
             validate :title, /Foo page/
-            validate :element_presence, :login
+            validate :element_presence, :login, lambda_args('a', 'b', c: 'c', d: 'd'), wait: 10
           end
         end
         context 'when all matches' do
           before do
             allow(web_page_class.instance).to receive(:current_url).and_return('http://test.com/foo')
             allow(web_page_class.instance).to receive(:title).and_return('Foo page')
-            allow(web_page_class.instance).to receive(:has_no_login_element?).with(no_args).and_return(false)
+            allow(web_page_class.instance).to receive(:has_no_login_element?)
+              .with(web_page_class.send(:lambda_args, 'a', 'b', c: 'c', d: 'd'), wait: 10).and_return(false)
           end
           it { is_expected.to be_truthy }
         end
@@ -240,7 +253,7 @@ RSpec.describe Howitzer::Web::PageValidator do
           before do
             expect(web_page_class.instance).to receive(:current_url).once.and_return('http://test.com/bar')
             expect(web_page_class.instance).to receive(:title).never
-            allow(web_page_class).to receive(:has_no_login_element?).with(no_args).never
+            allow(web_page_class).to receive(:has_no_login_element?).never
           end
           it { is_expected.to be_falsey }
         end

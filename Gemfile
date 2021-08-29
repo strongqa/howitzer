@@ -2,11 +2,11 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in howitzer.gemspec
 group :test do
   gem 'codecov', require: false
+  gem 'pry'
+  gem 'pry-byebug'
   gem 'repeater', require: false
   gem 'rest-client', require: false
   gem 'simplecov', require: false
-  # gem 'pry'
-  # gem 'pry-byebug'
 end
 gemspec
 

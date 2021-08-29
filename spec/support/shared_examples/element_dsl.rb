@@ -77,6 +77,8 @@ RSpec.shared_examples :element_dsl do
       klass.class_eval do
         element :foo, :xpath,
                 ->(title, name) { "//a[.='#{title}']/*[@name='#{name}']" }, text: 'original', match: :first
+        element :complex_foo, :xpath,
+                ->(name, text:) { "//a[.='#{text}']/*[@name='#{name}']" }, text: 'original', match: :first
         element :bar, '.someclass', text: 'origin', match: :first
         element :top_panel, '.top', text: 'origin', match: :first
       end
@@ -92,22 +94,43 @@ RSpec.shared_examples :element_dsl do
         end
       end
       context 'when lambda selector' do
-        subject { klass_object.send(:foo_element, 'Hello', 'super', text: 'new', wait: 10) }
         after { subject }
-        it do
-          expect(klass_object.capybara_context).to receive(:find)
-            .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first)
+        context 'with old format of lambda arguments' do
+          subject { klass_object.send(:foo_element, 'Hello', 'super', text: 'new', wait: 10) }
+          it do
+            expect_any_instance_of(Object).to receive(:puts).with(
+              "WARNING! Passing lambda arguments with element options is deprecated.\n" \
+              "Please use 'lambda_args' method, for example: foo_element(lambda_args(title: 'Example'), wait: 10)"
+            )
+            expect(klass_object.capybara_context).to receive(:find)
+              .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first)
+          end
         end
-
+        context 'with new format of lambda arguments' do
+          subject do
+            klass_object.instance_eval do
+              complex_foo_element(lambda_args('complex', text: 'Hello'), text: 'new', wait: 10)
+            end
+          end
+          it do
+            expect(klass_object.capybara_context).to receive(:find)
+              .with(:xpath, "//a[.='Hello']/*[@name='complex']", wait: 10, text: 'new', match: :first)
+          end
+        end
         context 'when several execution with different data' do
+          subject { nil }
           it 'does not cache previous data' do
             expect(klass_object.capybara_context).to receive(:find)
               .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first).at_least(:once)
-            klass_object.send(:foo_element, 'Hello', 'super', text: 'new', wait: 10)
+            klass_object.instance_eval do
+              foo_element(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+            end
 
             expect(klass_object.capybara_context).to receive(:find)
               .with(:xpath, "//a[.='Bye']/*[@name='puper']", wait: 15, text: 'new', match: :first).at_least(:once)
-            klass_object.send(:foo_element, 'Bye', 'puper', text: 'new', wait: 15)
+            klass_object.instance_eval do
+              foo_element(lambda_args('Bye', 'puper'), text: 'new', wait: 15)
+            end
           end
         end
       end
@@ -122,7 +145,11 @@ RSpec.shared_examples :element_dsl do
         end
       end
       context 'when lambda selector' do
-        subject { klass_object.send(:foo_elements, 'Hello', 'super', text: 'new', wait: 10) }
+        subject do
+          klass_object.instance_eval do
+            foo_elements(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+          end
+        end
         it do
           expect(
             klass_object.capybara_context
@@ -140,7 +167,11 @@ RSpec.shared_examples :element_dsl do
         end
       end
       context 'when lambda selector' do
-        subject { klass_object.send(:wait_for_foo_element, 'Hello', 'super', text: 'new', wait: 10) }
+        subject do
+          klass_object.instance_eval do
+            wait_for_foo_element(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+          end
+        end
         it do
           expect(
             klass_object.capybara_context
@@ -157,7 +188,7 @@ RSpec.shared_examples :element_dsl do
           subject do
             klass_object.instance_eval do
               within_bar_element(wait: 5, text: 'new') do
-                foo_element('Hello', 'super', wait: 10, text: 'new')
+                foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new')
               end
             end
           end
@@ -171,7 +202,7 @@ RSpec.shared_examples :element_dsl do
         context 'when lambda selector' do
           subject do
             klass_object.instance_eval do
-              within_foo_element('Hello', 'super', wait: 10, text: 'new') do
+              within_foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new') do
                 bar_element(wait: 10, text: 'new')
               end
             end
@@ -189,7 +220,7 @@ RSpec.shared_examples :element_dsl do
           klass_object.instance_eval do
             within_top_panel_element(wait: 10, text: 'new') do
               within_bar_element(wait: 10, text: 'new') do
-                foo_element('Hello', 'super', wait: 10, text: 'new')
+                foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new')
               end
             end
           end
@@ -214,7 +245,11 @@ RSpec.shared_examples :element_dsl do
         end
       end
       context 'when lambda selector' do
-        subject { klass_object.send(:has_foo_element?, 'Hello', 'super', wait: 10, text: 'new') }
+        subject do
+          klass_object.instance_eval do
+            has_foo_element?(lambda_args('Hello', 'super'), wait: 10, text: 'new')
+          end
+        end
         it do
           expect(klass_object.capybara_context).to receive(:has_selector?)
             .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first)
@@ -231,7 +266,11 @@ RSpec.shared_examples :element_dsl do
         end
       end
       context 'when lambda selector' do
-        subject { klass_object.send(:has_no_foo_element?, 'Hello', 'super', wait: 10, text: 'new', match: :first) }
+        subject do
+          klass_object.instance_eval do
+            has_no_foo_element?(lambda_args('Hello', 'super'), wait: 10, text: 'new', match: :first)
+          end
+        end
         it do
           expect(klass_object.capybara_context).to receive(:has_no_selector?)
             .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first)

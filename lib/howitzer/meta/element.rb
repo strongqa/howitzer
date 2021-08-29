@@ -14,22 +14,20 @@ module Howitzer
       end
 
       # Finds all instances of element on the page and returns them as array of capybara elements
-      # @param args [Array] arguments for elements described with lambda locators and
-      # inline options for element/s as a hash
+      # @param args [Array] arguments for elements described with lambda locators
+      # @param options [Hash] original Capybara options. For details, see `Capybara::Node::Finders#all`
       # @return [Array]
-      def capybara_elements(*args)
-        context.send("#{name}_elements", *args)
+      def capybara_elements(*args, **options)
+        context.send("#{name}_elements", *args, **options)
       end
 
       # Finds element on the page and returns as a capybara element
-      # @param args [Array] arguments for elements described with lambda locators and
-      # inline options for element/s as a hash
+      # @param args [Array] arguments for elements described with lambda locators
+      # @param options [Hash] original Capybara options. For details, see `Capybara::Node::Finders#all`
       # @param wait [Integer] wait time for element search
       # @return [Capybara::Node::Element, nil]
-      def capybara_element(*args, wait: 0)
-        args << { match: :first, wait: wait }
-        args = convert_args(args)
-        context.send("#{name}_element", *args)
+      def capybara_element(*args, wait: 0, **options)
+        context.send("#{name}_element", *args, **options.merge(match: :first, wait: wait))
       rescue Capybara::ElementNotFound
         nil
       end

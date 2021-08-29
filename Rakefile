@@ -4,6 +4,7 @@ Bundler.setup
 
 require 'rake'
 require 'yard'
+require 'stringio'
 require 'rspec/core/rake_task'
 require 'cucumber/rake/task'
 require 'rubocop/rake_task'
