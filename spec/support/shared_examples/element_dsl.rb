@@ -86,7 +86,7 @@ RSpec.shared_examples :element_dsl do
 
     describe '#name_element' do
       context 'when simple selector' do
-        subject { klass_object.send(:bar_element, text: 'new', wait: 10) }
+        subject { klass_object.send(:bar_element, 'text' => 'new', wait: 10) }
         after { subject }
         it do
           expect(klass_object.capybara_context).to receive(:find)
@@ -96,7 +96,7 @@ RSpec.shared_examples :element_dsl do
       context 'when lambda selector' do
         after { subject }
         context 'with old format of lambda arguments' do
-          subject { klass_object.send(:foo_element, 'Hello', 'super', text: 'new', wait: 10) }
+          subject { klass_object.send(:foo_element, 'Hello', 'super', 'text' => 'new', wait: 10) }
           it do
             expect_any_instance_of(Object).to receive(:puts).with(
               "WARNING! Passing lambda arguments with element options is deprecated.\n" \
@@ -109,7 +109,7 @@ RSpec.shared_examples :element_dsl do
         context 'with new format of lambda arguments' do
           subject do
             klass_object.instance_eval do
-              complex_foo_element(lambda_args('complex', text: 'Hello'), text: 'new', wait: 10)
+              complex_foo_element(lambda_args('complex', text: 'Hello'), 'text' => 'new', wait: 10)
             end
           end
           it do
@@ -123,13 +123,13 @@ RSpec.shared_examples :element_dsl do
             expect(klass_object.capybara_context).to receive(:find)
               .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first).at_least(:once)
             klass_object.instance_eval do
-              foo_element(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+              foo_element(lambda_args('Hello', 'super'), 'text' => 'new', wait: 10)
             end
 
             expect(klass_object.capybara_context).to receive(:find)
               .with(:xpath, "//a[.='Bye']/*[@name='puper']", wait: 15, text: 'new', match: :first).at_least(:once)
             klass_object.instance_eval do
-              foo_element(lambda_args('Bye', 'puper'), text: 'new', wait: 15)
+              foo_element(lambda_args('Bye', 'puper'), 'text' => 'new', wait: 15)
             end
           end
         end
@@ -138,7 +138,7 @@ RSpec.shared_examples :element_dsl do
     describe '#name_elements' do
       after { subject }
       context 'when simple selector' do
-        subject { klass_object.send(:bar_elements, text: 'new', wait: 10) }
+        subject { klass_object.send(:bar_elements, 'text' => 'new', wait: 10) }
         it do
           expect(klass_object.capybara_context).to receive(:all)
             .with('.someclass', wait: 10, text: 'new', match: :first)
@@ -147,7 +147,7 @@ RSpec.shared_examples :element_dsl do
       context 'when lambda selector' do
         subject do
           klass_object.instance_eval do
-            foo_elements(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+            foo_elements(lambda_args('Hello', 'super'), 'text' => 'new', wait: 10)
           end
         end
         it do
@@ -159,7 +159,7 @@ RSpec.shared_examples :element_dsl do
     end
     describe '#wait_for_name_element' do
       context 'when simple selector' do
-        subject { klass_object.send(:wait_for_bar_element, text: 'new', wait: 10) }
+        subject { klass_object.send(:wait_for_bar_element, 'text' => 'new', wait: 10) }
         it do
           expect(klass_object.capybara_context).to receive(:find)
             .with('.someclass', wait: 10, text: 'new', match: :first)
@@ -169,7 +169,7 @@ RSpec.shared_examples :element_dsl do
       context 'when lambda selector' do
         subject do
           klass_object.instance_eval do
-            wait_for_foo_element(lambda_args('Hello', 'super'), text: 'new', wait: 10)
+            wait_for_foo_element(lambda_args('Hello', 'super'), 'text' => 'new', wait: 10)
           end
         end
         it do
@@ -188,7 +188,7 @@ RSpec.shared_examples :element_dsl do
           subject do
             klass_object.instance_eval do
               within_bar_element(wait: 5, text: 'new') do
-                foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new')
+                foo_element(lambda_args('Hello', 'super'), wait: 10, 'text' => 'new')
               end
             end
           end
@@ -202,7 +202,7 @@ RSpec.shared_examples :element_dsl do
         context 'when lambda selector' do
           subject do
             klass_object.instance_eval do
-              within_foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new') do
+              within_foo_element(lambda_args('Hello', 'super'), wait: 10, 'text' => 'new') do
                 bar_element(wait: 10, text: 'new')
               end
             end
@@ -220,7 +220,7 @@ RSpec.shared_examples :element_dsl do
           klass_object.instance_eval do
             within_top_panel_element(wait: 10, text: 'new') do
               within_bar_element(wait: 10, text: 'new') do
-                foo_element(lambda_args('Hello', 'super'), wait: 10, text: 'new')
+                foo_element(lambda_args('Hello', 'super'), wait: 10, 'text' => 'new')
               end
             end
           end
@@ -238,7 +238,7 @@ RSpec.shared_examples :element_dsl do
     describe '#has_name_element?' do
       after { subject }
       context 'when simple selector' do
-        subject { klass_object.send(:has_bar_element?, wait: 10, text: 'new') }
+        subject { klass_object.send(:has_bar_element?, wait: 10, 'text' => 'new') }
         it do
           expect(klass_object.capybara_context).to receive(:has_selector?)
             .with('.someclass', wait: 10, text: 'new', match: :first)
@@ -247,7 +247,7 @@ RSpec.shared_examples :element_dsl do
       context 'when lambda selector' do
         subject do
           klass_object.instance_eval do
-            has_foo_element?(lambda_args('Hello', 'super'), wait: 10, text: 'new')
+            has_foo_element?(lambda_args('Hello', 'super'), wait: 10, 'text' => 'new')
           end
         end
         it do
@@ -259,7 +259,7 @@ RSpec.shared_examples :element_dsl do
     describe '#has_no_name_element?' do
       after { subject }
       context 'when simple selector' do
-        subject { klass_object.send(:has_no_bar_element?, wait: 10, text: 'new') }
+        subject { klass_object.send(:has_no_bar_element?, wait: 10, 'text' => 'new') }
         it do
           expect(klass_object.capybara_context).to receive(:has_no_selector?)
             .with('.someclass', wait: 10, text: 'new', match: :first)
@@ -268,7 +268,7 @@ RSpec.shared_examples :element_dsl do
       context 'when lambda selector' do
         subject do
           klass_object.instance_eval do
-            has_no_foo_element?(lambda_args('Hello', 'super'), wait: 10, text: 'new', match: :first)
+            has_no_foo_element?(lambda_args('Hello', 'super'), wait: 10, 'text' => 'new', match: :first)
           end
         end
         it do

@@ -24,13 +24,17 @@ module Howitzer
         base.extend(ClassMethods)
       end
 
-      def convert_arguments(args, params)
+      def convert_arguments(args, params) # rubocop:disable Metrics/AbcSize
         args.map do |el|
           next(el) unless el.is_a?(Proc)
 
           lambda_args = params.first.is_a?(Hash) && params.first[:lambda_args]
           if lambda_args
-            el.call(*lambda_args[:args], **lambda_args[:keyword_args])
+            if lambda_args[:keyword_args].present?
+              el.call(*lambda_args[:args], **lambda_args[:keyword_args])
+            else
+              el.call(*lambda_args[:args])
+            end
           else
             puts "WARNING! Passing lambda arguments with element options is deprecated.\n" \
                  "Please use 'lambda_args' method, for example: foo_element(lambda_args(title: 'Example'), wait: 10)"
@@ -120,29 +124,49 @@ module Howitzer
 
         def define_element(name, args, options)
           define_method("#{name}_element") do |*block_args, **block_options|
-            capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.find(*convert_arguments(args, block_args), **kwdargs)
+            else
+              capybara_context.find(*convert_arguments(args, block_args))
+            end
           end
           private "#{name}_element"
         end
 
         def define_elements(name, args, options)
           define_method("#{name}_elements") do |*block_args, **block_options|
-            capybara_context.all(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.all(*convert_arguments(args, block_args), **kwdargs)
+            else
+              capybara_context.all(*convert_arguments(args, block_args))
+            end
           end
           private "#{name}_elements"
         end
 
         def define_wait_for_element(name, args, options)
           define_method("wait_for_#{name}_element") do |*block_args, **block_options|
-            capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.find(*convert_arguments(args, block_args), **kwdargs)
+            else
+              capybara_context.find(*convert_arguments(args, block_args))
+            end
             return nil
           end
           private "wait_for_#{name}_element"
         end
 
-        def define_within_element(name, args, options)
+        def define_within_element(name, args, options) # rubocop:disable Metrics/AbcSize
           define_method("within_#{name}_element") do |*block_args, **block_options, &block|
-            new_scope = capybara_context.find(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            new_scope = if kwdargs.present?
+                          capybara_context.find(*convert_arguments(args, block_args), **kwdargs)
+                        else
+                          capybara_context.find(*convert_arguments(args, block_args))
+                        end
             begin
               capybara_scopes.push(new_scope)
               block.call
@@ -154,13 +178,23 @@ module Howitzer
 
         def define_has_element(name, args, options)
           define_method("has_#{name}_element?") do |*block_args, **block_options|
-            capybara_context.has_selector?(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.has_selector?(*convert_arguments(args, block_args), **kwdargs)
+            else
+              capybara_context.has_selector?(*convert_arguments(args, block_args))
+            end
           end
         end
 
         def define_has_no_element(name, args, options)
           define_method("has_no_#{name}_element?") do |*block_args, **block_options|
-            capybara_context.has_no_selector?(*convert_arguments(args, block_args), **options.merge(block_options))
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.has_no_selector?(*convert_arguments(args, block_args), **kwdargs)
+            else
+              capybara_context.has_no_selector?(*convert_arguments(args, block_args))
+            end
           end
         end
       end

@@ -18,7 +18,11 @@ module Howitzer
       # @param options [Hash] original Capybara options. For details, see `Capybara::Node::Finders#all`
       # @return [Array]
       def capybara_elements(*args, **options)
-        context.send("#{name}_elements", *args, **options)
+        if options.present?
+          context.send("#{name}_elements", *args, **options)
+        else
+          context.send("#{name}_elements", *args)
+        end
       end
 
       # Finds element on the page and returns as a capybara element

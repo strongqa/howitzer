@@ -135,26 +135,46 @@ module Howitzer
         private
 
         def define_section_method(klass, name, *args, **options)
-          define_method("#{name}_section") do
-            klass.new(self, capybara_context.find(*args, **options))
+          define_method("#{name}_section") do |**block_options|
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              klass.new(self, capybara_context.find(*args, **kwdargs))
+            else
+              klass.new(self, capybara_context.find(*args))
+            end
           end
         end
 
         def define_sections_method(klass, name, *args, **options)
-          define_method("#{name}_sections") do
-            capybara_context.all(*args, **options).map { |el| klass.new(self, el) }
+          define_method("#{name}_sections") do |**block_options|
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.all(*args, **kwdargs).map { |el| klass.new(self, el) }
+            else
+              capybara_context.all(*args).map { |el| klass.new(self, el) }
+            end
           end
         end
 
         def define_has_section_method(name, *args, **options)
-          define_method("has_#{name}_section?") do
-            capybara_context.has_selector?(*args, **options)
+          define_method("has_#{name}_section?") do |**block_options|
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.has_selector?(*args, **kwdargs)
+            else
+              capybara_context.has_selector?(*args)
+            end
           end
         end
 
         def define_has_no_section_method(name, *args, **options)
-          define_method("has_no_#{name}_section?") do
-            capybara_context.has_no_selector?(*args, **options)
+          define_method("has_no_#{name}_section?") do |**block_options|
+            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
+            if kwdargs.present?
+              capybara_context.has_no_selector?(*args, **kwdarg)
+            else
+              capybara_context.has_no_selector?(*args)
+            end
           end
         end
       end

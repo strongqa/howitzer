@@ -42,7 +42,11 @@ module Howitzer
       # prevent using extra methods which can potentially broke main principles and framework concept
       PROXIED_CAPYBARA_METHODS.each do |method|
         define_method(method) do |*args, **options, &block|
-          Capybara.current_session.send(method, *args, **options, &block)
+          if options.present?
+            Capybara.current_session.send(method, *args, **options, &block)
+          else
+            Capybara.current_session.send(method, *args, &block)
+          end
         end
       end
 

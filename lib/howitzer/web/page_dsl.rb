@@ -33,7 +33,11 @@ module Howitzer
           return super if name =~ /\A(?:be|have)_/
           return eval_in_out_context(*args, **options, &block) if name == :out
 
-          page_klass.given.send(name, *args, **options, &block)
+          if options.present?
+            page_klass.given.send(name, *args, **options, &block)
+          else
+            page_klass.given.send(name, *args, &block)
+          end
         end
 
         # Makes proxied methods to be evaludated and returned as a proc
@@ -51,7 +55,11 @@ module Howitzer
           name = args.shift
           return get_outer_instance_variable(name) if name.to_s.start_with?('@')
 
-          outer_context.send(name, *args, **options, &block)
+          if options.present?
+            outer_context.send(name, *args, **options, &block)
+          else
+            outer_context.send(name, *args, &block)
+          end
         end
 
         def get_outer_instance_variable(name)
