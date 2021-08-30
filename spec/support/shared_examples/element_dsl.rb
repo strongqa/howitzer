@@ -76,7 +76,7 @@ RSpec.shared_examples :element_dsl do
       allow(Capybara).to receive(:current_session) { kontext }
       klass.class_eval do
         element :foo, :xpath,
-                ->(title, name) { "//a[.='#{title}']/*[@name='#{name}']" }, text: 'original', match: :first
+                ->(title, name) { "//a[.='#{title}']/*[@name='#{name}']" }, text: 'original', 'match' => :first
         element :complex_foo, :xpath,
                 ->(name, text:) { "//a[.='#{text}']/*[@name='#{name}']" }, text: 'original', match: :first
         element :bar, '.someclass', text: 'origin', match: :first
