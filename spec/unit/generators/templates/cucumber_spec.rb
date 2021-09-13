@@ -18,10 +18,14 @@ RSpec.describe Howitzer::BaseGenerator do
 
             AllCops:
               DisplayCopNames: true
-              TargetRubyVersion: 2.4
+              NewCops: enable
+              TargetRubyVersion: 3
 
             Layout/CaseIndentation:
               Enabled: false
+
+            Layout/LineLength:
+              Max: 120
 
             Lint/AmbiguousBlockAssociation:
               Enabled: false
@@ -31,9 +35,6 @@ RSpec.describe Howitzer::BaseGenerator do
 
             Metrics/BlockLength:
               Enabled: false
-
-            Metrics/LineLength:
-              Max: 120
 
             Metrics/ModuleLength:
               Max: 150

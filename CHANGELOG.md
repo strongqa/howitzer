@@ -8,6 +8,7 @@
 - Use latest version Rubocop
 - Stop capybara-webkit support
 - Stop poltergeist support
+- Integrate rubocop-rspec linter
 
 ### Bug-fixes
 

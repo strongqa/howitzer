@@ -1,12 +1,19 @@
 # See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
 # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+<% if rspec -%>
+require: rubocop-rspec
+<% end -%>
 
 AllCops:
   DisplayCopNames: true
-  TargetRubyVersion: 2.4
+  NewCops: enable
+  TargetRubyVersion: 3
 
 Layout/CaseIndentation:
   Enabled: false
+
+Layout/LineLength:
+  Max: 120
 <% if cucumber -%>
 
 Lint/AmbiguousBlockAssociation:
@@ -18,9 +25,6 @@ Lint/AmbiguousRegexpLiteral:
 
 Metrics/BlockLength:
   Enabled: false
-
-Metrics/LineLength:
-  Max: 120
 
 Metrics/ModuleLength:
   Max: 150
@@ -53,4 +57,15 @@ Style/SymbolProc:
 <% if turnip -%>
     - 'spec/steps/**/*.rb'
 <%- end -%>
+<% end -%>
+<% if rspec -%>
+
+RSpec/Capybara/FeatureMethods:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Max: 40
+
+RSpec/MultipleExpectations:
+  Max: 8
 <% end -%>

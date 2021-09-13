@@ -15,22 +15,24 @@ RSpec.describe Howitzer::BaseGenerator do
           res = <<~EXPECTED_CONTENT
             # See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
             # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+            require: rubocop-rspec
 
             AllCops:
               DisplayCopNames: true
-              TargetRubyVersion: 2.4
+              NewCops: enable
+              TargetRubyVersion: 3
 
             Layout/CaseIndentation:
               Enabled: false
+
+            Layout/LineLength:
+              Max: 120
 
             Lint/AmbiguousRegexpLiteral:
               Enabled: false
 
             Metrics/BlockLength:
               Enabled: false
-
-            Metrics/LineLength:
-              Max: 120
 
             Metrics/ModuleLength:
               Max: 150
@@ -46,6 +48,15 @@ RSpec.describe Howitzer::BaseGenerator do
 
             Style/FrozenStringLiteralComment:
               Enabled: false
+
+            RSpec/Capybara/FeatureMethods:
+              Enabled: false
+
+            RSpec/ExampleLength:
+              Max: 40
+
+            RSpec/MultipleExpectations:
+              Max: 8
           EXPECTED_CONTENT
           is_expected.to eq(res)
         end
@@ -66,6 +77,7 @@ RSpec.describe Howitzer::BaseGenerator do
             gem 'rest-client'
             gem 'rspec', '~>3.2'
             gem 'rubocop'
+            gem 'rubocop-rspec'
 
             # Uncomment it if you are going to use 'appium' driver. Appium and Android SDK should be installed.
             # See https://appium.io/docs/en/about-appium/getting-started/

@@ -15,7 +15,7 @@ RSpec.describe 'Generators' do
     let(:expected_result) do
       [
         { name: '/.gitignore', is_directory: false, size: 196 },
-        { name: '/.rubocop.yml', is_directory: false, size: 616 },
+        { name: '/.rubocop.yml', is_directory: false, size: 631 },
         { name: '/Gemfile', is_directory: false, size: 351 },
         { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') }
       ]
