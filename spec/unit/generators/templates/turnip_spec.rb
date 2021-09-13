@@ -15,6 +15,7 @@ RSpec.describe Howitzer::BaseGenerator do
           res = <<~EXPECTED_CONTENT
             # See full list of defaults here: https://github.com/bbatsov/rubocop/blob/master/config/default.yml
             # To see all cops used see here: https://github.com/bbatsov/rubocop/blob/master/config/enabled.yml
+            require: rubocop-rspec
 
             AllCops:
               DisplayCopNames: true
@@ -56,6 +57,15 @@ RSpec.describe Howitzer::BaseGenerator do
             Style/SymbolProc:
               Exclude:
                 - 'spec/steps/**/*.rb'
+
+            RSpec/Capybara/FeatureMethods:
+              Enabled: false
+
+            RSpec/ExampleLength:
+              Max: 40
+
+            RSpec/MultipleExpectations:
+              Max: 8
           EXPECTED_CONTENT
           is_expected.to eq(res)
         end
@@ -76,6 +86,7 @@ RSpec.describe Howitzer::BaseGenerator do
             gem 'rest-client'
             gem 'rspec', '~>3.2'
             gem 'rubocop'
+            gem 'rubocop-rspec'
             gem 'turnip'
 
             # Uncomment it if you are going to use 'appium' driver. Appium and Android SDK should be installed.

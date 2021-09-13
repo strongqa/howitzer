@@ -11,7 +11,7 @@ gem 'repeater'
 gem 'rest-client'
 <%= "gem 'rspec', '~>3.2'\n" if rspec || turnip -%>
 gem 'rubocop'
-<%= "gem 'rubocop-rspec'\n" if rspec -%>
+<%= "gem 'rubocop-rspec'\n" if rspec || turnip -%>
 <%= "gem 'turnip'\n" if turnip -%>
 <%= "gem 'syntax'\n" if cucumber -%>
 
