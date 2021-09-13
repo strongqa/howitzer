@@ -2,7 +2,7 @@
 
 ### New Features
 - Replace abandoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
-- Support Ruby 2.5+ only
+- Support Ruby 2.6.8+ only
 - Migrate to new Travis CI domain
 - Unlock Activesupport 6.x
 - Use latest version Rubocop

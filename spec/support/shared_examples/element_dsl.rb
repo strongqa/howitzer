@@ -81,6 +81,7 @@ RSpec.shared_examples :element_dsl do
                 ->(name, text:) { "//a[.='#{text}']/*[@name='#{name}']" }, text: 'original', match: :first
         element :bar, '.someclass', text: 'origin', match: :first
         element :top_panel, '.top', text: 'origin', match: :first
+        element :baz_link, :link, ->(title:) { title }
       end
     end
 
@@ -105,6 +106,14 @@ RSpec.shared_examples :element_dsl do
             expect(klass_object.capybara_context).to receive(:find)
               .with(:xpath, "//a[.='Hello']/*[@name='super']", wait: 10, text: 'new', match: :first)
           end
+        end
+        context 'with single lambda keyword argument' do
+          subject do
+            klass_object.instance_eval do
+              baz_link_element(lambda_args(title: 'MyLink'))
+            end
+          end
+          it { expect(klass_object.capybara_context).to receive(:find).with(:link, 'MyLink') }
         end
         context 'with new format of lambda arguments' do
           subject do

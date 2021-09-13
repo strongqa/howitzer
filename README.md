@@ -43,7 +43,7 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 
 ## Requirements
 * Supported OS: Mac OS X, Linux, Windows
-* [Ruby](https://www.ruby-lang.org/en/downloads/) 2.5+
+* [Ruby](https://www.ruby-lang.org/en/downloads/) 2.6.8+
 * [DevKit](https://github.com/oneclick/rubyinstaller/wiki/Development-Kit#installation-instructions) (For **Windows** only)
 * [ChromeDriver](https://sites.google.com/a/chromium.org/chromedriver/) (For **chrome** selenium browser, 2.29+ for headless mode)
 * [GeckoDriver](https://github.com/mozilla/geckodriver/releases) (For **firefox** selenium browser)

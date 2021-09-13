@@ -3,7 +3,7 @@ require 'spec_helper'
 RSpec.describe Howitzer::BaseGenerator do
   describe 'Template rendering' do
     context 'when turnip' do
-      subject { ERB.new(template, nil, '-').result(binding) }
+      subject { ERB.new(template, trim_mode: '-').result(binding) }
       let(:cucumber) { false }
       let(:rspec) { false }
       let(:turnip) { true }

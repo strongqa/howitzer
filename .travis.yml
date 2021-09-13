@@ -2,7 +2,6 @@ language: ruby
 before_install:
   - gem install bundler
 rvm:
-  - 2.5.9
   - 2.6.8
   - 2.7.4
   - 3.0.2
