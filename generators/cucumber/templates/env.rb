@@ -14,7 +14,7 @@ AfterConfiguration do |config|
   if Howitzer.test_order.present?
     order, seed = Howitzer.test_order.split(':')
     config.instance_variable_get(:@options)[:order] = order
-    config.instance_variable_get(:@options)[:seed] = seed
+    config.instance_variable_get(:@options)[:seed] ||= seed
   end
 end
 

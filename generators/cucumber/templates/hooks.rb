@@ -1,6 +1,12 @@
 Before do |scenario|
   Capybara.use_default_driver
-  Howitzer::Log.print_feature_name(scenario.feature.name)
+  feature_name = \
+    if Cucumber::VERSION.first.to_i > 3
+      File.read(scenario.location.file)[/Feature:\s(.+)/, 1]
+    else
+      scenario.feature.name
+    end
+  Howitzer::Log.print_feature_name(feature_name)
   Howitzer::Log.print_scenario_name(scenario.name)
   @session_start = CapybaraHelpers.duration(Time.now.utc - Howitzer::Cache.extract(:cloud, :start_time))
 end
