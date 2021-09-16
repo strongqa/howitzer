@@ -1,7 +1,7 @@
 Before do |scenario|
   Capybara.use_default_driver
   feature_name = \
-    if Cucumber::VERSION.first.to_i > 3
+    if Gem::Requirement.new('>3').satisfied_by?(Gem::Version.new(Cucumber::VERSION))
       File.read(scenario.location.file)[/Feature:\s(.+)/, 1]
     else
       scenario.feature.name
