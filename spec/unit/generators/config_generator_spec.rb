@@ -21,14 +21,14 @@ RSpec.describe 'Generators' do
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
         { name: '/config/drivers/appium.rb', is_directory: false, size: 723 },
-        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1018 },
-        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1237 },
+        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1019 },
+        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1238 },
         { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 651 },
         { name: '/config/drivers/headless_firefox.rb', is_directory: false, size: 1061 },
-        { name: '/config/drivers/sauce.rb', is_directory: false, size: 968 },
+        { name: '/config/drivers/sauce.rb', is_directory: false, size: 969 },
         { name: '/config/drivers/selenium.rb', is_directory: false, size: 1099 },
         { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1431 },
-        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 906 }
+        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 907 }
       ]
     end
 
