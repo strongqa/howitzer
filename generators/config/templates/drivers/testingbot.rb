@@ -15,7 +15,7 @@ Capybara.register_driver :testingbot do |app|
       caps[:firefox_profile] = profile
     end
   end
-  url = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.testingbot.com/wd/hub"
+  url = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.testingbot.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 

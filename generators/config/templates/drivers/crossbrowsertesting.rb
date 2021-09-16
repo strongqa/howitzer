@@ -19,7 +19,7 @@ Capybara.register_driver :crossbrowsertesting do |app|
       caps[:firefox_profile] = profile
     end
   end
-  url = "http://#{CGI.escape(Howitzer.cloud_auth_login)}:#{Howitzer.cloud_auth_pass}"\
+  url = "https://#{CGI.escape(Howitzer.cloud_auth_login)}:#{Howitzer.cloud_auth_pass}"\
         '@hub.crossbrowsertesting.com/wd/hub'
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
