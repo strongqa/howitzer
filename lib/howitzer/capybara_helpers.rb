@@ -219,7 +219,7 @@ module Howitzer
     end
 
     def update_sauce_job_status(json_data = {})
-      host = "http://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
+      host = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@saucelabs.com"
       path = "/rest/v1/#{Howitzer.cloud_auth_login}/jobs/#{session_id}"
       url = "#{host}#{path}"
       ::RestClient.put url, json_data.to_json, content_type: :json, accept: :json

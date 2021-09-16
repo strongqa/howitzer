@@ -587,7 +587,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
 
     it do
       expect(RestClient).to receive(:put).with(
-        'http://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
+        'https://vlad1:22222@saucelabs.com/rest/v1/vlad1/jobs/12341234',
         '{}',
         content_type: :json,
         accept: :json

@@ -16,7 +16,7 @@ Capybara.register_driver :sauce do |app|
       caps[:firefox_profile] = profile
     end
   end
-  url = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com:80/wd/hub"
+  url = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@ondemand.saucelabs.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
