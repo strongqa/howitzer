@@ -5,13 +5,13 @@ require 'howitzer/exceptions'
 # https://github.com/SeleniumHQ/selenium/issues/9001
 # Migration to Selenium Webdriver 4 is planned when it will be released without alfa, beta stages.
 if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) ||
-  Gem::Requirement.new(['>=3', '<4']).satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+   Gem::Requirement.new(['>=3', '<4']).satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
   module Selenium
     module WebDriver
       module Remote
-        class Bridge
+        class Bridge # rubocop:disable Style/Documentation
           class << self
-            alias_method :original_handshake, :handshake
+            alias original_handshake handshake
 
             def handshake(opts = {})
               original_handshake(**opts)
