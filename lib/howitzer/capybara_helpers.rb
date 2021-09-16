@@ -125,7 +125,7 @@ module Howitzer
         http_client: http_client,
         browser: :remote
       }
-      driver = Capybara::Selenium::Driver.new(app, options)
+      driver = Capybara::Selenium::Driver.new(app, **options)
       driver.browser.file_detector = remote_file_detector
       driver
     end

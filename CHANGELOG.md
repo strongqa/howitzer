@@ -9,6 +9,7 @@
 - Stop capybara-webkit support
 - Stop poltergeist support
 - Integrate rubocop-rspec linter
+- Support latest versions of Cucumber
 
 ### Bug-fixes
 
