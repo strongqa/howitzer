@@ -77,6 +77,8 @@ RSpec.describe Howitzer::BaseGenerator do
           res = <<~EXPECTED_CONTENT
             source 'https://rubygems.org'
 
+            ruby '>=2.6.8'
+
             gem 'capybara-screenshot'
             gem 'factory_bot'
             gem 'howitzer'

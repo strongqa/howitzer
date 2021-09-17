@@ -2,6 +2,7 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in howitzer.gemspec
 group :test do
   gem 'codecov', require: false
+  gem 'gmail', require: false
   # gem 'pry'
   # gem 'pry-byebug'
   gem 'repeater', require: false

@@ -1,15 +1,18 @@
 ## [In git](https://github.com/strongqa/howitzer/compare/v2.2.0...master)
 
 ### New Features
-- Replace abandoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
-- Support Ruby 2.6.8+ only
-- Migrate to new Travis CI domain
+
+- Support Ruby 3.0 (minimum version is 2.6.8)
 - Unlock Activesupport 6.x
+- Support latest versions of Cucumber
+- Integrate rubocop-rspec linter
 - Use latest version Rubocop
 - Stop capybara-webkit support
 - Stop poltergeist support
-- Integrate rubocop-rspec linter
-- Support latest versions of Cucumber
+- Stop Apium driver support
+- remove gmail gem from dependencies and add it only when it is really required
+- Migrate to new Travis CI domain
+- Replace abandoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
 
 ### Bug-fixes
 

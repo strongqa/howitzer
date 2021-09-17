@@ -65,6 +65,8 @@ RSpec.describe Howitzer::BaseGenerator do
           res = <<~EXPECTED_CONTENT
             source 'https://rubygems.org'
 
+            ruby '>=2.6.8'
+
             gem 'capybara-screenshot'
             gem 'cucumber', '>=3.0', '<7'
             gem 'cuke_sniffer', require: false

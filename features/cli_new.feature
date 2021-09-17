@@ -67,7 +67,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Added 'config/drivers/appium.rb' file
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
@@ -137,7 +136,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Added 'config/drivers/appium.rb' file
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
@@ -214,7 +212,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Added 'config/drivers/appium.rb' file
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
@@ -333,7 +330,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/custom.yml' file
           Added 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Added 'config/drivers/appium.rb' file
           Added 'config/drivers/browserstack.rb' file
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file

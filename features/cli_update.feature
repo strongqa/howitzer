@@ -13,7 +13,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Identical 'config/drivers/appium.rb' file
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
@@ -57,7 +56,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
-          Identical 'config/drivers/appium.rb' file
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
@@ -105,7 +103,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Added 'config/default.yml' file
-          Identical 'config/drivers/appium.rb' file
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file
@@ -154,7 +151,6 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'config/custom.yml' file
           Identical 'config/capybara.rb' file
           Identical 'config/default.yml' file
-          Identical 'config/drivers/appium.rb' file
           Identical 'config/drivers/browserstack.rb' file
           Identical 'config/drivers/crossbrowsertesting.rb' file
           Identical 'config/drivers/headless_chrome.rb' file

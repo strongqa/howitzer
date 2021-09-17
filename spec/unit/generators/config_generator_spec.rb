@@ -20,7 +20,6 @@ RSpec.describe 'Generators' do
         { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
-        { name: '/config/drivers/appium.rb', is_directory: false, size: 723 },
         { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1019 },
         { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1238 },
         { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 651 },
@@ -40,7 +39,6 @@ RSpec.describe 'Generators' do
       #{ColorizedString.new('Added').light_green} 'config/custom.yml' file
       #{ColorizedString.new('Added').light_green} 'config/capybara.rb' file
       #{ColorizedString.new('Added').light_green} 'config/default.yml' file
-      #{ColorizedString.new('Added').light_green} 'config/drivers/appium.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/browserstack.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/crossbrowsertesting.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/headless_chrome.rb' file

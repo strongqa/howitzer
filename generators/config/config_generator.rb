@@ -9,7 +9,6 @@ module Howitzer
           { source: 'custom.yml', destination: 'config/custom.yml' },
           { source: 'capybara.rb', destination: 'config/capybara.rb' },
           { source: 'default.yml', destination: 'config/default.yml' },
-          { source: 'drivers/appium.rb', destination: 'config/drivers/appium.rb' },
           { source: 'drivers/browserstack.rb', destination: 'config/drivers/browserstack.rb' },
           { source: 'drivers/crossbrowsertesting.rb', destination: 'config/drivers/crossbrowsertesting.rb' },
           { source: 'drivers/headless_chrome.rb', destination: 'config/drivers/headless_chrome.rb' },
