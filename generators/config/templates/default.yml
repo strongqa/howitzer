@@ -45,15 +45,6 @@
  # -Selenium Grid-
  selenium_hub_url: "http://example.com:4444/wd/hub"
 
- # -Appium- (https://appium.io/docs/en/writing-running-appium/caps/)
- appium_url: "http://localhost:80/wd/hub"
- appium_platform_name: "iOS"
- appium_platform_version: "10.0"
- appium_browser_name: "Safari"
- appium_device_name: "iPad Air 2 Simulator"
- appium_device_orientation: "portrait"
-
-
  rspec_wait_timeout: 10
 
 ###########################################################

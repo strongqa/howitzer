@@ -20,14 +20,22 @@ RSpec.describe 'Generators' do
         { name: '/config/custom.yml', is_directory: false, size: template_file_size('config', 'custom.yml') },
         { name: '/config/default.yml', is_directory: false, size: template_file_size('config', 'default.yml') },
         { name: '/config/drivers', is_directory: true },
-        { name: '/config/drivers/browserstack.rb', is_directory: false, size: 1019 },
-        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false, size: 1238 },
-        { name: '/config/drivers/headless_chrome.rb', is_directory: false, size: 651 },
-        { name: '/config/drivers/headless_firefox.rb', is_directory: false, size: 1061 },
-        { name: '/config/drivers/sauce.rb', is_directory: false, size: 966 },
-        { name: '/config/drivers/selenium.rb', is_directory: false, size: 1099 },
-        { name: '/config/drivers/selenium_grid.rb', is_directory: false, size: 1431 },
-        { name: '/config/drivers/testingbot.rb', is_directory: false, size: 907 }
+        { name: '/config/drivers/browserstack.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'browserstack.rb') },
+        { name: '/config/drivers/crossbrowsertesting.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'crossbrowsertesting.rb') },
+        { name: '/config/drivers/headless_chrome.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'headless_chrome.rb') },
+        { name: '/config/drivers/headless_firefox.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'headless_firefox.rb') },
+        { name: '/config/drivers/sauce.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'sauce.rb') },
+        { name: '/config/drivers/selenium.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'selenium.rb') },
+        { name: '/config/drivers/selenium_grid.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'selenium_grid.rb') },
+        { name: '/config/drivers/testingbot.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'testingbot.rb') }
       ]
     end
 

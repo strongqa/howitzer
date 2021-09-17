@@ -14,7 +14,7 @@ RSpec.describe 'Generators' do
     let(:generator_name) { described_class }
     let(:expected_result) do
       [
-        { name: '/.rspec', is_directory: false, size: 15 },
+        { name: '/.rspec', is_directory: false, size: template_file_size('turnip', '.rspec') },
         { name: '/spec', is_directory: true },
         { name: '/spec/acceptance', is_directory: true },
         {
