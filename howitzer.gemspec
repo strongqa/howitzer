@@ -8,14 +8,25 @@ Gem::Specification.new do |gem|
                       ' in the cloud.'
   gem.summary       = 'Ruby based framework for acceptance testing'
   gem.homepage      = 'https://howitzer-framework.io/'
+  gem.metadata = {
+    'bug_tracker_uri'   => 'https://github.com/strongqa/howitzer/issues',
+    'changelog_uri' => 'https://github.com/strongqa/howitzer/blob/master/CHANGELOG.md',
+    'documentation_uri' => "https://www.rubydoc.info/gems/howitzer/#{Howitzer::VERSION}",
+    'source_code_uri' => 'https://github.com/strongqa/howitzer'
+  }
   gem.license       = 'MIT'
-
-  gem.bindir        = 'bin'
-  gem.files         = `git ls-files`.split($OUTPUT_RECORD_SEPARATOR)
-  gem.executables   = gem.files.grep(%r{^bin/}).map { |f| File.basename(f) }
-  gem.test_files    = gem.files.grep(%r{^(test|spec|features)/})
+  gem.files          = Dir[
+    'CHANGELOG.md',
+    'CONTRIBUTING.md',
+    'README.md',
+    'LICENSE',
+    'generators/**/*',
+    'lib/**/*',
+    '.yardopts'
+  ]
+  gem.executables   = ['howitzer']
   gem.name          = 'howitzer'
-  gem.require_paths = ['lib']
+  gem.require_path  = 'lib'
   gem.version       = Howitzer::VERSION
   gem.required_ruby_version = '>= 2.6.8'
 

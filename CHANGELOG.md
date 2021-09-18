@@ -1,7 +1,12 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.2.0...master)
+## [In git](https://github.com/strongqa/howitzer/compare/v2.3.0...master)
 
 ### New Features
 
+### Bug-fixes
+
+## [v2.3.0](https://github.com/strongqa/howitzer/compare/v2.2.0...v2.3.0)
+
+### New Features
 - Support Ruby 3.0 (minimum version is 2.6.8)
 - Unlock Activesupport 6.x
 - Support latest versions of Cucumber
@@ -13,8 +18,6 @@
 - remove gmail gem from dependencies and add it only when it is really required
 - Migrate to new Travis CI domain
 - Replace abandoned Coveralls integration with Codecov [codecov.io](https://codecov.io/gh/strongqa/howitzer/)
-
-### Bug-fixes
 
 ## [v2.2.0](https://github.com/strongqa/howitzer/compare/v2.1.1...v2.2.0)
 
