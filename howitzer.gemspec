@@ -9,13 +9,13 @@ Gem::Specification.new do |gem|
   gem.summary       = 'Ruby based framework for acceptance testing'
   gem.homepage      = 'https://howitzer-framework.io/'
   gem.metadata = {
-    'bug_tracker_uri'   => 'https://github.com/strongqa/howitzer/issues',
+    'bug_tracker_uri' => 'https://github.com/strongqa/howitzer/issues',
     'changelog_uri' => 'https://github.com/strongqa/howitzer/blob/master/CHANGELOG.md',
     'documentation_uri' => "https://www.rubydoc.info/gems/howitzer/#{Howitzer::VERSION}",
     'source_code_uri' => 'https://github.com/strongqa/howitzer'
   }
-  gem.license       = 'MIT'
-  gem.files          = Dir[
+  gem.license = 'MIT'
+  gem.files = Dir[
     'CHANGELOG.md',
     'CONTRIBUTING.md',
     'README.md',
