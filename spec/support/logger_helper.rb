@@ -2,7 +2,7 @@ module Howitzer
   module LoggerHelper
     def read_file(file)
       path = File.expand_path(file, __FILE__)
-      IO.read(path)
+      File.read(path)
     end
 
     def clear_file(file)

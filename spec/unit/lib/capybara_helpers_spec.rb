@@ -601,7 +601,7 @@ RSpec.describe Howitzer::CapybaraHelpers do
     context 'when sauce driver' do
       before do
         allow(Howitzer).to receive(:driver) { 'sauce' }
-        expect(self).to receive(:update_sauce_job_status).with(status: true) { true }
+        expect(self).to receive(:update_sauce_job_status).with({ status: true }) { true }
       end
       it { is_expected.to eq(true) }
     end

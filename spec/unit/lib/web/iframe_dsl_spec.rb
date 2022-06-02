@@ -144,7 +144,7 @@ RSpec.describe Howitzer::Web::IframeDsl do
         before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
         it do
           expect(kontext).to receive(:within_frame)
-            .with(:xpath, './/foo', match: :first, wait: 10, text: 'new') { |&block| block.call }
+            .with(:xpath, './/foo', { match: :first, wait: 10, text: 'new' }) { |&block| block.call }
           expect(block).to receive(:call).with(fb_page_class.instance)
           expect(fb_page_class).to receive(:displayed?).with(no_args)
         end
@@ -156,23 +156,25 @@ RSpec.describe Howitzer::Web::IframeDsl do
         before { web_page_class.class_eval { iframe :fb, 1, match: :first, text: 'origin' } }
         it do
           expect(kontext).to receive(:has_selector?)
-            .with('iframe:nth-of-type(2)', match: :first, wait: 1, text: 'new')
+            .with('iframe:nth-of-type(2)', { match: :first, wait: 1, text: 'new' })
         end
       end
       context 'when first argument is string' do
         before { web_page_class.class_eval { iframe :fb, 'loko', match: :first, text: 'origin' } }
-        it { expect(kontext).to receive(:has_selector?).with(:frame, 'loko', match: :first, wait: 1, text: 'new') }
+        it { expect(kontext).to receive(:has_selector?).with(:frame, 'loko', { match: :first, wait: 1, text: 'new' }) }
       end
       context 'when first argument is hash' do
         before { web_page_class.class_eval { iframe :fb, name: 'loko', match: :first, text: 'origin' } }
         it do
           expect(kontext).to receive(:has_selector?)
-            .with(:frame, name: 'loko', match: :first, wait: 1, text: 'new')
+            .with(:frame, { name: 'loko', match: :first, wait: 1, text: 'new' })
         end
       end
       context 'when first argument is symbol' do
         before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
-        it { expect(kontext).to receive(:has_selector?).with(:xpath, './/foo', match: :first, wait: 1, text: 'new') }
+        it {
+          expect(kontext).to receive(:has_selector?).with(:xpath, './/foo', { match: :first, wait: 1, text: 'new' })
+        }
       end
     end
     describe '#has_no_name_iframe?' do
@@ -181,22 +183,27 @@ RSpec.describe Howitzer::Web::IframeDsl do
         before { web_page_class.class_eval { iframe :fb, 1, match: :first, text: 'origin' } }
         it do
           expect(kontext).to receive(:has_no_selector?)
-            .with('iframe:nth-of-type(2)', match: :first, wait: 1, text: 'new')
+            .with('iframe:nth-of-type(2)', { match: :first, wait: 1, text: 'new' })
         end
       end
       context 'when first argument is string' do
         before { web_page_class.class_eval { iframe :fb, 'loko', match: :first, text: 'origin' } }
-        it { expect(kontext).to receive(:has_no_selector?).with(:frame, 'loko', match: :first, wait: 1, text: 'new') }
+        it {
+          expect(kontext).to receive(:has_no_selector?).with(:frame, 'loko', { match: :first, wait: 1, text: 'new' })
+        }
       end
       context 'when first argument is hash' do
         before { web_page_class.class_eval { iframe :fb, name: 'loko', match: :first, text: 'origin' } }
         it do
-          expect(kontext).to receive(:has_no_selector?).with(:frame, name: 'loko', match: :first, wait: 1, text: 'new')
+          expect(kontext).to receive(:has_no_selector?).with(:frame,
+                                                             { name: 'loko', match: :first, wait: 1, text: 'new' })
         end
       end
       context 'when first argument is symbol' do
         before { web_page_class.class_eval { iframe :fb, :xpath, './/foo', match: :first, text: 'origin' } }
-        it { expect(kontext).to receive(:has_no_selector?).with(:xpath, './/foo', match: :first, wait: 1, text: 'new') }
+        it {
+          expect(kontext).to receive(:has_no_selector?).with(:xpath, './/foo', { match: :first, wait: 1, text: 'new' })
+        }
       end
     end
   end
