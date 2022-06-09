@@ -12,7 +12,8 @@ Gem::Specification.new do |gem|
     'bug_tracker_uri' => 'https://github.com/strongqa/howitzer/issues',
     'changelog_uri' => 'https://github.com/strongqa/howitzer/blob/master/CHANGELOG.md',
     'documentation_uri' => "https://www.rubydoc.info/gems/howitzer/#{Howitzer::VERSION}",
-    'source_code_uri' => 'https://github.com/strongqa/howitzer'
+    'source_code_uri' => 'https://github.com/strongqa/howitzer',
+    'rubygems_mfa_required' => 'true'
   }
   gem.license = 'MIT'
   gem.files = Dir[

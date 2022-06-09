@@ -3,6 +3,8 @@ source 'https://rubygems.org'
 group :test do
   gem 'codecov', require: false
   gem 'gmail', require: false
+  gem 'net-imap', require: false
+  gem 'net-smtp', require: false
   # gem 'pry'
   # gem 'pry-byebug'
   gem 'repeater', require: false

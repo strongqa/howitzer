@@ -118,10 +118,8 @@ module Howitzer
     end
 
     def write_template(dest_path, source_path)
-      File.open(dest_path, 'w+') do |f|
-        f.write(ERB.new(File.open(source_path, 'r').read, trim_mode: '-')
-         .result(OpenStruct.new(@options).instance_eval { binding }))
-      end
+      File.write(dest_path, ERB.new(File.read(source_path), trim_mode: '-')
+         .result(OpenStruct.new(@options).instance_eval { binding })) # rubocop:disable Style/OpenStructUse
     end
 
     private

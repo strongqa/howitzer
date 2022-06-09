@@ -14,8 +14,8 @@ module Howitzer
     def template_file_size(root_directory, *directories, file)
       path = File.join(generators_path, root_directory, 'templates', *directories, file)
       if file.end_with?('.erb')
-        ERB.new(File.open(path, 'r').read, trim_mode: '-')
-           .result(OpenStruct.new(@options).instance_eval { binding }).size
+        ERB.new(File.read(path), trim_mode: '-')
+           .result(OpenStruct.new(@options).instance_eval { binding }).size # rubocop:disable Style/OpenStructUse
       else
         File.size(path)
       end

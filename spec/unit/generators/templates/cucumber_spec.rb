@@ -7,7 +7,7 @@ RSpec.describe Howitzer::BaseGenerator do
       let(:cucumber) { true }
       let(:rspec) { false }
       let(:turnip) { false }
-      let(:template) { File.open(source_path, 'r').read }
+      let(:template) { File.read(source_path) }
 
       context '.rubocop.yml' do
         let(:source_path) { File.join('generators', 'root', 'templates', '.rubocop.yml.erb') }
