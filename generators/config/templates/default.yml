@@ -27,7 +27,8 @@
  test_order: defined
 
  # Specify one of the following drivers: selenium, selenium_grid, sauce,
- # testingbot, browserstack, crossbrowsertesting, headless_chrome, headless_firefox, appium
+ # testingbot, browserstack, crossbrowsertesting, lambdatest, headless_chrome,
+ # headless_firefox, appium
  driver: headless_chrome
 
  # -Selenium-
