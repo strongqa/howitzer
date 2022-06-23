@@ -17,6 +17,7 @@ module Howitzer
           { source: 'drivers/selenium.rb', destination: 'config/drivers/selenium.rb' },
           { source: 'drivers/selenium_grid.rb', destination: 'config/drivers/selenium_grid.rb' },
           { source: 'drivers/testingbot.rb', destination: 'config/drivers/testingbot.rb' }
+          { source: 'drivers/lambdatest.rb', destination: 'config/drivers/lambdatest.rb' }
         ] }
     end
 

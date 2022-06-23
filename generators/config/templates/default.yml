@@ -73,6 +73,12 @@
  cloud_bstack_build: 'v1'
  cloud_bstack_mobile_device:
 
+  # -LambdaTest (https://www.lambdatest.com/support/docs/selenium-automation-capabilities)
+ cloud_lambdatest_resolution: '1024x768'
+ cloud_lambdatest_project: 'Howitzer Example'
+ cloud_lambdatest_build: 'v1'
+ cloud_lambdatest_mobile_device:
+
  # -CrossBrowserTesting (https://app.crossbrowsertesting.com/selenium/run)
  cloud_cbt_name: 'Howitzer Example'
  cloud_cbt_build: '1.0'
