@@ -89,8 +89,8 @@ module Howitzer
           copy_templates_file_exist(data, destination_path, source_path)
         else
           write_template(destination_path, source_path)
-          puts_info "#{ColorizedString.new('Added').light_green} template '#{data[:source]}' with"\
-                    " params '#{@options}' to destination '#{data[:destination]}'"
+          puts_info "#{ColorizedString.new('Added').light_green} template '#{data[:source]}' with " \
+                    "params '#{@options}' to destination '#{data[:destination]}'"
         end
       end
     end

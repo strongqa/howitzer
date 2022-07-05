@@ -34,9 +34,9 @@ RSpec.describe 'Mailgun Email Adapter' do
     let(:mailgun_message) { JSON.generate(message) }
     let(:events) { JSON.generate('items' => [event]) }
     before do
-      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@api.mailgun.net/v3/'\
+      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@api.mailgun.net/v3/' \
                                  'mailgun@test.domain/events?event=stored', body: events.to_s)
-      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@si.api.mailgun.net/v3/'\
+      FakeWeb.register_uri(:any, 'https://api:mailgun_account_private_key@si.api.mailgun.net/v3/' \
                                  'domains/mg.strongqa.com/messages/1234567890', body: mailgun_message.to_s)
     end
     subject { Howitzer::MailAdapters::Mailgun.find(recipient, message_subject, wait: 0.01) }

@@ -11,8 +11,8 @@ HOWITZER_KNOWN_DRIVERS = %i[
 ].freeze
 
 unless HOWITZER_KNOWN_DRIVERS.include?(Howitzer.driver.to_s.to_sym)
-  raise Howitzer::UnknownDriverError, "Unknown '#{Howitzer.driver}' driver." \
-                                      " Check your settings, it should be one of #{HOWITZER_KNOWN_DRIVERS}"
+  raise Howitzer::UnknownDriverError, "Unknown '#{Howitzer.driver}' driver. " \
+                                      "Check your settings, it should be one of #{HOWITZER_KNOWN_DRIVERS}"
 end
 
 Capybara.configure do |config|
