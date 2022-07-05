@@ -639,22 +639,18 @@ RSpec.describe Howitzer::CapybaraHelpers do
     if Gem::Requirement.new(['>=3', '<4'])
                        .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
       it 'should return correct hash' do
-        is_expected.to eq(
-                         platform: 'Windows',
-                         browserName: 'Safari',
-                         version: '10.0',
-                         name: 'Suite Safari'
-                       )
+        is_expected.to eq(platform: 'Windows',
+                          browserName: 'Safari',
+                          version: '10.0',
+                          name: 'Suite Safari')
       end
     elsif Gem::Requirement.new(['>=4', '<5'])
                           .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
       it 'should return correct hash' do
-        is_expected.to eq(
-                         platformName: 'Windows',
-                         browserName: 'Safari',
-                         browserVersion: '10.0',
-                         name: 'Suite Safari'
-                       )
+        is_expected.to eq(platformName: 'Windows',
+                          browserName: 'Safari',
+                          browserVersion: '10.0',
+                          name: 'Suite Safari')
       end
     end
   end
