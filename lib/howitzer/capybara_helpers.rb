@@ -122,24 +122,12 @@ module Howitzer
     # @return [Hash] selenium capabilities required for a cloud driver
 
     def required_cloud_caps
-      if Gem::Requirement.new(['>=3', '<4'])
-                         .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
-        {
-          platform: Howitzer.cloud_platform,
-          browserName: Howitzer.cloud_browser_name,
-          version: Howitzer.cloud_browser_version,
-          name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
-        }
-
-      elsif Gem::Requirement.new('>=4')
-                            .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
-        {
-          platformName: Howitzer.cloud_platform,
-          browserName: Howitzer.cloud_browser_name,
-          browserVersion: Howitzer.cloud_browser_version,
-          name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
-        }
-      end
+      {
+        platform: Howitzer.cloud_platform,
+        browserName: Howitzer.cloud_browser_name,
+        version: Howitzer.cloud_browser_version,
+        name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
+      }
     end
 
     # Buids selenium driver for a cloud service
