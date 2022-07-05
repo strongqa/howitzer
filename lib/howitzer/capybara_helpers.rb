@@ -126,7 +126,7 @@ module Howitzer
                          .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
         {
           platform: Howitzer.cloud_platform,
-          browser_name: Howitzer.cloud_browser_name,
+          browserName: Howitzer.cloud_browser_name,
           version: Howitzer.cloud_browser_version,
           name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
         }
@@ -134,9 +134,9 @@ module Howitzer
       elsif Gem::Requirement.new('>=4')
                             .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
         {
-          platform_name: Howitzer.cloud_platform,
-          browser_name: Howitzer.cloud_browser_name,
-          browser_version: Howitzer.cloud_browser_version,
+          platformName: Howitzer.cloud_platform,
+          browserName: Howitzer.cloud_browser_name,
+          browserVersion: Howitzer.cloud_browser_version,
           name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
         }
       end
