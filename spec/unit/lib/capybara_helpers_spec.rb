@@ -628,24 +628,38 @@ RSpec.describe Howitzer::CapybaraHelpers do
     it { is_expected.to eql('test') }
   end
 
-  describe '.required_cloud_caps' do
-    subject { required_cloud_caps }
-    before do
-      allow(Howitzer).to receive(:cloud_platform) { 'Windows' }
-      allow(Howitzer).to receive(:cloud_browser_name) { 'Safari' }
-      allow(Howitzer).to receive(:cloud_browser_version) { '10.0' }
-      allow(self).to receive(:prefix_name) { 'Suite' }
-    end
-    if Gem::Requirement.new(['>=3', '<4'])
-                       .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+  if Gem::Requirement.new(['>=3', '<4'])
+                     .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+
+    describe '.required_cloud_caps' do
+      subject { required_cloud_caps }
+      before do
+        allow(Howitzer).to receive(:cloud_platform) { 'Windows' }
+        allow(Howitzer).to receive(:cloud_browser_name) { 'Safari' }
+        allow(Howitzer).to receive(:cloud_browser_version) { '10.0' }
+        allow(self).to receive(:prefix_name) { 'Suite' }
+      end
+
       it 'should return correct hash' do
         is_expected.to eq(platform: 'Windows',
                           browserName: 'Safari',
                           version: '10.0',
                           name: 'Suite Safari')
       end
-    elsif Gem::Requirement.new(['>=4', '<5'])
-                          .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+    end
+
+  elsif Gem::Requirement.new(['>=4', '<5'])
+                        .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+
+    describe '.required_cloud_caps' do
+      subject { required_cloud_caps }
+      before do
+        allow(Howitzer).to receive(:cloud_platform) { 'Windows' }
+        allow(Howitzer).to receive(:cloud_browser_name) { 'Safari' }
+        allow(Howitzer).to receive(:cloud_browser_version) { '10.0' }
+        allow(self).to receive(:prefix_name) { 'Suite' }
+      end
+
       it 'should return correct hash' do
         is_expected.to eq(platformName: 'Windows',
                           browserName: 'Safari',
