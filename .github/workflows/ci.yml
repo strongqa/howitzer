@@ -39,3 +39,9 @@ jobs:
         run: bundle exec rake spec
       - name: Run cucumber
         run: bundle exec rake cucumber
+      - name: Install Selenium 3 dependencies
+        run: bundle update selenium-webdriver
+        env:
+          HOWITZER_SELENIUM_VERSION: "< 4.0"
+      - name: Run spec for Selenium 3  
+        run: bundle exec rake spec
