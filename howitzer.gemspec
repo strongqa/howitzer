@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
     'LICENSE',
     'generators/**/*',
     'lib/**/*',
+    'root/**/*',
     '.yardopts'
   ]
   gem.executables   = ['howitzer']
