@@ -4,7 +4,7 @@ require 'howitzer/exceptions'
 # There is an issue with supporting Ruby 3 by Selenium Webdriver 3.x version
 # https://github.com/SeleniumHQ/selenium/issues/9001
 # Migration to Selenium Webdriver 4 is planned when it will be released without alfa, beta stages.
-# @codeCoverageIgnoreStart
+# @codeCoverageIgnore
 if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) &&
    Gem::Requirement.new(['>=3', '<4']).satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
   module Selenium
@@ -23,7 +23,6 @@ if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) &&
     end
   end
 end
-# @codeCoverageIgnoreEnd
 
 module Howitzer
   # This module holds capybara helpers methods
