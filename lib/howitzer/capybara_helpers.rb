@@ -137,8 +137,14 @@ module Howitzer
     def required_w3c_cloud_caps
       {
         browserName: Howitzer.cloud_browser_name,
-        browserVersion: Howitzer.cloud_browser_version,
+        browserVersion: Howitzer.cloud_browser_version
       }
+    end
+
+    # @return [Boolean] whether or not Selenium is W3C compatible.
+
+    def w3c_selenium?
+      Gem::Requirement.new('>=4').satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
     end
 
     # Buids selenium driver for a cloud service
@@ -151,14 +157,13 @@ module Howitzer
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
       http_client.read_timeout = Howitzer.cloud_http_idle_timeout
       http_client.open_timeout = Howitzer.cloud_http_idle_timeout
-      caps_label = Gem::Requirement.new('>=4').satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION)) ? 
-                   'capabilities' : 'desired_capabilities'
       options = {
         url: url,
         http_client: http_client,
         browser: :remote
       }
-      options[caps_label.to_sym] = ::Selenium::WebDriver::Remote::Capabilities.new(caps)
+      options[w3c_selenium? ? :capabilities : :desired_capabilities] =
+        ::Selenium::WebDriver::Remote::Capabilities.new(caps)
       driver = Capybara::Selenium::Driver.new(app, **options)
       driver.browser.file_detector = remote_file_detector
       driver
