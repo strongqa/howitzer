@@ -124,24 +124,21 @@ module Howitzer
     # @return [Hash] selenium capabilities required for a cloud driver
 
     def required_cloud_caps
-      if Gem::Requirement.new(['>=4', '<5'])
-                         .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
-        {
-          platformName: Howitzer.cloud_platform,
-          browserName: Howitzer.cloud_browser_name,
-          browserVersion: Howitzer.cloud_browser_version,
-          name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
-        }
+      {
+        platform: Howitzer.cloud_platform,
+        browserName: Howitzer.cloud_browser_name,
+        version: Howitzer.cloud_browser_version,
+        name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
+      }
+    end
 
-      elsif Gem::Requirement.new(['>=3', '<4'])
-                            .satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
-        {
-          platform: Howitzer.cloud_platform,
-          browserName: Howitzer.cloud_browser_name,
-          version: Howitzer.cloud_browser_version,
-          name: "#{prefix_name} #{Howitzer.cloud_browser_name}"
-        }
-      end
+    # @return [Hash] selenium W3C capabilities required for a cloud driver
+
+    def required_w3c_cloud_caps
+      {
+        browserName: Howitzer.cloud_browser_name,
+        browserVersion: Howitzer.cloud_browser_version,
+      }
     end
 
     # Buids selenium driver for a cloud service
@@ -154,13 +151,14 @@ module Howitzer
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
       http_client.read_timeout = Howitzer.cloud_http_idle_timeout
       http_client.open_timeout = Howitzer.cloud_http_idle_timeout
-
+      caps_label = Gem::Requirement.new('>=4').satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION)) ? 
+                   'capabilities' : 'desired_capabilities'
       options = {
         url: url,
-        desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),
         http_client: http_client,
         browser: :remote
       }
+      options[caps_label.to_sym] = ::Selenium::WebDriver::Remote::Capabilities.new(caps)
       driver = Capybara::Selenium::Driver.new(app, **options)
       driver.browser.file_detector = remote_file_detector
       driver
