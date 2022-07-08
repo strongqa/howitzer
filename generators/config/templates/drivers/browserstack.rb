@@ -1,20 +1,41 @@
 Capybara.register_driver :browserstack do |app|
-  caps = CapybaraHelpers.required_cloud_caps.merge(
-    project: Howitzer.cloud_bstack_project,
-    build: Howitzer.cloud_bstack_build
-  )
-  caps[:resolution] = Howitzer.cloud_bstack_resolution if Howitzer.cloud_bstack_resolution.present?
-  caps[:device] = Howitzer.cloud_bstack_mobile_device if Howitzer.cloud_bstack_mobile_device.present?
-  if Howitzer.user_agent.present?
-    if CapybaraHelpers.chrome_browser?
-      caps['chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
-    elsif CapybaraHelpers.ff_browser?
-      profile = Selenium::WebDriver::Firefox::Profile.new
-      profile['general.useragent.override'] = Howitzer.user_agent
-      caps[:firefox_profile] = profile
+  url = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.browserstack.com/wd/hub"
+  if CapybaraHelpers.w3c_selenium?
+    caps = CapybaraHelpers.required_w3c_cloud_caps
+    bstack_options = {
+      sessionName: "#{(Howitzer.current_rake_task || 'ALL').upcase} #{Howitzer.cloud_browser_name}",
+      projectName: Howitzer.cloud_bstack_project,
+      buildName: Howitzer.cloud_bstack_build
+    }
+    bstack_options['resolution'] = Howitzer.cloud_bstack_resolution if Howitzer.cloud_bstack_resolution.present?
+    bstack_options['os'] = Howitzer.cloud_bstack_os if Howitzer.cloud_bstack_os.present?
+    caps['bstack:options'] = bstack_options
+    if Howitzer.user_agent.present?
+      if CapybaraHelpers.chrome_browser?
+        caps['goog:chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
+      elsif CapybaraHelpers.ff_browser?
+        profile = Selenium::WebDriver::Firefox::Profile.new
+        profile['general.useragent.override'] = Howitzer.user_agent
+        caps['moz:firefoxOptions'] = { profile: profile.as_json['zip'] }
+      end
+    end
+  else
+    caps = CapybaraHelpers.required_cloud_caps.merge(
+      project: Howitzer.cloud_bstack_project,
+      build: Howitzer.cloud_bstack_build
+    )
+    caps['resolution'] = Howitzer.cloud_bstack_resolution if Howitzer.cloud_bstack_resolution.present?
+    caps['os'] = Howitzer.cloud_bstack_os if Howitzer.cloud_bstack_os.present?
+    if Howitzer.user_agent.present?
+      if CapybaraHelpers.chrome_browser?
+        caps['chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
+      elsif CapybaraHelpers.ff_browser?
+        profile = Selenium::WebDriver::Firefox::Profile.new
+        profile['general.useragent.override'] = Howitzer.user_agent
+        caps[:firefox_profile] = profile
+      end
     end
   end
-  url = "https://#{Howitzer.cloud_auth_login}:#{Howitzer.cloud_auth_pass}@hub.browserstack.com/wd/hub"
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 
