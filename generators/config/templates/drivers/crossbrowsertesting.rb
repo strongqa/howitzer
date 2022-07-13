@@ -1,15 +1,15 @@
 # :crossbrowsertesting driver
 
 Capybara.register_driver :crossbrowsertesting do |app|
-  url = "https://#{CGI.escape(Howitzer.cloud_auth_login)}:#{Howitzer.cloud_auth_pass}" \
-        '@hub.crossbrowsertesting.com/wd/hub'
-  caps = CapybaraHelpers.required_cloud_caps.merge(
-    build: Howitzer.cloud_cbt_build,
-    screenResolution: Howitzer.cloud_cbt_screen_resolution,
-    record_video: Howitzer.cloud_cbt_record_video,
-    record_network: Howitzer.cloud_cbt_record_network,
-    max_duration: Howitzer.cloud_max_duration
-  )
+  caps = {}
+  caps['name'] = Howitzer.cloud_cbt_name
+  caps['build'] = Howitzer.cloud_cbt_build
+  caps['browser_api_name'] = Howitzer.cloud_browser_name + Howitzer.cloud_browser_version.to_s
+  caps['os_api_name'] = Howitzer.cloud_cbt_os_api_name
+  caps['screen_resolution'] = Howitzer.cloud_cbt_screen_resolution
+  caps['record_video'] = Howitzer.cloud_cbt_record_video
+  caps['record_network'] = Howitzer.cloud_cbt_record_network
+  caps['max_duration'] = Howitzer.cloud_max_duration
   if Howitzer.user_agent.present?
     if CapybaraHelpers.chrome_browser?
       caps['chromeOptions'] = { 'args' => ["--user-agent=#{Howitzer.user_agent}"] }
@@ -19,6 +19,8 @@ Capybara.register_driver :crossbrowsertesting do |app|
       caps[:firefox_profile] = profile
     end
   end
+  url = "https://#{CGI.escape(Howitzer.cloud_auth_login)}:#{Howitzer.cloud_auth_pass}" \
+        '@hub.crossbrowsertesting.com/wd/hub'
   CapybaraHelpers.cloud_driver(app, caps, url)
 end
 

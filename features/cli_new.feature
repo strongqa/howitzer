@@ -71,7 +71,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
           Added 'config/drivers/headless_firefox.rb' file
-          Added 'config/drivers/lambdatest.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
@@ -141,7 +140,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
           Added 'config/drivers/headless_firefox.rb' file
-          Added 'config/drivers/lambdatest.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
@@ -218,7 +216,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
           Added 'config/drivers/headless_firefox.rb' file
-          Added 'config/drivers/lambdatest.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file
@@ -337,7 +334,6 @@ Feature: Howitzer CLI New Project Creation
           Added 'config/drivers/crossbrowsertesting.rb' file
           Added 'config/drivers/headless_chrome.rb' file
           Added 'config/drivers/headless_firefox.rb' file
-          Added 'config/drivers/lambdatest.rb' file
           Added 'config/drivers/sauce.rb' file
           Added 'config/drivers/selenium.rb' file
           Added 'config/drivers/selenium_grid.rb' file

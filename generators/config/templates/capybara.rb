@@ -6,7 +6,6 @@ HOWITZER_KNOWN_DRIVERS = %i[
   testingbot
   browserstack
   crossbrowsertesting
-  lambdatest
   headless_chrome
   headless_firefox
 ].freeze
