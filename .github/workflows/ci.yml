@@ -21,7 +21,12 @@ jobs:
           - 2.7.6
           - 3.0.4
           - 3.1.2
+        gemfile:
+          - Gemfile
+          - Gemfile.selenium3
 
+    env:
+      BUNDLE_GEMFILE=${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby ${{ matrix.ruby-version }}
@@ -39,9 +44,3 @@ jobs:
         run: bundle exec rake spec
       - name: Run cucumber
         run: bundle exec rake cucumber
-      - name: Install Selenium 3 dependencies
-        run: bundle update selenium-webdriver
-        env:
-          HOWITZER_SELENIUM_VERSION: "< 4.0"
-      - name: Run spec for Selenium 3  
-        run: bundle exec rake spec
