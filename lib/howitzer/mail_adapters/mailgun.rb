@@ -89,7 +89,7 @@ module Howitzer
 
       def self.event_by(recipient, subject)
         events.to_h['items'].find do |hash|
-          hash['message']['recipients'].first == recipient && hash['message']['headers']['subject'] == subject
+          hash['message']['recipients'].first == recipient && /#{subject}/.match?(hash['message']['headers']['subject'])
         end
       end
       private_class_method :event_by
