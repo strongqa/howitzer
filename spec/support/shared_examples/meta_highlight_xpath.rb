@@ -31,8 +31,8 @@ RSpec.shared_examples :meta_highlight_xpath do
       before { allow(element).to receive(:xpath) { '//a' } }
       it do
         expect(context).to receive(:execute_script).with(
-          "document.evaluate('//a', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE,"\
-          ' null).singleNodeValue.style.border = "thick solid red"'
+          "document.evaluate('//a', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, " \
+          'null).singleNodeValue.style.border = "thick solid red"'
         )
         element.highlight
       end

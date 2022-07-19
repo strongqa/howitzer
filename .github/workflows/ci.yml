@@ -21,7 +21,12 @@ jobs:
           - 2.7.6
           - 3.0.4
           - 3.1.2
+        gemfile:
+          - Gemfile
+          - Gemfile.selenium3
 
+    env:
+      BUNDLE_GEMFILE: ${{ matrix.gemfile }}
     steps:
       - uses: actions/checkout@v3
       - name: Set up Ruby ${{ matrix.ruby-version }}

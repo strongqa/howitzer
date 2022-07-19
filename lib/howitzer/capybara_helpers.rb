@@ -4,7 +4,8 @@ require 'howitzer/exceptions'
 # There is an issue with supporting Ruby 3 by Selenium Webdriver 3.x version
 # https://github.com/SeleniumHQ/selenium/issues/9001
 # Migration to Selenium Webdriver 4 is planned when it will be released without alfa, beta stages.
-if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) ||
+# :nocov:
+if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) &&
    Gem::Requirement.new(['>=3', '<4']).satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
   module Selenium
     module WebDriver
@@ -22,6 +23,7 @@ if Gem::Requirement.new('>=3').satisfied_by?(Gem::Version.new(RUBY_VERSION)) ||
     end
   end
 end
+# :nocov:
 
 module Howitzer
   # This module holds capybara helpers methods
@@ -130,6 +132,21 @@ module Howitzer
       }
     end
 
+    # @return [Hash] selenium W3C capabilities required for a cloud driver
+
+    def required_w3c_cloud_caps
+      {
+        browserName: Howitzer.cloud_browser_name,
+        browserVersion: Howitzer.cloud_browser_version
+      }
+    end
+
+    # @return [Boolean] whether or not Selenium is W3C compatible.
+
+    def w3c_selenium?
+      Gem::Requirement.new('>=4').satisfied_by?(Gem::Version.new(Selenium::WebDriver::VERSION))
+    end
+
     # Buids selenium driver for a cloud service
     # @param app [<Rack>] a rack application that this server will contain
     # @param caps [Hash] remote capabilities
@@ -140,13 +157,13 @@ module Howitzer
       http_client = ::Selenium::WebDriver::Remote::Http::Default.new
       http_client.read_timeout = Howitzer.cloud_http_idle_timeout
       http_client.open_timeout = Howitzer.cloud_http_idle_timeout
-
       options = {
         url: url,
-        desired_capabilities: ::Selenium::WebDriver::Remote::Capabilities.new(caps),
         http_client: http_client,
         browser: :remote
       }
+      options[w3c_selenium? ? :capabilities : :desired_capabilities] =
+        ::Selenium::WebDriver::Remote::Capabilities.new(caps)
       driver = Capybara::Selenium::Driver.new(app, **options)
       driver.browser.file_detector = remote_file_detector
       driver

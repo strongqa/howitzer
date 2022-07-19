@@ -636,13 +636,25 @@ RSpec.describe Howitzer::CapybaraHelpers do
       allow(Howitzer).to receive(:cloud_browser_version) { '10.0' }
       allow(self).to receive(:prefix_name) { 'Suite' }
     end
+
     it 'should return correct hash' do
-      is_expected.to eq(
-        platform: 'Windows',
-        browserName: 'Safari',
-        version: '10.0',
-        name: 'Suite Safari'
-      )
+      is_expected.to eq(platform: 'Windows',
+                        browserName: 'Safari',
+                        version: '10.0',
+                        name: 'Suite Safari')
+    end
+  end
+
+  describe '.required_w3c_cloud_caps' do
+    subject { required_w3c_cloud_caps }
+    before do
+      allow(Howitzer).to receive(:cloud_browser_name) { 'Safari' }
+      allow(Howitzer).to receive(:cloud_browser_version) { '10.0' }
+    end
+
+    it 'should return correct hash' do
+      is_expected.to eq(browserName: 'Safari',
+                        browserVersion: '10.0')
     end
   end
 

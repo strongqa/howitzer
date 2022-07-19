@@ -37,7 +37,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
     subject { mg_obj.get('test.com/bounces', params: query_string) }
     context 'when simulation of client' do
       before do
-        FakeWeb.register_uri(:get, 'https://api:Fake-API-Key@api.mailgun.net/v3/test.com/'\
+        FakeWeb.register_uri(:get, 'https://api:Fake-API-Key@api.mailgun.net/v3/test.com/' \
                                    'bounces?skip=10&limit=5', body: bounce_msg.to_s)
       end
       it do
@@ -61,7 +61,7 @@ RSpec.describe Howitzer::MailgunApi::Client do
   describe '#get_url' do
     let(:response_raw) { double }
     before do
-      FakeWeb.register_uri(:any, 'https://api:Fake-API-Key@ci.api.mailgan.com/'\
+      FakeWeb.register_uri(:any, 'https://api:Fake-API-Key@ci.api.mailgan.com/' \
                                  'domains/test_domain/messages/asdfasdf', body: JSON.generate(message))
     end
     subject { mg_obj.get_url('https://ci.api.mailgan.com/domains/test_domain/messages/asdfasdf') }

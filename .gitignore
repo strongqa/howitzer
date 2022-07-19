@@ -5,6 +5,7 @@ coverage
 vendor/bundle/*
 spec/log/*
 Gemfile.lock
+Gemfile.selenium3.lock
 doc
 .yardoc
 tmp/*
