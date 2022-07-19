@@ -3,9 +3,9 @@ require File.expand_path('lib/howitzer/version', __dir__)
 Gem::Specification.new do |gem|
   gem.author        = 'Roman Parashchenko'
   gem.email         = 'howitzer@strongqa.com'
-  gem.description   = 'Howitzer uses the best practices and design patterns allowing to generate a test project in' \
-                      ' less than 5 minutes. It has out-of-the-box configurations for parallel cross-browser testing' \
-                      ' in the cloud.'
+  gem.description   = 'Howitzer uses the best practices and design patterns allowing to generate a test project in ' \
+                      'less than 5 minutes. It has out-of-the-box configurations for parallel cross-browser testing ' \
+                      'in the cloud.'
   gem.summary       = 'Ruby based framework for acceptance testing'
   gem.homepage      = 'https://howitzer-framework.io/'
   gem.metadata = {
@@ -23,6 +23,7 @@ Gem::Specification.new do |gem|
     'LICENSE',
     'generators/**/*',
     'lib/**/*',
+    'root/**/*',
     '.yardopts'
   ]
   gem.executables   = ['howitzer']
@@ -41,7 +42,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rake'
   gem.add_runtime_dependency 'rspec', '~>3.2'
   gem.add_runtime_dependency 'rspec-wait'
-  gem.add_runtime_dependency 'selenium-webdriver', ['>= 3.4.1', '< 4.0']
+  gem.add_runtime_dependency 'selenium-webdriver', '>= 3.4.1'
   gem.add_runtime_dependency 'sexy_settings'
 
   gem.add_development_dependency('aruba')

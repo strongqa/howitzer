@@ -217,8 +217,8 @@ RSpec.describe Howitzer::BaseGenerator do
       context 'when identical with source file' do
         before { allow(FileUtils).to receive(:identical?).with(src, dst) { true } }
         it do
-          expect(generator).to receive(:puts_info).with("#{ColorizedString.new('Identical').light_green}"\
-                                                        " 'd.txt' file").once
+          expect(generator).to receive(:puts_info).with("#{ColorizedString.new('Identical').light_green} " \
+                                                        "'d.txt' file").once
         end
       end
       context 'when not identical with source file' do
@@ -231,31 +231,31 @@ RSpec.describe Howitzer::BaseGenerator do
           before { allow(generator).to receive(:gets) { 'Y' } }
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
-            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green}"\
-                                                          " 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green} " \
+                                                          "'d.txt' file")
           end
         end
         context 'when user typed y' do
           before { allow(generator).to receive(:gets) { 'y' } }
           it do
             expect(FileUtils).to receive(:cp).with(src, dst) { nil }.once
-            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green}"\
-                                                          " 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Forced').light_green} " \
+                                                          "'d.txt' file")
           end
         end
         context 'when user typed N' do
           before { allow(generator).to receive(:gets) { 'N' } }
           it do
-            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black}"\
-                                                          " 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black} " \
+                                                          "'d.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end
         context 'when user typed n' do
           before { allow(generator).to receive(:gets) { 'n' } }
           it do
-            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black}"\
-                                                          " 'd.txt' file")
+            expect(generator).to receive(:puts_info).with("    #{ColorizedString.new('Skipped').light_black} " \
+                                                          "'d.txt' file")
             expect(FileUtils).not_to receive(:cp)
           end
         end
