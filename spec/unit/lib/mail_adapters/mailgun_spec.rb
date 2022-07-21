@@ -23,6 +23,7 @@ RSpec.describe 'Mailgun Email Adapter' do
     }
   end
   let(:message_subject) { 'test subject' }
+  let(:message_subject_regexp) { /test.+/ }
   let(:mail_address) { double }
   let(:email_object) { Howitzer::Email.adapter.new(message) }
 
@@ -59,6 +60,27 @@ RSpec.describe 'Mailgun Email Adapter' do
       it do
         expect(Howitzer::Email.adapter).to receive(:new).with(message).once
         subject
+      end
+    end
+
+    context 'when subject is Regexp' do
+      let(:event) do
+        {
+          'message' => {
+            'recipients' => [recipient],
+            'headers' => {
+              'subject' => message_subject
+            }
+          },
+          'storage' => {
+            'key' => '1234567890',
+            'url' => 'https://si.api.mailgun.net/v3/domains/mg.strongqa.com/messages/1234567890'
+          }
+        }
+      end
+      it do
+        expect(Howitzer::Email.adapter).to receive(:new).with(message).once
+        subject { Howitzer::MailAdapters::Mailgun.find(recipient, message_subject_regexp, wait: 0.01) }
       end
     end
 
