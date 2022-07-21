@@ -80,10 +80,6 @@ RSpec.describe Howitzer::BaseGenerator do
             gem 'rspec', '~>3.2'
             gem 'rubocop'
             gem 'rubocop-rspec'
-
-            # Uncomment it if you are going to use 'appium' driver. Appium and Android SDK should be installed.
-            # See https://appium.io/docs/en/about-appium/getting-started/
-            # gem 'appium_capybara'
           EXPECTED_CONTENT
           is_expected.to eq(res)
         end
