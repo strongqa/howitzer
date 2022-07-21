@@ -28,6 +28,8 @@ RSpec.describe 'Generators' do
           size: template_file_size('config', 'drivers', 'headless_chrome.rb') },
         { name: '/config/drivers/headless_firefox.rb', is_directory: false,
           size: template_file_size('config', 'drivers', 'headless_firefox.rb') },
+        { name: '/config/drivers/lambdatest.rb', is_directory: false,
+          size: template_file_size('config', 'drivers', 'lambdatest.rb') },
         { name: '/config/drivers/sauce.rb', is_directory: false,
           size: template_file_size('config', 'drivers', 'sauce.rb') },
         { name: '/config/drivers/selenium.rb', is_directory: false,
@@ -51,6 +53,7 @@ RSpec.describe 'Generators' do
       #{ColorizedString.new('Added').light_green} 'config/drivers/crossbrowsertesting.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/headless_chrome.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/headless_firefox.rb' file
+      #{ColorizedString.new('Added').light_green} 'config/drivers/lambdatest.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/sauce.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/selenium.rb' file
       #{ColorizedString.new('Added').light_green} 'config/drivers/selenium_grid.rb' file
