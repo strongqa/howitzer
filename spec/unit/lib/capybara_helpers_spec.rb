@@ -723,21 +723,4 @@ RSpec.describe Howitzer::CapybaraHelpers do
       it { is_expected.to eq('ALL') }
     end
   end
-
-  describe '.load_driver_gem!' do
-    subject { load_driver_gem!(:apium, 'appium_capybara', 'appium_capybara') }
-    context 'when possible to require' do
-      before { allow(self).to receive(:require).with('appium_capybara') { true } }
-      it { expect { subject }.not_to raise_error }
-    end
-    context 'when impossible to require' do
-      it do
-        expect { subject }.to raise_error(
-          LoadError,
-          '`:apium` driver is unable to load `appium_capybara`, ' \
-          "please add `gem 'appium_capybara'` to your Gemfile."
-        )
-      end
-    end
-  end
 end

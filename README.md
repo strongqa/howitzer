@@ -50,7 +50,6 @@ You can also find the Rdoc documentation on [Rubygems](https://rubygems.org/gems
 * [SafariDriver](https://webkit.org/blog/6900/webdriver-support-in-safari-10/) (For **safari** selenium browser)
 * [Chrome](https://www.google.com/chrome/browser/desktop/index.html) v.59+ (For **headless chrome** support)
 * [Firefox](https://www.mozilla.org/en-US/firefox/new/) v.56+ (For **headless firefox** support)
-* [Android SDK](https://developer.android.com/studio) and [Appium](https://appium.io/docs/en/about-appium/getting-started) (For Appium driver)
 ## Setup
 To install, type
 

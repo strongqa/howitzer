@@ -108,19 +108,6 @@ module Howitzer
       end
     end
 
-    # Tries to load appropriate driver gem
-    # @param driver [String] a driver name
-    # @param lib [String] what is required to load
-    # @param gem [String] a gem name
-    # @raise [LoadError] if the gem is missing in a bunder context
-
-    def load_driver_gem!(driver, lib, gem)
-      require lib
-    rescue LoadError
-      raise LoadError,
-            "`:#{driver}` driver is unable to load `#{lib}`, please add `gem '#{gem}'` to your Gemfile."
-    end
-
     # @return [Hash] selenium capabilities required for a cloud driver
 
     def required_cloud_caps
