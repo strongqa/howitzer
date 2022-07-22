@@ -4,6 +4,20 @@
 
 ### Bug-fixes
 
+## [2.4.0](https://github.com/strongqa/howitzer/compare/v2.3.0...v2.4.0) (2022-07-22)
+
+
+### Features
+
+* LambdaTest support ([#305](https://github.com/strongqa/howitzer/issues/305)) ([eca5b8a](https://github.com/strongqa/howitzer/commit/eca5b8a6e4e30c4b9a7640ee999c061cd8e71e09))
+* RegExp email subject matcher for Mailgun  ([#304](https://github.com/strongqa/howitzer/issues/304)) ([598c9a2](https://github.com/strongqa/howitzer/commit/598c9a27b5dd8047c212ad050f86b78fa72d326d))
+* Selenium 4 support ([#303](https://github.com/strongqa/howitzer/issues/303)) ([c5bf2d8](https://github.com/strongqa/howitzer/commit/c5bf2d8426e36f97b9fa109a783803c7b1bb538d))
+
+
+### Continuous Integration
+
+* release-please integration ([#307](https://github.com/strongqa/howitzer/issues/307)) ([bd2f53e](https://github.com/strongqa/howitzer/commit/bd2f53e75c9ef283daadf8f9063d827c4f885a77))
+
 ## [v2.3.0](https://github.com/strongqa/howitzer/compare/v2.2.0...v2.3.0)
 
 ### New Features
