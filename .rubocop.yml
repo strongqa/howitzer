@@ -6,6 +6,9 @@ AllCops:
   NewCops: enable
   DisplayCopNames: true
 
+Gemspec/RequireMFA:
+  Enabled: false
+
 Layout/CaseIndentation:
   Enabled: false
 
