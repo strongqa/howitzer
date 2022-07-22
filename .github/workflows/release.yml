@@ -18,7 +18,9 @@ jobs:
           bump-patch-for-minor-pre-major: true
           version-file: "lib/howitzer/version.rb"
           extra-files: '.deploy/Chart.yaml'
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
         if: ${{ steps.release.outputs.release_created }}
       - uses: ruby/setup-ruby@v1
         with:
