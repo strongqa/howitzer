@@ -26,8 +26,9 @@ RSpec.describe 'Mailtrap Email Adapter' do
       'from_name' => '',
       'to_email' => 'test@mail.com',
       'to_name' => '',
-      'html_body' => '<p> Test Email! </p>',
-      'text_body' => 'Test Email!',
+      'html_path' => '/api/v1/inboxes/777777/messages/475265146/body.html',
+      'txt_path' => '/api/v1/inboxes/777777/messages/475265146/body.txt',
+      'raw_path' => '/api/v1/inboxes/777777/messages/475265146/body.raw',
       'created_at' => '2017-07-18T14:14:31.641Z'
     }
   end
@@ -63,15 +64,15 @@ RSpec.describe 'Mailtrap Email Adapter' do
   end
 
   describe '#plain_text_body' do
-    it { expect(email_object.plain_text_body).to eql message['text_body'] }
+    it { expect(email_object.plain_text_body).to eql message['txt_path'] }
   end
 
   describe '#html_body' do
-    it { expect(email_object.html_body).to eql message['html_body'] }
+    it { expect(email_object.html_body).to eql message['html_path'] }
   end
 
   describe '#text' do
-    it { expect(email_object.text).to eql message['text_body'] }
+    it { expect(email_object.text).to eql message['raw_path'] }
   end
 
   describe '#mail_from' do

@@ -24,19 +24,19 @@ module Howitzer
       # @return [String] plain text body of the email message
 
       def plain_text_body
-        message['text_body']
+        message['txt_path']
       end
 
       # @return [String] html body of the email message
 
       def html_body
-        message['html_body']
+        message['html_path']
       end
 
       # @return [String] stripped text
 
       def text
-        message['text_body']
+        message['raw_path']
       end
 
       # @return [String] an email address specified in `From` field
