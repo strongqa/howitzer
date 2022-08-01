@@ -13,9 +13,14 @@ RSpec.describe 'Mailtrap Email Adapter' do
     FakeWeb.register_uri(:get, "#{base_url}/475265146/attachments", body: attachment.to_s)
     FakeWeb.register_uri(:get, "#{base_url}/32/attachments", body: '[]')
     FakeWeb.register_uri(:get, "#{base_url}?search=#{recipient}", body: "[#{message.to_s.gsub('=>', ':')}]")
+    FakeWeb.register_uri(:get, "#{base_url}/475265146/body.html", body: '<p> Test Email! </p>')
+    FakeWeb.register_uri(:get, "#{base_url}/475265146/body.txt", body: 'Test Email!')
+    FakeWeb.register_uri(:get, "#{base_url}/475265146/body.raw", body: '<p> Test Email! </p>')
   end
   let(:recipient) { 'test@mail.com' }
   let(:mail_subject) { 'Confirmation instructions' }
+  let(:message_html) { '<p> Test Email! </p>' }
+  let(:message_txt) { 'Test Email!' }
   let(:message) do
     {
       'id' => 475_265_146,
@@ -64,15 +69,15 @@ RSpec.describe 'Mailtrap Email Adapter' do
   end
 
   describe '#plain_text_body' do
-    it { expect(email_object.plain_text_body).to eql message['txt_path'] }
+    it { expect(email_object.plain_text_body).to eql message_txt }
   end
 
   describe '#html_body' do
-    it { expect(email_object.html_body).to eql message['html_path'] }
+    it { expect(email_object.html_body).to eql message_html }
   end
 
   describe '#text' do
-    it { expect(email_object.text).to eql message['raw_path'] }
+    it { expect(email_object.text).to eql message_html }
   end
 
   describe '#mail_from' do
