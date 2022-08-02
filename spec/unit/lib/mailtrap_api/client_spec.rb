@@ -16,6 +16,22 @@ RSpec.describe Howitzer::MailtrapApi::Client do
       "to_name": "",
       "html_body": "<p> Test Email! </p>"}]'
   end
+  let(:message_body) do
+    {
+      'id' => 475_265_146,
+      'inbox_id' => 777_777,
+      'subject' => 'Confirmation instructions',
+      'sent_at' => '2017-07-18T08:55:49.389Z',
+      'from_email' => 'noreply@test.com',
+      'from_name' => '',
+      'to_email' => 'test@mail.com',
+      'to_name' => '',
+      'html_path' => '/api/v1/inboxes/777777/messages/475265146/body.html',
+      'txt_path' => '/api/v1/inboxes/777777/messages/475265146/body.txt',
+      'raw_path' => '/api/v1/inboxes/777777/messages/475265146/body.raw',
+      'created_at' => '2017-07-18T14:14:31.641Z'
+    }
+  end
   let(:attachment) do
     '[{
     "id": 1737,
@@ -25,6 +41,7 @@ RSpec.describe Howitzer::MailtrapApi::Client do
     "content_type": "image/png"
      }]'
   end
+
   before do
     allow(Howitzer).to receive(:mailtrap_inbox_id) { 777_777 }
     allow(Howitzer).to receive(:mailtrap_api_token) { 'fake_api_token' }
@@ -62,6 +79,66 @@ RSpec.describe Howitzer::MailtrapApi::Client do
         expect(attachment['message_id']).to eql found_message['id']
         expect(attachment['filename'].to_s).not_to be_empty
       end
+    end
+  end
+
+  describe '#get_html_body' do
+    let(:response_raw) { double }
+    before do
+      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
+                             "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.html", body: '<p> Test Email! </p>')
+    end
+    subject { mailtrap_obj.get_html_body(message_body) }
+    context 'when success request' do
+      it { expect(subject).to eq('<p> Test Email! </p>') }
+    end
+    context 'when error happens' do
+      before do
+        allow(RestClient::Resource).to receive(:new).with(any_args).and_return(response_raw)
+        mailtrap_obj
+        allow(RestClient::Request).to receive(:execute).with(any_args).and_raise(StandardError, 'Some message')
+      end
+      it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
+    end
+  end
+
+  describe '#get_txt_body' do
+    let(:response_raw) { double }
+    before do
+      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
+                                  "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.txt", body: 'Test Email!')
+    end
+    subject { mailtrap_obj.get_txt_body(message_body) }
+    context 'when success request' do
+      it { expect(subject).to eq('Test Email!') }
+    end
+    context 'when error happens' do
+      before do
+        allow(RestClient::Resource).to receive(:new).with(any_args).and_return(response_raw)
+        mailtrap_obj
+        allow(RestClient::Request).to receive(:execute).with(any_args).and_raise(StandardError, 'Some message')
+      end
+      it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
+    end
+  end
+
+  describe '#get_raw_body' do
+    let(:response_raw) { double }
+    before do
+      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
+                              "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.raw", body: '<p> Test Email! </p>')
+    end
+    subject { mailtrap_obj.get_raw_body(message_body) }
+    context 'when success request' do
+      it { expect(subject).to eq('<p> Test Email! </p>') }
+    end
+    context 'when error happens' do
+      before do
+        allow(RestClient::Resource).to receive(:new).with(any_args).and_return(response_raw)
+        mailtrap_obj
+        allow(RestClient::Request).to receive(:execute).with(any_args).and_raise(StandardError, 'Some message')
+      end
+      it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
     end
   end
 end
