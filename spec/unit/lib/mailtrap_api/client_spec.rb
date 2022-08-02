@@ -82,6 +82,7 @@ RSpec.describe Howitzer::MailtrapApi::Client do
     end
   end
 
+  # rubocop:disable Layout/LineEndStringConcatenationIndentation
   describe '#get_html_body' do
     let(:response_raw) { double }
     before do
@@ -141,4 +142,5 @@ RSpec.describe Howitzer::MailtrapApi::Client do
       it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
     end
   end
+  # rubocop:enable Layout/LineEndStringConcatenationIndentation
 end
