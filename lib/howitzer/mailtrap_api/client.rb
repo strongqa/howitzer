@@ -33,18 +33,21 @@ module Howitzer
       end
 
       def get_html_body(message)
-        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.html",
-                       'Api-Token' => @api_token).body
+        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.html", 'Api-Token' => @api_token).body
+      rescue => e
+        raise Howitzer::CommunicationError, e.message
       end
 
       def get_txt_body(message)
-        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.txt",
-                       'Api-Token' => @api_token).body
+        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.txt", 'Api-Token' => @api_token).body
+      rescue => e
+        raise Howitzer::CommunicationError, e.message
       end
 
       def get_raw_body(message)
-        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.raw",
-                       'Api-Token' => @api_token).body
+        RestClient.get("#{BASE_URL}/messages/#{message['id']}/body.raw", 'Api-Token' => @api_token).body
+      rescue => e
+        raise Howitzer::CommunicationError, e.message
       end
 
       private
