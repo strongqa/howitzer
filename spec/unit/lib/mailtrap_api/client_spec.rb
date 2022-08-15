@@ -82,12 +82,14 @@ RSpec.describe Howitzer::MailtrapApi::Client do
     end
   end
 
-  # rubocop:disable Layout/LineEndStringConcatenationIndentation
   describe '#get_html_body' do
     let(:response_raw) { double }
     before do
-      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
-                             "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.html", body: '<p> Test Email! </p>')
+      FakeWeb.register_uri(
+        :get,
+        "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.html",
+        body: '<p> Test Email! </p>'
+      )
     end
     subject { mailtrap_obj.get_html_body(message_body) }
     context 'when success request' do
@@ -106,8 +108,11 @@ RSpec.describe Howitzer::MailtrapApi::Client do
   describe '#get_txt_body' do
     let(:response_raw) { double }
     before do
-      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
-                                  "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.txt", body: 'Test Email!')
+      FakeWeb.register_uri(
+        :get,
+        "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.txt",
+        body: 'Test Email!'
+      )
     end
     subject { mailtrap_obj.get_txt_body(message_body) }
     context 'when success request' do
@@ -126,8 +131,11 @@ RSpec.describe Howitzer::MailtrapApi::Client do
   describe '#get_raw_body' do
     let(:response_raw) { double }
     before do
-      FakeWeb.register_uri(:get, 'https://mailtrap.io/api/v1/inboxes/' \
-                              "#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.raw", body: '<p> Test Email! </p>')
+      FakeWeb.register_uri(
+        :get,
+        "https://mailtrap.io/api/v1/inboxes/#{Howitzer.mailtrap_inbox_id}/messages/475265146/body.raw",
+        body: '<p> Test Email! </p>'
+      )
     end
     subject { mailtrap_obj.get_raw_body(message_body) }
     context 'when success request' do
@@ -142,5 +150,4 @@ RSpec.describe Howitzer::MailtrapApi::Client do
       it { expect { subject }.to raise_error(Howitzer::CommunicationError, 'Some message') }
     end
   end
-  # rubocop:enable Layout/LineEndStringConcatenationIndentation
 end
