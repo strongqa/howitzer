@@ -24,19 +24,19 @@ module Howitzer
       # @return [String] plain text body of the email message
 
       def plain_text_body
-        message['text_body']
+        Howitzer::MailtrapApi::Client.new.get_txt_body(message)
       end
 
       # @return [String] html body of the email message
 
       def html_body
-        message['html_body']
+        Howitzer::MailtrapApi::Client.new.get_html_body(message)
       end
 
       # @return [String] stripped text
 
       def text
-        message['text_body']
+        Howitzer::MailtrapApi::Client.new.get_raw_body(message)
       end
 
       # @return [String] an email address specified in `From` field
