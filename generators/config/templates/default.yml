@@ -120,3 +120,7 @@
 # -Gmail-
  gmail_login: gmail_address
  gmail_password: gmail_password
+
+# -testmail.app-
+ testmail_api_key: testmail_api_key
+ testmail_namespace: testmail_namespace
