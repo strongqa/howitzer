@@ -124,3 +124,6 @@
 # -testmail.app-
  testmail_api_key: testmail_api_key
  testmail_namespace: testmail_namespace
+
+# 1secMail
+ onesecmail_domain: 1secmail.com
