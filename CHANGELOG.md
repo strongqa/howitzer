@@ -4,6 +4,19 @@
 
 ### Bug-fixes
 
+## [2.5.0](https://github.com/strongqa/howitzer/compare/v2.4.0...v2.5.0) (2022-08-16)
+
+
+### Features
+
+* 1secMail integration ([#316](https://github.com/strongqa/howitzer/issues/316)) ([6850758](https://github.com/strongqa/howitzer/commit/6850758370bd293d241f95c2a3cc0163c6fb3062))
+* testmail.app integration ([#314](https://github.com/strongqa/howitzer/issues/314)) ([7f62bae](https://github.com/strongqa/howitzer/commit/7f62bae2e7e91200e02ed98acded9070726f3fc1))
+
+
+### Bug Fixes
+
+* mailtrap integration update ([#313](https://github.com/strongqa/howitzer/issues/313)) ([49e7390](https://github.com/strongqa/howitzer/commit/49e73909f7033d2986b0f5713bbbcbea7231ade0))
+
 ## [2.4.0](https://github.com/strongqa/howitzer/compare/v2.3.0...v2.4.0) (2022-07-22)
 
 
