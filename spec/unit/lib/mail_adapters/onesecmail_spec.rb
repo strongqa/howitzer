@@ -69,7 +69,7 @@ RSpec.describe '1secMail Email Adapter' do
   describe '#mail_from' do
     it { expect(email_object.mail_from).to eql message['from'] }
   end
- 
+
   describe '#received_time' do
     it { expect(email_object.received_time).to eql Time.parse(message['date']).to_s }
   end
