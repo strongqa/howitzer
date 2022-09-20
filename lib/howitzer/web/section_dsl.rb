@@ -171,7 +171,7 @@ module Howitzer
           define_method("has_no_#{name}_section?") do |**block_options|
             kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
             if kwdargs.present?
-              capybara_context.has_no_selector?(*args, **kwdarg)
+              capybara_context.has_no_selector?(*args, **kwdargs)
             else
               capybara_context.has_no_selector?(*args)
             end
