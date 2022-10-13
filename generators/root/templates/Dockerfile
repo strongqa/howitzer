@@ -1,4 +1,4 @@
-FROM ruby:3.0.4-alpine3.16
+FROM ruby:alpine
 
 ENV CHROME_BIN=/usr/bin/chromium-browser \
     CHROME_PATH=/usr/lib/chromium/ \
@@ -21,14 +21,14 @@ RUN apk update && apk upgrade --no-cache --available \
     && tar -zxf geckodriver-v0.31.0-linux64.tar.gz -C /usr/bin \
     && dbus-daemon --system
 
-RUN adduser -D howitzer-user
-USER howitzer-user
+RUN adduser -D howitzer
+USER howitzer
 
-WORKDIR /home/howitzer_app
+WORKDIR /home/howitzer
 
-COPY --chown=howitzer-user Gemfile Gemfile.lock /home/howitzer_app/
+COPY --chown=howitzer Gemfile Gemfile.lock /home/howitzer/
 RUN bundle config --global frozen 1 && bundle install --jobs=3 --retry=3
 
-COPY --chown=howitzer-user . ./
+COPY --chown=howitzer . ./
 
 ENTRYPOINT ["sleep", "infinity"]

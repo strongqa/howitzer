@@ -9,13 +9,14 @@ module Howitzer
           { source: '.gitignore', destination: '.gitignore' },
           { source: '.dockerignore', destination: '.dockerignore' },
           { source: 'Dockerfile', destination: 'Dockerfile' },
-          { source: 'docker-compose.yml', destination: 'docker-compose.yml' },
           { source: 'Rakefile', destination: 'Rakefile' }
         ],
         templates:
         [
           { source: '.rubocop.yml.erb', destination: '.rubocop.yml' },
-          { source: 'Gemfile.erb', destination: 'Gemfile' }
+          { source: 'docker-compose.yml.erb', destination: 'docker-compose.yml' },
+          { source: 'Gemfile.erb', destination: 'Gemfile' },
+          { source: 'README.md.erb', destination: 'README.md' }
         ] }
     end
 

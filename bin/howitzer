@@ -31,18 +31,18 @@ module HowitzerCli
         Dir.mkdir(path_to_dir)
         puts "      #{ColorizedString.new('Created').light_green} './#{args.first}' folder"
         Dir.chdir(path_to_dir)
-        Howitzer::ConfigGenerator.new(options)
-        Howitzer::WebGenerator.new(options)
-        Howitzer::TasksGenerator.new(options)
-        Howitzer::EmailsGenerator.new(options)
-        Howitzer::RootGenerator.new(options)
-        Howitzer::PrerequisitesGenerator.new(options)
+        Howitzer::ConfigGenerator.new(options, args)
+        Howitzer::WebGenerator.new(options, args)
+        Howitzer::TasksGenerator.new(options, args)
+        Howitzer::EmailsGenerator.new(options, args)
+        Howitzer::RootGenerator.new(options, args)
+        Howitzer::PrerequisitesGenerator.new(options, args)
         if options[:cucumber]
-          Howitzer::CucumberGenerator.new(options)
+          Howitzer::CucumberGenerator.new(options, args)
         elsif options[:rspec]
-          Howitzer::RspecGenerator.new(options)
+          Howitzer::RspecGenerator.new(options, args)
         elsif options['turnip']
-          Howitzer::TurnipGenerator.new(options)
+          Howitzer::TurnipGenerator.new(options, args)
         end
         puts ColorizedString.new('[WARN] Extra parameters were skipped').yellow if args.size > 1
       elsif args.size.zero?
