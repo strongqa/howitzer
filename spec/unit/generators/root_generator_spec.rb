@@ -14,10 +14,13 @@ RSpec.describe 'Generators' do
     let(:generator_name) { described_class }
     let(:expected_result) do
       [
+        { name: '/.dockerignore', is_directory: false, size: template_file_size('root', '.dockerignore') },
         { name: '/.gitignore', is_directory: false, size: template_file_size('root', '.gitignore') },
         { name: '/.rubocop.yml', is_directory: false, size: template_file_size('root', '.rubocop.yml.erb') },
+        { name: '/Dockerfile', is_directory: false, size: template_file_size('root', 'Dockerfile') },
         { name: '/Gemfile', is_directory: false, size: template_file_size('root', 'Gemfile.erb') },
-        { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') }
+        { name: '/Rakefile', is_directory: false, size: template_file_size('root', 'Rakefile') },
+        { name: '/docker-compose.yml', is_directory: false, size: template_file_size('root', 'docker-compose.yml') }
       ]
     end
     let(:options) { {} }
@@ -32,6 +35,9 @@ RSpec.describe 'Generators' do
           added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
       #{added_text} '.gitignore' file
+      #{added_text} '.dockerignore' file
+      #{added_text} 'Dockerfile' file
+      #{added_text} 'docker-compose.yml' file
       #{added_text} 'Rakefile' file
       #{added_text} template '.rubocop.yml.erb' with params '{}' to destination '.rubocop.yml'
       #{added_text} template 'Gemfile.erb' with params '{}' to destination 'Gemfile'\n"
@@ -45,6 +51,9 @@ RSpec.describe 'Generators' do
           added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
       #{added_text} '.gitignore' file
+      #{added_text} '.dockerignore' file
+      #{added_text} 'Dockerfile' file
+      #{added_text} 'docker-compose.yml' file
       #{added_text} 'Rakefile' file
       #{added_text} template '.rubocop.yml.erb' with params '{:rspec=>true}' to destination '.rubocop.yml'
       #{added_text} template 'Gemfile.erb' with params '{:rspec=>true}' to destination 'Gemfile'\n"
@@ -59,6 +68,9 @@ RSpec.describe 'Generators' do
           added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
       #{added_text} '.gitignore' file
+      #{added_text} '.dockerignore' file
+      #{added_text} 'Dockerfile' file
+      #{added_text} 'docker-compose.yml' file
       #{added_text} 'Rakefile' file
       #{added_text} template '.rubocop.yml.erb' with params '{:cucumber=>true}' to destination '.rubocop.yml'
       #{added_text} template 'Gemfile.erb' with params '{:cucumber=>true}' to destination 'Gemfile'\n"
@@ -73,6 +85,9 @@ RSpec.describe 'Generators' do
           added_text = ColorizedString.new('Added').light_green
           "#{ColorizedString.new('  * Root files generation ...').light_cyan}
       #{added_text} '.gitignore' file
+      #{added_text} '.dockerignore' file
+      #{added_text} 'Dockerfile' file
+      #{added_text} 'docker-compose.yml' file
       #{added_text} 'Rakefile' file
       #{added_text} template '.rubocop.yml.erb' with params '{:turnip=>true}' to destination '.rubocop.yml'
       #{added_text} template 'Gemfile.erb' with params '{:turnip=>true}' to destination 'Gemfile'\n"
