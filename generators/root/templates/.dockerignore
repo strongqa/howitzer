@@ -1,0 +1,13 @@
+.git
+.gitmodules
+.gitignore
+.idea
+log
+eylogs
+spec/results
+spec/sandbox
+tmp
+.DS_STORE
+.DS_Store
+.travis.yml
+.circleci

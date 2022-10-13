@@ -7,6 +7,9 @@ module Howitzer
       { files:
         [
           { source: '.gitignore', destination: '.gitignore' },
+          { source: '.dockerignore', destination: '.dockerignore' },
+          { source: 'Dockerfile', destination: 'Dockerfile' },
+          { source: 'docker-compose.yml', destination: 'docker-compose.yml' },
           { source: 'Rakefile', destination: 'Rakefile' }
         ],
         templates:
