@@ -36,6 +36,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Identical 'Dockerfile' file
+          Identical 'docker-compose.yml' file
           Conflict with 'Rakefile' file
             Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:rspec=>true}' to destination '.rubocop.yml'
@@ -80,6 +83,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Identical '.gitignore' file
+          Identical '.dockerignore' file
+          Identical 'Dockerfile' file
+          Identical 'docker-compose.yml' file
           Identical 'Rakefile' file
           Conflict with '.rubocop.yml' template
             Overwrite '.rubocop.yml' template? [Yn]:          Forced '.rubocop.yml' template
@@ -128,6 +134,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Identical 'Dockerfile' file
+          Identical 'docker-compose.yml' file
           Conflict with 'Rakefile' file
             Overwrite 'Rakefile' file? [Yn]:          Forced 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:cucumber=>true}' to destination '.rubocop.yml'
@@ -177,6 +186,9 @@ Feature: Howitzer CLI Update Existing Project
           Identical 'prerequisites/models/user.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Identical 'Dockerfile' file
+          Identical 'docker-compose.yml' file
           Identical 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:turnip=>true}' to destination '.rubocop.yml'
           Conflict with 'Gemfile' template

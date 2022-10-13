@@ -85,6 +85,9 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
+          Added 'docker-compose.yml' file
           Added 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
@@ -155,6 +158,9 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
+          Added 'docker-compose.yml' file
           Added 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
           Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
@@ -232,6 +238,9 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
+          Added 'docker-compose.yml' file
           Added 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination '.rubocop.yml'
           Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination 'Gemfile'
@@ -351,6 +360,9 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
+          Added 'docker-compose.yml' file
           Added 'Rakefile' file
           Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
           Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
