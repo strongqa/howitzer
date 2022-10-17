@@ -54,8 +54,8 @@ module Howitzer
       end
     end
 
-    def initialize(_options)
-      super()
+    def initialize
+      super
 
       manifest.each do |type, list|
         case type
@@ -70,6 +70,12 @@ module Howitzer
 
     def manifest
       []
+    end
+
+    def template_context
+      data = options
+      data = options.merge(project_name: project_name) unless project_name.nil?
+      OpenStruct.new(data) # rubocop:disable Style/OpenStructUse
     end
 
     protected
@@ -90,7 +96,7 @@ module Howitzer
         else
           write_template(destination_path, source_path)
           puts_info "#{ColorizedString.new('Added').light_green} template '#{data[:source]}' with " \
-                    "params '#{@options}' to destination '#{data[:destination]}'"
+                    "params '#{template_context.to_h}' to destination '#{data[:destination]}'"
         end
       end
     end
@@ -118,8 +124,10 @@ module Howitzer
     end
 
     def write_template(dest_path, source_path)
-      File.write(dest_path, ERB.new(File.read(source_path), trim_mode: '-')
-         .result(OpenStruct.new(@options).instance_eval { binding })) # rubocop:disable Style/OpenStructUse
+      File.write(
+        dest_path,
+        ERB.new(File.read(source_path), trim_mode: '-').result(template_context.instance_eval { binding })
+      )
     end
 
     private
@@ -177,14 +185,16 @@ module Howitzer
 
   # Parent class for all generators
   class BaseGenerator
-    attr_reader :options
+    attr_reader :options, :args, :project_name
 
     include Outputable
     include Copyable
 
-    def initialize(options = {})
+    def initialize(options = {}, args = [])
       @options = options.symbolize_keys
-      super
+      @args = args
+      @project_name = args.first
+      super()
     end
   end
 end

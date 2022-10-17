@@ -32,7 +32,8 @@ RSpec.describe Howitzer::BaseGenerator do
     let(:list1) { double(:list1) }
     let(:list2) { double(:list2) }
     let(:options) { { r: true, rspec: true } }
-    subject { described_class.new(options) }
+    let(:args) { ['xxx'] }
+    subject { described_class.new(options, args) }
     before do
       expect_any_instance_of(described_class).to receive(:print_banner).with(no_args).once
       allow_any_instance_of(described_class).to receive(:manifest) do
@@ -46,7 +47,9 @@ RSpec.describe Howitzer::BaseGenerator do
     it do
       expect_any_instance_of(described_class).to receive(:copy_files).with(list1).once
       expect_any_instance_of(described_class).to receive(:copy_templates).with(list2).once
-      expect(subject.instance_variable_get(:@options)).to eql options
+      expect(subject.options).to eql(options)
+      expect(subject.args).to eql(args)
+      expect(subject.project_name).to eql('xxx')
     end
   end
 

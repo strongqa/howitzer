@@ -85,9 +85,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
           Added 'Rakefile' file
-          Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
-          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
+          Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination '.rubocop.yml'
+          Added template 'docker-compose.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'docker-compose.yml'
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'Gemfile'
+          Added template 'README.md.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'README.md'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
@@ -101,25 +105,38 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
-      | test_automation/config/boot.rb                   |
-      | test_automation/config/custom.yml                |
-      | test_automation/config/capybara.rb               |
-      | test_automation/config/default.yml               |
-      | test_automation/emails/example_email.rb          |
-      | test_automation/web/sections/menu_section.rb     |
-      | test_automation/web/pages/example_page.rb        |
-      | test_automation/prerequisites/factory_bot.rb    |
-      | test_automation/prerequisites/factories/users.rb |
-      | test_automation/prerequisites/models/base.rb     |
-      | test_automation/prerequisites/models/user.rb     |
-      | test_automation/spec/example_spec.rb             |
-      | test_automation/spec/spec_helper.rb              |
-      | test_automation/tasks/common.rake                |
-      | test_automation/tasks/rspec.rake                 |
-      | test_automation/Gemfile                          |
-      | test_automation/Rakefile                         |
-      | test_automation/.gitignore                       |
-      | test_automation/.rubocop.yml                     |
+      | test_automation/config/boot.rb                        |
+      | test_automation/config/custom.yml                     |
+      | test_automation/config/capybara.rb                    |
+      | test_automation/config/default.yml                    |
+      | test_automation/config/drivers/browserstack.rb        |
+      | test_automation/config/drivers/crossbrowsertesting.rb |
+      | test_automation/config/drivers/headless_chrome.rb     |
+      | test_automation/config/drivers/headless_firefox.rb    |
+      | test_automation/config/drivers/lambdatest.rb          |
+      | test_automation/config/drivers/sauce.rb               |
+      | test_automation/config/drivers/selenium.rb            |
+      | test_automation/config/drivers/selenium_grid.rb       |
+      | test_automation/config/drivers/testingbot.rb          |
+      | test_automation/emails/example_email.rb               |
+      | test_automation/web/sections/menu_section.rb          |
+      | test_automation/web/pages/example_page.rb             |
+      | test_automation/prerequisites/factory_bot.rb          |
+      | test_automation/prerequisites/factories/users.rb      |
+      | test_automation/prerequisites/models/base.rb          |
+      | test_automation/prerequisites/models/user.rb          |
+      | test_automation/spec/example_spec.rb                  |
+      | test_automation/spec/spec_helper.rb                   |
+      | test_automation/tasks/common.rake                     |
+      | test_automation/tasks/rspec.rake                      |
+      | test_automation/Gemfile                               |
+      | test_automation/Rakefile                              |
+      | test_automation/.gitignore                            |
+      | test_automation/.rubocop.yml                          |
+      | test_automation/.dockerignore                         |
+      | test_automation/Dockerfile                            |
+      | test_automation/docker-compose.yml                    |
+      | test_automation/README.md                             |
     And the exit status should be 0
   Examples:
     | option  |
@@ -155,9 +172,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
           Added 'Rakefile' file
-          Added template '.rubocop.yml.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
-          Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
+          Added template '.rubocop.yml.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination '.rubocop.yml'
+          Added template 'docker-compose.yml.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'docker-compose.yml'
+          Added template 'Gemfile.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'Gemfile'
+          Added template 'README.md.erb' with params '{:c=>true, :cucumber=>true, :r=>false, :rspec=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'README.md'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
@@ -179,6 +200,15 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                         |
       | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
+      | test_automation/config/drivers/browserstack.rb            |
+      | test_automation/config/drivers/crossbrowsertesting.rb     |
+      | test_automation/config/drivers/headless_chrome.rb         |
+      | test_automation/config/drivers/headless_firefox.rb        |
+      | test_automation/config/drivers/lambdatest.rb              |
+      | test_automation/config/drivers/sauce.rb                   |
+      | test_automation/config/drivers/selenium.rb                |
+      | test_automation/config/drivers/selenium_grid.rb           |
+      | test_automation/config/drivers/testingbot.rb              |
       | test_automation/emails/example_email.rb                   |
       | test_automation/features/step_definitions/common_steps.rb |
       | test_automation/features/support/env.rb                   |
@@ -186,7 +216,7 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/features/example.feature                  |
       | test_automation/web/sections/menu_section.rb              |
       | test_automation/web/pages/example_page.rb                 |
-      | test_automation/prerequisites/factory_bot.rb             |
+      | test_automation/prerequisites/factory_bot.rb              |
       | test_automation/prerequisites/factories/users.rb          |
       | test_automation/prerequisites/models/base.rb              |
       | test_automation/prerequisites/models/user.rb              |
@@ -197,6 +227,10 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/Rakefile                                  |
       | test_automation/.gitignore                                |
       | test_automation/.rubocop.yml                              |
+      | test_automation/.dockerignore                             |
+      | test_automation/Dockerfile                                |
+      | test_automation/docker-compose.yml                        |
+      | test_automation/README.md                                 |
     And the exit status should be 0
   Examples:
     | option     |
@@ -232,9 +266,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
           Added 'Rakefile' file
-          Added template '.rubocop.yml.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination '.rubocop.yml'
-          Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false}' to destination 'Gemfile'
+          Added template '.rubocop.yml.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false, :project_name=>"test_automation"}' to destination '.rubocop.yml'
+          Added template 'docker-compose.yml.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false, :project_name=>"test_automation"}' to destination 'docker-compose.yml'
+          Added template 'Gemfile.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false, :project_name=>"test_automation"}' to destination 'Gemfile'
+          Added template 'README.md.erb' with params '{:t=>true, :turnip=>true, :c=>false, :cucumber=>false, :r=>false, :rspec=>false, :project_name=>"test_automation"}' to destination 'README.md'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
@@ -255,6 +293,15 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/config/custom.yml                         |
       | test_automation/config/capybara.rb                        |
       | test_automation/config/default.yml                        |
+      | test_automation/config/drivers/browserstack.rb            |
+      | test_automation/config/drivers/crossbrowsertesting.rb     |
+      | test_automation/config/drivers/headless_chrome.rb         |
+      | test_automation/config/drivers/headless_firefox.rb        |
+      | test_automation/config/drivers/lambdatest.rb              |
+      | test_automation/config/drivers/sauce.rb                   |
+      | test_automation/config/drivers/selenium.rb                |
+      | test_automation/config/drivers/selenium_grid.rb           |
+      | test_automation/config/drivers/testingbot.rb              |
       | test_automation/emails/example_email.rb                   |
       | test_automation/web/sections/menu_section.rb              |
       | test_automation/web/pages/example_page.rb                 |
@@ -268,7 +315,11 @@ Feature: Howitzer CLI New Project Creation
       | test_automation/Gemfile                                   |
       | test_automation/Rakefile                                  |
       | test_automation/.gitignore                                |
-      | test_automation/.rubocop.yml                                |
+      | test_automation/.rubocop.yml                              |
+      | test_automation/.dockerignore                             |
+      | test_automation/Dockerfile                                |
+      | test_automation/docker-compose.yml                        |
+      | test_automation/README.md                                 |
     And the exit status should be 0
     Examples:
       | option     |
@@ -351,9 +402,13 @@ Feature: Howitzer CLI New Project Creation
           Added '/emails/example_email.rb' file
       * Root files generation ...
           Added '.gitignore' file
+          Added '.dockerignore' file
+          Added 'Dockerfile' file
           Added 'Rakefile' file
-          Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination '.rubocop.yml'
-          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false}' to destination 'Gemfile'
+          Added template '.rubocop.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination '.rubocop.yml'
+          Added template 'docker-compose.yml.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'docker-compose.yml'
+          Added template 'Gemfile.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'Gemfile'
+          Added template 'README.md.erb' with params '{:r=>true, :rspec=>true, :c=>false, :cucumber=>false, :t=>false, :turnip=>false, :project_name=>"test_automation"}' to destination 'README.md'
       * Pre-requisites integration to the framework ...
           Added 'prerequisites/factory_bot.rb' file
           Added 'prerequisites/factories/users.rb' file
@@ -367,25 +422,38 @@ Feature: Howitzer CLI New Project Creation
     """
     Then a directory named "test_automation" should exist
     Then the following files should exist:
-      | test_automation/config/boot.rb                   |
-      | test_automation/config/custom.yml                |
-      | test_automation/config/capybara.rb               |
-      | test_automation/config/default.yml               |
-      | test_automation/emails/example_email.rb          |
-      | test_automation/web/sections/menu_section.rb     |
-      | test_automation/web/pages/example_page.rb        |
-      | test_automation/prerequisites/factory_bot.rb    |
-      | test_automation/prerequisites/factories/users.rb |
-      | test_automation/prerequisites/models/base.rb     |
-      | test_automation/prerequisites/models/user.rb     |
-      | test_automation/spec/example_spec.rb             |
-      | test_automation/spec/spec_helper.rb              |
-      | test_automation/tasks/common.rake                |
-      | test_automation/tasks/rspec.rake                 |
-      | test_automation/Gemfile                          |
-      | test_automation/Rakefile                         |
-      | test_automation/.gitignore                       |
-      | test_automation/.rubocop.yml                     |
+      | test_automation/config/boot.rb                        |
+      | test_automation/config/custom.yml                     |
+      | test_automation/config/capybara.rb                    |
+      | test_automation/config/default.yml                    |
+      | test_automation/config/drivers/browserstack.rb        |
+      | test_automation/config/drivers/crossbrowsertesting.rb |
+      | test_automation/config/drivers/headless_chrome.rb     |
+      | test_automation/config/drivers/headless_firefox.rb    |
+      | test_automation/config/drivers/lambdatest.rb          |
+      | test_automation/config/drivers/sauce.rb               |
+      | test_automation/config/drivers/selenium.rb            |
+      | test_automation/config/drivers/selenium_grid.rb       |
+      | test_automation/config/drivers/testingbot.rb          |
+      | test_automation/emails/example_email.rb               |
+      | test_automation/web/sections/menu_section.rb          |
+      | test_automation/web/pages/example_page.rb             |
+      | test_automation/prerequisites/factory_bot.rb          |
+      | test_automation/prerequisites/factories/users.rb      |
+      | test_automation/prerequisites/models/base.rb          |
+      | test_automation/prerequisites/models/user.rb          |
+      | test_automation/spec/example_spec.rb                  |
+      | test_automation/spec/spec_helper.rb                   |
+      | test_automation/tasks/common.rake                     |
+      | test_automation/tasks/rspec.rake                      |
+      | test_automation/Gemfile                               |
+      | test_automation/Rakefile                              |
+      | test_automation/.gitignore                            |
+      | test_automation/.rubocop.yml                          |
+      | test_automation/.dockerignore                             |
+      | test_automation/Dockerfile                                |
+      | test_automation/docker-compose.yml                        |
+      | test_automation/README.md                                 |
     And the exit status should be 0
   Examples:
     | option  |

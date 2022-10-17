@@ -5,8 +5,8 @@ group :test do
   gem 'gmail', require: false
   gem 'net-imap', require: false
   gem 'net-smtp', require: false
-  # gem 'pry'
-  # gem 'pry-byebug'
+  gem 'pry'
+  gem 'pry-byebug'
   gem 'repeater', require: false
   gem 'rest-client', require: false
   gem 'simplecov', require: false

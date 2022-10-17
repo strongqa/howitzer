@@ -1,0 +1,33 @@
+# <%= project_name %>
+
+## Run tests in Docker
+
+### Build an image
+
+`docker build -t <%= project_name %> .`
+
+### Run a container
+
+`docker run -d --name <%= project_name %>_container <%= project_name %>
+
+### Connect to the container
+
+`docker exec -it <%= project_name %>_container /bin/bash`
+
+### Run tests in the container
+
+`SEXY_SETTINGS="driver=headless_chrome; headless_chrome_flags=$CHROME_ARGS" bundle exec rake`
+
+or
+
+`SEXY_SETTINGS="driver=headless_firefox" bundle exec rake`
+
+## Run tests via docker compose
+
+### Initialize build, and run a container in detached mode
+
+`docker-compose -f docker-compose.yml up -d`
+
+### Connect to the container
+
+`docker compose exec -it <%= project_name %>  /bin/bash`

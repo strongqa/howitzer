@@ -1,0 +1,9 @@
+version: '1.0'
+
+services:
+  <%= project_name %>:
+    build:
+      context: "."
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/home/howitzer/:cached'
