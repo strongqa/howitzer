@@ -27,7 +27,7 @@ USER howitzer
 WORKDIR /home/howitzer
 
 COPY --chown=howitzer Gemfile Gemfile.lock /home/howitzer/
-RUN bundle config --global frozen 1 && bundle install --jobs=3 --retry=3
+RUN bundle config --global && bundle install --jobs=3 --retry=3
 
 COPY --chown=howitzer . ./
 
