@@ -77,6 +77,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
     end
     context 'when section with single argument without block' do
       let(:finder_args) { [:xpath, './/div'] }
+      let(:finder_options) { { wait: 10 } }
       let(:section_name) { :foo }
       before do
         web_page_class.class_eval do

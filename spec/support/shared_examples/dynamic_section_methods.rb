@@ -4,9 +4,20 @@ RSpec.shared_examples :dynamic_section_methods do
 
   describe '#name_section' do
     let(:capybara_element) { double }
-    subject { web_page_object.send("#{section_name}_section") }
-    before { expect(session).to receive(:find).with(*finder_args).once.and_return(capybara_element) }
-    it { is_expected.to be_a(section_class) }
+    context 'passed only finder args' do
+      subject { web_page_object.send("#{section_name}_section") }
+      before { expect(session).to receive(:find).with(*finder_args).once.and_return(capybara_element) }
+      it { is_expected.to be_a(section_class) }
+    end
+
+    context 'passed finder args and key options' do
+      subject { web_page_object.send("#{section_name}_section", wait: 10) }
+      before do
+        expect(session).to receive(:find).with(*finder_args,
+                                               **finder_options).once.and_return(capybara_element)
+      end
+      it { is_expected.to be_a(section_class) }
+    end
   end
   describe '#name_sections' do
     subject { web_page_object.send("#{section_name}_sections") }
