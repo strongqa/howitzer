@@ -102,6 +102,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
 
     context 'when section with 2 arguments without block' do
       let(:finder_args) { ['.some_class'] }
+      let(:finder_options) { { wait: 10 } }
       let(:section_name) { :foo }
       before do
         web_page_class.class_eval do
@@ -113,6 +114,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
 
     context 'when section with 2 arguments and block' do
       let(:finder_args) { [:xpath, './/div'] }
+      let(:finder_options) { { wait: 10 } }
       let(:section_name) { :unknown }
       let(:section_class) { Howitzer::Web::BaseSection }
       before do
@@ -127,6 +129,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
 
     context 'when nested section with 2 arguments and block' do
       let(:finder_args) { [:xpath, './/div'] }
+      let(:finder_options) { { wait: 10 } }
       let(:section_name) { :name1 }
       let(:section_class) { Howitzer::Web::BaseSection }
       before do
