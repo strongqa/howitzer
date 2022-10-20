@@ -87,6 +87,23 @@ RSpec.describe Howitzer::Web::SectionDsl do
       include_examples :dynamic_section_methods
     end
 
+    context 'when section with arguments as hash and keyword arguments without block' do
+      let(:section_class) do
+        Class.new(Howitzer::Web::Section) do
+          me :xpath, './/div', { match: :first }
+        end
+      end
+      let(:finder_args) { [:xpath, './/div', { match: :first }] }
+      let(:finder_options) { { wait: 10 } }
+      let(:section_name) { :foo }
+      before do
+        web_page_class.class_eval do
+          section :foo
+        end
+      end
+      include_examples :dynamic_section_methods
+    end
+
     context 'when section with single argument and block' do
       subject do
         web_page_class.class_eval do
