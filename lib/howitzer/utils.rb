@@ -8,4 +8,5 @@ module Howitzer
   end
 end
 
+require 'howitzer/utils/argument_convertable'
 require 'howitzer/utils/string_extensions'

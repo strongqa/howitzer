@@ -76,7 +76,25 @@ RSpec.describe Howitzer::Web::SectionDsl do
       allow(Capybara).to receive(:current_session) { session }
     end
     context 'when section with single argument without block' do
-      let(:finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_options) { {} }
+      let(:section_name) { :foo }
+      before do
+        web_page_class.class_eval do
+          section :foo
+        end
+      end
+      include_examples :dynamic_section_methods
+    end
+
+    context 'when section with arguments as hash and keyword arguments without block' do
+      let(:section_class) do
+        Class.new(Howitzer::Web::Section) do
+          me :xpath, './/div', { match: :first }, wait: 1
+        end
+      end
+      let(:expected_finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_options) { { match: :first, wait: 1 } }
       let(:section_name) { :foo }
       before do
         web_page_class.class_eval do
@@ -100,7 +118,8 @@ RSpec.describe Howitzer::Web::SectionDsl do
     end
 
     context 'when section with 2 arguments without block' do
-      let(:finder_args) { ['.some_class'] }
+      let(:expected_finder_args) { ['.some_class'] }
+      let(:expected_finder_options) { {} }
       let(:section_name) { :foo }
       before do
         web_page_class.class_eval do
@@ -111,7 +130,8 @@ RSpec.describe Howitzer::Web::SectionDsl do
     end
 
     context 'when section with 2 arguments and block' do
-      let(:finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_options) { {} }
       let(:section_name) { :unknown }
       let(:section_class) { Howitzer::Web::BaseSection }
       before do
@@ -124,16 +144,32 @@ RSpec.describe Howitzer::Web::SectionDsl do
       include_examples :dynamic_section_methods
     end
 
-    context 'when nested section with 2 arguments and block' do
-      let(:finder_args) { [:xpath, './/div'] }
-      let(:section_name) { :name1 }
+    context 'when section with 2 arguments and keyword arguments and block' do
+      let(:expected_finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_options) { { match: :first, wait: 1 } }
+      let(:section_name) { :unknown }
       let(:section_class) { Howitzer::Web::BaseSection }
       before do
         web_page_class.class_eval do
-          section :name1, :xpath, './/div' do
+          section :unknown, :xpath, './/div', { match: :first }, wait: 1 do
+            element :some, :id, 'do_do'
+          end
+        end
+      end
+      include_examples :dynamic_section_methods
+    end
+
+    context 'when nested section with 2 arguments and block' do
+      let(:section_name) { :name1 }
+      let(:section_class) { Howitzer::Web::BaseSection }
+      let(:expected_finder_args) { [:xpath, './/div'] }
+      let(:expected_finder_options) { { match: :first, wait: 1 } }
+      before do
+        web_page_class.class_eval do
+          section :name1, :xpath, './/div', { match: :first }, wait: 1 do
             element :some1, :id, 'do_do'
 
-            section :name2, '#klass' do
+            section :name2, '#klass', { match: :last }, wait: 2 do
               element :some2, :xpath, './/a'
             end
           end
@@ -148,8 +184,9 @@ RSpec.describe Howitzer::Web::SectionDsl do
         let(:context3) { double }
         let(:capybara_element) { double }
         before do
-          expect(session).to receive(:find).with(*finder_args).once.and_return(context2)
-          expect(context2).to receive(:find).with('#klass').and_return(context3)
+          expect(session).to receive(:find).with(*expected_finder_args,
+                                                 **expected_finder_options).once.and_return(context2)
+          expect(context2).to receive(:find).with('#klass', **{ match: :last, wait: 2 }).and_return(context3)
           expect(context3).to receive(:find).with(:xpath, './/a').and_return(capybara_element)
         end
 

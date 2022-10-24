@@ -1,6 +1,8 @@
 require 'rubygems'
 require 'bundler/setup'
 require 'simplecov'
+require 'pry'
+require 'pry-byebug'
 
 code_formatters = [SimpleCov::Formatter::HTMLFormatter]
 
