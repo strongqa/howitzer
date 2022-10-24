@@ -4,17 +4,26 @@ RSpec.shared_examples :dynamic_section_methods do
 
   describe '#name_section' do
     let(:capybara_element) { double }
-    context 'when passed only finder args' do
+    context 'when no args' do
       subject { web_page_object.send("#{section_name}_section") }
-      before { expect(session).to receive(:find).with(*finder_args).once.and_return(capybara_element) }
+      before do
+        if expected_finder_options.blank?
+          expect(session).to receive(:find).with(*expected_finder_args).once.and_return(capybara_element)
+        else
+          expect(session).to receive(:find).with(*expected_finder_args,
+                                                 **expected_finder_options).once.and_return(capybara_element)
+        end
+      end
       it { is_expected.to be_a(section_class) }
     end
 
-    context 'when passed finder args and key options' do
+    context 'when custom options' do
       subject { web_page_object.send("#{section_name}_section", wait: 10) }
       before do
-        expect(session).to receive(:find).with(*finder_args,
-                                               **finder_options).once.and_return(capybara_element)
+        expect(session).to receive(:find).with(
+          *expected_finder_args,
+          **expected_finder_options.merge(wait: 10)
+        ).once.and_return(capybara_element)
       end
       it { is_expected.to be_a(section_class) }
     end
@@ -23,10 +32,17 @@ RSpec.shared_examples :dynamic_section_methods do
     let(:capybara_element1) { double }
     let(:capybara_element2) { double }
 
-    context 'when passed only finder args' do
+    context 'when no args' do
       subject { web_page_object.send("#{section_name}_sections") }
       before do
-        expect(session).to receive(:all).with(*finder_args).once.and_return([capybara_element1, capybara_element2])
+        if expected_finder_options.blank?
+          expect(session).to receive(:all).with(*expected_finder_args).once.and_return([capybara_element1,
+                                                                                        capybara_element2])
+        else
+          expect(session).to receive(:all).with(*expected_finder_args,
+                                                **expected_finder_options).once.and_return([capybara_element1,
+                                                                                            capybara_element2])
+        end
       end
       it 'should return collection of sections' do
         res = subject
@@ -36,11 +52,13 @@ RSpec.shared_examples :dynamic_section_methods do
       end
     end
 
-    context 'when passed finder args and key options' do
+    context 'when custom options' do
       subject { web_page_object.send("#{section_name}_sections", wait: 10) }
       before do
-        expect(session).to receive(:all).with(*finder_args,
-                                              **finder_options).once.and_return([capybara_element1, capybara_element2])
+        expect(session).to receive(:all).with(
+          *expected_finder_args,
+          **expected_finder_options.merge(wait: 10)
+        ).once.and_return([capybara_element1, capybara_element2])
       end
       it 'should return collection of sections' do
         res = subject
@@ -51,33 +69,49 @@ RSpec.shared_examples :dynamic_section_methods do
     end
   end
   describe '#has_name_section?' do
-    context 'when passed only finder args' do
+    context 'when no args' do
       subject { web_page_object.send("has_#{section_name}_section?") }
-      before { expect(session).to receive(:has_selector?).with(*finder_args).once.and_return(true) }
+      before do
+        if expected_finder_options.blank?
+          expect(session).to receive(:has_selector?).with(*expected_finder_args).once.and_return(true)
+        else
+          expect(session).to receive(:has_selector?).with(*expected_finder_args,
+                                                          **expected_finder_options).once.and_return(true)
+        end
+      end
       it { is_expected.to eq(true) }
     end
 
-    context 'when passed finder args and key options' do
+    context 'when custom options' do
       subject { web_page_object.send("has_#{section_name}_section?", wait: 10) }
       before do
-        expect(session).to receive(:has_selector?).with(*finder_args,
-                                                        **finder_options).once.and_return(true)
+        expect(session).to receive(:has_selector?).with(*expected_finder_args,
+                                                        **expected_finder_options.merge(wait: 10)).once.and_return(true)
       end
       it { is_expected.to eq(true) }
     end
   end
   describe '#has_no_name_element?' do
-    context 'when passed only finder args' do
+    context 'when no args' do
       subject { web_page_object.send("has_no_#{section_name}_section?") }
-      before { expect(session).to receive(:has_no_selector?).with(*finder_args).once.and_return(true) }
+      before do
+        if expected_finder_options.blank?
+          expect(session).to receive(:has_no_selector?).with(*expected_finder_args).once.and_return(true)
+        else
+          expect(session).to receive(:has_no_selector?).with(*expected_finder_args,
+                                                             **expected_finder_options).once.and_return(true)
+        end
+      end
       it { is_expected.to eq(true) }
     end
 
-    context 'when passed finder args and key options' do
+    context 'when custom options' do
       subject { web_page_object.send("has_no_#{section_name}_section?", wait: 10) }
       before do
-        expect(session).to receive(:has_no_selector?).with(*finder_args,
-                                                           **finder_options).once.and_return(true)
+        expect(session).to receive(:has_no_selector?).with(
+          *expected_finder_args,
+          **expected_finder_options.merge(wait: 10)
+        ).once.and_return(true)
       end
       it { is_expected.to eq(true) }
     end

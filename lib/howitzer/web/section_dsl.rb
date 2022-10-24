@@ -4,6 +4,7 @@ module Howitzer
     # This module combines section dsl methods
     module SectionDsl
       include CapybaraContextHolder
+      include Howitzer::Utils::ArgumentConvertable
 
       def self.included(base) # :nodoc:
         base.extend(ClassMethods)
@@ -11,6 +12,7 @@ module Howitzer
 
       # This module holds section dsl class methods
       module ClassMethods
+        include Howitzer::Utils::ArgumentConvertable
         # This class is for private usage only
         class SectionScope
           attr_accessor :section_class
@@ -61,9 +63,7 @@ module Howitzer
           # @raise [ArgumentError] when finder arguments were not specified
 
           def finder_options
-            @options if @args.present? # it is ok to have blank options, so we rely here on the argments
-
-            @finder_options ||= (section_class.default_finder_options || {})
+            @options.presence || section_class.default_finder_options || {}
           end
         end
 
@@ -135,45 +135,45 @@ module Howitzer
         private
 
         def define_section_method(klass, name, *args, **options)
-          define_method("#{name}_section") do |**block_options|
-            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
-            if kwdargs.present?
-              klass.new(self, capybara_context.find(*args, **kwdargs))
+          define_method("#{name}_section") do |*block_args, **block_options|
+            conv_args, conv_options = convert_arguments(args, options, block_args, block_options)
+            if conv_options.present?
+              klass.new(self, capybara_context.find(*conv_args, **conv_options))
             else
-              klass.new(self, capybara_context.find(*args))
+              klass.new(self, capybara_context.find(*conv_args))
             end
           end
         end
 
         def define_sections_method(klass, name, *args, **options)
-          define_method("#{name}_sections") do |**block_options|
-            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
-            if kwdargs.present?
-              capybara_context.all(*args, **kwdargs).map { |el| klass.new(self, el) }
+          define_method("#{name}_sections") do |*block_args, **block_options|
+            conv_args, conv_options = convert_arguments(args, options, block_args, block_options)
+            if conv_options.present?
+              capybara_context.all(*conv_args, **conv_options).map { |el| klass.new(self, el) }
             else
-              capybara_context.all(*args).map { |el| klass.new(self, el) }
+              capybara_context.all(*conv_args).map { |el| klass.new(self, el) }
             end
           end
         end
 
         def define_has_section_method(name, *args, **options)
-          define_method("has_#{name}_section?") do |**block_options|
-            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
-            if kwdargs.present?
-              capybara_context.has_selector?(*args, **kwdargs)
+          define_method("has_#{name}_section?") do |*block_args, **block_options|
+            conv_args, conv_options = convert_arguments(args, options, block_args, block_options)
+            if conv_options.present?
+              capybara_context.has_selector?(*conv_args, **conv_options)
             else
-              capybara_context.has_selector?(*args)
+              capybara_context.has_selector?(*conv_args)
             end
           end
         end
 
         def define_has_no_section_method(name, *args, **options)
-          define_method("has_no_#{name}_section?") do |**block_options|
-            kwdargs = options.transform_keys(&:to_sym).merge(block_options.transform_keys(&:to_sym))
-            if kwdargs.present?
-              capybara_context.has_no_selector?(*args, **kwdargs)
+          define_method("has_no_#{name}_section?") do |*block_args, **block_options|
+            conv_args, conv_options = convert_arguments(args, options, block_args, block_options)
+            if conv_options.present?
+              capybara_context.has_no_selector?(*conv_args, **conv_options)
             else
-              capybara_context.has_no_selector?(*args)
+              capybara_context.has_no_selector?(*conv_args)
             end
           end
         end
