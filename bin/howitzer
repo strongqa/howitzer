@@ -45,7 +45,7 @@ module HowitzerCli
           Howitzer::TurnipGenerator.new(options, args)
         end
         puts ColorizedString.new('[WARN] Extra parameters were skipped').yellow if args.size > 1
-      elsif args.size.zero?
+      elsif args.empty?
         exit_now!(ColorizedString.new('Please specify <PROJECT NAME>').red, 64)
       end
     end

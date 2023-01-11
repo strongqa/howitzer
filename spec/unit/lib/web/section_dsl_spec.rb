@@ -186,7 +186,7 @@ RSpec.describe Howitzer::Web::SectionDsl do
         before do
           expect(session).to receive(:find).with(*expected_finder_args,
                                                  **expected_finder_options).once.and_return(context2)
-          expect(context2).to receive(:find).with('#klass', **{ match: :last, wait: 2 }).and_return(context3)
+          expect(context2).to receive(:find).with('#klass', { match: :last, wait: 2 }).and_return(context3)
           expect(context3).to receive(:find).with(:xpath, './/a').and_return(capybara_element)
         end
 
