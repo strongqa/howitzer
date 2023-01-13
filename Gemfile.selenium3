@@ -10,7 +10,7 @@ group :test do
   gem 'repeater', require: false
   gem 'rest-client', require: false
   gem 'simplecov', require: false
-  gem 'selenium-webdriver', '< 4.0', require: false
+  gem 'selenium-webdriver', '< 4.0.0.alpha1', require: false
 end
 gemspec
 

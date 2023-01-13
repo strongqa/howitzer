@@ -50,7 +50,7 @@ module Howitzer
         private
 
         def eval_in_out_context(*args, **options, &block)
-          return nil if args.size.zero?
+          return nil if args.empty?
 
           name = args.shift
           return get_outer_instance_variable(name) if name.to_s.start_with?('@')

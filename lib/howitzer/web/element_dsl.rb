@@ -121,7 +121,6 @@ module Howitzer
             else
               capybara_context.find(*conv_args)
             end
-            return nil
           end
           private "wait_for_#{name}_element"
         end
