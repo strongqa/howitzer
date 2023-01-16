@@ -4,6 +4,20 @@
 
 ### Bug-fixes
 
+## [2.6.0](https://github.com/strongqa/howitzer/compare/v2.5.0...v2.6.0) (2023-01-16)
+
+
+### Features
+
+* Add Docker support ([#321](https://github.com/strongqa/howitzer/issues/321)) ([d0e7bc9](https://github.com/strongqa/howitzer/commit/d0e7bc953182b13e93b74ab4b609316ece6cf956))
+* Ruby3.2 support ([#327](https://github.com/strongqa/howitzer/issues/327)) ([265acc3](https://github.com/strongqa/howitzer/commit/265acc34fb2eac9b879e097ae938e66c62a6e7f7))
+
+
+### Bug Fixes
+
+* Handle section options ([#324](https://github.com/strongqa/howitzer/issues/324)) ([b976e5b](https://github.com/strongqa/howitzer/commit/b976e5b83800fa1c0671857daba796dd8a1048f4))
+* Section method typo ([#318](https://github.com/strongqa/howitzer/issues/318)) ([984deeb](https://github.com/strongqa/howitzer/commit/984deebe817d27278b93517b3f0e1338af25128a))
+
 ## [2.5.0](https://github.com/strongqa/howitzer/compare/v2.4.0...v2.5.0) (2022-08-16)
 
 
