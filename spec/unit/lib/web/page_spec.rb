@@ -260,7 +260,7 @@ RSpec.describe Howitzer::Web::Page do
         subject { described_class.expanded_url }
         it do
           expect { subject }.to raise_error(
-            ::Howitzer::NoPathForPageError,
+            Howitzer::NoPathForPageError,
             "Please specify path for '#{described_class}' page. Example: path '/home'"
           )
         end

@@ -32,7 +32,7 @@ Gem::Specification.new do |gem|
   gem.version       = Howitzer::VERSION
   gem.required_ruby_version = '>= 2.6.8'
 
-  gem.add_runtime_dependency 'activesupport', ['>= 5', '< 7']
+  gem.add_runtime_dependency 'activesupport', ['>= 5', '< 8']
   gem.add_runtime_dependency 'capybara', '< 4.0'
   gem.add_runtime_dependency 'colorize'
   gem.add_runtime_dependency 'gli'
