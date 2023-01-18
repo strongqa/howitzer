@@ -30,7 +30,7 @@ Gem::Specification.new do |gem|
   gem.name          = 'howitzer'
   gem.require_path  = 'lib'
   gem.version       = Howitzer::VERSION
-  gem.required_ruby_version = '>= 2.6.8'
+  gem.required_ruby_version = '>= 2.7.7'
 
   gem.add_runtime_dependency 'activesupport', ['>= 5', '< 8']
   gem.add_runtime_dependency 'capybara', '< 4.0'
