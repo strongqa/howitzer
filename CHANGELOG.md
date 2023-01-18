@@ -1,9 +1,3 @@
-## [In git](https://github.com/strongqa/howitzer/compare/v2.3.0...master)
-
-### New Features
-
-### Bug-fixes
-
 ## [2.6.0](https://github.com/strongqa/howitzer/compare/v2.5.0...v2.6.0) (2023-01-16)
 
 
