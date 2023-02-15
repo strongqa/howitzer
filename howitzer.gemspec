@@ -44,9 +44,4 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency 'rspec-wait'
   gem.add_runtime_dependency 'selenium-webdriver', '>= 3.4.1'
   gem.add_runtime_dependency 'sexy_settings'
-
-  gem.add_development_dependency('aruba')
-  gem.add_development_dependency('ffaker')
-  gem.add_development_dependency('fuubar')
-  gem.add_development_dependency('yard')
 end
