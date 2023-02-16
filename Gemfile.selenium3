@@ -15,6 +15,10 @@ end
 gemspec
 
 group :development do
+  gem 'aruba'
   gem 'fakeweb', git: 'https://github.com/chrisk/fakeweb.git', branch: 'master'
+  gem 'ffaker'
+  gem 'fuubar'
   gem 'rubocop'
+  gem 'yard'
 end
