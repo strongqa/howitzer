@@ -11,7 +11,7 @@
   <p align="center">
   <a href="https://gitter.im/strongqa/howitzer"><img src="https://badges.gitter.im/Join%20Chat.svg" /></a>
   <a href="https://rubygems.org/gems/howitzer"><img src="https://img.shields.io/gem/v/howitzer.svg" /></a>
-  <a href="https://app.travis-ci.com/github/strongqa/howitzer"><img src="https://app.travis-ci.com/strongqa/howitzer.svg?branch=master" /></a>
+  <a href="https://github.com/strongqa/howitzer/actions/workflows/ci.yml"><img src="https://github.com/strongqa/howitzer/actions/workflows/ci.yml/badge.svg" /></a>
   <a href="https://codeclimate.com/github/strongqa/howitzer"><img src="https://codeclimate.com/github/strongqa/howitzer.png" /></a>
   <a href="https://codecov.io/gh/strongqa/howitzer">
     <img src="https://codecov.io/gh/strongqa/howitzer/branch/master/graph/badge.svg?token=vB8DYQtmjA"/>
