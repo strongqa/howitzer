@@ -12,6 +12,15 @@
 * Handle section options ([#324](https://github.com/strongqa/howitzer/issues/324)) ([b976e5b](https://github.com/strongqa/howitzer/commit/b976e5b83800fa1c0671857daba796dd8a1048f4))
 * Section method typo ([#318](https://github.com/strongqa/howitzer/issues/318)) ([984deeb](https://github.com/strongqa/howitzer/commit/984deebe817d27278b93517b3f0e1338af25128a))
 
+## [2.6.1](https://github.com/strongqa/howitzer/compare/v2.6.0...v2.6.1) (2023-02-24)
+
+
+### Bug Fixes
+
+* add missing hidden files to gem ([#335](https://github.com/strongqa/howitzer/issues/335)) ([60d0559](https://github.com/strongqa/howitzer/commit/60d0559df9e639d72eaf3428979e2fd4de04137b))
+* changed Target ruby version ([#329](https://github.com/strongqa/howitzer/issues/329)) ([911d4a7](https://github.com/strongqa/howitzer/commit/911d4a7ce7690d0d1edd2e14ae34ae0a8d5d23a7))
+* dev dependecies moved to Gemfile ([#333](https://github.com/strongqa/howitzer/issues/333)) ([ed289de](https://github.com/strongqa/howitzer/commit/ed289deada87bf18d80a5104e7b3cb774499c90f))
+
 ## [2.5.0](https://github.com/strongqa/howitzer/compare/v2.4.0...v2.5.0) (2022-08-16)
 
 
