@@ -16,16 +16,17 @@ Gem::Specification.new do |gem|
     'rubygems_mfa_required' => 'false'
   }
   gem.license = 'MIT'
-  gem.files = Dir[
-    'CHANGELOG.md',
-    'CONTRIBUTING.md',
-    'README.md',
-    'LICENSE',
-    'generators/**/*',
-    'lib/**/*',
-    'root/**/*',
-    '.yardopts'
-  ]
+  gem.files = Dir.glob('{bin,generators,lib}/**/*', File::FNM_DOTMATCH) +
+              %w[
+                .yardopts
+                CHANGELOG.md
+                CONTRIBUTING.md
+                howitzer.gemspec
+                LICENSE
+                MAINTENANCE.md
+                Rakefile
+                README.md
+              ]
   gem.executables   = ['howitzer']
   gem.name          = 'howitzer'
   gem.require_path  = 'lib'
